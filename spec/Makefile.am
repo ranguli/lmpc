@@ -20,14 +20,13 @@
 # Uwe Girlich (uwe@planetquake.com)
 
 #****************************************************************************#
-# Makefile - general make file for the whole demospecs site                  #
+# Makefile.am - general automake file for the whole demospecs site           #
 #****************************************************************************#
 
 
-SUBDIRS=dem-q1 dmo-dn dm2-q2 faq lmp-d1 qwd-qw misc 
-WPU=../bin/wpu
+SUBDIRS=dem-q1 dmo-dn dm2-q2 faq icons lmp-d1 main qwd-qw misc 
 
-include Make.spec.rules
+include $(top_srcdir)/spec/Make.spec.rules
 
 uploadlocalall:
 	for i in $(SUBDIRS) ; do \
