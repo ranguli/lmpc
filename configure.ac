@@ -37,7 +37,6 @@ COMMENT="MY_COMMENT"
 QUALITY="MY_QUALITY"
 
 dnl subst Autoconf variables
-AC_SUBST(DBS)dnl
 AC_SUBST(host)dnl
 AC_SUBST(NETLIBS)dnl
 
@@ -138,7 +137,41 @@ AC_FUNC_MEMCMP
 dnl we need a running program to check this. It can't be detected on
 dnl cross-compilers
 dnl AC_FUNC_SETVBUF_REVERSED
-AC_CHECK_FUNC(shmget, DBS=dbs, unset DBS)
+
+
+AC_ARG_ENABLE(dbs,
+[  --enable-dbs            build dbs.  [default=yes]],enable_dbs=$enableval,enable_dbs=yes)
+
+if test "x$enable_dbs" = "xyes" ; then
+	AC_CHECK_FUNC(shmget, dbs_bin="dbs\$(EXEEXT)", dbs_bin="")
+else
+	dbs_bin=""
+fi
+AC_SUBST(dbs_bin)
+
+
+AC_ARG_ENABLE(demcut,
+[  --enable-demcut         build demcut.  [default=yes]],enable_demcut=$enableval,enable_demcut=yes)
+
+if test "x$enable_demcut" = "xyes" ; then
+	demcut_bin="demcut\$(EXEEXT)"
+else
+	demcut_bin=""
+fi
+AC_SUBST(demcut_bin)
+
+
+AC_ARG_ENABLE(lmpc,
+[  --enable-lmpc           build lmpc.  [default=yes]],enable_lmpc=$enableval,enable_lmpc=yes)
+
+if test "x$enable_lmpc" = "xyes" ; then
+	lmpc_bin="lmpc\$(EXEEXT)"
+else
+	lmpc_bin=""
+fi
+AC_SUBST(lmpc_bin)
+
+
 AC_CHECK_FUNCS(mkfifo gettimeofday strdup)
 dnl AC_CHECK_FUNCS(gethostname select socket strerror strtol)
 AC_CHECK_FUNC(getopt_long,,[AC_LIBOBJ(getopt) AC_LIBOBJ(getopt1)])
