@@ -28,4 +28,5 @@ include $(top_srcdir)/spec/Make.spec.rules
 
 UPLOAD_FILES_misc=FreePower2.1.gif anybrowser3.gif
 UPLOAD_DIR_misc=$(PACKAGE)
+UPLOAD_STAGE_misc=@PQSTAGE@
 
