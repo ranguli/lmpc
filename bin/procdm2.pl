@@ -67,22 +67,49 @@ if (not ref $command) {
 	exit(1);
 }
 
-my $temp_in = "temp_in";
-my $temp_out = "temp_out";
+my $info = "$opt_lmpc --info $opt_input 2>&1";
+my $info_fh = new IO::File "$info|";
+if (!defined $info_fh) {
+	warning 0, "Could not execute '$info': $!.\n";
+	exit(1);
+}
+my $prepost = 1;
+while (<$info_fh>) {
+	if (/$opt_input.*DM2 txt/) {
+		$prepost = 0;
+		last;
+	}
+}
 
-my $preproc = "$opt_lmpc --to-txt $opt_input $temp_in";
+my $text_in;
+my $text_out;
+if ($prepost) {
+	$text_in = "text_in_$$.txt";
+	$text_out = "text_out_$$.txt";
+}
+else {
+	$text_in = $opt_input;
+	$text_out = $opt_output;
+}
 
-system $preproc;
+if ($prepost) {
+	my $preproc = "$opt_lmpc --to-txt $opt_input $text_in";
+	system $preproc;
+}
 
-my $in_fh = new IO::File "<$temp_in";
+logging 0, "$text_in (DM2 txt) -> $text_out (DM2 txt)\n";
+
+logging 30, "Reading $text_in.\n";
+my $in_fh = new IO::File "<$text_in";
 if (!defined $in_fh) {
-	warning 0, "Could not open $temp_in for reading: $!\n";
+	warning 0, "Could not open $text_in for reading: $!\n";
 	exit(1);
 }
 
-my $out_fh = new IO::File ">$temp_out";
+logging 30, "Writing $text_out.\n";
+my $out_fh = new IO::File ">$text_out";
 if (!defined $out_fh) {
-	warning 0, "Could not open $temp_out for writing: $!\n";
+	warning 0, "Could not open $text_out for writing: $!\n";
 	exit(1);
 }
 
@@ -95,16 +122,17 @@ while (<$in_fh>) {
 $in_fh->close();
 $out_fh->close();
 
-my $postproc = "$opt_lmpc --to-bin $temp_out $opt_output";
-
-system $postproc;
+if ($prepost) {
+	my $postproc = "$opt_lmpc --to-bin $text_out $opt_output";
+	system $postproc;
+}
 
 
 sub command_parse($)
 {
 	my $command_filename = shift;
 	my %command = ();
-	logging 30, "Opening %s.\n", $command_filename;
+	logging 30, "Reading %s.\n", $command_filename;
 	my $command_fh=new IO::File("<$command_filename");
 	if (!defined $command_fh) {
 		warning 0, "Could not open %s for reading: $!.\n", $command_filename;
@@ -238,11 +266,14 @@ procdm2.pl [options]
 
 =item B<--input file>
 
-Defines the input file name. Default: input.dm2.
+Defines the input file name. Default: input.dm2. The input file can be
+a DM2 text file or a DM2 binary file. In case of a binary file, it will
+be converted into a text file by calling LMPC --to-txt.
 
 =item B<--output file>
 
-Defines the output file name. Default: output.dm2.
+Defines the output file name. Default: output.dm2. The output file has the
+same type (binary or text) as the input file.
 
 =item B<--command file>
 
