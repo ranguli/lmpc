@@ -43,9 +43,10 @@ upload: sitecopyrc
 	$(WPU) --set ACTION=execsubst -- \
 		$(SITECOPY) -r sitecopyrc \
 		-p @STOREPATH@ \
-		--update planetquake
+		--update planetquake fileplanet
+
+uploadcheck: sitecopyrc
 	$(WPU) --set ACTION=execsubst -- \
 		$(SITECOPY) -r sitecopyrc \
 		-p @STOREPATH@ \
-		--update fileplanet
-
+		planetquake fileplanet
