@@ -17,6 +17,11 @@ public class TextOut {
 		LineSeparator = java.lang.System.getProperty("line.separator");
 	}
 
+	public void WriteNextBlock(Node b)
+	{
+		node_write_text(b, 0);
+	}
+
 	public void startnewline(int depth)
 	{
 		ts = new StringBuffer("");
