@@ -79,7 +79,7 @@ cd ${PREFIX}/lib/gcc-lib/i686-pc-mingw32/3.3.1
 rm -f specs
 ln -s ../../i386-pc-cygwin/3.3.1/specs .
 
-cd ${BASE}
+cd ${BASE}/${MINGW_BASENAME}
 tar xjvf ${MINGW_RUNTIME_FILE}
 cd usr
 find . | cpio -vampd ${PREFIX}
