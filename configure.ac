@@ -6,20 +6,10 @@ dnl wpu parse start /^define\(MY_([^,]+),\[([^\]]+)\]\)/
 define(MY_PACKAGE,[lmpc])
 define(MY_TITLE,[The Little Movie Processing Centre])
 define(MY_VERSION,[3.4.0])
-define(MY_DATE,[8/3/2003])
-define(MY_COMMENT,[alpha release])
+define(MY_DATE,[8/1/2004])
+define(MY_COMMENT,[alpha test release])
 define(MY_QUALITY,[alpha])
 define(MY_EMAIL,[uwe@planetquake.com])
-
-dnl -----------------------------------------------------
-dnl This is the main version definition area.
-dnl wpu parse start /^([^=]+)="(.*)"/
-dnl PACKAGE="lmpc"
-TITLE="The Little Movie Processing Centre"
-dnl VERSION="3.4.0"
-DATE="8/3/2004"
-COMMENT="alpha release"
-QUALITY="alpha"
 dnl wpu parse end
 dnl Here is the end of the main version definition area.
 dnl -----------------------------------------------------
@@ -43,6 +33,8 @@ dnl AC_ARG_PROGRAM
 
 dnl subst own variables 
 DATE="MY_DATE"
+COMMENT="MY_COMMENT"
+QUALITY="MY_QUALITY"
 
 dnl subst Autoconf variables
 AC_SUBST(DBS)dnl
@@ -52,6 +44,7 @@ AC_SUBST(NETLIBS)dnl
 dnl insert in config.h.in
 AC_DEFINE_UNQUOTED(DATE,"${DATE}",[Define the build date.])
 AC_DEFINE_UNQUOTED(COMMENT,"${COMMENT}",[Define a release note.])
+AC_DEFINE_UNQUOTED(QUALITY,"${QUALITY}",[Define the release code quality.])
 AC_DEFINE_UNQUOTED(HOST,"${host}",[Define the host, where the program should run.])
 
 dnl Checks for programs.
@@ -148,7 +141,7 @@ dnl AC_FUNC_SETVBUF_REVERSED
 AC_CHECK_FUNC(shmget, DBS=dbs, unset DBS)
 AC_CHECK_FUNCS(mkfifo gettimeofday strdup)
 dnl AC_CHECK_FUNCS(gethostname select socket strerror strtol)
-AC_CHECK_FUNC(getopt_long,,AC_LIBOBJ([getopt]) AC_LIBOBJ([getopt1]))
+AC_CHECK_FUNC(getopt_long,,[AC_LIBOBJ(getopt) AC_LIBOBJ(getopt1)])
 AC_MSG_CHECKING(for a memmem prototype)
 AC_EGREP_HEADER(memmem,string.h,ac_memmem_proto=yes,ac_memmem_proto=no)
 if test $ac_memmem_proto = yes; then
