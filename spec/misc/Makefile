@@ -28,8 +28,8 @@ PACKAGE=misc
 TITLE=Miscellaneous demo related stuff
 VERSION=1.0.7
 DATE=8/18/1999
-TYPE="misc"
-INCLUDE="index.template"
+TYPE=misc
+INCLUDE=index.template
 # wpu parse end
 
 
@@ -76,9 +76,10 @@ win32.html: win32.html.in Makefile
 ######################################################################
 # clean rule
 
-UPLOAD_FILES_1=index.html cd.txt cd.html ers ers.html mulder mulder.html qfont.txt \
-		qfont.html win32.html
-UPLOAD_FILES_2=cd.dem cygwin.dll cygwinb19.dll cygwin1.dll qfont.dem qfont.pcx
+UPLOAD_FILES_1=index.html cd.txt cd.html ers ers.html mulder mulder.html \
+		qfont.txt qfont.html win32.html
+UPLOAD_FILES_2=cd.dem cygwin.dll cygwinb19.dll cygwin1.dll \
+		qfont.dem qfont.pcx
 UPLOAD_FILES_$(TYPE)=$(UPLOAD_FILES_1) $(UPLOAD_FILES_2)
 
 clean::
