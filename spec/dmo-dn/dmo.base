@@ -1,0 +1,324 @@
+<!doctype linuxdoc system>
+<article>
+<title>The unofficial DMO format description
+<author>@MYNAME@, 
+<htmlurl url="mailto:@MYEMAIL@" name="@MYNAME@">
+<date>v@VERSION@, @DATE@
+<abstract>
+This document describes the DMO file format. This file format is the result of
+``recording'' a game in Duke Nukem 3D or Redneck Rampage.
+This documentation covers the old Shareware versions 1.0 and 1.1 and the
+new Shareware version 1.3D of Duke Nukem 3D
+and the alpha demo version 0.7 `moonshine' of Redneck Rampage.
+only.
+</abstract>
+
+<sect>Introduction
+<p>
+To create a DMO file start the game with the command line switch
+<tt>/r</tt> (and <tt>/l</tt> (level), <tt>/s</tt> (skill) etc.) and play as
+usual. If you press <tt>F10</tt> the record (and the game) stops. 
+You will find a file <tt>demo1.dmo</tt> in the current directory. To play it 
+back just start the game and hide the menu by pressing <tt>ESC</tt>.
+<p>
+In Duke Nukem 3D 1.0 and 1.1 the skill value is a bit strange:
+To record a skill <em>n</em> (1&lt;=<em>n</em>&lt;=4) game note to use 
+<tt>/s<em>n+1</em></tt>.
+So <tt>/s2</tt> is ``Peace of Cake'' and <tt>/s5</tt> is 
+``Damn I'm Good''. The <tt>dn3dhelp.exe</tt> hint 
+(<tt>/s<em>n</em></tt> with 0&lt;=<em>n</em>&lt;=3) is totally wrong.
+<p>
+Multiplayer recordings have always the skill 0. Cooperative
+recordings won't play back properly.   
+<p>
+It is impossible to record with version 1.0 more than one level. You can't 
+even record the summary screen at the end of each level.
+<p>
+In version 1.1 it <em>seems</em> to be possible (I got it some times). 
+Some other times I got only the recording of the last level.
+<p>
+A DMO file records all player actions. The monster movements, respawn
+positions etc. are totally deterministic. The messages during a multiplayer 
+game (macros and RemoteRedicule (tm)) do not appear in the DMO.
+<p>
+A DMO file consists of a header with some organizational information
+and the data area with all the (compressed) game tics. 
+<p>
+The term ``game tic'' comes originally from DOOM and denotes the smallest unit
+of time during the game. The duration of a game tic is
+1/30s. To store a game tic in a file means to store all actions, like
+movement, open doors, fire weapons and so on, happened during this time. 
+
+<sect>Header
+<p>
+<sect1>old Duke Nukem 3D Header
+<p>
+Duke Nukem 3D 1.0 and 1.1 use a 9 byte main header:
+<p>
+<tabular ca="lll">
+address <colsep>type <colsep>contents<rowsep>
+<tt>0x0000</tt> <colsep><tt>long</tt> <colsep>number of game tics times number 
+of players<rowsep> 
+<tt>0x0004</tt> <colsep><tt>byte</tt> <colsep>episode (0-3)<rowsep>
+<tt>0x0005</tt> <colsep><tt>byte</tt> <colsep>map     (0-8)<rowsep>
+<tt>0x0006</tt> <colsep><tt>byte</tt> <colsep>skill   (0-4)<rowsep> 
+<tt>0x0007</tt> <colsep><tt>word</tt> <colsep>player number<rowsep>
+</tabular>
+<p>
+The first entry in the header (number of game tics) may be zero in version 1.1
+recordings. This should mean, that there is more than one level recorded.
+<p>
+All <tt>word</tt> or <tt>long</tt> values in DMO files are Intel ordered
+(lowest byte first, little endian).
+
+<sect1>new Duke Nukem 3D Header
+<p>
+Duke Nukem 3D 1.3D uses a 24 byte main header:
+<p>
+<tabular ca="lll">
+address <colsep>type <colsep>contents<rowsep>
+<tt>0x0000</tt> <colsep><tt>long</tt> <colsep>number of game tics times number o
+f players<rowsep>
+<tt>0x0004</tt> <colsep><tt>byte</tt> <colsep>volume - 1 (/v parameter - 1)<rowsep>
+<tt>0x0005</tt> <colsep><tt>byte</tt> <colsep>level - 1 (/l paramerer - 1)<rowsep>
+<tt>0x0006</tt> <colsep><tt>byte</tt> <colsep>skill (0 .. 4) (/s parameter)<rowsep>
+<tt>0x0007</tt> <colsep><tt>byte</tt> <colsep>
+MP mode (/c 1 = DukeMatch(spawn), 2 = Coop, 3 = Dukematch(no spawn))<rowsep>
+<tt>0x0008</tt> <colsep><tt>short</tt> <colsep>player number (1..8)<rowsep>
+<tt>0x000A</tt> <colsep><tt>short</tt> <colsep><tt>0x01</tt> with /m (nomonsters)
+, <tt>0x00</tt> else<rowsep>
+<tt>0x000C</tt> <colsep><tt>long</tt> <colsep><tt>0x01</tt> with /t1 (respawn mo
+nsters), <tt>0x00</tt> else<rowsep>
+<tt>0x0010</tt> <colsep><tt>long</tt> <colsep><tt>0x01</tt> with /t2 (respawn it
+ems), <tt>0x00</tt> else<rowsep>
+<tt>0x0014</tt> <colsep><tt>long</tt> <colsep><tt>0x01</tt> with /t3 (respawn in
+ventory), <tt>0x00</tt> else<rowsep>
+</tabular>
+<p>
+
+<sect1>Redneck Rampage Header
+<p>
+Redneck Rampage uses a 543 byte main header:
+<p>
+<tabular ca="lll">
+address <colsep>type <colsep>contents<rowsep>
+<tt>0x0000</tt> <colsep><tt>long</tt> <colsep>number of game tics times number of players<rowsep>
+<tt>0x0004</tt> <colsep><tt>byte</tt> <colsep><tt>0x6C</tt>, it may be a version<rowsep>
+<tt>0x0005</tt> <colsep><tt>byte</tt> <colsep><tt>0x00</tt>, unknown<rowsep>
+<tt>0x0006</tt> <colsep><tt>byte</tt> <colsep><tt>0x00</tt>, unknown<rowsep>
+<tt>0x0007</tt> <colsep><tt>byte</tt> <colsep>skill (0...4)<rowsep>
+<tt>0x0008</tt> <colsep><tt>byte</tt> <colsep>MP mode (/c parameter - 1)<rowsep>
+<tt>0x0009</tt> <colsep><tt>byte</tt> <colsep>level (1..11)<rowsep>
+<tt>0x000A</tt> <colsep><tt>byte</tt> <colsep>player number (1..8)<rowsep>
+<tt>0x000B</tt> <colsep><tt>byte</tt> <colsep><tt>0x00</tt>, unknown<rowsep>
+<tt>0x000C</tt> <colsep><tt>byte</tt> <colsep><tt>0x01</tt> with /m (nomonsters), <tt>0x00</tt> else<rowsep>
+<tt>0x000D</tt> <colsep><tt>byte</tt> <colsep><tt>0x00</tt>, unknown<rowsep>
+<tt>0x000E</tt> <colsep><tt>long</tt> <colsep><tt>0x01</tt> with /t1 (respawn monsters), <tt>0x00</tt> else<rowsep>
+<tt>0x0012</tt> <colsep><tt>long</tt> <colsep><tt>0x01</tt> with /t2 (respawn items), <tt>0x00</tt> else<rowsep>
+<tt>0x0016</tt> <colsep><tt>long</tt> <colsep><tt>0x01</tt> with /t3 (respawn inventory), <tt>0x00</tt> else<rowsep>
+<tt>0x001A</tt> <colsep><tt>long</tt> <colsep><tt>0x01</tt> with /a (player AI for fake players), <tt>0x00</tt> else<rowsep>
+<tt>0x001E</tt> <colsep><tt>char[0x201]</tt> <colsep>-name parameter<rowsep>
+</tabular>
+<p>
+The episode (better: volume) number is one of the <tt>0x00</tt> bytes in the
+header.
+<p>
+The players name is a `&bsol;0' terminated string. The maximum number of 
+characters for the name is 512.
+
+<sect>Data
+<p> 
+The data starts in byte <tt>0x0009</tt> (old Duke Nukem 3D),
+<tt>0x0018</tt> (new Duke Nukem 3D) or 
+<tt>0x021F</tt> (Redneck Rampage) of the DMO file and is organized in
+several blocks.
+
+<sect1>Block
+<p>
+Each block consists of a header with some organizational information
+and the compressed data.
+<p>
+A block header is:
+<p>
+<tabular ca="lll">
+address <colsep>type <colsep>contents<rowsep>
+<tt>0x0000</tt> <colsep><tt>word</tt> <colsep>size of the following block 
+in bytes<rowsep> 
+<tt>0x0002</tt> <colsep><tt>word</tt> <colsep>size of the uncompressed 
+data block in bytes<rowsep>
+<tt>0x0004</tt> <colsep><tt>word</tt> <colsep>biggest code for Lempel-Ziv 
+decompression<rowsep>
+</tabular>
+<p>
+The compressed data starts in byte <tt>0x0006</tt> of the block.
+The block size (0x0000/0x0001) includes the rest of the header. This means
+there are only block size - 4 data bytes.
+
+<sect1>Compression technique
+<p>
+Duke Nukem 3D uses a modified Lempel-Ziv algorithm (similar to the
+UNIX command <tt>compress(1)</tt>) to compress the game tics. To reach an 
+even better compression ratio not the game tic itself but the difference
+to the last one of the same player (difference per byte, without carry bits)
+will be compressed. This increases the number of 0 bytes enormously and allows
+long recording in short files. 
+<p>
+In fact Steffen Winterfeldt changed the original
+<tt>compress.c</tt> until we could decompress a DMO file. 
+<p>If you are really more interested in the compression/decompression routines
+look in the files <tt>lzw.c</tt> and <tt>unlzw.c</tt> included in
+LMPC, the Little Movie Processing Centre. You can get it from my 
+<htmlurl url="@HOMEURL@" name="@HOMENAME@">.
+<p>
+The compression algorithm used in Redneck Rampage seems to be similar but I
+did not get <tt>lzw.c</tt> and <tt>unlzw.c</tt> to work with Redneck Rampage
+recordings.
+
+<sect1>Macro block
+<p>
+Some blocks of data form a macro block. This has to do with both decompression
+and game tic difference storing. The first game tic in a macro block is the
+original game tic. All the following game tics are only the byte-per-byte
+difference game tics to its specific predecessors. There is no special code to
+signalize the end of a macro block. It is simply the number 
+2520/(player number) game tics, which makes a macro block. 
+Note that 2520 is divisible by 1,2, ... ,8 without remainder. 
+Only the last macro block may contain less game tics if the file ends 
+before.
+
+<sect1>Data description<label id="Data">
+<p>
+One game tic corresponds to 10 times player number bytes:
+<tabular ca="llcl">
+address <colsep>type <colsep>player <colsep>contents<rowsep>
+<tt>0x0000</tt> <colsep><tt>word</tt> <colsep>1 <colsep>go in <em>x</em>-direction<rowsep> 
+<tt>0x0002</tt> <colsep><tt>word</tt> <colsep>1 <colsep>go in <em>y</em>-direction<rowsep> 
+<tt>0x0004</tt> <colsep><tt>word</tt> <colsep>1 <colsep>turn<rowsep>
+<tt>0x0006</tt> <colsep><tt>long</tt> <colsep>1 <colsep>use/open etc.<rowsep>
+<tt>0x000a</tt> <colsep><tt>word</tt> <colsep>2 <colsep>go in <em>x</em>-direction<rowsep> 
+<tt>0x000c</tt> <colsep><tt>word</tt> <colsep>2 <colsep>go in <em>y</em>-direction<rowsep> 
+ . <rowsep>
+ . <rowsep>
+ . <rowsep>
+</tabular>
+
+<sect2>Go <em>x</em> and <em>y</em>
+<p>
+The 2 words (<tt>signed short</tt>) are duke's speed or the displacement
+vector in length units per game tic.
+<p>
+To calculate the absolute value of his speed just calculate 
+sqrt<f>(x<sup>2</sup>+y<sup>2</sup>)</f>.
+<p>
+A standard speed is 1280 (with running 2560). The coordinate system used is like
+this:
+<tscreen><verb>
+            |
+            |
+            |
+------------+-----------> x
+            |
+            |
+            |
+           \|/
+            y
+</verb></tscreen>
+
+<sect2>Turn
+<p>
+The turn word contains 2 bytes (<tt>signed short</tt>) which are the
+current turning speed or the angle difference per game tic.
+A positive turning speed means right and a negative
+means left.
+
+<sect2>Use
+<p>
+There are many ``use'' actions in Duke Nukem 3D. You can do all at once,
+because there is a single bit for each action. The apropriate bit is 1 as long
+as you press the corresponding key.
+
+<tabular ca="rrl">
+bit <colsep>purpose<rowsep>
+31 <colsep>??<rowsep>
+30 <colsep>Inventory<rowsep>
+29 <colsep>Open<rowsep>
+28 <colsep>TurnAround<rowsep>
+27 <colsep>Inventory&lowbar;Right<rowsep>
+26 <colsep>??<rowsep>
+25 <colsep>Jetpack<rowsep>
+24 <colsep>Holo&lowbar;Duke<rowsep>
+23 <colsep>Mouse&lowbar;Aiming<colsep>new in 1.1<rowsep>
+22 <colsep>??<rowsep>
+21 <colsep>Pause<rowsep>
+20 <colsep>Inventory&lowbar;Left<rowsep>
+19 <colsep>Holster&lowbar;Weapon<rowsep>
+18 <colsep>Center&lowbar;View<rowsep>
+17 <colsep>AutoRun<rowsep>
+16 <colsep>MedKit<rowsep>
+15 <colsep>NightVision<rowsep>
+14 <colsep>Look&lowbar;Down<rowsep>
+13 <colsep>Look&lowbar;Up<rowsep>
+12 <colsep>Steroids<colsep>new in 1.1<rowsep>
+8-11 <colsep>Weapon number<rowsep>
+7 <colsep>??<rowsep>
+6 <colsep>??<rowsep>
+5 <colsep>Run<rowsep>
+4 <colsep>Aim&lowbar;Down<rowsep>
+3 <colsep>Aim&lowbar;Up<rowsep>
+2 <colsep>Fire<rowsep>
+1 <colsep>Crouch<rowsep>
+0 <colsep>Jump<rowsep>
+</tabular>
+
+<sect>Version History and Acknowledgements
+<p>
+
+<descrip>
+
+<tag>0.0.0, 8 February, 1996</tag>
+<itemize>
+<item>First internal version (working paper); never announced.
+<item>Many thanks to Steffen Winterfeldt 
+(<htmlurl url="mailto:Steffen.Winterfeldt@itp.uni-leipzig.de"
+name="Steffen.Winterfeldt@itp.uni-leipzig.de">)
+for his reverse engineering and programming work.
+</itemize>
+
+<tag>0.0.1, 10 February, 1996</tag>
+<itemize>
+<item>First helpful documentation for further research on Duke Nukem 3D;
+never announced.
+</itemize>
+
+<tag>0.0.2, 12 February, 1996</tag>
+<itemize>
+<item>All header bytes decoded, never announced.
+</itemize>
+
+<tag>0.0.3, 19 February, 1996</tag>
+<itemize>
+<item>Minimal changes, some remarks to record properly.
+</itemize>
+
+<tag>0.0.4, 23 February, 1996</tag>
+<itemize>
+<item>New actions from version 1.1.
+<item>Multi-level recording from 1.1.
+<item>Reorganization of block/macro block description.
+</itemize>
+
+<tag>0.0.5, 4 May, 1997</tag>
+<itemize>
+<item>Redneck Rampage info included (incomplete).
+<item>Duke Nukem 3D 1.3D info included.
+</itemize>
+
+<tag>0.0.6, 12 March 1998</tag>
+<itemize>
+<item>PlanetQuake is the new home.
+<item>SGML-Tools 1.0.5 used.
+</itemize>
+
+</descrip>
+
+</article>

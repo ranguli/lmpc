@@ -1,0 +1,740 @@
+<!ENTITY lowbar "_">
+	<!ENTITY lsqb "[">
+	<!ENTITY rsqb "]">
+	<!ENTITY num "#">
+	<!ENTITY bsol "\">
+	]><article>
+<articleinfo>
+<title>The unofficial DMO format description</title>
+<author>
+<firstname>@MYFIRSTNAME@</firstname><surname>@MYSURNAME@</surname>
+<affiliation><address><email>@MYEMAIL@</email></address></affiliation>
+</author>
+<pubdate>v@VERSION@, @DATE@</pubdate>
+<abstract>
+<para>This document describes the DMO file format. This file format is the result of
+``recording'' a game in Duke Nukem 3D or Redneck Rampage.
+This documentation covers the old Shareware versions 1.0 and 1.1 and the
+new Shareware version 1.3D of Duke Nukem 3D
+and the alpha demo version 0.7 `moonshine' of Redneck Rampage.
+only.</para>
+</abstract>
+</articleinfo>
+<sect1>
+<title>Introduction</title>
+<para>To create a DMO file start the game with the command line switch
+<LITERAL REMAP="tt">/r</literal> (and <LITERAL REMAP="tt">/l</literal> (level), <LITERAL REMAP="tt">/s</literal> (skill) etc.) and play as
+usual. If you press <LITERAL REMAP="tt">F10</literal> the record (and the game) stops. 
+You will find a file <LITERAL REMAP="tt">demo1.dmo</literal> in the current directory. To play it 
+back just start the game and hide the menu by pressing <LITERAL REMAP="tt">ESC</literal>.</para>
+<para>In Duke Nukem 3D 1.0 and 1.1 the skill value is a bit strange:
+To record a skill <emphasis>n</emphasis> (1&lt;=<emphasis>n</emphasis>&lt;=4) game note to use 
+<LITERAL REMAP="tt">/sn+1</literal>.
+So <LITERAL REMAP="tt">/s2</literal> is ``Peace of Cake'' and <LITERAL REMAP="tt">/s5</literal> is 
+``Damn I'm Good''. The <LITERAL REMAP="tt">dn3dhelp.exe</literal> hint 
+(<LITERAL REMAP="tt">/sn</literal> with 0&lt;=<emphasis>n</emphasis>&lt;=3) is totally wrong.</para>
+<para>Multiplayer recordings have always the skill 0. Cooperative
+recordings won't play back properly.   </para>
+<para>It is impossible to record with version 1.0 more than one level. You can't 
+even record the summary screen at the end of each level.</para>
+<para>In version 1.1 it <emphasis>seems</emphasis> to be possible (I got it some times). 
+Some other times I got only the recording of the last level.</para>
+<para>A DMO file records all player actions. The monster movements, respawn
+positions etc. are totally deterministic. The messages during a multiplayer 
+game (macros and RemoteRedicule (tm)) do not appear in the DMO.</para>
+<para>A DMO file consists of a header with some organizational information
+and the data area with all the (compressed) game tics. </para>
+<para>The term ``game tic'' comes originally from DOOM and denotes the smallest unit
+of time during the game. The duration of a game tic is
+1/30s. To store a game tic in a file means to store all actions, like
+movement, open doors, fire weapons and so on, happened during this time. </para>
+</sect1>
+<sect1>
+<title>Header</title>
+<sect2>
+<title>old Duke Nukem 3D Header</title>
+<para>Duke Nukem 3D 1.0 and 1.1 use a 9 byte main header:</para>
+<para>
+
+<informaltable>
+<TGROUP COLS="3">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry>address </entry>
+<entry>type </entry>
+<entry>contents</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x0000</literal> </entry>
+<entry><LITERAL REMAP="tt">long</literal> </entry>
+<entry>number of game tics times numberof players</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x0004</literal> </entry>
+<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry>episode (0-3)</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x0005</literal> </entry>
+<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry>map (0-8)</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x0006</literal> </entry>
+<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry>skill (0-4)</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x0007</literal> </entry>
+<entry><LITERAL REMAP="tt">word</literal> </entry>
+<entry>player number</entry>
+</row>
+<row>
+<entry></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+
+</para>
+<para>The first entry in the header (number of game tics) may be zero in version 1.1
+recordings. This should mean, that there is more than one level recorded.</para>
+<para>All <LITERAL REMAP="tt">word</literal> or <LITERAL REMAP="tt">long</literal> values in DMO files are Intel ordered
+(lowest byte first, little endian).</para>
+</sect2>
+<sect2>
+<title>new Duke Nukem 3D Header</title>
+<para>Duke Nukem 3D 1.3D uses a 24 byte main header:</para>
+<para>
+
+<informaltable>
+<TGROUP COLS="3">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry>address </entry>
+<entry>type </entry>
+<entry>contents</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x0000</literal> </entry>
+<entry><LITERAL REMAP="tt">long</literal> </entry>
+<entry>number of game tics times number of players</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x0004</literal> </entry>
+<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry>volume - 1 (/v parameter - 1)</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x0005</literal> </entry>
+<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry>level - 1 (/l paramerer - 1)</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x0006</literal> </entry>
+<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry>skill (0 .. 4) (/s parameter)</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x0007</literal> </entry>
+<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry>MP mode (/c 1 = DukeMatch(spawn), 2 = Coop, 3 = Dukematch(no spawn))</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x0008</literal> </entry>
+<entry><LITERAL REMAP="tt">short</literal> </entry>
+<entry>player number (1..8)</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x000A</literal> </entry>
+<entry><LITERAL REMAP="tt">short</literal> </entry>
+<entry><LITERAL REMAP="tt">0x01</literal> with /m (nomonsters), <LITERAL REMAP="tt">0x00</literal> else</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x000C</literal> </entry>
+<entry><LITERAL REMAP="tt">long</literal> </entry>
+<entry><LITERAL REMAP="tt">0x01</literal> with /t1 (respawn monsters), <LITERAL REMAP="tt">0x00</literal> else</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x0010</literal> </entry>
+<entry><LITERAL REMAP="tt">long</literal> </entry>
+<entry><LITERAL REMAP="tt">0x01</literal> with /t2 (respawn items), <LITERAL REMAP="tt">0x00</literal> else</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x0014</literal> </entry>
+<entry><LITERAL REMAP="tt">long</literal> </entry>
+<entry><LITERAL REMAP="tt">0x01</literal> with /t3 (respawn inventory), <LITERAL REMAP="tt">0x00</literal> else</entry>
+</row>
+<row>
+<entry></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+
+</para>
+</sect2>
+<sect2>
+<title>Redneck Rampage Header</title>
+<para>Redneck Rampage uses a 543 byte main header:</para>
+<para>
+
+<informaltable>
+<TGROUP COLS="3">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry>address </entry>
+<entry>type </entry>
+<entry>contents</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x0000</literal> </entry>
+<entry><LITERAL REMAP="tt">long</literal> </entry>
+<entry>number of game tics times number of players</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x0004</literal> </entry>
+<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><LITERAL REMAP="tt">0x6C</literal>, it may be a version</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x0005</literal> </entry>
+<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><LITERAL REMAP="tt">0x00</literal>, unknown</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x0006</literal> </entry>
+<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><LITERAL REMAP="tt">0x00</literal>, unknown</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x0007</literal> </entry>
+<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry>skill (0...4)</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x0008</literal> </entry>
+<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry>MP mode (/c parameter - 1)</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x0009</literal> </entry>
+<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry>level (1..11)</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x000A</literal> </entry>
+<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry>player number (1..8)</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x000B</literal> </entry>
+<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><LITERAL REMAP="tt">0x00</literal>, unknown</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x000C</literal> </entry>
+<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><LITERAL REMAP="tt">0x01</literal> with /m (nomonsters), <LITERAL REMAP="tt">0x00</literal> else</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x000D</literal> </entry>
+<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><LITERAL REMAP="tt">0x00</literal>, unknown</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x000E</literal> </entry>
+<entry><LITERAL REMAP="tt">long</literal> </entry>
+<entry><LITERAL REMAP="tt">0x01</literal> with /t1 (respawn monsters), <LITERAL REMAP="tt">0x00</literal> else</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x0012</literal> </entry>
+<entry><LITERAL REMAP="tt">long</literal> </entry>
+<entry><LITERAL REMAP="tt">0x01</literal> with /t2 (respawn items), <LITERAL REMAP="tt">0x00</literal> else</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x0016</literal> </entry>
+<entry><LITERAL REMAP="tt">long</literal> </entry>
+<entry><LITERAL REMAP="tt">0x01</literal> with /t3 (respawn inventory), <LITERAL REMAP="tt">0x00</literal> else</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x001A</literal> </entry>
+<entry><LITERAL REMAP="tt">long</literal> </entry>
+<entry><LITERAL REMAP="tt">0x01</literal> with /a (player AI for fake players), <LITERAL REMAP="tt">0x00</literal> else</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x001E</literal> </entry>
+<entry><LITERAL REMAP="tt">char[0x201]</literal> </entry>
+<entry>-name parameter</entry>
+</row>
+<row>
+<entry></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+
+</para>
+<para>The episode (better: volume) number is one of the <LITERAL REMAP="tt">0x00</literal> bytes in the
+header.</para>
+<para>The players name is a `&bsol;0' terminated string. The maximum number of 
+characters for the name is 512.</para>
+</sect2>
+</sect1>
+<sect1>
+<title>Data</title>
+<para> 
+The data starts in byte <LITERAL REMAP="tt">0x0009</literal> (old Duke Nukem 3D),
+<LITERAL REMAP="tt">0x0018</literal> (new Duke Nukem 3D) or 
+<LITERAL REMAP="tt">0x021F</literal> (Redneck Rampage) of the DMO file and is organized in
+several blocks.</para>
+<sect2>
+<title>Block</title>
+<para>Each block consists of a header with some organizational information
+and the compressed data.</para>
+<para>A block header is:</para>
+<para>
+
+<informaltable>
+<TGROUP COLS="3">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry>address </entry>
+<entry>type </entry>
+<entry>contents</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x0000</literal> </entry>
+<entry><LITERAL REMAP="tt">word</literal> </entry>
+<entry>size of the following blockin bytes</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x0002</literal> </entry>
+<entry><LITERAL REMAP="tt">word</literal> </entry>
+<entry>size of the uncompresseddata block in bytes</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x0004</literal> </entry>
+<entry><LITERAL REMAP="tt">word</literal> </entry>
+<entry>biggest code for Lempel-Zivdecompression</entry>
+</row>
+<row>
+<entry></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+
+</para>
+<para>The compressed data starts in byte <LITERAL REMAP="tt">0x0006</literal> of the block.
+The block size (0x0000/0x0001) includes the rest of the header. This means
+there are only block size - 4 data bytes.</para>
+</sect2>
+<sect2>
+<title>Compression technique</title>
+<para>Duke Nukem 3D uses a modified Lempel-Ziv algorithm (similar to the
+UNIX command <LITERAL REMAP="tt">compress(1)</literal>) to compress the game tics. To reach an 
+even better compression ratio not the game tic itself but the difference
+to the last one of the same player (difference per byte, without carry bits)
+will be compressed. This increases the number of 0 bytes enormously and allows
+long recording in short files. </para>
+<para>In fact Steffen Winterfeldt changed the original
+<LITERAL REMAP="tt">compress.c</literal> until we could decompress a DMO file. </para>
+<para>If you are really more interested in the compression/decompression routines
+look in the files <LITERAL REMAP="tt">lzw.c</literal> and <LITERAL REMAP="tt">unlzw.c</literal> included in
+LMPC, the Little Movie Processing Centre. You can get it from my 
+<ULINK URL="@HOMEURL@">@HOMENAME@</ulink>.</para>
+<para>The compression algorithm used in Redneck Rampage seems to be similar but I
+did not get <LITERAL REMAP="tt">lzw.c</literal> and <LITERAL REMAP="tt">unlzw.c</literal> to work with Redneck Rampage
+recordings.</para>
+</sect2>
+<sect2>
+<title>Macro block</title>
+<para>Some blocks of data form a macro block. This has to do with both decompression
+and game tic difference storing. The first game tic in a macro block is the
+original game tic. All the following game tics are only the byte-per-byte
+difference game tics to its specific predecessors. There is no special code to
+signalize the end of a macro block. It is simply the number 
+2520/(player number) game tics, which makes a macro block. 
+Note that 2520 is divisible by 1,2, ... ,8 without remainder. 
+Only the last macro block may contain less game tics if the file ends 
+before.</para>
+</sect2>
+<SECT2 ID="DATA">
+<title>Data description</title>
+<para>One game tic corresponds to 10 times player number bytes:
+
+<informaltable>
+<TGROUP COLS="4">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="CENTER">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry>address </entry>
+<entry>type </entry>
+<entry>player </entry>
+<entry>contents</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x0000</literal> </entry>
+<entry><LITERAL REMAP="tt">word</literal> </entry>
+<entry>1 </entry>
+<entry>go in <emphasis>x</emphasis>-direction</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x0002</literal> </entry>
+<entry><LITERAL REMAP="tt">word</literal> </entry>
+<entry>1 </entry>
+<entry>go in <emphasis>y</emphasis>-direction</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x0004</literal> </entry>
+<entry><LITERAL REMAP="tt">word</literal> </entry>
+<entry>1 </entry>
+<entry>turn</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x0006</literal> </entry>
+<entry><LITERAL REMAP="tt">long</literal> </entry>
+<entry>1 </entry>
+<entry>use/open etc.</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x000a</literal> </entry>
+<entry><LITERAL REMAP="tt">word</literal> </entry>
+<entry>2 </entry>
+<entry>go in <emphasis>x</emphasis>-direction</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x000c</literal> </entry>
+<entry><LITERAL REMAP="tt">word</literal> </entry>
+<entry>2 </entry>
+<entry>go in <emphasis>y</emphasis>-direction</entry>
+</row>
+<row>
+<entry>. </entry>
+</row>
+<row>
+<entry>. </entry>
+</row>
+<row>
+<entry>. </entry>
+</row>
+<row>
+<entry></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+
+</para>
+<sect3>
+<title>Go <emphasis>x</emphasis> and <emphasis>y</emphasis></title>
+<para>The 2 words (<LITERAL REMAP="tt">signed short</literal>) are duke's speed or the displacement
+vector in length units per game tic.</para>
+<para>To calculate the absolute value of his speed just calculate 
+sqrt(x<superscript>2</superscript>+y<superscript>2</superscript>).</para>
+<para>A standard speed is 1280 (with running 2560). The coordinate system used is like
+this:
+
+<screen>            |
+            |
+            |
+------------+-----------&gt; x
+            |
+            |
+            |
+           \|/
+            y</screen>
+
+</para>
+</sect3>
+<sect3>
+<title>Turn</title>
+<para>The turn word contains 2 bytes (<LITERAL REMAP="tt">signed short</literal>) which are the
+current turning speed or the angle difference per game tic.
+A positive turning speed means right and a negative
+means left.</para>
+</sect3>
+<sect3>
+<title>Use</title>
+<para>There are many ``use'' actions in Duke Nukem 3D. You can do all at once,
+because there is a single bit for each action. The apropriate bit is 1 as long
+as you press the corresponding key.</para>
+<para>
+
+<informaltable>
+<TGROUP COLS="3">
+<COLSPEC COLSEP="0" ALIGN="RIGHT">
+<COLSPEC COLSEP="0" ALIGN="RIGHT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry>bit </entry>
+<entry>purpose</entry>
+</row>
+<row>
+<entry>31 </entry>
+<entry>??</entry>
+</row>
+<row>
+<entry>30 </entry>
+<entry>Inventory</entry>
+</row>
+<row>
+<entry>29 </entry>
+<entry>Open</entry>
+</row>
+<row>
+<entry>28 </entry>
+<entry>TurnAround</entry>
+</row>
+<row>
+<entry>27 </entry>
+<entry>Inventory&lowbar;Right</entry>
+</row>
+<row>
+<entry>26 </entry>
+<entry>??</entry>
+</row>
+<row>
+<entry>25 </entry>
+<entry>Jetpack</entry>
+</row>
+<row>
+<entry>24 </entry>
+<entry>Holo&lowbar;Duke</entry>
+</row>
+<row>
+<entry>23 </entry>
+<entry>Mouse&lowbar;Aiming</entry>
+<entry>new in 1.1</entry>
+</row>
+<row>
+<entry>22 </entry>
+<entry>??</entry>
+</row>
+<row>
+<entry>21 </entry>
+<entry>Pause</entry>
+</row>
+<row>
+<entry>20 </entry>
+<entry>Inventory&lowbar;Left</entry>
+</row>
+<row>
+<entry>19 </entry>
+<entry>Holster&lowbar;Weapon</entry>
+</row>
+<row>
+<entry>18 </entry>
+<entry>Center&lowbar;View</entry>
+</row>
+<row>
+<entry>17 </entry>
+<entry>AutoRun</entry>
+</row>
+<row>
+<entry>16 </entry>
+<entry>MedKit</entry>
+</row>
+<row>
+<entry>15 </entry>
+<entry>NightVision</entry>
+</row>
+<row>
+<entry>14 </entry>
+<entry>Look&lowbar;Down</entry>
+</row>
+<row>
+<entry>13 </entry>
+<entry>Look&lowbar;Up</entry>
+</row>
+<row>
+<entry>12 </entry>
+<entry>Steroids</entry>
+<entry>new in 1.1</entry>
+</row>
+<row>
+<entry>8-11 </entry>
+<entry>Weapon number</entry>
+</row>
+<row>
+<entry>7 </entry>
+<entry>??</entry>
+</row>
+<row>
+<entry>6 </entry>
+<entry>??</entry>
+</row>
+<row>
+<entry>5 </entry>
+<entry>Run</entry>
+</row>
+<row>
+<entry>4 </entry>
+<entry>Aim&lowbar;Down</entry>
+</row>
+<row>
+<entry>3 </entry>
+<entry>Aim&lowbar;Up</entry>
+</row>
+<row>
+<entry>2 </entry>
+<entry>Fire</entry>
+</row>
+<row>
+<entry>1 </entry>
+<entry>Crouch</entry>
+</row>
+<row>
+<entry>0 </entry>
+<entry>Jump</entry>
+</row>
+<row>
+<entry></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+
+</para>
+</sect3>
+</sect2>
+</sect1>
+<sect1>
+<title>Version History and Acknowledgements</title>
+<para><variablelist>
+<varlistentry>
+<term>0.0.0, 8 February, 1996</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>First internal version (working paper); never announced.</para>
+</listitem>
+<listitem>
+<para>Many thanks to Steffen Winterfeldt 
+(<ULINK URL="mailto:Steffen.Winterfeldt@itp.uni-leipzig.de">Steffen.Winterfeldt@itp.uni-leipzig.de</ulink>)
+for his reverse engineering and programming work.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>0.0.1, 10 February, 1996</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>First helpful documentation for further research on Duke Nukem 3D;
+never announced.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>0.0.2, 12 February, 1996</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>All header bytes decoded, never announced.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>0.0.3, 19 February, 1996</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>Minimal changes, some remarks to record properly.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>0.0.4, 23 February, 1996</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>New actions from version 1.1.</para>
+</listitem>
+<listitem>
+<para>Multi-level recording from 1.1.</para>
+</listitem>
+<listitem>
+<para>Reorganization of block/macro block description.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>0.0.5, 4 May, 1997</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>Redneck Rampage info included (incomplete).</para>
+</listitem>
+<listitem>
+<para>Duke Nukem 3D 1.3D info included.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>0.0.6, 12 March 1998</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>PlanetQuake is the new home.</para>
+</listitem>
+<listitem>
+<para>SGML-Tools 1.0.5 used.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect1>
+</article>
