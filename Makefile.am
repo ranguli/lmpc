@@ -27,91 +27,96 @@ index.html indexpart.html:
 # package compiling rules (binary packages, mostly cross-compile)
 # All direcories are hard-coded in here. You _will_ have to change them.
 
-linux_TARGET=i586-suse-linux
-linux_PREFIX=
 
-linux: clean
+# LINUX target
+linux:
+	$(MAKE) compile TARGET=linux
+
+TARGET_linux=i586-suse-linux
+PREFIX_linux=/usr
+CC_linux=/usr/bin/gcc
+CXX_linux=/usr/bin/g++
+RANLIB_linux=/usr/bin/ranlib
+STRIP_linux=/usr/bin/strip
+BINS_linux=lmpc demcut dbs
+CHANGE_linux="\#"
+
+
+# GO32 target
+go32:
+	$(MAKE) compile TARGET=go32
+
+TARGET_go32=i386-pc-msdosdjgpp
+PREFIX_go32=/usr/self/go32
+CC_go32=$(PREFIX_go32)/$(TARGET_go32)/bin/gcc
+CXX_go32=$(PREFIX_go32)/$(TARGET_go32)/bin/g++
+RANLIB_go32=$(PREFIX_go32)/$(TARGET_go32)/bin/ranlib
+STRIP_go32=$(PREFIX_go32)/$(TARGET_go32)/bin/strip
+BINS_go32=lmpc.exe demcut.exe
+CHANGE_go32=s/.exe/d.exe/
+
+
+# CYGWIN target
+cygwin:
+	$(MAKE) compile TARGET=cygwin
+
+TARGET_cygwin=i386-pc-cygwin
+PREFIX_cygwin=/usr/self/gcc3
+CC_cygwin=$(PREFIX_cygwin)/$(TARGET_cygwin)/bin/gcc
+CXX_cygwin=$(PREFIX_cygwin)/$(TARGET_cygwin)/bin/g++
+RANLIB_cygwin=$(PREFIX_cygwin)/$(TARGET_cygwin)/bin/ranlib
+STRIP_cygwin=$(PREFIX_cygwin)/$(TARGET_cygwin)/bin/strip
+BINS_cygwin=lmpc.exe demcut.exe
+CHANGE_cygwin=s/.exe/w.exe/
+
+
+# MINGW target
+mingw:
+	$(MAKE) compile TARGET=mingw
+
+TARGET_mingw=i386-pc-mingw32
+PREFIX_mingw=/usr/self/gcc3
+CC_mingw=$(PREFIX_mingw)/$(TARGET_mingw)/bin/gcc
+CXX_mingw=$(PREFIX_mingw)/$(TARGET_mingw)/bin/g++
+RANLIB_mingw=$(PREFIX_mingw)/$(TARGET_mingw)/bin/ranlib
+STRIP_mingw=$(PREFIX_mingw)/$(TARGET_mingw)/bin/strip
+CFLAGS_mingw=-mno-cygwin
+LDFLAGS_mingw=-mno-cygwin
+BINS_mingw=lmpc.exe demcut.exe
+CHANGE_mingw=s/.exe/m.exe/
+
+
+# create generic target variables
+TARGET_GEN=$(TARGET_$(TARGET))
+PREFIX_GEN=$(PREFIX_$(TARGET))
+CC_GEN=$(CC_$(TARGET))
+CXX_GEN=$(CXX_$(TARGET))
+RANLIB_GEN=$(RANLIB_$(TARGET))
+STRIP_GEN=$(STRIP_$(TARGET))
+CFLAGS_GEN=$(CFLAGS_$(TARGET))
+LDFLAGS_GEN=$(LDFLAGS_$(TARGET))
+BINS_GEN=$(BINS_$(TARGET))
+CHANGE_GEN=$(CHANGE_$(TARGET))
+
+
+# generic compile rules
+compile: clean
 	mv config.status config.status.orig
-	-mkdir -p systems/$(linux_TARGET)
-	cd systems/$(linux_TARGET) && \
-		CC=/usr/bin/gcc \
-		CXX=/usr/bin/g++ \
-		../../configure --host=$(linux_TARGET)
-	cd systems/$(linux_TARGET) && $(MAKE)
+	-mkdir -p systems/$(TARGET_GEN)
+	cd systems/$(TARGET_GEN) && \
+		CC=$(CC_GEN) \
+		CXX=$(CXX_GEN) \
+		RANLIB=$(RANLIB_GEN) \
+		CFLAGS=$(CFLAGS_GEN) \
+		LDFLAGS=$(LDFLAGS_GEN) \
+		../../configure --host=$(TARGET_GEN)
+	cd systems/$(TARGET_GEN) && $(MAKE)
 	mv config.status.orig config.status
-	cp systems/$(linux_TARGET)/src/lmpc $(top_srcdir)/bin/lmpc
-	cp systems/$(linux_TARGET)/src/demcut $(top_srcdir)/bin/demcut
-	cp systems/$(linux_TARGET)/src/dbs $(top_srcdir)/bin/dbs
-
-linux-strip: linux
-	$(linux_PREFIX)/$(linux_TARGET)/bin/strip $(top_srcdir)/bin/lmpc
-	$(linux_PREFIX)/$(linux_PARGET)/bin/strip $(top_srcdir)/bin/demcut
-	$(linux_PREFIX)/$(linux_PARGET)/bin/strip $(top_srcdir)/bin/dbs
-
-
-go32_TARGET=i386-pc-msdosdjgpp
-go32_PREFIX=/usr/self/go32
-
-go32: clean
-	mv config.status config.status.orig
-	-mkdir -p systems/$(go32_TARGET)
-	cd systems/$(go32_TARGET) && \
-		CC=$(go32_PREFIX)/$(go32_TARGET)/bin/gcc \
-		CXX=$(go32_PREFIX)/$(go32_TARGET)/bin/g++ \
-		RANLIB=$(go32_PREFIX)/$(go32_TARGET)/bin/ranlib \
-		../../configure --host=$(go32_TARGET)
-	cd systems/$(go32_TARGET) && $(MAKE)
-	mv config.status.orig config.status
-	cp systems/$(go32_TARGET)/src/lmpc.exe $(top_srcdir)/bin/lmpc.exe
-	cp systems/$(go32_TARGET)/src/demcut.exe $(top_srcdir)/bin/demcut.exe
-
-go32-strip: go32
-	$(go32_PREFIX)/$(go32_TARGET)/bin/strip $(top_srcdir)/bin/lmpc.exe
-	$(go32_PREFIX)/$(go32_TARGET)/bin/strip $(top_srcdir)/bin/demcut.exe
-
-
-cygwin_TARGET=i386-pc-cygwin
-cygwin_PREFIX=/usr/self/gcc3
-
-cygwin: clean
-	mv config.status config.status.orig
-	-mkdir -p systems/$(cygwin_TARGET)
-	cd systems/$(cygwin_TARGET) && \
-		CC=$(cygwin_PREFIX)/$(cygwin_TARGET)/bin/gcc \
-		CXX=$(cygwin_PREFIX)/$(cygwin_TARGET)/bin/g++ \
-		RANLIB=$(cygwin_PREFIX)/$(cygwin_TARGET)/bin/ranlib \
-		../../configure --host=$(cygwin_TARGET)
-	cd systems/$(cygwin_TARGET) && $(MAKE)
-	mv config.status.orig config.status
-	cp systems/$(cygwin_TARGET)/src/lmpc $(top_srcdir)/bin/lmpc32.exe
-	cp systems/$(cygwin_TARGET)/src/demcut $(top_srcdir)/bin/demcut32.exe
-
-cygwin-strip: cygwin
-	$(cygwin_PREFIX)/$(cygwin_TARGET)/bin/strip $(top_srcdir)/bin/lmpc32.exe
-	$(cygwin_PREFIX)/$(cygwin_TARGET)/bin/strip $(top_srcdir)/bin/demcut32.exe
-
-
-mingw_TARGET=i386-pc-mingw32
-mingw_PREFIX=/usr/self/gcc3
-
-mingw: clean
-	mv config.status config.status.orig
-	-mkdir -p systems/$(mingw_TARGET)
-	cd systems/$(mingw_TARGET) && \
-		CC=$(cygwin_PREFIX)/bin/$(cygwin_TARGET)-gcc \
-		CXX=$(cygwin_PREFIX)/bin/$(cygwin_TARGET)-g++ \
-		RANLIB=$(cygwin_PREFIX)/bin/$(cygwin_TARGET)-ranlib \
-		CFLAGS=-mno-cygwin \
-		LDFLAGS=-mno-cygwin \
-		../../configure --host=$(mingw_TARGET)
-	cd systems/$(mingw_TARGET) && $(MAKE)
-	mv config.status.orig config.status
-	cp systems/$(mingw_TARGET)/src/lmpc $(top_srcdir)/bin/lmpcm.exe
-	cp systems/$(mingw_TARGET)/src/demcut $(top_srcdir)/bin/demcutm.exe
-
-mingw-strip: mingw
-	$(cygwin_PREFIX)/$(cygwin_TARGET)/bin/strip $(top_srcdir)/bin/lmpcm.exe
-	$(cygwin_PREFIX)/$(cygwin_TARGET)/bin/strip $(top_srcdir)/bin/demcutm.exe
+	for i in $(BINS_GEN) ; do \
+		j=`echo $$i|sed -e $(CHANGE_GEN)` ; \
+		cp -a systems/$(TARGET_GEN)/src/$$i $(top_srcdir)/bin/$$j ; \
+		$(STRIP_GEN) $(top_srcdir)/bin/$$j ; \
+	done
 
 
 ######################################################################
@@ -130,15 +135,15 @@ l d w m f:
 
 s: dist
 
-l: linux-strip txt
+l: linux txt
 
-d: go32-strip doc
+d: go32 doc
 
-w: cygwin-strip doc
+w: cygwin doc
 
-m: mingw-strip doc
+m: mingw doc
 
-f: linux-strip go32-strip cygwin-strip mingw-strip txt doc ps
+f: linux go32 cygwin mingw txt doc ps
 
 
 ######################################################################
