@@ -284,6 +284,7 @@ AC_OUTPUT([ \
 	spec/qwd-qw/Makefile \
 	src/Makefile \
 	doc/Makefile \
+	files/Makefile \
 	bin/dema \
 	bin/dm2cat \
 	src/java/Makefile \
