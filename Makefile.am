@@ -27,23 +27,26 @@ index.html indexpart.html:
 # package compiling rules (binary packages, mostly cross-compile)
 # All direcories are hard-coded in here. You _will_ have to change them.
 
+linux_TARGET=i586-suse-linux
+linux_PREFIX=
+
 linux: clean
 	mv config.status config.status.orig
-	-mkdir -p systems/i486-linux
-	cd systems/i486-linux && \
+	-mkdir -p systems/$(linux_TARGET)
+	cd systems/$(linux_TARGET) && \
 		CC=/usr/bin/gcc \
 		CXX=/usr/bin/g++ \
-		../../configure --host=i486-linux
-	cd systems/i486-linux && $(MAKE)
+		../../configure --host=$(linux_TARGET)
+	cd systems/$(linux_TARGET) && $(MAKE)
 	mv config.status.orig config.status
-	cp systems/i486-linux/src/lmpc $(top_srcdir)/bin/lmpc
-	cp systems/i486-linux/src/demcut $(top_srcdir)/bin/demcut
-	cp systems/i486-linux/src/dbs $(top_srcdir)/bin/dbs
+	cp systems/$(linux_TARGET)/src/lmpc $(top_srcdir)/bin/lmpc
+	cp systems/$(linux_TARGET)/src/demcut $(top_srcdir)/bin/demcut
+	cp systems/$(linux_TARGET)/src/dbs $(top_srcdir)/bin/dbs
 
 linux-strip: linux
-	/usr/i486-linux/bin/strip $(top_srcdir)/bin/lmpc
-	/usr/i486-linux/bin/strip $(top_srcdir)/bin/demcut
-	/usr/i486-linux/bin/strip $(top_srcdir)/bin/dbs
+	$(linux_PREFIX)/$(linux_TARGET)/bin/strip $(top_srcdir)/bin/lmpc
+	$(linux_PREFIX)/$(linux_PARGET)/bin/strip $(top_srcdir)/bin/demcut
+	$(linux_PREFIX)/$(linux_PARGET)/bin/strip $(top_srcdir)/bin/dbs
 
 
 go32_TARGET=i386-pc-msdosdjgpp
@@ -68,7 +71,7 @@ go32-strip: go32
 
 
 cygwin_TARGET=i386-pc-cygwin32
-cygwin_PREFIX=/usr/self/cygwin
+cygwin_PREFIX=/usr/self/gcc3
 
 cygwin: clean
 	mv config.status config.status.orig
@@ -88,25 +91,25 @@ cygwin-strip: cygwin
 	$(cygwin_PREFIX)/$(cygwin_TARGET)/bin/strip $(top_srcdir)/bin/demcut32.exe
 
 
-mingw32_TARGET=i386-pc-mingw32
-mingw32_PREFIX=/usr/self/cygwin
+mingw_TARGET=i386-pc-mingw32
+mingw_PREFIX=/usr/self/gcc3
 
-mingw32: clean
+mingw: clean
 	mv config.status config.status.orig
-	-mkdir -p systems/$(mingw32_TARGET)
-	cd systems/$(mingw32_TARGET) && \
+	-mkdir -p systems/$(mingw_TARGET)
+	cd systems/$(mingw_TARGET) && \
 		CC=$(cygwin_PREFIX)/bin/$(cygwin_TARGET)-gcc \
 		CXX=$(cygwin_PREFIX)/bin/$(cygwin_TARGET)-g++ \
 		RANLIB=$(cygwin_PREFIX)/bin/$(cygwin_TARGET)-ranlib \
 		CFLAGS=-mno-cygwin \
 		LDFLAGS=-mno-cygwin \
-		../../configure --host=$(mingw32_TARGET)
-	cd systems/$(mingw32_TARGET) && $(MAKE)
+		../../configure --host=$(mingw_TARGET)
+	cd systems/$(mingw_TARGET) && $(MAKE)
 	mv config.status.orig config.status
-	cp systems/$(mingw32_TARGET)/src/lmpc $(top_srcdir)/bin/lmpcm.exe
-	cp systems/$(mingw32_TARGET)/src/demcut $(top_srcdir)/bin/demcutm.exe
+	cp systems/$(mingw_TARGET)/src/lmpc $(top_srcdir)/bin/lmpcm.exe
+	cp systems/$(mingw_TARGET)/src/demcut $(top_srcdir)/bin/demcutm.exe
 
-mingw32-strip: mingw32
+mingw-strip: mingw
 	$(cygwin_PREFIX)/$(cygwin_TARGET)/bin/strip $(top_srcdir)/bin/lmpcm.exe
 	$(cygwin_PREFIX)/$(cygwin_TARGET)/bin/strip $(top_srcdir)/bin/demcutm.exe
 
@@ -133,9 +136,9 @@ d: go32-strip doc
 
 w: cygwin-strip doc
 
-m: mingw32-strip doc
+m: mingw-strip doc
 
-f: linux-strip go32-strip cygwin-strip mingw32-strip txt doc ps
+f: linux-strip go32-strip cygwin-strip mingw-strip txt doc ps
 
 
 ######################################################################
