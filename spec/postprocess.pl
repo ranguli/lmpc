@@ -35,7 +35,6 @@ while (<>) { $text .= $_; }
 
 if ($step == "0") {
 	$text =~ s,(<sect1>[^<]+)(<p>)(<label[^>]+>),$1$3$2,gi;
-	$text =~ s:</?f\s*>::gsi;
 	$text =~ s:\]\[:&rsqb;&lsqb;:g;
 	$text =~ s:(</?)quote\s*>:$1tscreen>:gsi;
 	$text =~ s:<tt>(<htmlurl [^>]+>)</tt>:$1:gsi;
@@ -52,6 +51,8 @@ if ($step == "1") {
 	# correct superscript
 	$text =~ s:(</?)sup\s*>:$1Superscript>:gsi;
 
+	# remove <f>
+	$text =~ s:</?f\s*>::gi;
 }
 
 if ($step == "2") {
