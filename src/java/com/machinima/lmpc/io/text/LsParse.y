@@ -1,7 +1,10 @@
 %{
 /* LS text parser */
 /* $Id$ */
+
+	package com.machinima.lmpc.io.text;
 	import java.io.*;
+
 %}
       
 %token	v_int		/* integer value */
