@@ -1,5 +1,5 @@
 /*  lmpc -- the Little Movie Processing Centre
-    Copyright (C) 1994-99 Uwe Girlich
+    Copyright (C) 1994-99,2004 Uwe Girlich
     
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -16,10 +16,8 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
                                                 
     Uwe Girlich
-    Dantestrasse 20
-    04159 Leipzig
-    Deutschland / Germany
-    E-mail: Uwe.Girlich@itp.uni-leipzig */
+    Germany
+    E-mail: uwe@planetquake.com */
                                                                     
 /****************************************************************************\
 |  dbs.c  -  main source code                                                |
