@@ -688,7 +688,10 @@ sub upload {
       my $prefix = $values{"PACKAGE"} . "-" . $values{"VERSION"} . "-";
       $tempname =~ s|^|$prefix|;
       my $fulltempname = "$tempdir/$tempname";
-      print CONTROL "$tempname\t$dest/$basename\n";
+      # print CONTROL "$tempname\t$dest/$basename\n";
+      my $destall="$dest/$basename";
+      $destall =~ s,([^:])//,$1/,g;
+      print CONTROL "curl --upload-file $tempname $destall\n";
       system "cp $file $fulltempname";
     }
   }
