@@ -113,11 +113,85 @@ if (!defined $out_fh) {
 	exit(1);
 }
 
+my $state = 0;
+my $block = 0;
+my $entity = 1;
+my $frame = 0;
+my $skin = 0;
+my $new_frame = 0;
+my $new_skin = 0;
+my $subst_frame = 0;
+my $subst_skin = 0;
 while (<$in_fh>) {
 	my $line = $_;
-	# TODO: process the input line
-	my $text = $line;
-	print $out_fh $text;
+	# process the input line
+	if ($line =~ /^  seq1 (\d+)/) {
+		$block = $1;
+		logging 30, "block number $block: ";
+		if (!exists $command->{$block}) {
+			logging 30, "ignore\n";
+			$state = 0;
+		}
+		else {
+			logging 30, "work\n";
+			$state = 1;
+		}
+	}
+	if ($state == 1) {
+		if ($line =~ /  packetentity {/) {
+			$state = 2;
+		}
+	}
+	if ($state == 2) {
+		if ($line =~ /   entity (\d+);/) {
+			$entity = $1;
+			logging 30, "entity number $entity: ";
+			if (!exists $command->{$block}->{$entity}) {
+				logging 30, "ignore\n";
+			}
+			else {
+				logging 30, "work\n";
+				$state = 3;
+				if (exists $command->{$block}->{$entity}->{"f"}) {
+					$frame = $command->{$block}->{$entity}->{"f"};
+					$new_frame = 1;
+					$subst_frame = 0;
+					logging 31, "frame -> $frame\n";
+				}
+				if (exists $command->{$block}->{$entity}->{"s"}) {
+					$skin = $command->{$block}->{$entity}->{"s"};
+					$new_skin = 1;
+					$subst_skin = 0;
+					logging 31, "skin -> $skin\n";
+				}
+			}
+		}
+	}
+	if ($state == 3) {
+		if ($new_frame &&
+			$line =~ s/(   frame )\d+(;)/$1$frame$2/) {
+			logging 32, "frame subst OK\n";
+			$subst_frame = 1;
+		}
+		if ($new_skin &&
+			$line =~ s/(   skin )\d+(;)/$1$skin$2/) {
+			logging 32, "skin subst OK\n";
+			$subst_skin = 1;
+		}
+		if ($line =~ /  }/) {
+			if ($new_frame && !$subst_frame) {
+					$line = "   frame $frame;\n" . $line;
+					logging 32, "frame append OK\n";
+			}
+			if ($new_skin && !$subst_skin) {
+					$line = "   skin $skin;\n" . $line;
+					logging 32, "skin append OK\n";
+			}
+			$state = 1;
+		}
+	}
+	
+	print $out_fh $line;
 }
 $in_fh->close();
 $out_fh->close();
@@ -197,7 +271,7 @@ sub command_parse($)
 		}
 	}
 	$command_fh->close();
-	return \$command;
+	return \%command;
 }
 
 
@@ -309,6 +383,36 @@ Set the verbose level for warning trace output. Default: 0, off.
 
 This program will read the given input file, perform the actions defined in
 the command file and write the output file.
+
+=head1 PROCESSING COMMANDS
+
+The processing command text file consists of lines with commands.
+# starts a comment. Empty lines will be ignored.
+
+=over 8
+
+=item B<e entity>
+
+This defines the number of the entity, for which the following commands
+are valid. Defaults to 1.
+
+=item B<f blockrange framerange>
+
+This commands defines, that in the blocks in blockrange the frames from
+framerange must be used.
+
+=item B<s blockrange skinrange>
+
+This commands defines, that in the blocks in blockrange the skins from
+skinrange must be used.
+
+=back
+
+=head1 RANGES
+
+A range consists of a starting number and optional a dash and an ending
+number. Whitespaces and backward ordering (end smaller than begin) are
+allowed.
 
 =head1 SEE ALSO
 
