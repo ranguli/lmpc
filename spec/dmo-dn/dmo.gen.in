@@ -1,6 +1,8 @@
 <!ENTITY lowbar "_">
 	<!ENTITY lsqb "[">
 	<!ENTITY rsqb "]">
+	<!ENTITY lcub "{">
+	<!ENTITY rcub "}">
 	<!ENTITY num "#">
 	<!ENTITY bsol "\">
 	]><article>
@@ -23,16 +25,16 @@ only.</para>
 <sect1>
 <title>Introduction</title>
 <para>To create a DMO file start the game with the command line switch
-<LITERAL REMAP="tt">/r</literal> (and <LITERAL REMAP="tt">/l</literal> (level), <LITERAL REMAP="tt">/s</literal> (skill) etc.) and play as
-usual. If you press <LITERAL REMAP="tt">F10</literal> the record (and the game) stops. 
-You will find a file <LITERAL REMAP="tt">demo1.dmo</literal> in the current directory. To play it 
-back just start the game and hide the menu by pressing <LITERAL REMAP="tt">ESC</literal>.</para>
+<literal REMAP="tt">/r</literal> (and <literal REMAP="tt">/l</literal> (level), <literal REMAP="tt">/s</literal> (skill) etc.) and play as
+usual. If you press <literal REMAP="tt">F10</literal> the record (and the game) stops. 
+You will find a file <literal REMAP="tt">demo1.dmo</literal> in the current directory. To play it 
+back just start the game and hide the menu by pressing <literal REMAP="tt">ESC</literal>.</para>
 <para>In Duke Nukem 3D 1.0 and 1.1 the skill value is a bit strange:
 To record a skill <emphasis>n</emphasis> (1&lt;=<emphasis>n</emphasis>&lt;=4) game note to use 
-<LITERAL REMAP="tt">/sn+1</literal>.
-So <LITERAL REMAP="tt">/s2</literal> is ``Peace of Cake'' and <LITERAL REMAP="tt">/s5</literal> is 
-``Damn I'm Good''. The <LITERAL REMAP="tt">dn3dhelp.exe</literal> hint 
-(<LITERAL REMAP="tt">/sn</literal> with 0&lt;=<emphasis>n</emphasis>&lt;=3) is totally wrong.</para>
+<literal REMAP="tt">/sn+1</literal>.
+So <literal REMAP="tt">/s2</literal> is ``Peace of Cake'' and <literal REMAP="tt">/s5</literal> is 
+``Damn I'm Good''. The <literal REMAP="tt">dn3dhelp.exe</literal> hint 
+(<literal REMAP="tt">/sn</literal> with 0&lt;=<emphasis>n</emphasis>&lt;=3) is totally wrong.</para>
 <para>Multiplayer recordings have always the skill 0. Cooperative
 recordings won't play back properly.   </para>
 <para>It is impossible to record with version 1.0 more than one level. You can't 
@@ -57,10 +59,10 @@ movement, open doors, fire weapons and so on, happened during this time. </para>
 <para>
 
 <informaltable>
-<TGROUP COLS="3">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="3">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>address </entry>
@@ -68,28 +70,28 @@ movement, open doors, fire weapons and so on, happened during this time. </para>
 <entry>contents</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0000</literal> </entry>
-<entry><LITERAL REMAP="tt">long</literal> </entry>
+<entry><literal REMAP="tt">0x0000</literal> </entry>
+<entry><literal REMAP="tt">long</literal> </entry>
 <entry>number of game tics times numberof players</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0004</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0004</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>episode (0-3)</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0005</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0005</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>map (0-8)</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0006</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0006</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>skill (0-4)</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0007</literal> </entry>
-<entry><LITERAL REMAP="tt">word</literal> </entry>
+<entry><literal REMAP="tt">0x0007</literal> </entry>
+<entry><literal REMAP="tt">word</literal> </entry>
 <entry>player number</entry>
 </row>
 <row>
@@ -102,7 +104,7 @@ movement, open doors, fire weapons and so on, happened during this time. </para>
 </para>
 <para>The first entry in the header (number of game tics) may be zero in version 1.1
 recordings. This should mean, that there is more than one level recorded.</para>
-<para>All <LITERAL REMAP="tt">word</literal> or <LITERAL REMAP="tt">long</literal> values in DMO files are Intel ordered
+<para>All <literal REMAP="tt">word</literal> or <literal REMAP="tt">long</literal> values in DMO files are Intel ordered
 (lowest byte first, little endian).</para>
 </sect2>
 <sect2>
@@ -111,10 +113,10 @@ recordings. This should mean, that there is more than one level recorded.</para>
 <para>
 
 <informaltable>
-<TGROUP COLS="3">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="3">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>address </entry>
@@ -122,54 +124,54 @@ recordings. This should mean, that there is more than one level recorded.</para>
 <entry>contents</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0000</literal> </entry>
-<entry><LITERAL REMAP="tt">long</literal> </entry>
+<entry><literal REMAP="tt">0x0000</literal> </entry>
+<entry><literal REMAP="tt">long</literal> </entry>
 <entry>number of game tics times number of players</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0004</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0004</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>volume - 1 (/v parameter - 1)</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0005</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0005</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>level - 1 (/l paramerer - 1)</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0006</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0006</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>skill (0 .. 4) (/s parameter)</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0007</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0007</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>MP mode (/c 1 = DukeMatch(spawn), 2 = Coop, 3 = Dukematch(no spawn))</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0008</literal> </entry>
-<entry><LITERAL REMAP="tt">short</literal> </entry>
+<entry><literal REMAP="tt">0x0008</literal> </entry>
+<entry><literal REMAP="tt">short</literal> </entry>
 <entry>player number (1..8)</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x000A</literal> </entry>
-<entry><LITERAL REMAP="tt">short</literal> </entry>
-<entry><LITERAL REMAP="tt">0x01</literal> with /m (nomonsters), <LITERAL REMAP="tt">0x00</literal> else</entry>
+<entry><literal REMAP="tt">0x000A</literal> </entry>
+<entry><literal REMAP="tt">short</literal> </entry>
+<entry><literal REMAP="tt">0x01</literal> with /m (nomonsters), <literal REMAP="tt">0x00</literal> else</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x000C</literal> </entry>
-<entry><LITERAL REMAP="tt">long</literal> </entry>
-<entry><LITERAL REMAP="tt">0x01</literal> with /t1 (respawn monsters), <LITERAL REMAP="tt">0x00</literal> else</entry>
+<entry><literal REMAP="tt">0x000C</literal> </entry>
+<entry><literal REMAP="tt">long</literal> </entry>
+<entry><literal REMAP="tt">0x01</literal> with /t1 (respawn monsters), <literal REMAP="tt">0x00</literal> else</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0010</literal> </entry>
-<entry><LITERAL REMAP="tt">long</literal> </entry>
-<entry><LITERAL REMAP="tt">0x01</literal> with /t2 (respawn items), <LITERAL REMAP="tt">0x00</literal> else</entry>
+<entry><literal REMAP="tt">0x0010</literal> </entry>
+<entry><literal REMAP="tt">long</literal> </entry>
+<entry><literal REMAP="tt">0x01</literal> with /t2 (respawn items), <literal REMAP="tt">0x00</literal> else</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0014</literal> </entry>
-<entry><LITERAL REMAP="tt">long</literal> </entry>
-<entry><LITERAL REMAP="tt">0x01</literal> with /t3 (respawn inventory), <LITERAL REMAP="tt">0x00</literal> else</entry>
+<entry><literal REMAP="tt">0x0014</literal> </entry>
+<entry><literal REMAP="tt">long</literal> </entry>
+<entry><literal REMAP="tt">0x01</literal> with /t3 (respawn inventory), <literal REMAP="tt">0x00</literal> else</entry>
 </row>
 <row>
 <entry></entry>
@@ -186,10 +188,10 @@ recordings. This should mean, that there is more than one level recorded.</para>
 <para>
 
 <informaltable>
-<TGROUP COLS="3">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="3">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>address </entry>
@@ -197,83 +199,83 @@ recordings. This should mean, that there is more than one level recorded.</para>
 <entry>contents</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0000</literal> </entry>
-<entry><LITERAL REMAP="tt">long</literal> </entry>
+<entry><literal REMAP="tt">0x0000</literal> </entry>
+<entry><literal REMAP="tt">long</literal> </entry>
 <entry>number of game tics times number of players</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0004</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
-<entry><LITERAL REMAP="tt">0x6C</literal>, it may be a version</entry>
+<entry><literal REMAP="tt">0x0004</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x6C</literal>, it may be a version</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0005</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
-<entry><LITERAL REMAP="tt">0x00</literal>, unknown</entry>
+<entry><literal REMAP="tt">0x0005</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x00</literal>, unknown</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0006</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
-<entry><LITERAL REMAP="tt">0x00</literal>, unknown</entry>
+<entry><literal REMAP="tt">0x0006</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x00</literal>, unknown</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0007</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0007</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>skill (0...4)</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0008</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0008</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>MP mode (/c parameter - 1)</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0009</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0009</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>level (1..11)</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x000A</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x000A</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>player number (1..8)</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x000B</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
-<entry><LITERAL REMAP="tt">0x00</literal>, unknown</entry>
+<entry><literal REMAP="tt">0x000B</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x00</literal>, unknown</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x000C</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
-<entry><LITERAL REMAP="tt">0x01</literal> with /m (nomonsters), <LITERAL REMAP="tt">0x00</literal> else</entry>
+<entry><literal REMAP="tt">0x000C</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x01</literal> with /m (nomonsters), <literal REMAP="tt">0x00</literal> else</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x000D</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
-<entry><LITERAL REMAP="tt">0x00</literal>, unknown</entry>
+<entry><literal REMAP="tt">0x000D</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x00</literal>, unknown</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x000E</literal> </entry>
-<entry><LITERAL REMAP="tt">long</literal> </entry>
-<entry><LITERAL REMAP="tt">0x01</literal> with /t1 (respawn monsters), <LITERAL REMAP="tt">0x00</literal> else</entry>
+<entry><literal REMAP="tt">0x000E</literal> </entry>
+<entry><literal REMAP="tt">long</literal> </entry>
+<entry><literal REMAP="tt">0x01</literal> with /t1 (respawn monsters), <literal REMAP="tt">0x00</literal> else</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0012</literal> </entry>
-<entry><LITERAL REMAP="tt">long</literal> </entry>
-<entry><LITERAL REMAP="tt">0x01</literal> with /t2 (respawn items), <LITERAL REMAP="tt">0x00</literal> else</entry>
+<entry><literal REMAP="tt">0x0012</literal> </entry>
+<entry><literal REMAP="tt">long</literal> </entry>
+<entry><literal REMAP="tt">0x01</literal> with /t2 (respawn items), <literal REMAP="tt">0x00</literal> else</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0016</literal> </entry>
-<entry><LITERAL REMAP="tt">long</literal> </entry>
-<entry><LITERAL REMAP="tt">0x01</literal> with /t3 (respawn inventory), <LITERAL REMAP="tt">0x00</literal> else</entry>
+<entry><literal REMAP="tt">0x0016</literal> </entry>
+<entry><literal REMAP="tt">long</literal> </entry>
+<entry><literal REMAP="tt">0x01</literal> with /t3 (respawn inventory), <literal REMAP="tt">0x00</literal> else</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x001A</literal> </entry>
-<entry><LITERAL REMAP="tt">long</literal> </entry>
-<entry><LITERAL REMAP="tt">0x01</literal> with /a (player AI for fake players), <LITERAL REMAP="tt">0x00</literal> else</entry>
+<entry><literal REMAP="tt">0x001A</literal> </entry>
+<entry><literal REMAP="tt">long</literal> </entry>
+<entry><literal REMAP="tt">0x01</literal> with /a (player AI for fake players), <literal REMAP="tt">0x00</literal> else</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x001E</literal> </entry>
-<entry><LITERAL REMAP="tt">char[0x201]</literal> </entry>
+<entry><literal REMAP="tt">0x001E</literal> </entry>
+<entry><literal REMAP="tt">char[0x201]</literal> </entry>
 <entry>-name parameter</entry>
 </row>
 <row>
@@ -284,7 +286,7 @@ recordings. This should mean, that there is more than one level recorded.</para>
 </informaltable>
 
 </para>
-<para>The episode (better: volume) number is one of the <LITERAL REMAP="tt">0x00</literal> bytes in the
+<para>The episode (better: volume) number is one of the <literal REMAP="tt">0x00</literal> bytes in the
 header.</para>
 <para>The players name is a `&bsol;0' terminated string. The maximum number of 
 characters for the name is 512.</para>
@@ -293,9 +295,9 @@ characters for the name is 512.</para>
 <sect1>
 <title>Data</title>
 <para> 
-The data starts in byte <LITERAL REMAP="tt">0x0009</literal> (old Duke Nukem 3D),
-<LITERAL REMAP="tt">0x0018</literal> (new Duke Nukem 3D) or 
-<LITERAL REMAP="tt">0x021F</literal> (Redneck Rampage) of the DMO file and is organized in
+The data starts in byte <literal REMAP="tt">0x0009</literal> (old Duke Nukem 3D),
+<literal REMAP="tt">0x0018</literal> (new Duke Nukem 3D) or 
+<literal REMAP="tt">0x021F</literal> (Redneck Rampage) of the DMO file and is organized in
 several blocks.</para>
 <sect2>
 <title>Block</title>
@@ -305,10 +307,10 @@ and the compressed data.</para>
 <para>
 
 <informaltable>
-<TGROUP COLS="3">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="3">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>address </entry>
@@ -316,18 +318,18 @@ and the compressed data.</para>
 <entry>contents</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0000</literal> </entry>
-<entry><LITERAL REMAP="tt">word</literal> </entry>
+<entry><literal REMAP="tt">0x0000</literal> </entry>
+<entry><literal REMAP="tt">word</literal> </entry>
 <entry>size of the following blockin bytes</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0002</literal> </entry>
-<entry><LITERAL REMAP="tt">word</literal> </entry>
+<entry><literal REMAP="tt">0x0002</literal> </entry>
+<entry><literal REMAP="tt">word</literal> </entry>
 <entry>size of the uncompresseddata block in bytes</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0004</literal> </entry>
-<entry><LITERAL REMAP="tt">word</literal> </entry>
+<entry><literal REMAP="tt">0x0004</literal> </entry>
+<entry><literal REMAP="tt">word</literal> </entry>
 <entry>biggest code for Lempel-Zivdecompression</entry>
 </row>
 <row>
@@ -338,26 +340,26 @@ and the compressed data.</para>
 </informaltable>
 
 </para>
-<para>The compressed data starts in byte <LITERAL REMAP="tt">0x0006</literal> of the block.
+<para>The compressed data starts in byte <literal REMAP="tt">0x0006</literal> of the block.
 The block size (0x0000/0x0001) includes the rest of the header. This means
 there are only block size - 4 data bytes.</para>
 </sect2>
 <sect2>
 <title>Compression technique</title>
 <para>Duke Nukem 3D uses a modified Lempel-Ziv algorithm (similar to the
-UNIX command <LITERAL REMAP="tt">compress(1)</literal>) to compress the game tics. To reach an 
+UNIX command <literal REMAP="tt">compress(1)</literal>) to compress the game tics. To reach an 
 even better compression ratio not the game tic itself but the difference
 to the last one of the same player (difference per byte, without carry bits)
 will be compressed. This increases the number of 0 bytes enormously and allows
 long recording in short files. </para>
 <para>In fact Steffen Winterfeldt changed the original
-<LITERAL REMAP="tt">compress.c</literal> until we could decompress a DMO file. </para>
+<literal REMAP="tt">compress.c</literal> until we could decompress a DMO file. </para>
 <para>If you are really more interested in the compression/decompression routines
-look in the files <LITERAL REMAP="tt">lzw.c</literal> and <LITERAL REMAP="tt">unlzw.c</literal> included in
+look in the files <literal REMAP="tt">lzw.c</literal> and <literal REMAP="tt">unlzw.c</literal> included in
 LMPC, the Little Movie Processing Centre. You can get it from my 
-<ULINK URL="@HOMEURL@">@HOMENAME@</ulink>.</para>
+<ulink URL="@HOMEURL@">@HOMENAME@</ulink>.</para>
 <para>The compression algorithm used in Redneck Rampage seems to be similar but I
-did not get <LITERAL REMAP="tt">lzw.c</literal> and <LITERAL REMAP="tt">unlzw.c</literal> to work with Redneck Rampage
+did not get <literal REMAP="tt">lzw.c</literal> and <literal REMAP="tt">unlzw.c</literal> to work with Redneck Rampage
 recordings.</para>
 </sect2>
 <sect2>
@@ -372,16 +374,16 @@ Note that 2520 is divisible by 1,2, ... ,8 without remainder.
 Only the last macro block may contain less game tics if the file ends 
 before.</para>
 </sect2>
-<SECT2 ID="DATA">
+<sect2 ID="DATA">
 <title>Data description</title>
 <para>One game tic corresponds to 10 times player number bytes:
 
 <informaltable>
-<TGROUP COLS="4">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="CENTER">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="4">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="CENTER">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>address </entry>
@@ -390,38 +392,38 @@ before.</para>
 <entry>contents</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0000</literal> </entry>
-<entry><LITERAL REMAP="tt">word</literal> </entry>
+<entry><literal REMAP="tt">0x0000</literal> </entry>
+<entry><literal REMAP="tt">word</literal> </entry>
 <entry>1 </entry>
 <entry>go in <emphasis>x</emphasis>-direction</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0002</literal> </entry>
-<entry><LITERAL REMAP="tt">word</literal> </entry>
+<entry><literal REMAP="tt">0x0002</literal> </entry>
+<entry><literal REMAP="tt">word</literal> </entry>
 <entry>1 </entry>
 <entry>go in <emphasis>y</emphasis>-direction</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0004</literal> </entry>
-<entry><LITERAL REMAP="tt">word</literal> </entry>
+<entry><literal REMAP="tt">0x0004</literal> </entry>
+<entry><literal REMAP="tt">word</literal> </entry>
 <entry>1 </entry>
 <entry>turn</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0006</literal> </entry>
-<entry><LITERAL REMAP="tt">long</literal> </entry>
+<entry><literal REMAP="tt">0x0006</literal> </entry>
+<entry><literal REMAP="tt">long</literal> </entry>
 <entry>1 </entry>
 <entry>use/open etc.</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x000a</literal> </entry>
-<entry><LITERAL REMAP="tt">word</literal> </entry>
+<entry><literal REMAP="tt">0x000a</literal> </entry>
+<entry><literal REMAP="tt">word</literal> </entry>
 <entry>2 </entry>
 <entry>go in <emphasis>x</emphasis>-direction</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x000c</literal> </entry>
-<entry><LITERAL REMAP="tt">word</literal> </entry>
+<entry><literal REMAP="tt">0x000c</literal> </entry>
+<entry><literal REMAP="tt">word</literal> </entry>
 <entry>2 </entry>
 <entry>go in <emphasis>y</emphasis>-direction</entry>
 </row>
@@ -444,7 +446,7 @@ before.</para>
 </para>
 <sect3>
 <title>Go <emphasis>x</emphasis> and <emphasis>y</emphasis></title>
-<para>The 2 words (<LITERAL REMAP="tt">signed short</literal>) are duke's speed or the displacement
+<para>The 2 words (<literal REMAP="tt">signed short</literal>) are duke's speed or the displacement
 vector in length units per game tic.</para>
 <para>To calculate the absolute value of his speed just calculate 
 sqrt(x<superscript>2</superscript>+y<superscript>2</superscript>).</para>
@@ -465,7 +467,7 @@ this:
 </sect3>
 <sect3>
 <title>Turn</title>
-<para>The turn word contains 2 bytes (<LITERAL REMAP="tt">signed short</literal>) which are the
+<para>The turn word contains 2 bytes (<literal REMAP="tt">signed short</literal>) which are the
 current turning speed or the angle difference per game tic.
 A positive turning speed means right and a negative
 means left.</para>
@@ -478,10 +480,10 @@ as you press the corresponding key.</para>
 <para>
 
 <informaltable>
-<TGROUP COLS="3">
-<COLSPEC COLSEP="0" ALIGN="RIGHT">
-<COLSPEC COLSEP="0" ALIGN="RIGHT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="3">
+<colspec COLSEP="0" ALIGN="RIGHT">
+<colspec COLSEP="0" ALIGN="RIGHT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>bit </entry>
@@ -630,7 +632,7 @@ as you press the corresponding key.</para>
 </listitem>
 <listitem>
 <para>Many thanks to Steffen Winterfeldt 
-(<ULINK URL="mailto:Steffen.Winterfeldt@itp.uni-leipzig.de">Steffen.Winterfeldt@itp.uni-leipzig.de</ulink>)
+(<ulink URL="mailto:Steffen.Winterfeldt@itp.uni-leipzig.de">Steffen.Winterfeldt@itp.uni-leipzig.de</ulink>)
 for his reverse engineering and programming work.</para>
 </listitem>
 </itemizedlist>
