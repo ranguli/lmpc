@@ -85,6 +85,12 @@ $(PACKAGE).html: $(PACKAGE).sgml ../spec.dsl
 $(PACKAGE).pdf: $(PACKAGE).sgml ../spec.dsl
 	$(DOCBOOK2PDF) -d "../spec.dsl#print" $<
 
+index.html: $(PACKAGE).sgml $(WPU)
+	$(WPU) --set ACTION=packageindex \
+		--set TYPE=document \
+		--set DOWNCOUNT=0 \
+		$< $@
+
 clean:
 	$(RM_F) temp1 temp2 temp3
 	$(RM_F) $(PACKAGE).sgml.in
