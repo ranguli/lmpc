@@ -13,6 +13,7 @@ use Getopt::Long qw(:config no_ignore_case);
 use IO::File;
 use Pod::Usage;
 use Pod::Text;
+use IPC::Open3;
 
 
 # prototypes
@@ -67,9 +68,11 @@ if (not ref $command) {
 	exit(1);
 }
 
-my $info = "$opt_lmpc --info $opt_input 2>&1";
-my $info_fh = new IO::File "$info|";
-if (!defined $info_fh) {
+my $info = "$opt_lmpc --info $opt_input";
+logging 30, "checking with '$info', if input is text or binary\n";
+my $info_fh;
+my $pid = open3("<&STDIN", $info_fh, $info_fh, $info);
+if (!defined $info_fh || $pid==0) {
 	warning 0, "Could not execute '$info': $!.\n";
 	exit(1);
 }
@@ -80,14 +83,18 @@ while (<$info_fh>) {
 		last;
 	}
 }
+$info_fh->close();
+waitpid $pid, 0;
 
 my $text_in;
 my $text_out;
 if ($prepost) {
+	logging 35, "$opt_input is binary\n";
 	$text_in = "text_in_$$.txt";
 	$text_out = "text_out_$$.txt";
 }
 else {
+	logging 35, "$opt_input is text\n";
 	$text_in = $opt_input;
 	$text_out = $opt_output;
 }
@@ -203,7 +210,7 @@ if ($prepost) {
 
 
 if ($prepost) {
-	logging 20, "Remove temporary text files.\n";
+	logging 20, "Remove temporary text files $text_in and $text_out.\n";
 	unlink $text_in, $text_out;
 }
 
