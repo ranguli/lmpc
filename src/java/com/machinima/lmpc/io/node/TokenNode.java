@@ -1,5 +1,8 @@
 /* $Id$ */
 
+package com.machinima.lmpc.io.node;
+import com.machinima.lmpc.io.node.Node;
+
 class TokenNode extends Node {
 	String value;
 

@@ -1,5 +1,7 @@
 /* $Id$ */
 
+package com.machinima.lmpc.io.node;
+
 class Node {
 	Node next;
 	String comment;
