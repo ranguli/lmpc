@@ -1,0 +1,25 @@
+#!/usr/bin/perl -w
+
+use strict;
+use Delta;
+
+(my $release = q$Revision$) =~ s/^[^:]+:\s*(.*?)\s*$/$1/;
+(my $date = q$Date$) =~ s/^[^:]+:\s*(.*?)\s*$/$1/;        
+
+my $delta = new Delta;
+
+if (@ARGV != 2) {
+	print "Half-Life delta converter: delta.lst -> lst\n";
+	print "delta2lst (c) Uwe Girlich, Release $release, $date\n";
+	printf "using Delta.pm, Release %s, %s\n", $delta->release(),
+			$delta->date();
+	print "delta2lst delta.lst delta2.lst\n";
+	exit;
+}
+
+my ($deltafilename, $delta2filename) = @ARGV;
+
+$delta->readfile_lst($deltafilename);
+$delta->writefile_lst($delta2filename);
+
+
