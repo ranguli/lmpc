@@ -40,9 +40,15 @@ public class StringNode extends Node {
 					break;
 					default:
 						buffer.append('\\');
-						buffer.append(
-						Integer.toOctalString(c)
-						);
+						// Standard Java variant:
+						// buffer.append(Integer.toOctalString(c));
+						// is not working because it is not always 3 
+						// digits long.
+						// Why we don't have something like "%03o" ?
+						buffer.append((char)(((c & 0700)>>6) + '0'));
+						buffer.append((char)(((c & 0070)>>3) + '0'));
+						buffer.append((char)(((c & 0007)   ) + '0'));
+						Integer.toOctalString(c));
 					break;
 				}
 			}
