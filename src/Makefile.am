@@ -29,11 +29,11 @@ demcut_SOURCES = demcut.c udem.c
 demcut_LDADD = libutil.a
 
 lmpc_SOURCES = lmpc.c ulmp.c lzw.c unlzw.c udmo.c udem.c udemy.y udeml.l \
-uqwd.c udm2.c $(UDM3_C)
+uqwd.c udm2.c
 lmpc_LDADD = libutil.a $(UDM3_O) @LEXLIB@ @ALLOCA@
 lmpc_DEPENDENCIES = libutil.a $(UDM3_O) @ALLOCA@
 
-$(UDM3_O): $(UDM3_C) $(UDM3_H)
+udm3.o: udm3.c udm3.h
 
 libutil_a_SOURCES = tools.c node.c binblock.c record.c
 libutil_a_LIBADD = @LIBOBJS@
@@ -58,7 +58,7 @@ $(CALC_FROM_SPECS):
 	echo extract from $(CALC_FROM_SPECS)
 	$(EXTRACT)
 
-YFLAGS = -d
+AM_YFLAGS = -d
 
 dist-hook:
 	cd $(distdir) && rm -f udemy.y udemy.c udemy.h udeml.l udeml.c
