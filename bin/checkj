@@ -1,0 +1,57 @@
+#! /usr/bin/perl -w
+
+# $Id$
+
+# This checks, if LMPCj can reproduce accurately a LMPC created text file
+
+use strict;
+
+(my $script=$0) =~ s,.*/,,g;
+my $opt="";
+
+if ($#ARGV<1) { die "usage: $script lmpc lmpcj demofile ...\n"; }
+
+my $lmpc = shift;
+my $lmpcj = shift;
+
+if (! -x $lmpc) { die "can't execute $lmpc\n"; }
+if (! -x $lmpcj) { die "can't execute $lmpcj\n"; }
+
+foreach (@ARGV) {
+  my $demofile = $_;
+  (my $filename=$demofile) =~ s,.*/,,g;
+  (my $basename=$filename) =~ s,\..*,,g;
+
+  my $basedir = "/tmp/$basename-$$";
+  mkdir $basedir , 0777;
+  my $d_b = "$basedir/b";
+  if ($filename=~/\.bz2/) {
+    system "bzip2 -dc $demofile > $d_b";
+  }
+  else {
+    system "cp $demofile $d_b";
+  }
+  my $d_bt="$basedir/bt";
+  system "$lmpc --to-txt $opt $d_b $d_bt";
+	my $d_bts="$basedir/bts";
+	open FILE, $d_bt or die "can't read $d_bt: $!\n";
+	open SHORTFILE, ">$d_bts" or die "can't write $d_bts: $!\n";
+	while (<FILE>) {
+		s,\s*//\s+.*,,;
+		s,^\s*$,,;
+		next if !$_;
+		print SHORTFILE;
+	}
+	close FILE;
+	close SHORTFILE;
+  
+	my $d_btt="$basedir/btt";
+	system "$lmpcj $d_bt $d_btt";
+	if (system ("diff $d_bts $d_btt") != 0) {
+		die "problems with $basename\n";
+	}
+	else {
+		system "rm -rf $basedir";
+	}
+}
+
