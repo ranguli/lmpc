@@ -8,5 +8,6 @@ LsParse.class
 LsParse.java
 Node.class
 StringNode.class
+TextOut.class
 TimeNode.class
 TokenNode.class
