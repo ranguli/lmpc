@@ -1,0 +1,6 @@
+.cvsignore
+BlockReader.class
+BlockWriter.class
+Makefile
+Makefile.in
+classjava.stamp
