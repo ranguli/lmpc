@@ -14,6 +14,7 @@ use IO::File;
 use Pod::Usage;
 use Pod::Text;
 use IPC::Open3;
+use File::Spec;
 
 
 # prototypes
@@ -78,7 +79,57 @@ if (not ref $command) {
 logging 10, "parsing command file $opt_command completed.\n";
 
 my $prepost = 0;
+my $lmpc_ok = 0;
 if (-f $opt_lmpc && -x $opt_lmpc) {
+	logging 30, "$opt_lmpc is an executable.\n";
+	# but maybe it is without directory and not in the PATH
+	my ($volume,$directories,$file) = File::Spec->splitpath($opt_lmpc);
+	if ($volume eq "" && $directories eq "") {
+		# single filename, must be in PATH or not callable
+		my @path = File::Spec->path();
+		foreach (@path) {
+			my $abs_path = File::Spec->catfile($_,$opt_lmpc);
+			if (-f $abs_path && -x $abs_path) {
+				logging 20, "$opt_lmpc was found in PATH env.\n";
+				$lmpc_ok = 1;
+			}
+		}
+		if ($lmpc_ok == 0) {
+			logging 20, "$opt_lmpc was not found in PATH env.\n";
+
+		}
+	}
+	else {
+		if (File::Spec->file_name_is_absolute($opt_lmpc)) {
+			logging 20, "$opt_lmpc is absolute path.\n";
+			$lmpc_ok = 1;
+		}
+		else {
+			logging 20, "$opt_lmpc is relative path.\n";
+			$lmpc_ok = 1;
+		}
+	}
+}
+else {
+	my ($volume,$directories,$file) = File::Spec->splitpath($opt_lmpc);
+	if ($volume eq "" && $directories eq "") {
+		my @path = File::Spec->path();
+		foreach (@path) {
+			my $abs_path = File::Spec->catfile($_,$opt_lmpc);
+			if (-f $abs_path && -x $abs_path) {
+				logging 20, "$opt_lmpc was found in PATH env.\n";
+				$lmpc_ok = 1;
+			}
+		}
+	}
+	else {
+		logging 20, "$opt_lmpc does not exist.\n";
+		$lmpc_ok = 0;
+	}
+}
+
+
+if ($lmpc_ok == 1) {
 	logging 20, "The command $opt_lmpc is available.\n";
 	my $info = "$opt_lmpc --info $opt_input";
 	logging 30, "checking with '$info', if input is text or binary\n";
