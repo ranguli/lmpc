@@ -67,6 +67,37 @@ if (not ref $command) {
 	exit(1);
 }
 
+my $temp_in = "temp_in";
+my $temp_out = "temp_out";
+
+my $preproc = "$opt_lmpc --to-txt $opt_input $temp_in";
+
+system $preproc;
+
+my $in_fh = new IO::File "<$temp_in";
+if (!defined $in_fh) {
+	warning 0, "Could not open $temp_in for reading: $!\n";
+	exit(1);
+}
+
+my $out_fh = new IO::File ">$temp_out";
+if (!defined $out_fh) {
+	warning 0, "Could not open $temp_out for writing: $!\n";
+	exit(1);
+}
+
+while (<$in_fh>) {
+	my $line = $_;
+	# TODO: process the input line
+	my $text = $line;
+	print $out_fh $text;
+}
+$in_fh->close();
+$out_fh->close();
+
+my $postproc = "$opt_lmpc --to-bin $temp_out $opt_output";
+
+system $postproc;
 
 
 sub command_parse($)
@@ -74,7 +105,7 @@ sub command_parse($)
 	my $command_filename = shift;
 	my %command = ();
 	logging 30, "Opening %s.\n", $command_filename;
-	my $command_fh=new IO::File("<".$command_filename);
+	my $command_fh=new IO::File("<$command_filename");
 	if (!defined $command_fh) {
 		warning 0, "Could not open %s for reading: $!.\n", $command_filename;
 		return 0;
@@ -108,7 +139,7 @@ sub command_parse($)
 			}
 			logging 40, "entity $e\n";
 		}
-		elsif ($letter eq "f") {
+		elsif ($letter eq "f" or $letter eq "s") {
 			my $blocks;
 			my $frames;
 			if ($args =~ /^([^\s]+)\s+([^\s]+)$/) {
@@ -116,12 +147,21 @@ sub command_parse($)
 				$frames = $2;
 			}
 			else {
-				syntaxerror $command_filename, $., "command f: $args is not blockrange framerange";
+				syntaxerror $command_filename, $., "command $letter: $args is not blockrange argsrange";
 				return 0;
 			}
 			my ($bs,$be,$bi) = range_parse($blocks);
 			my ($fs,$fe,$fi) = range_parse($frames);
-			logging 50, "blocks $bs ... $be (inc $bi): frames $fs ... $fe (inc $fi)\n";
+			logging 50, "blocks $bs ... $be (inc $bi): $letter $fs ... $fe (inc $fi)\n";
+			my $f = $fs;
+			for (my $b=$bs;$bi>0?$b<=$be:$b>=$be;$b+=$bi) {
+				$command{$b}{$e}{$letter}=$f;
+				logging 60, "b $b e $e $letter $f\n";
+				$f += $fi;
+				if ($fi>0?$f>$fe:$f<$fe) {
+					$f = $fs;
+				}
+			}
 		}
 		else {
 			syntaxerror $command_filename, $., "unknown command";
@@ -129,7 +169,7 @@ sub command_parse($)
 		}
 	}
 	$command_fh->close();
-	return $command;
+	return \$command;
 }
 
 
