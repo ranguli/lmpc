@@ -26,8 +26,8 @@
 # wpu parse start /^([^=]+)=(.+)\s*$/
 PACKAGE=misc
 TITLE=Miscellaneous demo related stuff
-VERSION=1.0.7
-DATE=8/18/1999
+VERSION=1.0.8
+DATE=7/10/2004
 TYPE=misc
 INCLUDE=index.template
 # wpu parse end
@@ -36,8 +36,9 @@ INCLUDE=index.template
 ######################################################################
 # main targets
 
-all: cd.txt cd.html ers ers.html mulder mulder.html qfont.txt qfont.html \
-		win32.html index.html index-$(PACKAGE)-$(VERSION).html
+all: cd.txt cd.html ers ers.html mulder mulder.html procdm2.html \
+		procdm2.pl qfont.txt qfont.html \
+		win32.html index.html indexpart.html
 
 
 ######################################################################
@@ -63,6 +64,13 @@ mulder: mulder.in Makefile
 mulder.html: mulder Makefile
 	$(WPU) --set ACTION=t2h $< $@
 
+procdm2.pl:
+	rm -f procdm2.pl
+	ln -fs ../../bin/procdm2.pl procdm2.pl
+
+procdm2.html: procdm2.pl Makefile
+	$(WPU) --set ACTION=t2h $< $@
+
 qfont.txt: qfont.txt.in Makefile
 	$(WPU) --set ACTION=subst $< $@
 
@@ -77,7 +85,7 @@ win32.html: win32.html.in Makefile
 # clean rule
 
 UPLOAD_FILES_dyn=index.html cd.txt cd.html ers ers.html mulder mulder.html \
-		qfont.txt qfont.html win32.html
+		procdm2.html procdm2.pl qfont.txt qfont.html win32.html
 UPLOAD_FILES_stat=cd.dem cygwin.dll cygwinb19.dll cygwin1.dll \
 		qfont.dem qfont.pcx
 UPLOAD_FILES_1=$(UPLOAD_FILES_dyn) $(UPLOAD_FILES_stat)
