@@ -27,6 +27,9 @@
 
 
 #include "binblock.h"
+#ifdef HAVE_STRING_H
+#include <string.h>
+#endif
 
 
 unsigned char get_next_unsigned_char(BB_t* m)
