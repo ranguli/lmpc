@@ -90,17 +90,17 @@ StringCharacter = [^\r\n\"\\]
 
 	/* numeric literals */
 	-?{DecIntegerLiteral} {
-		yyparser.yylval = new LsParseVal(new Integer(yytext()));
+		yyparser.yylval = new IntNode(Integer.parseInt(yytext()));
 		return yyparser.v_int;
 	}
 
 	{HexIntegerLiteral} {
-		yyparser.yylval = new LsParseVal(Integer.parseInt(yytext().substring(2),16));
+		yyparser.yylval = new IntNode(Integer.parseInt(yytext().substring(2),16));
 		return yyparser.v_int;
 	}
  
 	-?{FloatLiteral} {
-		yyparser.yylval = new LsParseVal(new Float(yytext().substring(0,yylength()-1)));
+		yyparser.yylval = new FloatNode(Float.parseFloat(yytext().substring(0,yylength()-1)));
 		return yyparser.v_float;
 	}
 
@@ -116,8 +116,8 @@ StringCharacter = [^\r\n\"\\]
  
 	/* keywords */
 	{Identifier} {
-		yyparser.yylval = new LsParseVal(yytext()); // set lval
-		return yyparser.KEYWORD;
+		yyparser.yylval = new TokenNode(yytext()); // set lval
+		return yyparser.TOKEN;
 	}
 
 } /* end of YYINITIAL */
@@ -126,7 +126,7 @@ StringCharacter = [^\r\n\"\\]
 <STRING> {
 	\"	{
 			yybegin(YYINITIAL);	// reset old state
-			yyparser.yylval = new LsParseVal(string.toString()); // set lval
+			yyparser.yylval = new StringNode(string.toString()); // set lval
 			return yyparser.v_string;	// return "we have a string"
 		}
 

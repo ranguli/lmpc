@@ -7,32 +7,28 @@
 %token	v_int		/* integer value */
 %token	v_float		/* float value */
 %token	v_string	/* string value */
-%token	KEYWORD		/* keyword */
-
-%type <ival> v_int
-%type <dval> v_float
-%type <sval> v_string
-%type <obj> KEYWORD
-%type <obj> block
-%type <dval> time
-
+%token	TOKEN		/* keyword */
 
 %%
 
 input: /* empty string */ {
 		parse_empty = true;
 	}
-	| top_blocks
+	| top_blocks {
+		$$ = $1;
+	}
 	;
 
 top_blocks: 
 	top_block {
+		$$ = $1;
 		// do something with $1
 		// and than stop
 		end_of_top_block = true;
 	}
 	|
 	top_blocks top_block {
+		$$ = $1.add_next($2);
 		// do something with $2
 		// and than stop
 		end_of_top_block = true;
@@ -41,56 +37,77 @@ top_blocks:
 
 top_block: block
 
-block: KEYWORD ';' {
-		// System.out.println("block: KEYWORD ';'");
+block: TOKEN ';' {
+		$$ = $1;
+		// System.out.println("block: TOKEN ';'");
 	}
-	| KEYWORD arrayvalue ';' {
-		// System.out.println("block: KEYWORD arrayvalue ';'");
+	| TOKEN arrayvalue ';' {
+		$$ = $1.add_down($2);
+		// System.out.println("block: TOKEN arrayvalue ';'");
 	}
-	| KEYWORD '{' blocks '}' {
-		// System.out.println("block: KEYWORD '{' blocks '}'");
+	| TOKEN '{' blocks '}' {
+		$$ = $1.add_down($3);
+		// System.out.println("block: TOKEN '{' blocks '}'");
 	};
 
 blocks: block {
 		// System.out.println("blocks: block");
+		$$ = $1;
 	}
 	| blocks block {
 		// System.out.println("blocks: blocks block");
+		$$ = $1.add_next($2);
 	};
 
-arrayvalue:	intarray
-	|	floatarray
-	|	stringarray
-	|	timearray
+arrayvalue:	intarray { $$ = $1; }
+	|	floatarray { $$ = $1; }
+	|	stringarray { $$ = $1; }
+	|	timearray { $$ = $1; }
 	;
 
-intarray:	v_int
-	|	intarray v_int
+intarray:	v_int {
+		$$ = $1;
+	}
+	|	intarray v_int {
+		$$ = $1.add_next($2);
+	}
 	;
 
-floatarray:	v_float
-	|	floatarray v_float
+floatarray:	v_float {
+		$$ = $1;
+	}
+	|	floatarray v_float {
+		$$ = $1.add_next($2);
+	}
 	;
 
-stringarray:	v_string
-	|	stringarray v_string
+stringarray:	v_string {
+		$$ = $1;
+	}
+	|	stringarray v_string {
+		$$ = $1.add_next($2);
+	}
 	;
 
-timearray:	time
-	|	timearray time
+timearray:	time {
+		$$ = $1;
+	}
+	|	timearray time {
+		$$ = $1.add_next($2);
+	}
 	;
 
 time: v_float 's' {
-			$$ = $1;
+			// $$ = $1;
 	}
 	| v_int ':' v_float 'm' {
-			$$ = $3;
-			$$ += 60.0 * $1;
+			// $$ = $3;
+			// $$ += 60.0 * $1;
 	}
 	| v_int ':' v_int ':' v_float 'h' {
-			$$ = $5;
-			$$ += 60.0 * $3;
-			$$ += 60.0 * $5;
+			// $$ = $5;
+			// $$ += 60.0 * $3;
+			// $$ += 60.0 * $5;
 	}
 	;
 
