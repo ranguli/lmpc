@@ -3,4 +3,5 @@ BlockReader.class
 BlockWriter.class
 Makefile
 Makefile.in
+Util.class
 classjava.stamp
