@@ -12,21 +12,29 @@ sub ReadString($);
 sub CL_ParseServerMessage($$);
 
 sub parse_message_01_nop($$$);
+sub parse_message_04_version($$$);
 sub parse_message_07_time($$$);
+sub parse_message_08_print($$$);
 sub parse_message_11_serverinfo($$$);
 sub parse_message_13_updateuserinfo($$$);
+sub parse_message_14_deltadescription($$$);
 sub parse_message_15_clientdata($$$);
 sub parse_message_29_spawnstaticsound($$$);
 sub parse_message_37_roomtype($$$);
+sub parse_message_54_sendextrainfo;
 
 my %parse = (
 	 1 => \&parse_message_01_nop,
+#	 4 => \&parse_message_04_version,
 	 7 => \&parse_message_07_time,
+	 8 => \&parse_message_08_print,
 	11 => \&parse_message_11_serverinfo,
 	13 => \&parse_message_13_updateuserinfo,
+	14 => \&parse_message_14_deltadescription,
 	15 => \&parse_message_13_updateuserinfo,
 	29 => \&parse_message_29_spawnstaticsound,
 	37 => \&parse_message_37_roomtype,
+	54 => \&parse_message_54_sendextrainfo,
 );
 
 my $indent_diff = 1;
@@ -214,7 +222,7 @@ for (@directory) {
 			for (@data) { printf $file_out " %02x", $_; }
 			printf $file_out ";\n";
 			printf $file_out "   gamedata_messages {\n";
-#			CL_ParseServerMessage($file_out, $data_1_d);
+			CL_ParseServerMessage($file_out, $data_1_d);
 			printf $file_out "   }\n";
 			$cont = 1;
 		}
@@ -413,10 +421,26 @@ sub parse_message_01_nop($$$) {
 }
 
 
+sub parse_message_04_version($$$) {
+	my ($file, $data, $indent) = @_;
+	my ($version, $rest) = unpack("V a*", $data);
+	printf $file "%sversion %d;\n", " " x $indent, $version;
+	return $rest;
+}
+
+
 sub parse_message_07_time($$$) {
 	my ($file, $data, $indent) = @_;
 	my ($time, $rest) = unpack("f a*", $data);
 	printf $file "%stime %f;\n", " " x $indent, $time;
+	return $rest;
+}
+
+
+sub parse_message_08_print($$$) {
+	my ($file, $data, $indent) = @_;
+	my ($text, $rest) = ReadString($data);
+	printf $file "%sprint \"%s\";\n", " " x $indent, $text;
 	return $rest;
 }
 
@@ -426,6 +450,9 @@ sub parse_message_11_serverinfo($$$) {
 	my @uk_b3;
 	(
 		my $serverversion,
+		my $rest,
+	) = unpack("V a*", $data);
+	(
 		my $uk_i1,
 		my $uk_i2,
 		$uk_b3[0],
@@ -447,11 +474,28 @@ sub parse_message_11_serverinfo($$$) {
 		my $maxclients,
 		my $uk_b4,
 		my $uk_b5,
-		my $rest,
-	) = unpack("V V V C16 C C C a*", $data);
+		$rest,
+	) = unpack("V V C16 C C C a*", $rest);
 	(my $gamedir, $rest) = ReadString($rest);
+	my $remotehost;
+	if ($serverversion >= 46) {
+		($remotehost, $rest) = ReadString($rest);
+	}
 	(my $map1, $rest) = ReadString($rest);
 	(my $map2, $rest) = ReadString($rest);
+	(my $extraflag, $rest, ) = unpack("C a*", $rest);
+	my $extralength;
+	my @extradata;
+	my @lastdata;
+	if ($extraflag > 0) {
+		($extralength, $rest, ) = unpack("C a*", $rest);
+		$extralength &= 0xff;
+		my $format = sprintf "C%d a*", $extralength;
+		(@extradata) = unpack($format, $rest);
+		$rest = pop @extradata;
+		(@lastdata) = unpack("C16 a*", $rest);
+		$rest = pop @lastdata;
+	}
 
 	if ($maxclients < 1 || $maxclients > 32) {
 		die "Bad maxclients (%u) from server\n", $maxclients;
@@ -475,10 +519,26 @@ sub parse_message_11_serverinfo($$$) {
 		$uk_b5;
 	printf $file "%s gamedir \"%s\";\n", " " x $indent,
 		$gamedir;
+	if ($serverversion >= 46) {
+		printf $file "%s remotehost \"%s\";\n", " " x $indent,
+			$remotehost;
+	}
 	printf $file "%s map1 \"%s\";\n", " " x $indent,
 		$map1;
 	printf $file "%s map2 \"%s\";\n", " " x $indent,
 		$map2;
+	printf $file "%s extraflag %d;\n", " " x $indent,
+		$extraflag;
+	if ($extraflag > 0) {
+		printf $file "%s extralength %d;\n", " " x $indent,
+		$extralength;
+		printf $file "%s extradata", " " x $indent;
+		for (@extradata) { printf $file " %02x", $_; }
+		printf $file ";\n";
+		printf $file "%s lastdata", " " x $indent;
+		for (@lastdata) { printf $file " %02x", $_; }
+		printf $file ";\n";
+	}
 	printf $file "%s}\n", " " x $indent;
 	return $rest;
 }
@@ -504,6 +564,15 @@ sub parse_message_13_updateuserinfo($$$) {
 	printf $file "%s}\n", " " x $indent;
 	return $rest;
 }
+
+
+sub parse_message_14_deltadescription($$$) {
+	my ($file, $data, $indent) = @_;
+	my ($text, $rest) = ReadString($data);
+	printf $file "%sdeltadescription \"%s\";\n", " " x $indent, $text;
+	return $rest;
+}
+
 
 
 sub parse_message_15_clientdata($$$) {
@@ -570,4 +639,17 @@ sub parse_message_37_roomtype($$$) {
 	printf $file "%sroomtype %d;\n", " " x $indent, $room_type;
 	return $rest;
 }
+
+
+sub parse_message_54_sendextrainfo($$$) {
+	my ($file, $data, $indent) = @_;
+	my ($text, $rest) = ReadString($data);
+	(my $uk_byte, $rest) = unpack("C a*", $rest);
+	printf $file "%ssendextrainfo {\n", " " x $indent;
+	printf $file "%stext \"%s\";\n", " " x ($indent+$indent_diff), $text;
+	printf $file "%suk_byte %d;\n", " " x ($indent+$indent_diff), $uk_byte;
+	printf $file "%s}\n", " " x $indent;
+	return $rest;
+}
+
 
