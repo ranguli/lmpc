@@ -32,16 +32,16 @@ Duke Nukem 3D and Redneck Rampage DMO files, Quake DEM files,
 QuakeWorld QWD files and Quake II DM2 files (client recorded, server
 recorded, and relay files) too. For relay files, read the home page of the
 Quake II Relay project by Conor Davis
-(<ULINK URL="mailto:cedavis@planetquake.com">cedavis@planetquake.com</ulink>)
-<ULINK URL="http://www.planetquake.com/relay/"></ulink></para>
+(<ulink URL="mailto:cedavis@planetquake.com">cedavis@planetquake.com</ulink>)
+<ulink URL="http://www.planetquake.com/relay/"></ulink></para>
 <para>You can download the package from my 
-<ULINK URL="@HOMEURL@">@HOMENAME@</ulink>.</para>
+<ulink URL="@HOMEURL@">@HOMENAME@</ulink>.</para>
 <para>It is based upon the information in the 
-<ULINK URL="@HOMEURL@/lmp">Unofficial LMP format description</ulink>, the 
-<ULINK URL="@HOMEURL@/dmo">Unofficial DMO format description</ulink>, the
-<ULINK URL="@HOMEURL@/dem">Unofficial DEM format description</ulink>, the
-<ULINK URL="@HOMEURL@/qwd">Unofficial QWD format description</ulink> and the
-<ULINK URL="@HOMEURL@/dm2">Unofficial DM2 format description</ulink>.</para>
+<ulink URL="@HOMEURL@/lmp">Unofficial LMP format description</ulink>, the 
+<ulink URL="@HOMEURL@/dmo">Unofficial DMO format description</ulink>, the
+<ulink URL="@HOMEURL@/dem">Unofficial DEM format description</ulink>, the
+<ulink URL="@HOMEURL@/qwd">Unofficial QWD format description</ulink> and the
+<ulink URL="@HOMEURL@/dm2">Unofficial DM2 format description</ulink>.</para>
 <para>Read the apropriate document to find out the exact version numbers supported
 by LMPC. I write the format description and the program at the same time; so
 if it is described in the specs document, it is in general supported by the
@@ -61,18 +61,18 @@ decompile a LMP, DMO, DEM, QWD or DM2 from and to a LS file. LS stands for
 To reduce the amount of new abbreviations I call the ``DMO Source'' LS too.
 The language is similar and will be treated in the same way.
 The real LS language is documented at full
-length in the section <XREF LINKEND="LMPSOURCE">.
-The ``DEM Source'' (see section <XREF LINKEND="DEMSOURCE">) 
-and all the more the ``QWD Source'' (see section <XREF LINKEND="QWDSOURCE">) is totally different but I call it LS anyway.
-The same holds for Quake II DM2 (see section <XREF LINKEND="DM2SOURCE">) files.</para>
+length in the section <xref LINKEND="LMPSOURCE">.
+The ``DEM Source'' (see section <xref LINKEND="DEMSOURCE">) 
+and all the more the ``QWD Source'' (see section <xref LINKEND="QWDSOURCE">) is totally different but I call it LS anyway.
+The same holds for Quake II DM2 (see section <xref LINKEND="DM2SOURCE">) files.</para>
 </sect2>
 <sect2>
 <title>Command line parameters</title>
 <para>LMPC is a command line oriented program. It uses the 
-<LITERAL REMAP="tt">getopt&lowbar;long()</literal> function for the command line parsing. </para>
+<literal REMAP="tt">getopt&lowbar;long()</literal> function for the command line parsing. </para>
 <para>The LMP file convert options 
-(<LITERAL REMAP="tt">--change-version</literal>, <LITERAL REMAP="tt">--change-player</literal>, 
-<LITERAL REMAP="tt">--add-WT</literal>, <LITERAL REMAP="tt">--remove-pause</literal> and <LITERAL REMAP="tt">--clear-save</literal>) can be 
+(<literal REMAP="tt">--change-version</literal>, <literal REMAP="tt">--change-player</literal>, 
+<literal REMAP="tt">--add-WT</literal>, <literal REMAP="tt">--remove-pause</literal> and <literal REMAP="tt">--clear-save</literal>) can be 
 used together.</para>
 <sect3>
 <title>Syntax description</title>
@@ -80,7 +80,7 @@ used together.</para>
 <varlistentry>
 <term>Syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">lmpc</literal></para>
+<para><literal REMAP="tt">lmpc</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -124,19 +124,19 @@ lmpc &lsqb;option ...&rsqb; filename &lsqb;filename ...&rsqb;
 <varlistentry>
 <term>Syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">lmpc &lsqb;--info&verbar;-i&rsqb; infile &lsqb;infile ...&rsqb;</literal></para>
+<para><literal REMAP="tt">lmpc &lsqb;--info&verbar;-i&rsqb; infile &lsqb;infile ...&rsqb;</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Input File:</term>
 <listitem>
-<para><LITERAL REMAP="tt">infile</literal>s</para>
+<para><literal REMAP="tt">infile</literal>s</para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Description:</term>
 <listitem>
-<para>LMPC reads each <LITERAL REMAP="tt">infile</literal> and prints out some information
+<para>LMPC reads each <literal REMAP="tt">infile</literal> and prints out some information
 like game, version number, episode, map, skill, 
 number of players, deathmatch/altdeath, nomonsters etc.
 Please note: in the old DOOM format there is no version 
@@ -144,11 +144,11 @@ information, so if you check e.g. a 1.2 LMP file you receive
 only the vague information v&lt;1.4 instead of v1.2.
 LMPC doesn't report any version for HERETIC and HEXEN LMP files.</para>
 <para>This option works for DMO files too. They will be detected automatically
-but you can use the <LITERAL REMAP="tt">--game DUKE</literal> option as well.</para>
+but you can use the <literal REMAP="tt">--game DUKE</literal> option as well.</para>
 <para>This option works for DEM, QWD and DM2 files too. They will be detected 
 automatically
-but you can use the <LITERAL REMAP="tt">--game QUAKE</literal>, <LITERAL REMAP="tt">--game QUAKEWORLD</literal>
-and <LITERAL REMAP="tt">--game QUAKE2</literal> 
+but you can use the <literal REMAP="tt">--game QUAKE</literal>, <literal REMAP="tt">--game QUAKEWORLD</literal>
+and <literal REMAP="tt">--game QUAKE2</literal> 
 option as well. The information
 on DEM, QWD and DM2 files nearly zero beside the information that it is 
 actually a DEM, QWD or DM2 file and the number of frames in binary DEM, 
@@ -165,57 +165,57 @@ DEMA, The DEM Text File Analyser.</para>
 <varlistentry>
 <term>Syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">lmpc (--to-txt&verbar;-s) &lsqb;(--tic&verbar;-t) FROM(,&verbar;:)TO&rsqb; &lsqb;(--mark-step&verbar;-m) STEP&rsqb; infile txtfile</literal></para>
+<para><literal REMAP="tt">lmpc (--to-txt&verbar;-s) &lsqb;(--tic&verbar;-t) FROM(,&verbar;:)TO&rsqb; &lsqb;(--mark-step&verbar;-m) STEP&rsqb; infile txtfile</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Input File:</term>
 <listitem>
-<para><LITERAL REMAP="tt">infile</literal></para>
+<para><literal REMAP="tt">infile</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Output File:</term>
 <listitem>
-<para><LITERAL REMAP="tt">txtfile</literal></para>
+<para><literal REMAP="tt">txtfile</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Description:</term>
 <listitem>
-<para>LMPC reads the file <LITERAL REMAP="tt">infile</literal>, converts it to the corresponding
-text format and stores the result in the text file <LITERAL REMAP="tt">txtfile</literal>.
-<LITERAL REMAP="tt">infile</literal> may be a LMP binary, DMO binary, DEM binary, DEM text,
+<para>LMPC reads the file <literal REMAP="tt">infile</literal>, converts it to the corresponding
+text format and stores the result in the text file <literal REMAP="tt">txtfile</literal>.
+<literal REMAP="tt">infile</literal> may be a LMP binary, DMO binary, DEM binary, DEM text,
 QWD binary, QWD text, DM2 binary or DM2 text file. Most of the additional
 options do work with binary LMP files only.</para>
-<para>If the <LITERAL REMAP="tt">--tic</literal> option is used, only the part between gametic
-<LITERAL REMAP="tt">FROM</literal> and <LITERAL REMAP="tt">TO</literal> (inclusive) will be stored in the LS file.
-A missing <LITERAL REMAP="tt">FROM</literal> means the start of the LMP file and
-a missing <LITERAL REMAP="tt">TO</literal> means the end of the LMP file.
-<LITERAL REMAP="tt">FROM</literal> and <LITERAL REMAP="tt">TO</literal> are separated by a comma (<LITERAL REMAP="tt">,</literal>)
-or a colon (<LITERAL REMAP="tt">:</literal>). The MS-DOS version may have difficulties with comma
-as a separator because <LITERAL REMAP="tt">COMMAND.COM</literal> (<LITERAL REMAP="tt">4dos</literal> as well)
-splits a command line at spaces and commas. The <LITERAL REMAP="tt">TO</literal> part will 
+<para>If the <literal REMAP="tt">--tic</literal> option is used, only the part between gametic
+<literal REMAP="tt">FROM</literal> and <literal REMAP="tt">TO</literal> (inclusive) will be stored in the LS file.
+A missing <literal REMAP="tt">FROM</literal> means the start of the LMP file and
+a missing <literal REMAP="tt">TO</literal> means the end of the LMP file.
+<literal REMAP="tt">FROM</literal> and <literal REMAP="tt">TO</literal> are separated by a comma (<literal REMAP="tt">,</literal>)
+or a colon (<literal REMAP="tt">:</literal>). The MS-DOS version may have difficulties with comma
+as a separator because <literal REMAP="tt">COMMAND.COM</literal> (<literal REMAP="tt">4dos</literal> as well)
+splits a command line at spaces and commas. The <literal REMAP="tt">TO</literal> part will 
 become a different argument and might be interpreted as a file name. </para>
 <para>LMPC appends at the end of the LS file some useful additional
 information. For each player there is a statistics about his
-favourite movement codes and the portion of <LITERAL REMAP="tt">WT</literal>. Since you can
+favourite movement codes and the portion of <literal REMAP="tt">WT</literal>. Since you can
 achieve with keyboard/joystick only a few special movement codes,
 is is very easy to detect, if the player used a keyboard or a 
 mouse. Some newbies don't use strafe, so LMPC shows also this 
 handicap. The statistic takes in account always the full LMP file.</para>
 <para>From the favourite movement codes you can easily deduce the 
-number behind a prospective <LITERAL REMAP="tt">-turbo</literal> parameter.</para>
-<para>If the <LITERAL REMAP="tt">--mark-step</literal> option is used LMPC will mark every 
-<LITERAL REMAP="tt">STEP</literal>th
-game tic with the tic-number and the current time. The default <LITERAL REMAP="tt">STEP</literal>
-value is 1. If <LITERAL REMAP="tt">STEP</literal>=0 no marks are printed at all.</para>
-<para>Any <LITERAL REMAP="tt">--mark-step</literal> option in conjunction with a binary DEM, QWD and
+number behind a prospective <literal REMAP="tt">-turbo</literal> parameter.</para>
+<para>If the <literal REMAP="tt">--mark-step</literal> option is used LMPC will mark every 
+<literal REMAP="tt">STEP</literal>th
+game tic with the tic-number and the current time. The default <literal REMAP="tt">STEP</literal>
+value is 1. If <literal REMAP="tt">STEP</literal>=0 no marks are printed at all.</para>
+<para>Any <literal REMAP="tt">--mark-step</literal> option in conjunction with a binary DEM, QWD and
 DM2 files is a
 special debug-option. It includes in the text file the frame number and the
 starting address of all messages. 
 This option may be removed or changed in future releases.</para>
-<para>The <LITERAL REMAP="tt">--fix-multi</literal> option can be used together with <LITERAL REMAP="tt">--to-txt</literal>
+<para>The <literal REMAP="tt">--fix-multi</literal> option can be used together with <literal REMAP="tt">--to-txt</literal>
 to repair the broken multi-level DEM and DM2 files.</para>
 </listitem>
 </varlistentry>
@@ -227,19 +227,19 @@ to repair the broken multi-level DEM and DM2 files.</para>
 <varlistentry>
 <term>Syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">lmpc (--to-bin&verbar;-l) infile &lsqb;infile ...&rsqb; binfile</literal></para>
+<para><literal REMAP="tt">lmpc (--to-bin&verbar;-l) infile &lsqb;infile ...&rsqb; binfile</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Input File:</term>
 <listitem>
-<para><LITERAL REMAP="tt">infile</literal>s</para>
+<para><literal REMAP="tt">infile</literal>s</para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Output File:</term>
 <listitem>
-<para><LITERAL REMAP="tt">binfile</literal></para>
+<para><literal REMAP="tt">binfile</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -253,7 +253,7 @@ QWD binary, DM2 text and DM2 binary files as
 input files only. LMPC can handle more than 1 input file with LMP text files
 only.</para>
 <para>For combination of DEM files use DEMcut.</para>
-<para>The <LITERAL REMAP="tt">--fix-multi</literal> option can be used together with <LITERAL REMAP="tt">--to-bin</literal>
+<para>The <literal REMAP="tt">--fix-multi</literal> option can be used together with <literal REMAP="tt">--to-bin</literal>
 to repair the broken multi-level DEM and DM2 files.</para>
 </listitem>
 </varlistentry>
@@ -265,27 +265,27 @@ to repair the broken multi-level DEM and DM2 files.</para>
 <varlistentry>
 <term>Syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">lmpc (--change-version&verbar;-v) VERSION lmpfile1 &lsqb;lmpfile2&rsqb;</literal></para>
+<para><literal REMAP="tt">lmpc (--change-version&verbar;-v) VERSION lmpfile1 &lsqb;lmpfile2&rsqb;</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Input File:</term>
 <listitem>
-<para><LITERAL REMAP="tt">lmpfile1</literal></para>
+<para><literal REMAP="tt">lmpfile1</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Output File:</term>
 <listitem>
-<para><LITERAL REMAP="tt">lmpfile1</literal> or <LITERAL REMAP="tt">&lsqb;lmpfile2&rsqb;</literal></para>
+<para><literal REMAP="tt">lmpfile1</literal> or <literal REMAP="tt">&lsqb;lmpfile2&rsqb;</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Description:</term>
 <listitem>
-<para>LMPC reads the binary LMP file <LITERAL REMAP="tt">lmpfile1</literal>, changes the version number
-byte in <LITERAL REMAP="tt">lmpfile1</literal> to the appropriate value or stores the result
-in <LITERAL REMAP="tt">lmpfile2</literal>.</para>
+<para>LMPC reads the binary LMP file <literal REMAP="tt">lmpfile1</literal>, changes the version number
+byte in <literal REMAP="tt">lmpfile1</literal> to the appropriate value or stores the result
+in <literal REMAP="tt">lmpfile2</literal>.</para>
 <para>The VERSION can be the version byte itself (0 for the old LMP files)
 or anything like 1.4beta, 1.9 or whatever.</para>
 <para>There is no guarantee for a special LMP file to work with the new version!!</para>
@@ -299,28 +299,28 @@ or anything like 1.4beta, 1.9 or whatever.</para>
 <varlistentry>
 <term>Syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">lmpc (--change-player&verbar;-p) PLAYER lmpfile1 &lsqb;lmpfile2&rsqb;</literal></para>
+<para><literal REMAP="tt">lmpc (--change-player&verbar;-p) PLAYER lmpfile1 &lsqb;lmpfile2&rsqb;</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Input File:</term>
 <listitem>
-<para><LITERAL REMAP="tt">lmpfile1</literal></para>
+<para><literal REMAP="tt">lmpfile1</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Output File:</term>
 <listitem>
-<para><LITERAL REMAP="tt">lmpfile1</literal> or <LITERAL REMAP="tt">&lsqb;lmpfile2&rsqb;</literal></para>
+<para><literal REMAP="tt">lmpfile1</literal> or <literal REMAP="tt">&lsqb;lmpfile2&rsqb;</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Description:</term>
 <listitem>
-<para>LMPC reads the LMP file <LITERAL REMAP="tt">lmpfile1</literal>, changes the number of the 
+<para>LMPC reads the LMP file <literal REMAP="tt">lmpfile1</literal>, changes the number of the 
 player (0..3: new DOOM, DOOM &rsqb;&lsqb;; 0..7: STRIFE) 
-with the main view (status bar, sound) in <LITERAL REMAP="tt">lmpfile1</literal>
-or stores the result in <LITERAL REMAP="tt">lmpfile2</literal>.</para>
+with the main view (status bar, sound) in <literal REMAP="tt">lmpfile1</literal>
+or stores the result in <literal REMAP="tt">lmpfile2</literal>.</para>
 <para>To change only the main player byte works only with new LMP files, since old
 ones are always recorded from the view of the first player (no. 0) and there
 is no information about this in the header.</para>
@@ -329,40 +329,40 @@ is no information about this in the header.</para>
 </variablelist>             </para>
 </sect3>
 <sect3>
-<title>LMP file ``Wait'' (<LITERAL REMAP="tt">WT</literal>) tics addition</title>
+<title>LMP file ``Wait'' (<literal REMAP="tt">WT</literal>) tics addition</title>
 <para><variablelist>
 <varlistentry>
 <term>Syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">lmpc (--add-WT&verbar;-w) SECONDS lmpfile1 &lsqb;lmpfile2&rsqb;</literal></para>
+<para><literal REMAP="tt">lmpc (--add-WT&verbar;-w) SECONDS lmpfile1 &lsqb;lmpfile2&rsqb;</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Input File:</term>
 <listitem>
-<para><LITERAL REMAP="tt">lmpfile1</literal></para>
+<para><literal REMAP="tt">lmpfile1</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Output File:</term>
 <listitem>
-<para><LITERAL REMAP="tt">lmpfile1</literal> or <LITERAL REMAP="tt">&lsqb;lmpfile2&rsqb;</literal></para>
+<para><literal REMAP="tt">lmpfile1</literal> or <literal REMAP="tt">&lsqb;lmpfile2&rsqb;</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Description:</term>
 <listitem>
-<para>LMPC reads the <LITERAL REMAP="tt">lmpfile1</literal> and adds at the end</para>
+<para>LMPC reads the <literal REMAP="tt">lmpfile1</literal> and adds at the end</para>
 <para>
 
-<screen><LITERAL REMAP="tt">SECONDS</literal> * 35 * player number</screen>
+<screen><literal REMAP="tt">SECONDS</literal> * 35 * player number</screen>
 
 </para>
-<para>empty (<LITERAL REMAP="tt">WT</literal>) game tics. 
-This results in a <LITERAL REMAP="tt">SECONDS</literal> seconds longer LMP file.</para>
-<para>With <LITERAL REMAP="tt">lmpfile2</literal> the result
-will be written in <LITERAL REMAP="tt">lmpfile2</literal>. Without this parameter, 
-<LITERAL REMAP="tt">lmpfile1</literal> will be changed.</para>
+<para>empty (<literal REMAP="tt">WT</literal>) game tics. 
+This results in a <literal REMAP="tt">SECONDS</literal> seconds longer LMP file.</para>
+<para>With <literal REMAP="tt">lmpfile2</literal> the result
+will be written in <literal REMAP="tt">lmpfile2</literal>. Without this parameter, 
+<literal REMAP="tt">lmpfile1</literal> will be changed.</para>
 <para>This option is very useful for contest LMP files with a long visible summary
 screen.</para>
 </listitem>
@@ -370,39 +370,39 @@ screen.</para>
 </variablelist></para>
 </sect3>
 <sect3>
-<title>LMP file clean-up: ``Pause'' (<LITERAL REMAP="tt">PS</literal>, <LITERAL REMAP="tt">PE</literal>) tics</title>
+<title>LMP file clean-up: ``Pause'' (<literal REMAP="tt">PS</literal>, <literal REMAP="tt">PE</literal>) tics</title>
 <para><variablelist>
 <varlistentry>
 <term>Syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">lmpc (--remove-pause&verbar;-r) lmpfile1 &lsqb;lmpfile2&rsqb;</literal></para>
+<para><literal REMAP="tt">lmpc (--remove-pause&verbar;-r) lmpfile1 &lsqb;lmpfile2&rsqb;</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Input File:</term>
 <listitem>
-<para><LITERAL REMAP="tt">lmpfile1</literal></para>
+<para><literal REMAP="tt">lmpfile1</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Output File:</term>
 <listitem>
-<para><LITERAL REMAP="tt">&lsqb;lmpfile2&rsqb;</literal></para>
+<para><literal REMAP="tt">&lsqb;lmpfile2&rsqb;</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Description:</term>
 <listitem>
-<para>LMPC reads the <LITERAL REMAP="tt">lmpfile1</literal> and copies all game tics to 
-<LITERAL REMAP="tt">lmpfile2</literal>. During the copy process LMPC scans the contents 
-for Pause Start game tics (<LITERAL REMAP="tt">PS</literal>) and Pause End game tics
-(<LITERAL REMAP="tt">PE</literal>).</para>
-<para>The <LITERAL REMAP="tt">PS</literal> game tic will be copied to <LITERAL REMAP="tt">lmpfile2</literal> but
-with an empty ``use byte''; the game tics between <LITERAL REMAP="tt">PS</literal> and 
-<LITERAL REMAP="tt">PE</literal> (inclusive <LITERAL REMAP="tt">PE</literal>) wont be copied.</para>
+<para>LMPC reads the <literal REMAP="tt">lmpfile1</literal> and copies all game tics to 
+<literal REMAP="tt">lmpfile2</literal>. During the copy process LMPC scans the contents 
+for Pause Start game tics (<literal REMAP="tt">PS</literal>) and Pause End game tics
+(<literal REMAP="tt">PE</literal>).</para>
+<para>The <literal REMAP="tt">PS</literal> game tic will be copied to <literal REMAP="tt">lmpfile2</literal> but
+with an empty ``use byte''; the game tics between <literal REMAP="tt">PS</literal> and 
+<literal REMAP="tt">PE</literal> (inclusive <literal REMAP="tt">PE</literal>) wont be copied.</para>
 <para>Without the second filename LMPC will write to a temporary file and replaces
-at the end <LITERAL REMAP="tt">lmpfile1</literal>.</para>
-<para>The game tic numbers of <LITERAL REMAP="tt">PS</literal> and <LITERAL REMAP="tt">PE</literal> are
+at the end <literal REMAP="tt">lmpfile1</literal>.</para>
+<para>The game tic numbers of <literal REMAP="tt">PS</literal> and <literal REMAP="tt">PE</literal> are
 printed during the conversion. </para>
 <para>You may have difficulties with the play back of such a patched LMP file. 
 This is the case if you patch a LMP file of a level with a revenant 
@@ -417,36 +417,36 @@ difficulties but I don't even know how to prevent it.</para>
 </variablelist></para>
 </sect3>
 <sect3>
-<title>LMP file clean-up: ``Save Game'' (<LITERAL REMAP="tt">SG</literal>) tics</title>
+<title>LMP file clean-up: ``Save Game'' (<literal REMAP="tt">SG</literal>) tics</title>
 <para><variablelist>
 <varlistentry>
 <term>Syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">lmpc (--clear-save&verbar;-c) lmpfile1 &lsqb;lmpfile2&rsqb;</literal></para>
+<para><literal REMAP="tt">lmpc (--clear-save&verbar;-c) lmpfile1 &lsqb;lmpfile2&rsqb;</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Input File:</term>
 <listitem>
-<para><LITERAL REMAP="tt">lmpfile1</literal></para>
+<para><literal REMAP="tt">lmpfile1</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Output File:</term>
 <listitem>
-<para><LITERAL REMAP="tt">&lsqb;lmpfile2&rsqb;</literal></para>
+<para><literal REMAP="tt">&lsqb;lmpfile2&rsqb;</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Description:</term>
 <listitem>
-<para>LMPC reads the <LITERAL REMAP="tt">lmpfile1</literal> and copies all game tics to 
-<LITERAL REMAP="tt">lmpfile2</literal>. During the copy process LMPC scans the contents 
-for Save Game game tics (<LITERAL REMAP="tt">SG</literal>). Every <LITERAL REMAP="tt">SG</literal> command will be
+<para>LMPC reads the <literal REMAP="tt">lmpfile1</literal> and copies all game tics to 
+<literal REMAP="tt">lmpfile2</literal>. During the copy process LMPC scans the contents 
+for Save Game game tics (<literal REMAP="tt">SG</literal>). Every <literal REMAP="tt">SG</literal> command will be
 cleared.
-With <LITERAL REMAP="tt">lmpfile2</literal> the result
-will be written in <LITERAL REMAP="tt">lmpfile2</literal>. Without this parameter, 
-<LITERAL REMAP="tt">lmpfile1</literal> will be changed.</para>
+With <literal REMAP="tt">lmpfile2</literal> the result
+will be written in <literal REMAP="tt">lmpfile2</literal>. Without this parameter, 
+<literal REMAP="tt">lmpfile1</literal> will be changed.</para>
 </listitem>
 </varlistentry>
 </variablelist></para>
@@ -457,19 +457,19 @@ will be written in <LITERAL REMAP="tt">lmpfile2</literal>. Without this paramete
 <varlistentry>
 <term>Syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">lmpc (--fix-multi&verbar;-f) demofile</literal></para>
+<para><literal REMAP="tt">lmpc (--fix-multi&verbar;-f) demofile</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Input File:</term>
 <listitem>
-<para><LITERAL REMAP="tt">demofile</literal></para>
+<para><literal REMAP="tt">demofile</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Output File:</term>
 <listitem>
-<para><LITERAL REMAP="tt">demofile</literal></para>
+<para><literal REMAP="tt">demofile</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -477,12 +477,12 @@ will be written in <LITERAL REMAP="tt">lmpfile2</literal>. Without this paramete
 <listitem>
 <para>Quake and Quake II have problems with the playback of multi-level recordings.
 They usually stopp at the first level change.</para>
-<para>Read more about the background in the <ULINK URL="@HOMEURL@/faq/faq-2.html#ss2.1">recording FAQ</ulink>.</para>
-<para>If the <LITERAL REMAP="tt">--fix-multi</literal> parameter comes without any conversion option on 
+<para>Read more about the background in the <ulink URL="@HOMEURL@/faq/faq-2.html#ss2.1">recording FAQ</ulink>.</para>
+<para>If the <literal REMAP="tt">--fix-multi</literal> parameter comes without any conversion option on 
 the command-line, LMPC repairs the demo file in question "in-place". This
-means LMPC overwrites the bad commands with <LITERAL REMAP="tt">nop</literal> or <LITERAL REMAP="tt">print</literal>.</para>
-<para>The <LITERAL REMAP="tt">--fix-multi</literal> option can be used together with <LITERAL REMAP="tt">--to-bin</literal>
-and <LITERAL REMAP="tt">--to-txt</literal>. LMPC removes the offending commands in this case.</para>
+means LMPC overwrites the bad commands with <literal REMAP="tt">nop</literal> or <literal REMAP="tt">print</literal>.</para>
+<para>The <literal REMAP="tt">--fix-multi</literal> option can be used together with <literal REMAP="tt">--to-bin</literal>
+and <literal REMAP="tt">--to-txt</literal>. LMPC removes the offending commands in this case.</para>
 </listitem>
 </varlistentry>
 </variablelist></para>
@@ -508,7 +508,7 @@ and <LITERAL REMAP="tt">--to-txt</literal>. LMPC removes the offending commands 
 <varlistentry>
 <term>Input File:</term>
 <listitem>
-<para><LITERAL REMAP="tt">binfile</literal></para>
+<para><literal REMAP="tt">binfile</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -527,12 +527,12 @@ distinguish between HERETIC/HEXEN and old DOOM LMP files. Moreover it
 can't distinguish at all between DOOM &rsqb;&lsqb; Map 1-9 and new DOOM 
 Episode 1 
 LMP files. The latter case is not very important but the first is more
-severe. To force LMPC to use a particular game type use <LITERAL REMAP="tt">--game</literal>.
-<LITERAL REMAP="tt">GAME</literal> can be <LITERAL REMAP="tt">DOOM</literal>, <LITERAL REMAP="tt">DOOM2</literal>,
-<LITERAL REMAP="tt">HERETIC</literal>, <LITERAL REMAP="tt">HEXEN</literal>, <LITERAL REMAP="tt">STRIFE</literal>, <LITERAL REMAP="tt">DUKE</literal>, 
-<LITERAL REMAP="tt">REDNECK</literal>, <LITERAL REMAP="tt">QUAKE</literal>, <LITERAL REMAP="tt">QUAKEWORLD</literal> or <LITERAL REMAP="tt">QUAKE2</literal>
-or the short form <LITERAL REMAP="tt">D</literal>, <LITERAL REMAP="tt">2</literal>, <LITERAL REMAP="tt">H</literal>, <LITERAL REMAP="tt">X</literal>, <LITERAL REMAP="tt">S</literal>,
-<LITERAL REMAP="tt">N</literal>, <LITERAL REMAP="tt">R</literal>, <LITERAL REMAP="tt">Q</literal>, <LITERAL REMAP="tt">W</literal> or <LITERAL REMAP="tt">q</literal>.</para>
+severe. To force LMPC to use a particular game type use <literal REMAP="tt">--game</literal>.
+<literal REMAP="tt">GAME</literal> can be <literal REMAP="tt">DOOM</literal>, <literal REMAP="tt">DOOM2</literal>,
+<literal REMAP="tt">HERETIC</literal>, <literal REMAP="tt">HEXEN</literal>, <literal REMAP="tt">STRIFE</literal>, <literal REMAP="tt">DUKE</literal>, 
+<literal REMAP="tt">REDNECK</literal>, <literal REMAP="tt">QUAKE</literal>, <literal REMAP="tt">QUAKEWORLD</literal> or <literal REMAP="tt">QUAKE2</literal>
+or the short form <literal REMAP="tt">D</literal>, <literal REMAP="tt">2</literal>, <literal REMAP="tt">H</literal>, <literal REMAP="tt">X</literal>, <literal REMAP="tt">S</literal>,
+<literal REMAP="tt">N</literal>, <literal REMAP="tt">R</literal>, <literal REMAP="tt">Q</literal>, <literal REMAP="tt">W</literal> or <literal REMAP="tt">q</literal>.</para>
 </listitem>
 </varlistentry>
 </variablelist></para>
@@ -550,19 +550,19 @@ files
 with an creation year &gt;=1996 as HEXEN and all others as HERETIC files. This
 is totally stupid but what else can I do?</para>
 <para>LMPC supports client side recorded DM2 files, DM2 files recorded by the
-console command <EMPHASIS REMAP="it">serverrecord</emphasis> (working from Quake II version 3.15)
+console command <emphasis REMAP="it">serverrecord</emphasis> (working from Quake II version 3.15)
 and the RLA file used by the Quake II Relay project. 
 One single DM2 file can even contain parts from all these sides.
 Quake II may only playback client side recordings.</para>
 <para>If you produced a good recording file (at least some minutes and with
 some action) and LMPC can not detect the game type, please send it to me.
-Up to a corrected version make sure to use the <LITERAL REMAP="tt">--game</literal> option.
+Up to a corrected version make sure to use the <literal REMAP="tt">--game</literal> option.
 Some hints to solve the problem are welcome as well.</para>
-<para>The <LITERAL REMAP="tt">*number</literal> repeat code in LS files really repeats this line
-<LITERAL REMAP="tt">number</literal> times and does not care about multi player-game tics.</para>
+<para>The <literal REMAP="tt">*number</literal> repeat code in LS files really repeats this line
+<literal REMAP="tt">number</literal> times and does not care about multi player-game tics.</para>
 <para>The MS-DOS binary of LMPC converts all file names to lower case to simplify
 the name
-handling. The <LITERAL REMAP="tt">tolower</literal> C-function doesn't converts any kind of
+handling. The <literal REMAP="tt">tolower</literal> C-function doesn't converts any kind of
 special characters like &ouml; or &egrave;. This can cause some severe
 data lost.</para>
 <para>I use a redundancy in DEM files to detect Quake
@@ -575,13 +575,13 @@ can read this ``new'' format but they write the old 1.06 format.
 SQuake 1.07 for Linux behaves similar: it writes the old format but can play 
 back the old and the new format.</para>
 <para>Keygrip 2 writes DM2 files with non-conform bit mask values in 
-<EMPHASIS REMAP="bf">sound</emphasis>, <EMPHASIS REMAP="bf">spawnbaseline</emphasis> and <EMPHASIS REMAP="bf">packetentities</emphasis>
+<emphasis REMAP="bf">sound</emphasis>, <emphasis REMAP="bf">spawnbaseline</emphasis> and <emphasis REMAP="bf">packetentities</emphasis>
 messages. LMPC tries its best to decompile even such bad files too but
 it may well be, that some other messages with bit masks have the same
 problem.</para>
 </sect2>
 </sect1>
-<SECT1 ID="DEMA">
+<sect1 ID="DEMA">
 <title>DEMA, The DEM Text File Analyser</title>
 <para>To analyse a DEM file convert it into a text file and use DEMA. DEMA is a 
 very simple Perl script, which may give you the time per level, the level name
@@ -593,7 +593,7 @@ I will <emphasis>never</emphasis> write a C version, so write one yourself or in
 <para>The main aim of DEMA is to show a sample framework for any kind of
 DEM text analysing.</para>
 </sect1>
-<SECT1 ID="DEMCUT">
+<sect1 ID="DEMCUT">
 <title>DEMcut, The DEM file cutter tool</title>
 <sect2>
 <title>Introduction</title>
@@ -638,20 +638,20 @@ reads its DEM files from.
 
 <screen>mkfifo fifo.dem</screen>
 
-Now start Quake (make sure to use <LITERAL REMAP="tt">xquake</literal> and and not
-<LITERAL REMAP="tt">xf86quake</literal>) in a window 
+Now start Quake (make sure to use <literal REMAP="tt">xquake</literal> and and not
+<literal REMAP="tt">xf86quake</literal>) in a window 
 as usual and playdemo this named pipe.
 
 <screen>playdemo fifo</screen>
 
-Quake tries now to read a demo out of <LITERAL REMAP="tt">fifo.dem</literal> but there is nothing
+Quake tries now to read a demo out of <literal REMAP="tt">fifo.dem</literal> but there is nothing
 to read in: it stops.</para>
 <para>Now comes the appearance of DEMcut. Open a new window and start DEMcut with the
 DEM file of your interest.
 
 <screen>demcut mydem.dem</screen>
 
-DEMcut reads in <LITERAL REMAP="tt">mydem.dem</literal>, does some preprocessing and waits for 
+DEMcut reads in <literal REMAP="tt">mydem.dem</literal>, does some preprocessing and waits for 
 input. The first thing to do is to direct all output to the named pipe.
 
 <screen>o fifo.dem</screen>
@@ -684,22 +684,22 @@ and run this file for cutting the final product.</para>
 <title>Commands</title>
 <para>There are not too many commands but they are very powerful. 
 The command language is line oriented: one line means one command. Comments
-start with `<LITERAL REMAP="tt">&num;</literal>', empty lines or lines with wrong commands will be 
+start with `<literal REMAP="tt">&num;</literal>', empty lines or lines with wrong commands will be 
 ignored as well. DEMcut prints a short response after finishing a command
-to <LITERAL REMAP="tt">stdout</literal>.</para>
+to <literal REMAP="tt">stdout</literal>.</para>
 <sect3>
 <title>Help</title>
 <para><variablelist>
 <varlistentry>
 <term>Syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">h</literal></para>
+<para><literal REMAP="tt">h</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Description:</term>
 <listitem>
-<para>DEMcut prints a <emphasis>very</emphasis> short online help. If `<LITERAL REMAP="tt">i</literal>'
+<para>DEMcut prints a <emphasis>very</emphasis> short online help. If `<literal REMAP="tt">i</literal>'
 (interactive mode) isn't listed, your operating system doesn't support named
 pipes and the interactive mode is left out.</para>
 </listitem>
@@ -712,7 +712,7 @@ pipes and the interactive mode is left out.</para>
 <varlistentry>
 <term>Syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">o filename</literal></para>
+<para><literal REMAP="tt">o filename</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -727,7 +727,7 @@ the future.</para>
 <varlistentry>
 <term>Query syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">o</literal></para>
+<para><literal REMAP="tt">o</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -739,7 +739,7 @@ the future.</para>
 <varlistentry>
 <term>Default value:</term>
 <listitem>
-<para><LITERAL REMAP="tt">demcut.dem</literal></para>
+<para><literal REMAP="tt">demcut.dem</literal></para>
 </listitem>
 </varlistentry>
 </variablelist></para>
@@ -750,7 +750,7 @@ the future.</para>
 <varlistentry>
 <term>Syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">d filename</literal></para>
+<para><literal REMAP="tt">d filename</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -762,7 +762,7 @@ the future.</para>
 <varlistentry>
 <term>Query syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">d</literal></para>
+<para><literal REMAP="tt">d</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -793,26 +793,26 @@ command line the d query command generates an error.</para>
 <varlistentry>
 <term>Syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">s speed</literal></para>
+<para><literal REMAP="tt">s speed</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Description:</term>
 <listitem>
-<para>Speeds up all further output by this factor. <LITERAL REMAP="tt">speed</literal>&gt;1 increases
-the play-back speed, <LITERAL REMAP="tt">speed</literal>&lt;1 slows the play-back down. </para>
+<para>Speeds up all further output by this factor. <literal REMAP="tt">speed</literal>&gt;1 increases
+the play-back speed, <literal REMAP="tt">speed</literal>&lt;1 slows the play-back down. </para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Value range:</term>
 <listitem>
-<para><LITERAL REMAP="tt">speed</literal> may be any positive float value.</para>
+<para><literal REMAP="tt">speed</literal> may be any positive float value.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Query syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">s</literal></para>
+<para><literal REMAP="tt">s</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -835,7 +835,7 @@ the play-back speed, <LITERAL REMAP="tt">speed</literal>&lt;1 slows the play-bac
 <varlistentry>
 <term>Syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">t time</literal></para>
+<para><literal REMAP="tt">t time</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -847,13 +847,13 @@ the play-back speed, <LITERAL REMAP="tt">speed</literal>&lt;1 slows the play-bac
 <varlistentry>
 <term>Value range:</term>
 <listitem>
-<para><LITERAL REMAP="tt">time</literal> may be any positive float value.</para>
+<para><literal REMAP="tt">time</literal> may be any positive float value.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Query syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">t</literal></para>
+<para><literal REMAP="tt">t</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -876,26 +876,26 @@ the play-back speed, <LITERAL REMAP="tt">speed</literal>&lt;1 slows the play-bac
 <varlistentry>
 <term>Syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">l loop-count</literal></para>
+<para><literal REMAP="tt">l loop-count</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Description:</term>
 <listitem>
-<para>Sets the loop count. Every further frame will be written <LITERAL REMAP="tt">loop-count</literal> 
+<para>Sets the loop count. Every further frame will be written <literal REMAP="tt">loop-count</literal> 
 times to the output. The time goes forward as usual. </para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Value range:</term>
 <listitem>
-<para><LITERAL REMAP="tt">loop-count</literal> may be any positive integer value.</para>
+<para><literal REMAP="tt">loop-count</literal> may be any positive integer value.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Query syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">l</literal></para>
+<para><literal REMAP="tt">l</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -918,7 +918,7 @@ times to the output. The time goes forward as usual. </para>
 <varlistentry>
 <term>Syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">c track</literal></para>
+<para><literal REMAP="tt">c track</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -934,7 +934,7 @@ finesc5.dem of the Eschaton movie).</para>
 <varlistentry>
 <term>Query syntax</term>
 <listitem>
-<para><LITERAL REMAP="tt">c</literal></para>
+<para><literal REMAP="tt">c</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -957,7 +957,7 @@ finesc5.dem of the Eschaton movie).</para>
 <varlistentry>
 <term>Syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">f frame-number</literal></para>
+<para><literal REMAP="tt">f frame-number</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -973,14 +973,14 @@ count states. </para>
 <varlistentry>
 <term>Value range:</term>
 <listitem>
-<para><LITERAL REMAP="tt">frame-number</literal> can be any integer number between 0
+<para><literal REMAP="tt">frame-number</literal> can be any integer number between 0
 and the maximum frame number in the currently selected DEM input file.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Query syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">f</literal></para>
+<para><literal REMAP="tt">f</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -1003,7 +1003,7 @@ and the maximum frame number in the currently selected DEM input file.</para>
 <varlistentry>
 <term>Syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">r range-start range-end</literal></para>
+<para><literal REMAP="tt">r range-start range-end</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -1020,17 +1020,17 @@ stopped in interactive mode by a new range command or a frame command.</para>
 <varlistentry>
 <term>Value Range:</term>
 <listitem>
-<para><LITERAL REMAP="tt">range-start</literal> and <LITERAL REMAP="tt">range-end</literal> may
+<para><literal REMAP="tt">range-start</literal> and <literal REMAP="tt">range-end</literal> may
 be any integer number between 0 and the maximum frame number in the currently
-selected DEM input file. <LITERAL REMAP="tt">range-end</literal> may even be smaller than 
-<LITERAL REMAP="tt">range-start</literal>. If they are equal the result is the same as with the
+selected DEM input file. <literal REMAP="tt">range-end</literal> may even be smaller than 
+<literal REMAP="tt">range-start</literal>. If they are equal the result is the same as with the
 frame command.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Query syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">r</literal></para>
+<para><literal REMAP="tt">r</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -1047,23 +1047,23 @@ frame command.</para>
 </varlistentry>
 </variablelist></para>
 </sect3>
-<SECT3 ID="DEMCUTM">
+<sect3 ID="DEMCUTM">
 <title>Multi-player preparing</title>
 <para><variablelist>
 <varlistentry>
 <term>Syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">m multi-start multi-end</literal></para>
+<para><literal REMAP="tt">m multi-start multi-end</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Description:</term>
 <listitem>
-<para>Grabs out of the defined frame range all <EMPHASIS REMAP="bf">updatename</emphasis> and 
-<EMPHASIS REMAP="bf">updatecolors</emphasis>
+<para>Grabs out of the defined frame range all <emphasis REMAP="bf">updatename</emphasis> and 
+<emphasis REMAP="bf">updatecolors</emphasis>
 messages and writes all these messages together with the camera angles of the
 last written frame to the output. It doesn't write anything if there
-was no <EMPHASIS REMAP="bf">updatename</emphasis> or <EMPHASIS REMAP="bf">updatecolors</emphasis> message in the defined 
+was no <emphasis REMAP="bf">updatename</emphasis> or <emphasis REMAP="bf">updatecolors</emphasis> message in the defined 
 frame range.</para>
 <para>Everyone, who ever tried to concatenate different multi-player DEM files 
 knows the problem: The ``actors'' log in to the server in a different 
@@ -1071,22 +1071,22 @@ order and so they get every time different player numbers. If one tries to
 assemble all these files together one will end up with the wrong colour scheme
 because all players stick to the colour, number and name from the very first
 recording. The only solution is to insert the right name and colour definition
-of each part in the final product. And this does the ``<LITERAL REMAP="tt">m</literal>'' command.</para>
+of each part in the final product. And this does the ``<literal REMAP="tt">m</literal>'' command.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Value Range:</term>
 <listitem>
-<para><LITERAL REMAP="tt">multi-start</literal> and <LITERAL REMAP="tt">multi-end</literal> may
+<para><literal REMAP="tt">multi-start</literal> and <literal REMAP="tt">multi-end</literal> may
 be any integer number between 0 and the maximum frame number in the currently
-selected DEM input file. <LITERAL REMAP="tt">multi-end</literal> may even be smaller than
-<LITERAL REMAP="tt">multi-start</literal>. </para>
+selected DEM input file. <literal REMAP="tt">multi-end</literal> may even be smaller than
+<literal REMAP="tt">multi-start</literal>. </para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Query syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">m</literal></para>
+<para><literal REMAP="tt">m</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -1109,7 +1109,7 @@ selected DEM input file. <LITERAL REMAP="tt">multi-end</literal> may even be sma
 <varlistentry>
 <term>Syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">i inter</literal></para>
+<para><literal REMAP="tt">i inter</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -1134,9 +1134,9 @@ if it gets always the same frame but the time goes on. This shows us the
 different sources of movement: particles (blood traces) are totally moved by
 the client (they continue to move ), gibs are frozen in the air (they are 
 real entities) and the weapon moves up and down as usual (client driven).
-DEMcut does not allow to repeat frames which change the <LITERAL REMAP="tt">signon</literal> number
+DEMcut does not allow to repeat frames which change the <literal REMAP="tt">signon</literal> number
 (frame 0, 1 or 2 of a normal DEM file). Neither does it repeat the 
-<EMPHASIS REMAP="bf">disconnect</emphasis> frame. </para>
+<emphasis REMAP="bf">disconnect</emphasis> frame. </para>
 <para>The range command may be interrupted by other commands. You need this for
 looking at the current frame number (frame command without new frame number),
 for changing the current playback-speed etc. A new frame or range output
@@ -1152,7 +1152,7 @@ command stops the running range command. </para>
 <varlistentry>
 <term>Query syntax</term>
 <listitem>
-<para><LITERAL REMAP="tt">i</literal></para>
+<para><literal REMAP="tt">i</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -1175,7 +1175,7 @@ command stops the running range command. </para>
 <varlistentry>
 <term>Syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">q</literal></para>
+<para><literal REMAP="tt">q</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -1197,7 +1197,7 @@ The Assault'' (created by United Rangers Films).</para>
 <screen>demcut rgb2.dem</screen>
 
 and type in (or much simpler use a text file and redirection)</para>
-<para><LITERAL REMAP="tt">&num; this is a comment, I love comments
+<para><literal REMAP="tt">&num; this is a comment, I love comments
 
 &num; select the output
 
@@ -1230,7 +1230,7 @@ f 7331
 &num; quit
 
 q</literal></para>
-<para>This creates the new DEM file <LITERAL REMAP="tt">rgb2rev.dem</literal> with the desired content.</para>
+<para>This creates the new DEM file <literal REMAP="tt">rgb2rev.dem</literal> with the desired content.</para>
 </sect2>
 <sect2>
 <title>Problems, ideas and everything</title>
@@ -1241,7 +1241,7 @@ works.
 <listitem>
 <para>The synchronisation between DEM output and the ``real'' time in the
 interactive mode is made using polling technique. It should be 
-<LITERAL REMAP="tt">alarm(2)</literal> controlled.</para>
+<literal REMAP="tt">alarm(2)</literal> controlled.</para>
 </listitem>
 <listitem>
 <para>I'm thinking about the possibility to incorporate the fake Quake
@@ -1252,12 +1252,12 @@ connect to this server at the same or any other machine).</para>
 </listitem>
 <listitem>
 <para>Please use a real OS for DEMcut. The preparing phase at the start 
-of DEMcut for <LITERAL REMAP="tt">rgb2.dem</literal> takes at my P133 8 seconds with Linux but 17 
+of DEMcut for <literal REMAP="tt">rgb2.dem</literal> takes at my P133 8 seconds with Linux but 17 
 seconds with MS-DOS.</para>
 </listitem>
 <listitem>
-<para>The Mingw32 (Win32 without <LITERAL REMAP="tt">cygwin.dll</literal>) version of DEMcut 
-(<LITERAL REMAP="tt">demcutm.exe</literal>) may be totally
+<para>The Mingw32 (Win32 without <literal REMAP="tt">cygwin.dll</literal>) version of DEMcut 
+(<literal REMAP="tt">demcutm.exe</literal>) may be totally
 broken. I never tested it and have no access to a Win32 system to check
 it. If someone really wants a working version for such a OS, please find 
 the problem yourself. </para>
@@ -1282,16 +1282,16 @@ a plain Win32 version.</para>
 </sect2>
 <sect2>
 <title>Command line parameters</title>
-<para>DBS is a command line oriented program. It uses the <LITERAL REMAP="tt">getopt&lowbar;long</literal>
+<para>DBS is a command line oriented program. It uses the <literal REMAP="tt">getopt&lowbar;long</literal>
 library for the command line parsing. DBS doesn't stop for itself. Use
-<LITERAL REMAP="tt">Control+C</literal> to stop it.</para>
+<literal REMAP="tt">Control+C</literal> to stop it.</para>
 <sect3>
 <title>Syntax description</title>
 <para><variablelist>
 <varlistentry>
 <term>Syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">dbs &lsqb;--help&verbar;-h&rsqb;</literal></para>
+<para><literal REMAP="tt">dbs &lsqb;--help&verbar;-h&rsqb;</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -1319,7 +1319,7 @@ dbs &lsqb;option ...&rsqb; demfile
 <varlistentry>
 <term>Syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">dbs (--version&verbar;-v)</literal></para>
+<para><literal REMAP="tt">dbs (--version&verbar;-v)</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -1336,7 +1336,7 @@ dbs &lsqb;option ...&rsqb; demfile
 <varlistentry>
 <term>Syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">dbs (--port&verbar;-p) PORT ...</literal></para>
+<para><literal REMAP="tt">dbs (--port&verbar;-p) PORT ...</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -1354,7 +1354,7 @@ This value can be overwritten with this option.</para>
 <varlistentry>
 <term>Syntax:</term>
 <listitem>
-<para><LITERAL REMAP="tt">dbs (--max-players&verbar;-m) MAX&lowbar;PLAYERS ...</literal></para>
+<para><literal REMAP="tt">dbs (--max-players&verbar;-m) MAX&lowbar;PLAYERS ...</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -1363,7 +1363,7 @@ This value can be overwritten with this option.</para>
 <para>DBS allows by default 16 players to connect and view the DEM file.
 This value can be overwritten with this option. The internal limit 
 for the number of players is 255 because the Quake Network protocol
-reserves only an <LITERAL REMAP="tt">unsigned char</literal> for the number of players.</para>
+reserves only an <literal REMAP="tt">unsigned char</literal> for the number of players.</para>
 </listitem>
 </varlistentry>
 </variablelist></para>
@@ -1382,10 +1382,10 @@ check the server with your favourite spy tool. The next step is to log in.
 This works as usual (you get your private UDP port and so on) but DBS ignores
 all client movement packets and sends to the client only the converted DEM
 packets of a prepared DEM file.</para>
-<para>A small problem are the <LITERAL REMAP="tt">camera</literal> messages in the DEM packets.
+<para>A small problem are the <literal REMAP="tt">camera</literal> messages in the DEM packets.
 They come into the DEM file at the client side and not from
 the server over the network. Therefore I included in every packet an
-additional <LITERAL REMAP="tt">setangle</literal> message with the current camera angles.</para>
+additional <literal REMAP="tt">setangle</literal> message with the current camera angles.</para>
 <para>This means, that you can't get the original DEM file by client (or
 proxy) recording.</para>
 <para>I hope to stabilise the server much more and think of a selection menu
@@ -1393,16 +1393,16 @@ at the beginning where a client may select the DEM file (``channel'') of
 interest. I call it DoD (Demo on Demand).</para>
 </sect2>
 </sect1>
-<SECT1 ID="DM2CAT">
+<sect1 ID="DM2CAT">
 <title>DM2cat, The DM2 file concatenator</title>
 <para>DM2cat is a simple Perl script to concat multiple binary DM2 files
 together to a single multi-level DM2 file.</para>
-<para>It does this by simpy removing the last 4 bytes (the <EMPHASIS REMAP="bf">endblock</emphasis>)
+<para>It does this by simpy removing the last 4 bytes (the <emphasis REMAP="bf">endblock</emphasis>)
 from each DM2 file.</para>
 <para>The main aim of DM2cat is to show a sample framework for any kind of
 binary DM2 file manipulation.</para>
 </sect1>
-<SECT1 ID="LMPSOURCE">
+<sect1 ID="LMPSOURCE">
 <title>LS format</title>
 <para>This chapter describes the ASCII text based source of a LMP or DMO file.
 I created this language for myself. This means neither id Software nor
@@ -1412,9 +1412,9 @@ to show what is in these miraculous recording files.</para>
 <title>Introduction</title>
 <para>The LMP Source format (LS) is a (ASCII text based) readable description of
 the contents of a (binary) LMP or DMO file.</para>
-<para>LMPC produces (with <LITERAL REMAP="tt">--to-txt</literal>) a well formatted LS file. So
+<para>LMPC produces (with <literal REMAP="tt">--to-txt</literal>) a well formatted LS file. So
 you can learn by example.
-I hope, that the text parser in LMPC (with <LITERAL REMAP="tt">--to-bin</literal>) can
+I hope, that the text parser in LMPC (with <literal REMAP="tt">--to-bin</literal>) can
 parse most LMP source. It can't parse DMO source files.
 
 <itemizedlist>
@@ -1428,7 +1428,7 @@ parse most LMP source. It can't parse DMO source files.
 <para>The keywords aren't case sensitive.</para>
 </listitem>
 <listitem>
-<para>The characters between <LITERAL REMAP="tt">&num;</literal> and ``new line'' will be ignored.</para>
+<para>The characters between <literal REMAP="tt">&num;</literal> and ``new line'' will be ignored.</para>
 </listitem>
 <listitem>
 <para>``new line'' can be 0x0A or 0x0D0A.</para>
@@ -1436,7 +1436,7 @@ parse most LMP source. It can't parse DMO source files.
 </itemizedlist>
 
 </para>
-<para>At the very beginning of a LS file (produced by <LITERAL REMAP="tt">lmpc --to-txt</literal>)
+<para>At the very beginning of a LS file (produced by <literal REMAP="tt">lmpc --to-txt</literal>)
 there are some comment lines with derived information:
 <variablelist>
 <varlistentry>
@@ -1468,9 +1468,9 @@ Number of game tics:     taken from the header, it stays better in a comment</sc
 </sect2>
 <sect2>
 <title>Header Area</title>
-<para>The Header Area starts with the keyword <LITERAL REMAP="tt">HeaderStart</literal> and ends with
-the keyword <LITERAL REMAP="tt">HeaderEnd</literal>.</para>
-<para>Between <LITERAL REMAP="tt">HeaderStart</literal> and <LITERAL REMAP="tt">HeaderEnd</literal> there are lines
+<para>The Header Area starts with the keyword <literal REMAP="tt">HeaderStart</literal> and ends with
+the keyword <literal REMAP="tt">HeaderEnd</literal>.</para>
+<para>Between <literal REMAP="tt">HeaderStart</literal> and <literal REMAP="tt">HeaderEnd</literal> there are lines
 with general information about the LMP or DMO file:
 <variablelist>
 <varlistentry>
@@ -1537,24 +1537,24 @@ files.
 <term>Respawn:</term>
 <listitem>
 <para>number (This line appears only if the LMP was recorded 
-with <LITERAL REMAP="tt">-respawn</literal>. The number is the number of the 
-command line parameter <LITERAL REMAP="tt">-respawn</literal>.)</para>
+with <literal REMAP="tt">-respawn</literal>. The number is the number of the 
+command line parameter <literal REMAP="tt">-respawn</literal>.)</para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Fast:</term>
 <listitem>
 <para>number (This line appears only if the LMP was recorded 
-with <LITERAL REMAP="tt">-fast</literal>. The number is the number of the 
-command line parameter <LITERAL REMAP="tt">-fast</literal>.)</para>
+with <literal REMAP="tt">-fast</literal>. The number is the number of the 
+command line parameter <literal REMAP="tt">-fast</literal>.)</para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>NoMonsters:</term>
 <listitem>
 <para>number (This line appears only if the LMP was recorded 
-with <LITERAL REMAP="tt">-nomonsters</literal>. The number is the number of the 
-command line parameter <LITERAL REMAP="tt">-nomonsters</literal>.)</para>
+with <literal REMAP="tt">-nomonsters</literal>. The number is the number of the 
+command line parameter <literal REMAP="tt">-nomonsters</literal>.)</para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -1579,28 +1579,28 @@ Dukematch (Redneckmatch) (without spawn))</para>
 <term>Respawn Monsters:</term>
 <listitem>
 <para>number (This line appears only if the DMO file was recorded
-with <LITERAL REMAP="tt">/t1</literal>.) </para>
+with <literal REMAP="tt">/t1</literal>.) </para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Respawn Items:</term>
 <listitem>
 <para>number (This line appears only if the DMO file was recorded
-with <LITERAL REMAP="tt">/t2</literal>.) </para>
+with <literal REMAP="tt">/t2</literal>.) </para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Respawn Inventory:</term>
 <listitem>
 <para>number (This line appears only if the DMO file was recorded
-with <LITERAL REMAP="tt">/t3</literal>.) </para>
+with <literal REMAP="tt">/t3</literal>.) </para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>NoMonsters:</term>
 <listitem>
 <para>number (This line appears only if the DMO file was recorded
-with <LITERAL REMAP="tt">/m</literal>.)</para>
+with <literal REMAP="tt">/m</literal>.)</para>
 </listitem>
 </varlistentry>
 </variablelist>
@@ -1610,27 +1610,27 @@ The following lines are special for Redneck Rampage DMO files.
 <term>FakePlayerAI:</term>
 <listitem>
 <para>number (This line appears only if the DMO was recorded 
-with <LITERAL REMAP="tt">/a</literal>.) </para>
+with <literal REMAP="tt">/a</literal>.) </para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>Name:</term>
 <listitem>
 <para>"string" (The standard name is "LEONARD" but it can be changed with the 
-<LITERAL REMAP="tt">-name</literal> option.)</para>
+<literal REMAP="tt">-name</literal> option.)</para>
 </listitem>
 </varlistentry>
 </variablelist></para>
-<para>Sometimes <LITERAL REMAP="tt">lmpc --to-txt</literal> can't distinguish between new
+<para>Sometimes <literal REMAP="tt">lmpc --to-txt</literal> can't distinguish between new
 DOOM and DOOM &rsqb;&lsqb; LMP files:
 In the Game line appears ``DOOM or DOOM &rsqb;&lsqb;''.</para>
 <para>The version byte can easily be derived from the game version.
 
 <table>
 <title>LMP version bytes</title>
-<TGROUP COLS="2">
-<COLSPEC COLSEP="0" ALIGN="RIGHT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="2">
+<colspec COLSEP="0" ALIGN="RIGHT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>0 : </entry>
@@ -1687,24 +1687,24 @@ etc.</para>
 </sect2>
 <sect2>
 <title>Data Area</title>
-<para>The Data Area starts with the keyword <LITERAL REMAP="tt">DataStart</literal> and ends with 
-the keyword <LITERAL REMAP="tt">DataEnd</literal>.</para>
+<para>The Data Area starts with the keyword <literal REMAP="tt">DataStart</literal> and ends with 
+the keyword <literal REMAP="tt">DataEnd</literal>.</para>
 <para>All actions of one game tic have to be in one text line. In a multi-player
 LMP there is one line for each player per game tic. </para>
-<para>LMPC may append (with the <LITERAL REMAP="tt">--mark-step</literal> option) a comment with the 
+<para>LMPC may append (with the <literal REMAP="tt">--mark-step</literal> option) a comment with the 
 game tic and the time passed until this game tic at the line of the first 
 player.</para>
 <sect3>
 <title>Movements</title>
-<para>A movement consists of a 2 letter word and an amount <LITERAL REMAP="tt">n</literal>.
+<para>A movement consists of a 2 letter word and an amount <literal REMAP="tt">n</literal>.
 
 <table>
 <title>Movement commands</title>
-<TGROUP COLS="4">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="4">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>code </entry>
@@ -1713,64 +1713,64 @@ player.</para>
 <entry> range </entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">GFn</literal> </entry>
-<entry>Go Forward <LITERAL REMAP="tt">n</literal> </entry>
+<entry><literal REMAP="tt">GFn</literal> </entry>
+<entry>Go Forward <literal REMAP="tt">n</literal> </entry>
 <entry>LMP </entry>
-<entry>1&lt;=<LITERAL REMAP="tt">n</literal>&lt;=127</entry>
+<entry>1&lt;=<literal REMAP="tt">n</literal>&lt;=127</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">GBn</literal> </entry>
-<entry>Go Backward <LITERAL REMAP="tt">n</literal> </entry>
+<entry><literal REMAP="tt">GBn</literal> </entry>
+<entry>Go Backward <literal REMAP="tt">n</literal> </entry>
 <entry>LMP </entry>
-<entry>1&lt;=<LITERAL REMAP="tt">n</literal>&lt;=127</entry>
+<entry>1&lt;=<literal REMAP="tt">n</literal>&lt;=127</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">SLn</literal> </entry>
-<entry>Strafe Left <LITERAL REMAP="tt">n</literal> </entry>
+<entry><literal REMAP="tt">SLn</literal> </entry>
+<entry>Strafe Left <literal REMAP="tt">n</literal> </entry>
 <entry>LMP </entry>
-<entry>1&lt;=<LITERAL REMAP="tt">n</literal>&lt;=127</entry>
+<entry>1&lt;=<literal REMAP="tt">n</literal>&lt;=127</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">SRn</literal> </entry>
-<entry>Strafe Right <LITERAL REMAP="tt">n</literal> </entry>
+<entry><literal REMAP="tt">SRn</literal> </entry>
+<entry>Strafe Right <literal REMAP="tt">n</literal> </entry>
 <entry>LMP </entry>
-<entry>1&lt;=<LITERAL REMAP="tt">n</literal>&lt;=127</entry>
+<entry>1&lt;=<literal REMAP="tt">n</literal>&lt;=127</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">GXn</literal> </entry>
-<entry>Go X-direction <LITERAL REMAP="tt">n</literal> </entry>
+<entry><literal REMAP="tt">GXn</literal> </entry>
+<entry>Go X-direction <literal REMAP="tt">n</literal> </entry>
 <entry>DMO </entry>
-<entry>-32768&lt;=<LITERAL REMAP="tt">n</literal>&lt;=32767</entry>
+<entry>-32768&lt;=<literal REMAP="tt">n</literal>&lt;=32767</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">GYn</literal> </entry>
-<entry>Go Y-direction <LITERAL REMAP="tt">n</literal> </entry>
+<entry><literal REMAP="tt">GYn</literal> </entry>
+<entry>Go Y-direction <literal REMAP="tt">n</literal> </entry>
 <entry>DMO </entry>
-<entry>-32768&lt;=<LITERAL REMAP="tt">n</literal>&lt;=32767</entry>
+<entry>-32768&lt;=<literal REMAP="tt">n</literal>&lt;=32767</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">TLn</literal> </entry>
-<entry>Turn Left <LITERAL REMAP="tt">n</literal> </entry>
+<entry><literal REMAP="tt">TLn</literal> </entry>
+<entry>Turn Left <literal REMAP="tt">n</literal> </entry>
 <entry>LMP </entry>
-<entry>1&lt;=<LITERAL REMAP="tt">n</literal>&lt;=127</entry>
+<entry>1&lt;=<literal REMAP="tt">n</literal>&lt;=127</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">TLn</literal> </entry>
-<entry>Turn Left <LITERAL REMAP="tt">n</literal> </entry>
+<entry><literal REMAP="tt">TLn</literal> </entry>
+<entry>Turn Left <literal REMAP="tt">n</literal> </entry>
 <entry>DMO </entry>
-<entry>1&lt;=<LITERAL REMAP="tt">n</literal>&lt;=32767</entry>
+<entry>1&lt;=<literal REMAP="tt">n</literal>&lt;=32767</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">TRn</literal> </entry>
-<entry>Turn Right <LITERAL REMAP="tt">n</literal> </entry>
+<entry><literal REMAP="tt">TRn</literal> </entry>
+<entry>Turn Right <literal REMAP="tt">n</literal> </entry>
 <entry>LMP </entry>
-<entry>1&lt;=<LITERAL REMAP="tt">n</literal>&lt;=127</entry>
+<entry>1&lt;=<literal REMAP="tt">n</literal>&lt;=127</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">TRn</literal> </entry>
-<entry>Turn Right <LITERAL REMAP="tt">n</literal> </entry>
+<entry><literal REMAP="tt">TRn</literal> </entry>
+<entry>Turn Right <literal REMAP="tt">n</literal> </entry>
 <entry>DMO </entry>
-<entry>1&lt;=<LITERAL REMAP="tt">n</literal>&lt;=32767</entry>
+<entry>1&lt;=<literal REMAP="tt">n</literal>&lt;=32767</entry>
 </row>
 </tbody>
 </tgroup>
@@ -1784,20 +1784,20 @@ player.</para>
 
 <table>
 <title>Use commands</title>
-<TGROUP COLS="2">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="2">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
-<entry><LITERAL REMAP="tt">UT</literal> </entry>
+<entry><literal REMAP="tt">UT</literal> </entry>
 <entry>Use Thing (press button, open door etc.)</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">NWn</literal> </entry>
-<entry>New Weapon (1&lt;=<LITERAL REMAP="tt">n</literal>&lt;=8) (change the weapon manually)</entry>
+<entry><literal REMAP="tt">NWn</literal> </entry>
+<entry>New Weapon (1&lt;=<literal REMAP="tt">n</literal>&lt;=8) (change the weapon manually)</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">FW</literal> </entry>
+<entry><literal REMAP="tt">FW</literal> </entry>
 <entry>Fire Weapon</entry>
 </row>
 <row>
@@ -1805,15 +1805,15 @@ player.</para>
 <entry></entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">PS</literal> </entry>
+<entry><literal REMAP="tt">PS</literal> </entry>
 <entry>Pause Start</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">PE</literal> </entry>
+<entry><literal REMAP="tt">PE</literal> </entry>
 <entry>Pause End</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">SGn</literal> </entry>
+<entry><literal REMAP="tt">SGn</literal> </entry>
 <entry>Save Game in slot n (0&lt;=n&lt;=7)</entry>
 </row>
 </tbody>
@@ -1821,48 +1821,48 @@ player.</para>
 </table>
 
 </para>
-<para>You can not combine <LITERAL REMAP="tt">PS</literal>, <LITERAL REMAP="tt">PE</literal> and <LITERAL REMAP="tt">SG</literal> with
+<para>You can not combine <literal REMAP="tt">PS</literal>, <literal REMAP="tt">PE</literal> and <literal REMAP="tt">SG</literal> with
 other Use commands. But you can combine
-the other Use commands (for instance <LITERAL REMAP="tt">UT</literal> and <LITERAL REMAP="tt">FW</literal> at the
+the other Use commands (for instance <literal REMAP="tt">UT</literal> and <literal REMAP="tt">FW</literal> at the
 same time).</para>
 </sect3>
 <sect3>
 <title>Fly and Look (HERETIC and HEXEN only)</title>
 <para>A fly and look command consists of a 2 letter word and an amount 
-(1&lt;=<LITERAL REMAP="tt">n</literal>&lt;=15)
+(1&lt;=<literal REMAP="tt">n</literal>&lt;=15)
 
 <table>
 <title>Fly and Look commands</title>
-<TGROUP COLS="2">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="2">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
-<entry><LITERAL REMAP="tt">FUn</literal> </entry>
-<entry>Fly Up <LITERAL REMAP="tt">n</literal></entry>
+<entry><literal REMAP="tt">FUn</literal> </entry>
+<entry>Fly Up <literal REMAP="tt">n</literal></entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">FDn</literal> </entry>
-<entry>Fly Down <LITERAL REMAP="tt">n</literal></entry>
+<entry><literal REMAP="tt">FDn</literal> </entry>
+<entry>Fly Down <literal REMAP="tt">n</literal></entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">LUn</literal> </entry>
-<entry>Look Up <LITERAL REMAP="tt">n</literal></entry>
+<entry><literal REMAP="tt">LUn</literal> </entry>
+<entry>Look Up <literal REMAP="tt">n</literal></entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">LDn</literal> </entry>
-<entry>Look Down <LITERAL REMAP="tt">n</literal></entry>
+<entry><literal REMAP="tt">LDn</literal> </entry>
+<entry>Look Down <literal REMAP="tt">n</literal></entry>
 </row>
 <row>
 <entry></entry>
 <entry></entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">FC</literal> </entry>
+<entry><literal REMAP="tt">FC</literal> </entry>
 <entry>Fly Centre (landing, drop)</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">LC</literal> </entry>
+<entry><literal REMAP="tt">LC</literal> </entry>
 <entry>Look Centre (look forward)</entry>
 </row>
 </tbody>
@@ -1873,9 +1873,9 @@ same time).</para>
 </sect3>
 <sect3>
 <title>Use Artifact (HERETIC and HEXEN only)</title>
-<para>The Use Artifact command consist of the code <LITERAL REMAP="tt">AT</literal> and a letter
-(<LITERAL REMAP="tt">a</literal>..<LITERAL REMAP="tt">j</literal>)
-equivalent to the <LITERAL REMAP="tt">gimme</literal>-cheat of HERETIC. In HEXEN such a cheat code
+<para>The Use Artifact command consist of the code <literal REMAP="tt">AT</literal> and a letter
+(<literal REMAP="tt">a</literal>..<literal REMAP="tt">j</literal>)
+equivalent to the <literal REMAP="tt">gimme</literal>-cheat of HERETIC. In HEXEN such a cheat code
 does not exist but the command remains the same:</para>
 <para><variablelist>
 <varlistentry>
@@ -1885,48 +1885,48 @@ does not exist but the command remains the same:</para>
 
 <table>
 <title>HERETIC artifacts</title>
-<TGROUP COLS="2">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="2">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
-<entry><LITERAL REMAP="tt">ATa</literal> </entry>
+<entry><literal REMAP="tt">ATa</literal> </entry>
 <entry>ring of invincibility</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">ATb</literal> </entry>
+<entry><literal REMAP="tt">ATb</literal> </entry>
 <entry>shadowsphere</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">ATc</literal> </entry>
+<entry><literal REMAP="tt">ATc</literal> </entry>
 <entry>quartz flask</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">ATd</literal> </entry>
+<entry><literal REMAP="tt">ATd</literal> </entry>
 <entry>chaos device</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">ATe</literal> </entry>
+<entry><literal REMAP="tt">ATe</literal> </entry>
 <entry>tome of power</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">ATf</literal> </entry>
+<entry><literal REMAP="tt">ATf</literal> </entry>
 <entry>torch</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">ATg</literal> </entry>
+<entry><literal REMAP="tt">ATg</literal> </entry>
 <entry>time bomb of the ancients</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">ATh</literal> </entry>
+<entry><literal REMAP="tt">ATh</literal> </entry>
 <entry>morph ovum</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">ATi</literal> </entry>
+<entry><literal REMAP="tt">ATi</literal> </entry>
 <entry>wings of wrath</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">ATj</literal> </entry>
+<entry><literal REMAP="tt">ATj</literal> </entry>
 <entry>mystic urn</entry>
 </row>
 </tbody>
@@ -1943,72 +1943,72 @@ does not exist but the command remains the same:</para>
 
 <table>
 <title>HEXEN artifacts</title>
-<TGROUP COLS="2">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="2">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
-<entry><LITERAL REMAP="tt">ATa</literal> </entry>
+<entry><literal REMAP="tt">ATa</literal> </entry>
 <entry>icon of the defender</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">ATb</literal> </entry>
+<entry><literal REMAP="tt">ATb</literal> </entry>
 <entry>quartz flask</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">ATc</literal> </entry>
+<entry><literal REMAP="tt">ATc</literal> </entry>
 <entry>mystic urn</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">ATd</literal> </entry>
+<entry><literal REMAP="tt">ATd</literal> </entry>
 <entry>clerical healing key</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">ATe</literal> </entry>
+<entry><literal REMAP="tt">ATe</literal> </entry>
 <entry>dark servant</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">ATf</literal> </entry>
+<entry><literal REMAP="tt">ATf</literal> </entry>
 <entry>torch</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">ATg</literal> </entry>
+<entry><literal REMAP="tt">ATg</literal> </entry>
 <entry>porkalator</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">ATh</literal> </entry>
+<entry><literal REMAP="tt">ATh</literal> </entry>
 <entry>wings of wrath</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">ATi</literal> </entry>
+<entry><literal REMAP="tt">ATi</literal> </entry>
 <entry>chaos device</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">ATj</literal> </entry>
+<entry><literal REMAP="tt">ATj</literal> </entry>
 <entry>flechette</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">ATk</literal> </entry>
+<entry><literal REMAP="tt">ATk</literal> </entry>
 <entry>banishment device</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">ATl</literal> </entry>
+<entry><literal REMAP="tt">ATl</literal> </entry>
 <entry>boots of speed</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">ATm</literal> </entry>
+<entry><literal REMAP="tt">ATm</literal> </entry>
 <entry>krater of might</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">ATn</literal> </entry>
+<entry><literal REMAP="tt">ATn</literal> </entry>
 <entry>dragonskin bracers</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">ATo</literal> </entry>
+<entry><literal REMAP="tt">ATo</literal> </entry>
 <entry>disc of repulsion</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">UA</literal> </entry>
+<entry><literal REMAP="tt">UA</literal> </entry>
 <entry>use all (panic button)</entry>
 </row>
 </tbody>
@@ -2022,68 +2022,68 @@ does not exist but the command remains the same:</para>
 </sect3>
 <sect3>
 <title>STRIFE Artifacts</title>
-<para>You can only the use STRIFE artifacts with the <LITERAL REMAP="tt">IN</literal> or <LITERAL REMAP="tt">DR</literal>
+<para>You can only the use STRIFE artifacts with the <literal REMAP="tt">IN</literal> or <literal REMAP="tt">DR</literal>
 actions. </para>
-<para>The Use Artifact command consist of the code <LITERAL REMAP="tt">A</literal> and an 
+<para>The Use Artifact command consist of the code <literal REMAP="tt">A</literal> and an 
 artifact number. Up to now I know only 12 artifacts.
 
 <table>
 <title>STRIFE artifacts</title>
-<TGROUP COLS="3">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="3">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>code </entry>
 <entry>name</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x74</literal> </entry>
+<entry><literal REMAP="tt">0x74</literal> </entry>
 <entry>toughness</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x75</literal> </entry>
+<entry><literal REMAP="tt">0x75</literal> </entry>
 <entry>accuracy</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x76</literal> </entry>
+<entry><literal REMAP="tt">0x76</literal> </entry>
 <entry>full health</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x7B</literal> </entry>
+<entry><literal REMAP="tt">0x7B</literal> </entry>
 <entry>teleportor beacon</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x7C</literal> </entry>
+<entry><literal REMAP="tt">0x7C</literal> </entry>
 <entry>metal armor</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x7D</literal> </entry>
+<entry><literal REMAP="tt">0x7D</literal> </entry>
 <entry>leather armor</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0xA1</literal> </entry>
+<entry><literal REMAP="tt">0xA1</literal> </entry>
 <entry>med patch</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0xA2</literal> </entry>
+<entry><literal REMAP="tt">0xA2</literal> </entry>
 <entry>medical kit</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0xA3</literal> </entry>
+<entry><literal REMAP="tt">0xA3</literal> </entry>
 <entry>coin</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0xA7</literal> </entry>
+<entry><literal REMAP="tt">0xA7</literal> </entry>
 <entry>shadow armor</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0xA8</literal> </entry>
+<entry><literal REMAP="tt">0xA8</literal> </entry>
 <entry>environmental suit</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0xB7</literal> </entry>
+<entry><literal REMAP="tt">0xB7</literal> </entry>
 <entry>offering chalice</entry>
 </row>
 </tbody>
@@ -2098,12 +2098,12 @@ artifact number. Up to now I know only 12 artifacts.
 
 <table>
 <title>Jump command</title>
-<TGROUP COLS="2">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="2">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
-<entry><LITERAL REMAP="tt">JU</literal> </entry>
+<entry><literal REMAP="tt">JU</literal> </entry>
 <entry>jump</entry>
 </row>
 </tbody>
@@ -2119,40 +2119,40 @@ file.
 
 <table>
 <title>STRIFE actions</title>
-<TGROUP COLS="2">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="2">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
-<entry><LITERAL REMAP="tt">LU</literal> </entry>
+<entry><literal REMAP="tt">LU</literal> </entry>
 <entry>Look Up</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">LD</literal> </entry>
+<entry><literal REMAP="tt">LD</literal> </entry>
 <entry>Look Down</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">RU</literal> </entry>
+<entry><literal REMAP="tt">RU</literal> </entry>
 <entry>Run </entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">IN</literal> </entry>
+<entry><literal REMAP="tt">IN</literal> </entry>
 <entry>Use Inventory</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">DR</literal> </entry>
+<entry><literal REMAP="tt">DR</literal> </entry>
 <entry>Drop Inventory</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">JU</literal> </entry>
+<entry><literal REMAP="tt">JU</literal> </entry>
 <entry>Jump Up</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">U6</literal> </entry>
+<entry><literal REMAP="tt">U6</literal> </entry>
 <entry>Unknown Action Number 6</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">HE</literal> </entry>
+<entry><literal REMAP="tt">HE</literal> </entry>
 <entry>Use Health</entry>
 </row>
 </tbody>
@@ -2166,129 +2166,129 @@ file.
 <para>There are 28 actions in DMO files (and 4 bits for weapon change). 
 As far as it works I use the same codes for the same or similar thing as in
 LMP sources. To describe the actions I use the terms for key definitions
-in <LITERAL REMAP="tt">DUKE3D.CFG</literal>.
+in <literal REMAP="tt">DUKE3D.CFG</literal>.
 
 <table>
 <title>DMO actions</title>
-<TGROUP COLS="2">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="2">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
-<entry><LITERAL REMAP="tt">JU</literal> </entry>
+<entry><literal REMAP="tt">JU</literal> </entry>
 <entry>Jump</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">CR</literal> </entry>
+<entry><literal REMAP="tt">CR</literal> </entry>
 <entry>Crouch</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">FW</literal> </entry>
+<entry><literal REMAP="tt">FW</literal> </entry>
 <entry>Fire</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">AU</literal> </entry>
+<entry><literal REMAP="tt">AU</literal> </entry>
 <entry>Aim&lowbar;Up</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">AD</literal> </entry>
+<entry><literal REMAP="tt">AD</literal> </entry>
 <entry>Aim&lowbar;Down</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">RU</literal> </entry>
+<entry><literal REMAP="tt">RU</literal> </entry>
 <entry>Run</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">LU</literal> </entry>
+<entry><literal REMAP="tt">LU</literal> </entry>
 <entry>Look&lowbar;Up</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">LD</literal> </entry>
+<entry><literal REMAP="tt">LD</literal> </entry>
 <entry>Look&lowbar;Down</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">VI</literal> </entry>
+<entry><literal REMAP="tt">VI</literal> </entry>
 <entry>NightVision</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">MK</literal> </entry>
+<entry><literal REMAP="tt">MK</literal> </entry>
 <entry>MedKit</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">AR</literal> </entry>
+<entry><literal REMAP="tt">AR</literal> </entry>
 <entry>AutoRun</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">LC</literal> </entry>
+<entry><literal REMAP="tt">LC</literal> </entry>
 <entry>Center&lowbar;View</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">HW</literal> </entry>
+<entry><literal REMAP="tt">HW</literal> </entry>
 <entry>Holster&lowbar;Weapon</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">IL</literal> </entry>
+<entry><literal REMAP="tt">IL</literal> </entry>
 <entry>Inventory&lowbar;Left</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">HD</literal> </entry>
+<entry><literal REMAP="tt">HD</literal> </entry>
 <entry>Holo&lowbar;Duke</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">JP</literal> </entry>
+<entry><literal REMAP="tt">JP</literal> </entry>
 <entry>Jetpack</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">IR</literal> </entry>
+<entry><literal REMAP="tt">IR</literal> </entry>
 <entry>Inventory&lowbar;Right</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">TA</literal> </entry>
+<entry><literal REMAP="tt">TA</literal> </entry>
 <entry>TurnAround</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">UT</literal> </entry>
+<entry><literal REMAP="tt">UT</literal> </entry>
 <entry>Open</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">IN</literal> </entry>
+<entry><literal REMAP="tt">IN</literal> </entry>
 <entry>Inventory</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">AC6</literal> </entry>
+<entry><literal REMAP="tt">AC6</literal> </entry>
 <entry>??</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">AC7</literal> </entry>
+<entry><literal REMAP="tt">AC7</literal> </entry>
 <entry>??</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">AC12</literal> </entry>
+<entry><literal REMAP="tt">AC12</literal> </entry>
 <entry>??</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">PA</literal> </entry>
+<entry><literal REMAP="tt">PA</literal> </entry>
 <entry>Pause</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">AC22</literal> </entry>
+<entry><literal REMAP="tt">AC22</literal> </entry>
 <entry>??</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">AC23</literal> </entry>
+<entry><literal REMAP="tt">AC23</literal> </entry>
 <entry>??</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">AC26</literal> </entry>
+<entry><literal REMAP="tt">AC26</literal> </entry>
 <entry>??</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">AC31</literal> </entry>
+<entry><literal REMAP="tt">AC31</literal> </entry>
 <entry>??</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">NWn</literal> </entry>
-<entry>New Weapon (1&lt;=<LITERAL REMAP="tt">n</literal>&lt;=10) (change the weapon manually)</entry>
+<entry><literal REMAP="tt">NWn</literal> </entry>
+<entry>New Weapon (1&lt;=<literal REMAP="tt">n</literal>&lt;=10) (change the weapon manually)</entry>
 </row>
 </tbody>
 </tgroup>
@@ -2302,17 +2302,17 @@ in <LITERAL REMAP="tt">DUKE3D.CFG</literal>.
 
 <table>
 <title>Special commands</title>
-<TGROUP COLS="2">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="2">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
-<entry><LITERAL REMAP="tt">WT</literal> </entry>
+<entry><literal REMAP="tt">WT</literal> </entry>
 <entry>Wait a Tic</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">*n</literal> </entry>
-<entry>Repeats the current line <LITERAL REMAP="tt">n</literal> times</entry>
+<entry><literal REMAP="tt">*n</literal> </entry>
+<entry>Repeats the current line <literal REMAP="tt">n</literal> times</entry>
 </row>
 </tbody>
 </tgroup>
@@ -2322,38 +2322,38 @@ in <LITERAL REMAP="tt">DUKE3D.CFG</literal>.
 </sect3>
 </sect2>
 </sect1>
-<SECT1 ID="DEMSOURCE">
+<sect1 ID="DEMSOURCE">
 <title>DEM source format</title>
 <para>The DEM format is very complicated. Therefore I don't include a documentation
 of the text format here. Please look in the ``Unofficial DEM format 
 description''. 
-The current version is available at <ULINK URL="@HOMEURL@/dem"></ulink>.</para>
+The current version is available at <ulink URL="@HOMEURL@/dem"></ulink>.</para>
 <para>You will understand my textual representation of the DEM format
 by inspecting a sample file and reading a bit about the structure in the
 mentioned document. </para>
 <para>If someone is willing to write a documentation of my DEM text format please
 inform me and your document will be included right here. For the die-hard
-hacker: the lex file <LITERAL REMAP="tt">udeml.l</literal> and the yacc file <LITERAL REMAP="tt">udemy.y</literal>
+hacker: the lex file <literal REMAP="tt">udeml.l</literal> and the yacc file <literal REMAP="tt">udemy.y</literal>
 contain the complete language grammar documentation.</para>
 </sect1>
-<SECT1 ID="QWDSOURCE">
+<sect1 ID="QWDSOURCE">
 <title>QWD source format</title>
 <para>The QWD format is even harder to understand than the DEM format.
 Please look in the ``Unofficial QWD format description''.
 The current version is
-<ULINK URL="@HOMEURL@/qwd"></ulink>.</para>
+<ulink URL="@HOMEURL@/qwd"></ulink>.</para>
 <para>You will understand my textual representation of the QWD format
 by inspecting a sample file and reading a bit about the structure in the
 mentioned document.</para>
 <para>If someone is willing to write a documentation of my QWD text format please
 inform me and your document will be included right here. </para>
 </sect1>
-<SECT1 ID="DM2SOURCE">
+<sect1 ID="DM2SOURCE">
 <title>DM2 source format</title>
 <para>The DM2 format is a nice and compact file format.
 Please look in the ``Unofficial DM2 format description''.
 The current version is
-<ULINK URL="@HOMEURL@/dm2"></ulink>.</para>
+<ulink URL="@HOMEURL@/dm2"></ulink>.</para>
 <para>You will understand my textual representation of the DM2 format
 by inspecting a sample file and reading a bit about the structure in the
 mentioned document.</para>
@@ -2364,36 +2364,36 @@ inform me and your document will be included right here. </para>
 <title>Some links and further information</title>
 <para>For further information on LMP files look in the ``Unofficial LMP format 
 description''. The current version is 
-<ULINK URL="@HOMEURL@/lmp"></ulink>.</para>
+<ulink URL="@HOMEURL@/lmp"></ulink>.</para>
 <para>For a huge collection of some great LMP files, look at the 
 COMPET-N home page
-<ULINK URL="http://www.hszk.bme.hu/~ha211/compet-n/"></ulink>.</para>
+<ulink URL="http://www.hszk.bme.hu/~ha211/compet-n/"></ulink>.</para>
 <para>For further information on DMO files look in the ``Unofficial DMO format 
 description''. The current version is 
-<ULINK URL="@HOMEURL@/dmo"></ulink>.</para>
+<ulink URL="@HOMEURL@/dmo"></ulink>.</para>
 <para>For a small collection of DMO files, look at the
-<ULINK URL="http://www.acs.oakland.edu/~klmatero/duke3d/demos.html"></ulink>.</para>
+<ulink URL="http://www.acs.oakland.edu/~klmatero/duke3d/demos.html"></ulink>.</para>
 <para>For further information on DEM files look in the ``Unofficial DEM format
 description''. The current version is
-<ULINK URL="@HOMEURL@/dem"></ulink>.</para>
+<ulink URL="@HOMEURL@/dem"></ulink>.</para>
 <para>All info you'll ever need on DEM files can be found in the published
 Quake source at
-<ULINK URL="ftp://ftp.idsoftware.com/idstuff/source/q1source.zip"></ulink></para>
+<ulink URL="ftp://ftp.idsoftware.com/idstuff/source/q1source.zip"></ulink></para>
 <para>A simple DEM file editing guide can be found at 
-<ULINK URL="http://www.Z-Studios.com/archives/filmat11.html"></ulink>.</para>
+<ulink URL="http://www.Z-Studios.com/archives/filmat11.html"></ulink>.</para>
 <para>For further information on QWD files look in the ``Unofficial QWD format
 description''. The current version is
-<ULINK URL="@HOMEURL@/qwd"></ulink>.</para>
+<ulink URL="@HOMEURL@/qwd"></ulink>.</para>
 <para>All info you'll ever need on QWD files can be found in the published
 QuakeWorld source at
-<ULINK URL="ftp://ftp.idsoftware.com/idstuff/source/q1source.zip"></ulink></para>
+<ulink URL="ftp://ftp.idsoftware.com/idstuff/source/q1source.zip"></ulink></para>
 <para>For further information on DM2 files look in the ``Unofficial DM2 format
 description''. The current version is
-<ULINK URL="@HOMEURL@/dm2"></ulink>.</para>
+<ulink URL="@HOMEURL@/dm2"></ulink>.</para>
 <para>DM2 file editing tutorials can be found at
-<ULINK URL="http://www.Z-Studios.com/tutorials/dm2/tut_demo.html"></ulink>.</para>
+<ulink URL="http://www.Z-Studios.com/tutorials/dm2/tut_demo.html"></ulink>.</para>
 <para>For further information on Quake II Relay project look at
-<ULINK URL="http://www.planetquake.com/relay/"></ulink>.</para>
+<ulink URL="http://www.planetquake.com/relay/"></ulink>.</para>
 </sect1>
 <sect1>
 <title>History and future of LMPC</title>
@@ -2403,13 +2403,13 @@ application and has way too many command-line switches.
 DEMcut is not as widely used as LMPC but it started
 the DEM editing hype. DBS (I really have to change this name) 
 gave the Keygrip authors 
-(<ULINK URL="http://www.planetquake.com/keygrip"></ulink>) the starting point for their 
+(<ulink URL="http://www.planetquake.com/keygrip"></ulink>) the starting point for their 
 internal fake Quake server.</para>
 <para><variablelist>
 <varlistentry>
-<term>1.0 (8/30/1994) <LITERAL REMAP="tt">lmpc10.zip</literal> (8/31/1994 posted in 
-<ULINK URL="news:alt.binaries.doom">alt.binaries.doom</ulink>, 
-<ULINK URL="news:alt.games.doom">alt.games.doom</ulink>)</term>
+<term>1.0 (8/30/1994) <literal REMAP="tt">lmpc10.zip</literal> (8/31/1994 posted in 
+<ulink URL="news:alt.binaries.doom">alt.binaries.doom</ulink>, 
+<ulink URL="news:alt.games.doom">alt.games.doom</ulink>)</term>
 <listitem>
 <para>
 
@@ -2423,15 +2423,15 @@ internal fake Quake server.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>1.01 (8/31/1994) <LITERAL REMAP="tt">lmpc101.arj</literal> (9/1/1994 posted in 
-<ULINK URL="news:alt.binaries.doom">alt.binaries.doom</ulink>, 
-<ULINK URL="news:alt.games.doom">alt.games.doom</ulink>)</term>
+<term>1.01 (8/31/1994) <literal REMAP="tt">lmpc101.arj</literal> (9/1/1994 posted in 
+<ulink URL="news:alt.binaries.doom">alt.binaries.doom</ulink>, 
+<ulink URL="news:alt.games.doom">alt.games.doom</ulink>)</term>
 <listitem>
 <para>
 
 <itemizedlist>
 <listitem>
-<para>LMP: bug fixed in <LITERAL REMAP="tt">WT</literal> statistics.</para>
+<para>LMP: bug fixed in <literal REMAP="tt">WT</literal> statistics.</para>
 </listitem>
 <listitem>
 <para>Docu: LS description / LMPC program reference splitted in 
@@ -2445,9 +2445,9 @@ LS.DOC / LMPC.DOC.</para>
 </listitem>
 <listitem>
 <para>General: 
-Terry (<ULINK URL="mailto:terry@usis.com">terry@usis.com</ulink>) 
+Terry (<ulink URL="mailto:terry@usis.com">terry@usis.com</ulink>) 
 wrote also a DOOM utility (I don't know it) 
-with the archive name <LITERAL REMAP="tt">lmpc10.zip</literal>. Therefore I changed to the ARJ 
+with the archive name <literal REMAP="tt">lmpc10.zip</literal>. Therefore I changed to the ARJ 
 archive.</para>
 </listitem>
 </itemizedlist>
@@ -2456,7 +2456,7 @@ archive.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.0 (10/11/1994) <LITERAL REMAP="tt">lmpc20.arj</literal> (internal beta test release)</term>
+<term>2.0 (10/11/1994) <literal REMAP="tt">lmpc20.arj</literal> (internal beta test release)</term>
 <listitem>
 <para>
 
@@ -2470,20 +2470,20 @@ archive.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.01 (10/12/1994) <LITERAL REMAP="tt">lmpc201.arj</literal> (internal beta test release)</term>
+<term>2.01 (10/12/1994) <literal REMAP="tt">lmpc201.arj</literal> (internal beta test release)</term>
 <listitem>
 <para>
 
 <itemizedlist>
 <listitem>
-<para>LMP: decompiler bug fixed (<LITERAL REMAP="tt">UT</literal>/<LITERAL REMAP="tt">FW</literal> and <LITERAL REMAP="tt">NW</literal>
+<para>LMP: decompiler bug fixed (<literal REMAP="tt">UT</literal>/<literal REMAP="tt">FW</literal> and <literal REMAP="tt">NW</literal>
 in the same game tic).</para>
 </listitem>
 <listitem>
 <para>LMP: compiler parser improved (token length test).</para>
 </listitem>
 <listitem>
-<para>LMP: <LITERAL REMAP="tt">NW8</literal> (8 gives you the chain saw directly) added.</para>
+<para>LMP: <literal REMAP="tt">NW8</literal> (8 gives you the chain saw directly) added.</para>
 </listitem>
 </itemizedlist>
 
@@ -2491,8 +2491,8 @@ in the same game tic).</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.1 (10/24/1994) <LITERAL REMAP="tt">lmpc21.arj</literal> (10/25/1994 posted in 
-<ULINK URL="news:alt.binaries.doom">alt.binaries.doom</ulink>)</term>
+<term>2.1 (10/24/1994) <literal REMAP="tt">lmpc21.arj</literal> (10/25/1994 posted in 
+<ulink URL="news:alt.binaries.doom">alt.binaries.doom</ulink>)</term>
 <listitem>
 <para>
 
@@ -2521,7 +2521,7 @@ version.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.27 (2/25/1995) <LITERAL REMAP="tt">lmpc-2.27.tar.gz</literal> (internal beta test release)</term>
+<term>2.27 (2/25/1995) <literal REMAP="tt">lmpc-2.27.tar.gz</literal> (internal beta test release)</term>
 <listitem>
 <para>
 
@@ -2533,7 +2533,7 @@ version.</para>
 <para>LMP: can handle DOOM &rsqb;&lsqb; and HERETIC LMP files.</para>
 </listitem>
 <listitem>
-<para>LMP: <LITERAL REMAP="tt">GAME</literal>-token in the LS Header.</para>
+<para>LMP: <literal REMAP="tt">GAME</literal>-token in the LS Header.</para>
 </listitem>
 <listitem>
 <para>LMP: version change expects now the real version byte.</para>
@@ -2550,7 +2550,7 @@ version.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.3 (4/29/1995) <LITERAL REMAP="tt">lmpc-2.3.tar.gz</literal>/<LITERAL REMAP="tt">lmpc23.zip</literal></term>
+<term>2.3 (4/29/1995) <literal REMAP="tt">lmpc-2.3.tar.gz</literal>/<literal REMAP="tt">lmpc23.zip</literal></term>
 <listitem>
 <para>
 
@@ -2573,7 +2573,7 @@ version.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.4 (8/7/1995) <LITERAL REMAP="tt">lmpc-2.4.tar.gz</literal>/<LITERAL REMAP="tt">lmpc24.zip</literal>
+<term>2.4 (8/7/1995) <literal REMAP="tt">lmpc-2.4.tar.gz</literal>/<literal REMAP="tt">lmpc24.zip</literal>
 (public release)</term>
 <listitem>
 <para>
@@ -2595,14 +2595,14 @@ HTML version).</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.5 (8/23/1995) <LITERAL REMAP="tt">lmpc-2.5.tar.gz</literal>/<LITERAL REMAP="tt">lmpc25.zip</literal>
+<term>2.5 (8/23/1995) <literal REMAP="tt">lmpc-2.5.tar.gz</literal>/<literal REMAP="tt">lmpc25.zip</literal>
 (internal beta test release)</term>
 <listitem>
 <para>
 
 <itemizedlist>
 <listitem>
-<para>General: command line parsing now with <LITERAL REMAP="tt">getopt&lowbar;long</literal> and long 
+<para>General: command line parsing now with <literal REMAP="tt">getopt&lowbar;long</literal> and long 
 option names are allowed too.</para>
 </listitem>
 <listitem>
@@ -2611,17 +2611,17 @@ getopt-package
 from the GNU C library (my copy of djgpp doesn't include getopt).</para>
 </listitem>
 <listitem>
-<para>General: <LITERAL REMAP="tt">--info</literal> can handle many files on the command line.</para>
+<para>General: <literal REMAP="tt">--info</literal> can handle many files on the command line.</para>
 </listitem>
 <listitem>
-<para>LMP: <LITERAL REMAP="tt">--lmp-to-ls</literal> can decompile a specific part of the LMP file
-(the new <LITERAL REMAP="tt">--tic</literal> option).</para>
+<para>LMP: <literal REMAP="tt">--lmp-to-ls</literal> can decompile a specific part of the LMP file
+(the new <literal REMAP="tt">--tic</literal> option).</para>
 </listitem>
 <listitem>
 <para>LMP: the buggy version number string function repaired.</para>
 </listitem>
 <listitem>
-<para>LMP: the new option <LITERAL REMAP="tt">--game</literal> to force the game type of the LMP
+<para>LMP: the new option <literal REMAP="tt">--game</literal> to force the game type of the LMP
 file.</para>
 </listitem>
 </itemizedlist>
@@ -2630,17 +2630,17 @@ file.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.6 (8/26/1995) <LITERAL REMAP="tt">lmpc-2.6.tar.gz</literal>/<LITERAL REMAP="tt">lmpc26.zip</literal>
+<term>2.6 (8/26/1995) <literal REMAP="tt">lmpc-2.6.tar.gz</literal>/<literal REMAP="tt">lmpc26.zip</literal>
 (internal beta test release)</term>
 <listitem>
 <para>
 
 <itemizedlist>
 <listitem>
-<para>LMP: <LITERAL REMAP="tt">--ls-to-lmp</literal> converts now several LS files to a LMP file.</para>
+<para>LMP: <literal REMAP="tt">--ls-to-lmp</literal> converts now several LS files to a LMP file.</para>
 </listitem>
 <listitem>
-<para>LMP: new option <LITERAL REMAP="tt">--add-WT</literal> to add <LITERAL REMAP="tt">WT</literal> at the end of a
+<para>LMP: new option <literal REMAP="tt">--add-WT</literal> to add <literal REMAP="tt">WT</literal> at the end of a
 LMP file. </para>
 </listitem>
 </itemizedlist>
@@ -2649,7 +2649,7 @@ LMP file. </para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.6.1 (8/28/1995) <LITERAL REMAP="tt">lmpc-2.6.1.tar.gz</literal>/<LITERAL REMAP="tt">lmpc261.zip</literal>
+<term>2.6.1 (8/28/1995) <literal REMAP="tt">lmpc-2.6.1.tar.gz</literal>/<literal REMAP="tt">lmpc261.zip</literal>
 (internal beta release)</term>
 <listitem>
 <para>
@@ -2659,13 +2659,13 @@ LMP file. </para>
 <para>General: 3 parts of the version number.</para>
 </listitem>
 <listitem>
-<para>LMP: <LITERAL REMAP="tt">--gametic FROM(,&verbar;:)TO</literal>: colon is allowed as a separator too.</para>
+<para>LMP: <literal REMAP="tt">--gametic FROM(,&verbar;:)TO</literal>: colon is allowed as a separator too.</para>
 </listitem>
 <listitem>
-<para>LMP: <LITERAL REMAP="tt">--ls-to-lmp</literal> keeps track of <LITERAL REMAP="tt">PS</literal> and <LITERAL REMAP="tt">PE</literal>.</para>
+<para>LMP: <literal REMAP="tt">--ls-to-lmp</literal> keeps track of <literal REMAP="tt">PS</literal> and <literal REMAP="tt">PE</literal>.</para>
 </listitem>
 <listitem>
-<para>LMP: <LITERAL REMAP="tt">--remove-pause</literal> to remove the Pause game tics.</para>
+<para>LMP: <literal REMAP="tt">--remove-pause</literal> to remove the Pause game tics.</para>
 </listitem>
 </itemizedlist>
 
@@ -2673,13 +2673,13 @@ LMP file. </para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.7.0 (9/3/1995) <LITERAL REMAP="tt">lmpc-2.7.0.tar.gz</literal> (internal alpha release)</term>
+<term>2.7.0 (9/3/1995) <literal REMAP="tt">lmpc-2.7.0.tar.gz</literal> (internal alpha release)</term>
 <listitem>
 <para>
 
 <itemizedlist>
 <listitem>
-<para>LMP: <LITERAL REMAP="tt">--gametic</literal> changed to <LITERAL REMAP="tt">--tic</literal></para>
+<para>LMP: <literal REMAP="tt">--gametic</literal> changed to <literal REMAP="tt">--tic</literal></para>
 </listitem>
 <listitem>
 <para>LMP: total new code to convert LMP files (all in one).</para>
@@ -2696,7 +2696,7 @@ LMP file. </para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.7.1 (9/5/1995) <LITERAL REMAP="tt">lmpc-2.7.1.tar.gz</literal>/<LITERAL REMAP="tt">lmpc271.zip</literal>
+<term>2.7.1 (9/5/1995) <literal REMAP="tt">lmpc-2.7.1.tar.gz</literal>/<literal REMAP="tt">lmpc271.zip</literal>
 (internal beta release)</term>
 <listitem>
 <para>
@@ -2714,7 +2714,7 @@ LMP file. </para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.7.2 (9/6/1995) <LITERAL REMAP="tt">lmpc-2.7.2.tar.gz</literal>/<LITERAL REMAP="tt">lmpc272.zip</literal>
+<term>2.7.2 (9/6/1995) <literal REMAP="tt">lmpc-2.7.2.tar.gz</literal>/<literal REMAP="tt">lmpc272.zip</literal>
 (internal beta release)</term>
 <listitem>
 <para>
@@ -2729,7 +2729,7 @@ LMP file. </para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.8.0 (10/5/1995) <LITERAL REMAP="tt">lmpc-2.8.0.tar.gz</literal>/<LITERAL REMAP="tt">lmpc280.zip</literal>
+<term>2.8.0 (10/5/1995) <literal REMAP="tt">lmpc-2.8.0.tar.gz</literal>/<literal REMAP="tt">lmpc280.zip</literal>
 (public release)</term>
 <listitem>
 <para>
@@ -2745,7 +2745,7 @@ testing. The code is stable. </para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.9.1 (10/9/1995) <LITERAL REMAP="tt">lmpc-2.9.1.tar.gz</literal>/<LITERAL REMAP="tt">lmpc291.zip</literal>
+<term>2.9.1 (10/9/1995) <literal REMAP="tt">lmpc-2.9.1.tar.gz</literal>/<literal REMAP="tt">lmpc291.zip</literal>
 (internal beta release)</term>
 <listitem>
 <para>
@@ -2764,7 +2764,7 @@ second number odd means test.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.9.2 (10/9/1995) <LITERAL REMAP="tt">lmpc-2.9.2.tar.gz</literal>/<LITERAL REMAP="tt">lmpc292.zip</literal>
+<term>2.9.2 (10/9/1995) <literal REMAP="tt">lmpc-2.9.2.tar.gz</literal>/<literal REMAP="tt">lmpc292.zip</literal>
 (internal beta release)</term>
 <listitem>
 <para>
@@ -2779,21 +2779,21 @@ second number odd means test.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.9.3 (11/19/1995) <LITERAL REMAP="tt">lmpc-2.9.3.tar.gz</literal>/<LITERAL REMAP="tt">lmpc293.zip</literal>
+<term>2.9.3 (11/19/1995) <literal REMAP="tt">lmpc-2.9.3.tar.gz</literal>/<literal REMAP="tt">lmpc293.zip</literal>
 (internal beta release)</term>
 <listitem>
 <para>
 
 <itemizedlist>
 <listitem>
-<para>LMP: new option <LITERAL REMAP="tt">--clear-save</literal> to clear the <LITERAL REMAP="tt">SG</literal> tics.</para>
+<para>LMP: new option <literal REMAP="tt">--clear-save</literal> to clear the <literal REMAP="tt">SG</literal> tics.</para>
 </listitem>
 <listitem>
 <para>Docu: documentation in Linux-SGML.</para>
 </listitem>
 <listitem>
 <para>LMP: small multi-player bug corrected, thanks to Rob McCartney
-(<ULINK URL="mailto:argon@netcom.com">argon@netcom.com</ulink>) 
+(<ulink URL="mailto:argon@netcom.com">argon@netcom.com</ulink>) 
 for his bug report.</para>
 </listitem>
 </itemizedlist>
@@ -2802,18 +2802,18 @@ for his bug report.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.9.4 (12/6/1995) <LITERAL REMAP="tt">lmpc-2.9.4.tar.gz</literal>/<LITERAL REMAP="tt">lmpc294.zip</literal>
+<term>2.9.4 (12/6/1995) <literal REMAP="tt">lmpc-2.9.4.tar.gz</literal>/<literal REMAP="tt">lmpc294.zip</literal>
 (internal beta release)</term>
 <listitem>
 <para>
 
 <itemizedlist>
 <listitem>
-<para>new option <LITERAL REMAP="tt">--mark-step</literal> to mark only every <LITERAL REMAP="tt">STEP</literal>th
+<para>new option <literal REMAP="tt">--mark-step</literal> to mark only every <literal REMAP="tt">STEP</literal>th
 game tic</para>
 </listitem>
 <listitem>
-<para>General: MS-DOS version uses <LITERAL REMAP="tt">CR/LF</literal> instead of <LITERAL REMAP="tt">LF</literal> 
+<para>General: MS-DOS version uses <literal REMAP="tt">CR/LF</literal> instead of <literal REMAP="tt">LF</literal> 
 for LS files.</para>
 </listitem>
 </itemizedlist>
@@ -2822,7 +2822,7 @@ for LS files.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.9.5 (2/10/1996) <LITERAL REMAP="tt">lmpc-2.9.5.tar.gz</literal>/<LITERAL REMAP="tt">lmpc295.zip</literal>
+<term>2.9.5 (2/10/1996) <literal REMAP="tt">lmpc-2.9.5.tar.gz</literal>/<literal REMAP="tt">lmpc295.zip</literal>
 (internal alpha release)</term>
 <listitem>
 <para>
@@ -2837,14 +2837,14 @@ for LS files.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.9.6 (2/12/1996) <LITERAL REMAP="tt">lmpc-2.9.6.tar.gz</literal>/<LITERAL REMAP="tt">lmpc296.zip</literal>
+<term>2.9.6 (2/12/1996) <literal REMAP="tt">lmpc-2.9.6.tar.gz</literal>/<literal REMAP="tt">lmpc296.zip</literal>
 (internal alpha release)</term>
 <listitem>
 <para>
 
 <itemizedlist>
 <listitem>
-<para>DMO: reliable version of <LITERAL REMAP="tt">lzw.c</literal>/<LITERAL REMAP="tt">unlzw.c</literal> included.</para>
+<para>DMO: reliable version of <literal REMAP="tt">lzw.c</literal>/<literal REMAP="tt">unlzw.c</literal> included.</para>
 </listitem>
 <listitem>
 <para>DMO: all DMO header bytes decoded.</para>
@@ -2858,17 +2858,17 @@ for LS files.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.9.7 (2/13/1996) <LITERAL REMAP="tt">lmpc-2.9.7.tar.gz</literal>/<LITERAL REMAP="tt">lmpc297.zip</literal>
+<term>2.9.7 (2/13/1996) <literal REMAP="tt">lmpc-2.9.7.tar.gz</literal>/<literal REMAP="tt">lmpc297.zip</literal>
 (internal beta release)</term>
 <listitem>
 <para>
 
 <itemizedlist>
 <listitem>
-<para>DMO: version 1.1 of <LITERAL REMAP="tt">lzw.c</literal>/<LITERAL REMAP="tt">unlzw.c</literal> included.</para>
+<para>DMO: version 1.1 of <literal REMAP="tt">lzw.c</literal>/<literal REMAP="tt">unlzw.c</literal> included.</para>
 </listitem>
 <listitem>
-<para>DMO: DMO support in <LITERAL REMAP="tt">-s</literal> and <LITERAL REMAP="tt">-i</literal>.</para>
+<para>DMO: DMO support in <literal REMAP="tt">-s</literal> and <literal REMAP="tt">-i</literal>.</para>
 </listitem>
 <listitem>
 <para>Docu: documentation structure changed.</para>
@@ -2879,7 +2879,7 @@ for LS files.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.9.8 (2/19/1996) <LITERAL REMAP="tt">lmpc-2.9.8.tar.gz</literal>/<LITERAL REMAP="tt">lmpc298.zip</literal>
+<term>2.9.8 (2/19/1996) <literal REMAP="tt">lmpc-2.9.8.tar.gz</literal>/<literal REMAP="tt">lmpc298.zip</literal>
 (internal beta release)</term>
 <listitem>
 <para>
@@ -2900,7 +2900,7 @@ for LS files.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.9.9 (3/6/1996) <LITERAL REMAP="tt">lmpc-2.9.9.tar.gz</literal>/<LITERAL REMAP="tt">lmpc299.zip</literal>
+<term>2.9.9 (3/6/1996) <literal REMAP="tt">lmpc-2.9.9.tar.gz</literal>/<literal REMAP="tt">lmpc299.zip</literal>
 (internal beta release)</term>
 <listitem>
 <para>
@@ -2915,7 +2915,7 @@ for LS files.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.9.10 (4/7/1996) <LITERAL REMAP="tt">lmpc-2.9.10.tar.gz</literal>/<LITERAL REMAP="tt">lmpc2910.zip</literal>
+<term>2.9.10 (4/7/1996) <literal REMAP="tt">lmpc-2.9.10.tar.gz</literal>/<literal REMAP="tt">lmpc2910.zip</literal>
 (internal beta release)</term>
 <listitem>
 <para>
@@ -2925,7 +2925,7 @@ for LS files.</para>
 <para>LMP: HEXEN 1.1 (8 player) support included.</para>
 </listitem>
 <listitem>
-<para>LMP: considerable changes in the <LITERAL REMAP="tt">-g</literal> code.</para>
+<para>LMP: considerable changes in the <literal REMAP="tt">-g</literal> code.</para>
 </listitem>
 </itemizedlist>
 
@@ -2933,7 +2933,7 @@ for LS files.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.9.11 (4/14/1996) <LITERAL REMAP="tt">lmpc-2.9.11.tar.gz</literal>/<LITERAL REMAP="tt">lmpc2911.zip</literal>
+<term>2.9.11 (4/14/1996) <literal REMAP="tt">lmpc-2.9.11.tar.gz</literal>/<literal REMAP="tt">lmpc2911.zip</literal>
 (internal bug fix release)</term>
 <listitem>
 <para>
@@ -2954,7 +2954,7 @@ for LS files.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.9.12 (4/21/1996) <LITERAL REMAP="tt">lmpc-2.9.12.tar.gz</literal>/<LITERAL REMAP="tt">lmpc2912.zip</literal>
+<term>2.9.12 (4/21/1996) <literal REMAP="tt">lmpc-2.9.12.tar.gz</literal>/<literal REMAP="tt">lmpc2912.zip</literal>
 (internal beta release)</term>
 <listitem>
 <para>
@@ -3047,7 +3047,7 @@ for LS files.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.9.17 (7/7/1996), <LITERAL REMAP="tt">lmpc-2.9.17.tar.gz</literal>/<LITERAL REMAP="tt">lmpc2917.zip</literal>
+<term>2.9.17 (7/7/1996), <literal REMAP="tt">lmpc-2.9.17.tar.gz</literal>/<literal REMAP="tt">lmpc2917.zip</literal>
 (beta release)</term>
 <listitem>
 <para>
@@ -3068,7 +3068,7 @@ for LS files.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.9.18 (7/8/1996), <LITERAL REMAP="tt">lmpc-2.9.18.tar.gz</literal>/<LITERAL REMAP="tt">lmpc2918.zip</literal>
+<term>2.9.18 (7/8/1996), <literal REMAP="tt">lmpc-2.9.18.tar.gz</literal>/<literal REMAP="tt">lmpc2918.zip</literal>
 (beta release)</term>
 <listitem>
 <para>
@@ -3086,7 +3086,7 @@ for LS files.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.9.19 (7/14/1996), <LITERAL REMAP="tt">lmpc-2.9.19.tar.gz</literal>/<LITERAL REMAP="tt">lmpc2919.zip</literal>
+<term>2.9.19 (7/14/1996), <literal REMAP="tt">lmpc-2.9.19.tar.gz</literal>/<literal REMAP="tt">lmpc2919.zip</literal>
 (beta release)</term>
 <listitem>
 <para>
@@ -3104,7 +3104,7 @@ for LS files.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.9.20 (7/17/1996), <LITERAL REMAP="tt">lmpc-2.9.20.tar.gz</literal>/<LITERAL REMAP="tt">lmpc2920.zip</literal>
+<term>2.9.20 (7/17/1996), <literal REMAP="tt">lmpc-2.9.20.tar.gz</literal>/<literal REMAP="tt">lmpc2920.zip</literal>
 (beta release)</term>
 <listitem>
 <para>
@@ -3125,7 +3125,7 @@ for LS files.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.9.21 (7/23/1996), <LITERAL REMAP="tt">lmpc-2.9.21.tar.gz</literal>/<LITERAL REMAP="tt">lmpc2921.zip</literal>
+<term>2.9.21 (7/23/1996), <literal REMAP="tt">lmpc-2.9.21.tar.gz</literal>/<literal REMAP="tt">lmpc2921.zip</literal>
 (beta release)</term>
 <listitem>
 <para>
@@ -3143,7 +3143,7 @@ for LS files.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.9.22 (8/7/1996), <LITERAL REMAP="tt">lmpc-2.9.22.tar.gz</literal>/<LITERAL REMAP="tt">lmpc2922.zip</literal>
+<term>2.9.22 (8/7/1996), <literal REMAP="tt">lmpc-2.9.22.tar.gz</literal>/<literal REMAP="tt">lmpc2922.zip</literal>
 (beta release)</term>
 <listitem>
 <para>
@@ -3167,7 +3167,7 @@ for LS files.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.9.23 (8/14/1996), <LITERAL REMAP="tt">lmpc-2.9.23.tar.gz</literal>/<LITERAL REMAP="tt">lmpc2923.zip</literal>
+<term>2.9.23 (8/14/1996), <literal REMAP="tt">lmpc-2.9.23.tar.gz</literal>/<literal REMAP="tt">lmpc2923.zip</literal>
 (beta release)</term>
 <listitem>
 <para>
@@ -3183,7 +3183,7 @@ for LS files.</para>
 <para>DEM: write to - means stdout.</para>
 </listitem>
 <listitem>
-<para>General: new command line options: <LITERAL REMAP="tt">--to-txt</literal> and <LITERAL REMAP="tt">--to-bin</literal></para>
+<para>General: new command line options: <literal REMAP="tt">--to-txt</literal> and <literal REMAP="tt">--to-bin</literal></para>
 </listitem>
 <listitem>
 <para>Docu: some terms changed.</para>
@@ -3194,7 +3194,7 @@ for LS files.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.9.24 (10/6/1996), <LITERAL REMAP="tt">lmpc-2.9.24.tar.gz</literal>/<LITERAL REMAP="tt">lmpc2924.zip</literal>
+<term>2.9.24 (10/6/1996), <literal REMAP="tt">lmpc-2.9.24.tar.gz</literal>/<literal REMAP="tt">lmpc2924.zip</literal>
 (beta release)</term>
 <listitem>
 <para>
@@ -3212,7 +3212,7 @@ for LS files.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.9.25 (10/13/1996), <LITERAL REMAP="tt">lmpc-2.9.25.tar.gz</literal>/<LITERAL REMAP="tt">lmpc2925.zip</literal>
+<term>2.9.25 (10/13/1996), <literal REMAP="tt">lmpc-2.9.25.tar.gz</literal>/<literal REMAP="tt">lmpc2925.zip</literal>
 (beta release)</term>
 <listitem>
 <para>
@@ -3236,7 +3236,7 @@ for LS files.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.9.26 (11/17/1996), <LITERAL REMAP="tt">lmpc-2.9.26.tar.gz</literal>/<LITERAL REMAP="tt">lmpc2926.zip</literal>
+<term>2.9.26 (11/17/1996), <literal REMAP="tt">lmpc-2.9.26.tar.gz</literal>/<literal REMAP="tt">lmpc2926.zip</literal>
 (bug fix release)</term>
 <listitem>
 <para>
@@ -3246,8 +3246,8 @@ for LS files.</para>
 <para>DEM: MS-DOS binary can read in DEM text files.</para>
 </listitem>
 <listitem>
-<para>DEM: <LITERAL REMAP="tt">attack&lowbar;state</literal>-&gt;<LITERAL REMAP="tt">effects</literal>, 
-<LITERAL REMAP="tt">ang&lowbar;ofs&lowbar;1</literal>-&gt;<LITERAL REMAP="tt">punchangle&lowbar;x</literal>.</para>
+<para>DEM: <literal REMAP="tt">attack&lowbar;state</literal>-&gt;<literal REMAP="tt">effects</literal>, 
+<literal REMAP="tt">ang&lowbar;ofs&lowbar;1</literal>-&gt;<literal REMAP="tt">punchangle&lowbar;x</literal>.</para>
 </listitem>
 <listitem>
 <para>LMP: MS-DOS binary prints now the correct statistics.</para>
@@ -3261,7 +3261,7 @@ for LS files.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.9.27 (11/20/1996), <LITERAL REMAP="tt">lmpc-2.9.27.tar.gz</literal>/<LITERAL REMAP="tt">lmpc2927.zip</literal>
+<term>2.9.27 (11/20/1996), <literal REMAP="tt">lmpc-2.9.27.tar.gz</literal>/<literal REMAP="tt">lmpc2927.zip</literal>
 (public beta release)</term>
 <listitem>
 <para>
@@ -3270,9 +3270,9 @@ for LS files.</para>
 <listitem>
 <para>General: many thanks to 
 Eric Gordon Fowler
-(<ULINK URL="mailto:efowler@jove.acs.unt.edu">efowler@jove.acs.unt.edu</ulink>) and
+(<ulink URL="mailto:efowler@jove.acs.unt.edu">efowler@jove.acs.unt.edu</ulink>) and
 Paolo Perrotta 
-(<ULINK URL="mailto:nan0744@iperbole.bologna.it">nan0744@iperbole.bologna.it</ulink>)
+(<ulink URL="mailto:nan0744@iperbole.bologna.it">nan0744@iperbole.bologna.it</ulink>)
 for all their bug reports.</para>
 </listitem>
 <listitem>
@@ -3295,10 +3295,10 @@ character escape sequences in DEM text files.</para>
 <para>DEM: float numbers may contain exponents.</para>
 </listitem>
 <listitem>
-<para>DEM: <LITERAL REMAP="tt">updateentity</literal> with an entity &gt; 255 works.</para>
+<para>DEM: <literal REMAP="tt">updateentity</literal> with an entity &gt; 255 works.</para>
 </listitem>
 <listitem>
-<para>General: my code survives <LITERAL REMAP="tt">-Wall</literal> <LITERAL REMAP="tt">-pedantic</literal> without
+<para>General: my code survives <literal REMAP="tt">-Wall</literal> <literal REMAP="tt">-pedantic</literal> without
 warnings.</para>
 </listitem>
 <listitem>
@@ -3310,14 +3310,14 @@ warnings.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.9.28 (11/30/1996), <LITERAL REMAP="tt">lmpc-2.9.28.tar.gz</literal>/<LITERAL REMAP="tt">lmpc2928.zip</literal>
+<term>2.9.28 (11/30/1996), <literal REMAP="tt">lmpc-2.9.28.tar.gz</literal>/<literal REMAP="tt">lmpc2928.zip</literal>
 (public beta release)</term>
 <listitem>
 <para>
 
 <itemizedlist>
 <listitem>
-<para>DEM: put an <LITERAL REMAP="tt">items</literal> entry in binary DEM files even if it is 0.
+<para>DEM: put an <literal REMAP="tt">items</literal> entry in binary DEM files even if it is 0.
 This modification enables an error-free decompile/compile of CAMPER3.DEM by 
 ``United Rangers Films'' after all.</para>
 </listitem>
@@ -3327,14 +3327,14 @@ This modification enables an error-free decompile/compile of CAMPER3.DEM by
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.9.29 (12/15/1996), <LITERAL REMAP="tt">lmpc-2.9.29.tar.gz</literal>/<LITERAL REMAP="tt">lmpc2929.zip</literal>
+<term>2.9.29 (12/15/1996), <literal REMAP="tt">lmpc-2.9.29.tar.gz</literal>/<literal REMAP="tt">lmpc2929.zip</literal>
 (public beta release)</term>
 <listitem>
 <para>
 
 <itemizedlist>
 <listitem>
-<para>DEM: <LITERAL REMAP="tt">--info</literal> detects DEM text files.</para>
+<para>DEM: <literal REMAP="tt">--info</literal> detects DEM text files.</para>
 </listitem>
 <listitem>
 <para>DEM: binary file read reorganised (coding just started).</para>
@@ -3348,7 +3348,7 @@ This modification enables an error-free decompile/compile of CAMPER3.DEM by
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.9.30 (1/5/1997), <LITERAL REMAP="tt">lmpc-2.9.30.tar.gz</literal>/<LITERAL REMAP="tt">lmpc2930.zip</literal>
+<term>2.9.30 (1/5/1997), <literal REMAP="tt">lmpc-2.9.30.tar.gz</literal>/<literal REMAP="tt">lmpc2930.zip</literal>
 (alpha test release)</term>
 <listitem>
 <para>
@@ -3360,7 +3360,7 @@ same internal node tree representation as for text files. The text output part
 is a bit slower now but the whole project is much easier to maintain. </para>
 </listitem>
 <listitem>
-<para>DEM: <LITERAL REMAP="tt">--to-bin</literal> can handle binary DEM files too. It should create
+<para>DEM: <literal REMAP="tt">--to-bin</literal> can handle binary DEM files too. It should create
 an identically copy of the input file (if I didn't make any mistakes).</para>
 </listitem>
 <listitem>
@@ -3394,7 +3394,7 @@ be interrupted, output is time-synchronised. </para>
 <para>Docu: Formatted with SGML-Tools 0.99.0.</para>
 </listitem>
 <listitem>
-<para>General: Orthographical check with <LITERAL REMAP="tt">ispell</literal> (British English). </para>
+<para>General: Orthographical check with <literal REMAP="tt">ispell</literal> (British English). </para>
 </listitem>
 </itemizedlist>
 
@@ -3402,7 +3402,7 @@ be interrupted, output is time-synchronised. </para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>2.9.31 (1/7/1997), <LITERAL REMAP="tt">lmpc-2.9.31.tar.gz</literal>/<LITERAL REMAP="tt">lmpc2931.zip</literal>
+<term>2.9.31 (1/7/1997), <literal REMAP="tt">lmpc-2.9.31.tar.gz</literal>/<literal REMAP="tt">lmpc2931.zip</literal>
 (bug fix release)</term>
 <listitem>
 <para>
@@ -3470,15 +3470,15 @@ exists since April 1996 but nobody said it to me.</para>
 
 <itemizedlist>
 <listitem>
-<para>DEM: <LITERAL REMAP="tt">--info</literal> prints the number of game tics (or frames)
+<para>DEM: <literal REMAP="tt">--info</literal> prints the number of game tics (or frames)
 for binary DEM files.</para>
 </listitem>
 <listitem>
-<para>DEM: new option <LITERAL REMAP="tt">--fix-multi</literal> for in-place editing.</para>
+<para>DEM: new option <literal REMAP="tt">--fix-multi</literal> for in-place editing.</para>
 </listitem>
 <listitem>
-<para>DEM: new option <LITERAL REMAP="tt">--fix-multi</literal> as additional option for 
-<LITERAL REMAP="tt">--to-bin</literal> and <LITERAL REMAP="tt">--to-txt</literal>.</para>
+<para>DEM: new option <literal REMAP="tt">--fix-multi</literal> as additional option for 
+<literal REMAP="tt">--to-bin</literal> and <literal REMAP="tt">--to-txt</literal>.</para>
 </listitem>
 <listitem>
 <para>DEM: bin read: type check was endian-dependent (no longer).</para>
@@ -3509,13 +3509,13 @@ The old syntax continues to work.</para>
 <itemizedlist>
 <listitem>
 <para>DEM: text read: hours in time stamps didn't work (bug report by
-James Stephenson (<ULINK URL="mailto:james@BETAus.com">james@BETAus.com</ulink>)).</para>
+James Stephenson (<ulink URL="mailto:james@BETAus.com">james@BETAus.com</ulink>)).</para>
 </listitem>
 <listitem>
 <para>DEMcut: CD track command works now correctly.</para>
 </listitem>
 <listitem>
-<para><LITERAL REMAP="tt">--game</literal> option repaired.</para>
+<para><literal REMAP="tt">--game</literal> option repaired.</para>
 </listitem>
 <listitem>
 <para>Docu: general clean-up.</para>
@@ -3534,22 +3534,22 @@ James Stephenson (<ULINK URL="mailto:james@BETAus.com">james@BETAus.com</ulink>)
 <listitem>
 <para>General: text write: Win32 versions make MS-DOS style
 line breaks (hint by
-David Wright (<ULINK URL="mailto:wgwright@mnsinc.com">wgwright@mnsinc.com</ulink>)).</para>
+David Wright (<ulink URL="mailto:wgwright@mnsinc.com">wgwright@mnsinc.com</ulink>)).</para>
 </listitem>
 <listitem>
 <para>General: Minimalist GNU Win32 (Mingw32) version ready (untested).</para>
 </listitem>
 <listitem>
-<para>Win32: The <LITERAL REMAP="tt">syserror</literal> function was always broken. Why didn't 
+<para>Win32: The <literal REMAP="tt">syserror</literal> function was always broken. Why didn't 
 somebody give me a hint?</para>
 </listitem>
 <listitem>
 <para>DEM: bin read: `new' (version &gt; 1.06) DEM format.</para>
 </listitem>
 <listitem>
-<para>DEM: bin write: stupid error in <EMPHASIS REMAP="bf">clientdata</emphasis> removed. 
+<para>DEM: bin write: stupid error in <emphasis REMAP="bf">clientdata</emphasis> removed. 
 It was there since 2.9.23 (hint by
-Yonatan Donner (<ULINK URL="mailto:ruthd@post.tau.ac.il">ruthd@post.tau.ac.il</ulink>)).</para>
+Yonatan Donner (<ulink URL="mailto:ruthd@post.tau.ac.il">ruthd@post.tau.ac.il</ulink>)).</para>
 </listitem>
 <listitem>
 <para>DEM: entry clientdata-&gt;weapon may contain invalid values
@@ -3645,7 +3645,7 @@ Little Movie Processing Centre</para>
 
 <itemizedlist>
 <listitem>
-<para>Conf: <LITERAL REMAP="tt">Makefile.in</literal> created from <LITERAL REMAP="tt">Makefile.am</literal> by 
+<para>Conf: <literal REMAP="tt">Makefile.in</literal> created from <literal REMAP="tt">Makefile.am</literal> by 
 GNU Automake. Much easier to maintain! </para>
 </listitem>
 <listitem>
@@ -3721,7 +3721,7 @@ decompile deltapacketentities.</para>
 <itemizedlist>
 <listitem>
 <para>DBS: subtle sync problem solved. Thanks to Paul Baker
-(<ULINK URL="mailto:pbaker@idle.com">pbaker@idle.com</ulink>) for his bug 
+(<ulink URL="mailto:pbaker@idle.com">pbaker@idle.com</ulink>) for his bug 
 report.</para>
 </listitem>
 <listitem>
@@ -3801,32 +3801,32 @@ works finally without problems.</para>
 <itemizedlist>
 <listitem>
 <para>DM2: binary read and binary write: long vwep corrected. Now works
-<LITERAL REMAP="tt">massive1.dm2</literal>.</para>
+<literal REMAP="tt">massive1.dm2</literal>.</para>
 </listitem>
 <listitem>
-<para>DM2: binary write: <LITERAL REMAP="tt">timeofs</literal> in <EMPHASIS REMAP="bf">sound</emphasis> wasn't even
+<para>DM2: binary write: <literal REMAP="tt">timeofs</literal> in <emphasis REMAP="bf">sound</emphasis> wasn't even
 implemented.</para>
 </listitem>
 <listitem>
-<para>DM2: text read: allows now empty <EMPHASIS REMAP="bf">packetentities</emphasis>. Many users
+<para>DM2: text read: allows now empty <emphasis REMAP="bf">packetentities</emphasis>. Many users
 reported this problem in reease 3.1.9. Thanks to all of you.</para>
 </listitem>
 <listitem>
-<para>QWD: text read: allows now empty <EMPHASIS REMAP="bf">packetentities</emphasis> like in DM2
+<para>QWD: text read: allows now empty <emphasis REMAP="bf">packetentities</emphasis> like in DM2
 text read.</para>
 </listitem>
 <listitem>
 <para>text read: useless terminals removed.</para>
 </listitem>
 <listitem>
-<para>DM2: unused bits in bit mask (<EMPHASIS REMAP="bf">sound</emphasis>, <EMPHASIS REMAP="bf">spawnbaseline</emphasis>,
-<EMPHASIS REMAP="bf">packetentities</emphasis>) detected. It's a real mess that Keygrip 2 set unused
+<para>DM2: unused bits in bit mask (<emphasis REMAP="bf">sound</emphasis>, <emphasis REMAP="bf">spawnbaseline</emphasis>,
+<emphasis REMAP="bf">packetentities</emphasis>) detected. It's a real mess that Keygrip 2 set unused
 bits in DM2 files but I implemeted an easy way to cope with it.
-Now works <LITERAL REMAP="tt">latenite.dm2</literal>.</para>
+Now works <literal REMAP="tt">latenite.dm2</literal>.</para>
 </listitem>
 <listitem>
-<para>DM2: text read: allows now empty <EMPHASIS REMAP="bf">playerinfo</emphasis>. Now works
-<LITERAL REMAP="tt">grenbfg.dm2</literal>.</para>
+<para>DM2: text read: allows now empty <emphasis REMAP="bf">playerinfo</emphasis>. Now works
+<literal REMAP="tt">grenbfg.dm2</literal>.</para>
 </listitem>
 <listitem>
 <para>DEM: Hexen II support (it was always only a small subset) totally 
@@ -3849,7 +3849,7 @@ error. I know, I actually have to make a software quality test with all my
 test demos before the upload.</para>
 </listitem>
 <listitem>
-<para>DEM: to text: problems with <LITERAL REMAP="tt">--game QUAKE</literal> switch. Not really
+<para>DEM: to text: problems with <literal REMAP="tt">--game QUAKE</literal> switch. Not really
 solved. Just a kludge inserted, which even slows the program down a bit.</para>
 </listitem>
 </itemizedlist>
@@ -3870,18 +3870,18 @@ corrected.</para>
 <listitem>
 <para>QWD: read text: many small but important parsing problems
 removed. This was possible because Joel Baxter 
-(<ULINK URL="mailto:jbaxter@lemur.stanford.edu">jbaxter@lemur.stanford.edu</ulink>)
+(<ulink URL="mailto:jbaxter@lemur.stanford.edu">jbaxter@lemur.stanford.edu</ulink>)
 provided me with a problematic QWD file (recorded with game version 2.21) and
 many good hints.</para>
 </listitem>
 <listitem>
-<para>QWD: <EMPHASIS REMAP="bf">updatepl</emphasis> better.</para>
+<para>QWD: <emphasis REMAP="bf">updatepl</emphasis> better.</para>
 </listitem>
 <listitem>
 <para>DM2: updated up to game version 3.20.</para>
 </listitem>
 <listitem>
-<para>DM2: bin read: <EMPHASIS REMAP="bf">temp&lowbar;entity</emphasis> parse code directly
+<para>DM2: bin read: <emphasis REMAP="bf">temp&lowbar;entity</emphasis> parse code directly
 calculated from the DM2 specs.</para>
 </listitem>
 <listitem>
@@ -3912,7 +3912,7 @@ directory.</para>
 <listitem>
 <para>Package: udm2-te&lsqb;123&rsqb;.c are included in the source and full
 package.
-I forgot them in the last release. Thanks to Stefan Schwoon (<ULINK URL="mailto:schwoon@informatik.tu-muenchen.de">schwoon@informatik.tu-muenchen.de</ulink>) for mention this error.</para>
+I forgot them in the last release. Thanks to Stefan Schwoon (<ulink URL="mailto:schwoon@informatik.tu-muenchen.de">schwoon@informatik.tu-muenchen.de</ulink>) for mention this error.</para>
 </listitem>
 <listitem>
 <para>The script to extract the C-Source out of the specs file is included
@@ -3920,7 +3920,7 @@ too.</para>
 </listitem>
 <listitem>
 <para>WWW: upload script uploads now the packages to the right place to 
-deliver them to all <ULINK URL="http://www.cdrom.com"></ulink> mirrors. In the last
+deliver them to all <ulink URL="http://www.cdrom.com"></ulink> mirrors. In the last
 release this was totally wrong.</para>
 </listitem>
 </itemizedlist>
@@ -3935,8 +3935,8 @@ release this was totally wrong.</para>
 
 <itemizedlist>
 <listitem>
-<para>QWD: bin read: new <EMPHASIS REMAP="bf">serverinfo</emphasis> message wrong handled.
-Thanks to Michale Hofele (<ULINK URL="mailto:michael@i603.hadiko.de">michael@i603.hadiko.de</ulink>) for the bug-report.</para>
+<para>QWD: bin read: new <emphasis REMAP="bf">serverinfo</emphasis> message wrong handled.
+Thanks to Michale Hofele (<ulink URL="mailto:michael@i603.hadiko.de">michael@i603.hadiko.de</ulink>) for the bug-report.</para>
 </listitem>
 </itemizedlist>
 
@@ -3954,15 +3954,15 @@ Thanks to Michale Hofele (<ULINK URL="mailto:michael@i603.hadiko.de">michael@i60
 </listitem>
 <listitem>
 <para>DEMcut: interactive mode corrected. Thanks to Vasily Kuznetsov
-(<ULINK URL="mailto:VKuznetsov@microtest.ru">VKuznetsov@microtest.ru</ulink>) for the bug-report and patch.</para>
+(<ulink URL="mailto:VKuznetsov@microtest.ru">VKuznetsov@microtest.ru</ulink>) for the bug-report and patch.</para>
 </listitem>
 <listitem>
-<para>QWD: bin read: <EMPHASIS REMAP="bf">setpause</emphasis> corrected.
-Thanks to Christer Sandin (<ULINK URL="mailto:czsuch@ocag.ch">czsuch@ocag.ch</ulink>) for his bug report.</para>
+<para>QWD: bin read: <emphasis REMAP="bf">setpause</emphasis> corrected.
+Thanks to Christer Sandin (<ulink URL="mailto:czsuch@ocag.ch">czsuch@ocag.ch</ulink>) for his bug report.</para>
 </listitem>
 <listitem>
 <para>DM2: multi-level repair corrected. Thanks to Zerox
-(<ULINK URL="mailto:zerox@prism.ne.mediaone.net">zerox@prism.ne.mediaone.net</ulink>) for the bug-report and a short demo
+(<ulink URL="mailto:zerox@prism.ne.mediaone.net">zerox@prism.ne.mediaone.net</ulink>) for the bug-report and a short demo
 file.</para>
 </listitem>
 </itemizedlist>
@@ -3981,10 +3981,10 @@ file.</para>
 2.20 and higher corrected.</para>
 </listitem>
 <listitem>
-<para>QWD: <EMPHASIS REMAP="bf">maxspeed</emphasis> and <EMPHASIS REMAP="bf">entgravity</emphasis> corrected.</para>
+<para>QWD: <emphasis REMAP="bf">maxspeed</emphasis> and <emphasis REMAP="bf">entgravity</emphasis> corrected.</para>
 </listitem>
 <listitem>
-<para>Thanks to R. Quaak (<ULINK URL="mailto:jaqua00@direct.a2000.nl">jaqua00@direct.a2000.nl</ulink>) for the <emphasis>useful</emphasis> bug report and a
+<para>Thanks to R. Quaak (<ulink URL="mailto:jaqua00@direct.a2000.nl">jaqua00@direct.a2000.nl</ulink>) for the <emphasis>useful</emphasis> bug report and a
 short demo file.
 Remember: with a good bug report and a short demo file, I can correct a bug
 really fast.</para>
@@ -4006,7 +4006,7 @@ specific feature used up to now. Many new C++ related warnings corrected.</para>
 </listitem>
 <listitem>
 <para>General: severe buffer overflow problems corrected.
-Thanks to Nathan Whitaker (<ULINK URL="mailto:naif@3dcoder.freeserve.co.uk">naif@3dcoder.freeserve.co.uk</ulink>) for the bug report and a demo file.</para>
+Thanks to Nathan Whitaker (<ulink URL="mailto:naif@3dcoder.freeserve.co.uk">naif@3dcoder.freeserve.co.uk</ulink>) for the bug report and a demo file.</para>
 </listitem>
 <listitem>
 <para>Compile: Linux binaries are glibc finally. I updated my main development
@@ -4025,9 +4025,9 @@ this.</para>
 
 <itemizedlist>
 <listitem>
-<para>QWD: <EMPHASIS REMAP="bf">modellist</emphasis> and <EMPHASIS REMAP="bf">soundlist</emphasis> corrected.
+<para>QWD: <emphasis REMAP="bf">modellist</emphasis> and <emphasis REMAP="bf">soundlist</emphasis> corrected.
 Thanks to Hoffy
-(<ULINK URL="mailto:ripple@powerup.com.au">ripple@powerup.com.au</ulink>)
+(<ulink URL="mailto:ripple@powerup.com.au">ripple@powerup.com.au</ulink>)
 for the bug report and a demo file.</para>
 </listitem>
 </itemizedlist>
@@ -4044,7 +4044,7 @@ for the bug report and a demo file.</para>
 <listitem>
 <para>DM2: multi-level repair method improved.
 Thanks to Mike Dowell 
-(<ULINK URL="mailto:mdowell@Mike-D.com">mdowell@Mike-D.com</ulink>)
+(<ulink URL="mailto:mdowell@Mike-D.com">mdowell@Mike-D.com</ulink>)
 for the bug report and a demo file.</para>
 </listitem>
 <listitem>
@@ -4091,10 +4091,10 @@ formats.</para>
 </listitem>
 <listitem>
 <para>Strict separation of the different recording types and the main program. 
-Maybe something like <LITERAL REMAP="tt">librecord.so</literal>.</para>
+Maybe something like <literal REMAP="tt">librecord.so</literal>.</para>
 </listitem>
 <listitem>
-<para><LITERAL REMAP="tt">--split-multi</literal> option to split multi-level recordings.</para>
+<para><literal REMAP="tt">--split-multi</literal> option to split multi-level recordings.</para>
 </listitem>
 <listitem>
 <para>Half-Life (DEM), Heretic II (DM2) and Sin (DM2) support.</para>
@@ -4103,7 +4103,7 @@ Maybe something like <LITERAL REMAP="tt">librecord.so</literal>.</para>
 <para>DEMcut and DBS with QWD and DM2 support.</para>
 </listitem>
 <listitem>
-<para>File-IO from <LITERAL REMAP="tt">stdin</literal> and to <LITERAL REMAP="tt">stdout</literal>, really difficult is the
+<para>File-IO from <literal REMAP="tt">stdin</literal> and to <literal REMAP="tt">stdout</literal>, really difficult is the
 file type detection. </para>
 </listitem>
 <listitem>
@@ -4132,9 +4132,9 @@ algorithm and the one used in Duke Nukem 3D?</para>
 
 </para>
 <para>A new regular version of LMPC (like 3.3.0) will be announced on
-<ULINK URL="http://www.bluesnews.com">BluesNews</ulink> and on 
-<ULINK URL="http://www.planetquake.com">PlanetQuake</ulink>.</para>
-<para>You can download LMPC from my <ULINK URL="@HOMEURL@">@HOMENAME@</ulink>.</para>
+<ulink URL="http://www.bluesnews.com">BluesNews</ulink> and on 
+<ulink URL="http://www.planetquake.com">PlanetQuake</ulink>.</para>
+<para>You can download LMPC from my <ulink URL="@HOMEURL@">@HOMENAME@</ulink>.</para>
 <para>There you will find always the latest release with new features
 and brand new bugs.</para>
 </sect1>

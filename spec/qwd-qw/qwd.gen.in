@@ -1,6 +1,8 @@
 <!ENTITY lowbar "_">
 	<!ENTITY lsqb "[">
 	<!ENTITY rsqb "]">
+	<!ENTITY lcub "{">
+	<!ENTITY rcub "}">
 	<!ENTITY num "#">
 	<!ENTITY bsol "\">
 	]><article>
@@ -22,8 +24,8 @@ of ``recording'' a game in QuakeWorld.</para>
 <title>Recording and Playback</title>
 <para>To create a recording of your network play use up to QuakeWorld 2.10 the 
 console command <emphasis>record name server</emphasis>. This connects you to the 
-server <LITERAL REMAP="tt">server</literal> and records the game play from your point of view 
-into the file <LITERAL REMAP="tt">name.qwd</literal>.</para>
+server <literal REMAP="tt">server</literal> and records the game play from your point of view 
+into the file <literal REMAP="tt">name.qwd</literal>.</para>
 <para>From version 2.20 on you have first to connect to the server and start the
 recording with the console command <emphasis>record name</emphasis> later.</para>
 <para>The recording stops when you disconnect from the server or you use the
@@ -36,13 +38,13 @@ use the commands <emphasis>playdemo name</emphasis> or <emphasis>timedemo name</
 
 <table>
 <title>Covered QuakeWorld versions</title>
-<TGROUP COLS="3">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="3">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
-<entry><LITERAL REMAP="tt">Exe:</literal></entry>
+<entry><literal REMAP="tt">Exe:</literal></entry>
 <entry>version</entry>
 <entry>platform</entry>
 </row>
@@ -162,7 +164,7 @@ use the commands <emphasis>playdemo name</emphasis> or <emphasis>timedemo name</
 
 </para>
 <para>I actually write and check my documentation with Linux 
-<LITERAL REMAP="tt">qwcl</literal> and <LITERAL REMAP="tt">qwsv</literal> 2.30 on the same machine.</para>
+<literal REMAP="tt">qwcl</literal> and <literal REMAP="tt">qwsv</literal> 2.30 on the same machine.</para>
 <para>The older versions of QuakeWorld couldn't record a QWD file but playback
 seemed to work. I checked QuakeWorld 1.54c and 1.55 with a QWD file recorded 
 with 1.64 but both old versions crashed on playback.</para>
@@ -186,7 +188,7 @@ Processing Centre. With this tool you may
 With LMPC it is very easy to analyse a QWD file but you may change it
 as well and so create a QWD file of a network game you 
 never played. The current version of LMPC can be found at my 
-<ULINK URL="@HOMEURL@">@HOMENAME@</ulink>.</para>
+<ulink URL="@HOMEURL@">@HOMENAME@</ulink>.</para>
 </sect2>
 <sect2>
 <title>General remarks</title>
@@ -198,26 +200,26 @@ difficult.</para>
 <para>I know for sure that I'll never write a DEM &lt;-&gt; QWD converter.</para>
 </sect2>
 </sect1>
-<SECT1 ID="FONT">
+<sect1 ID="FONT">
 <title>Game font</title>
 <para>A string may contain any 8 bit characters except `&bsol;377' and it ends with
 `&bsol;000'. The special characters `&bsol;n' and `&bsol;r' have their normal
 meaning.</para>
 <para>The QuakeWorld font is an extended ASCII font (7 bit) which contains in the upper
 half a similar font but with a different colour.</para>
-<para>I used a simple Quake <ULINK URL="@HOMEURL@/misc/qfont.html">DEM file</ulink>
+<para>I used a simple Quake <ulink URL="@HOMEURL@/misc/qfont.html">DEM file</ulink>
 to print all 252 ASCII characters.  </para>
 </sect1>
 <sect1>
 <title>File structure</title>
 <para>To describe the file structure, which is very complicated, I use 
-C like program fragments and <LITERAL REMAP="tt">struct</literal> definitions. This 
+C like program fragments and <literal REMAP="tt">struct</literal> definitions. This 
 simplifies my task a lot. </para>
 <para>I invented all used names (messages, variables etc.) for myself, took them 
 from the QuakeWorld binary, QuakeEd but almost all from the QuakeC source. </para>
 <para>All multi-byte structures in QWD files are ``little endian'' (VAX or Intel,
 lowest byte first).</para>
-<para>At first some QuakeEd compliant coordinate <LITERAL REMAP="tt">typedef</literal>'s:
+<para>At first some QuakeEd compliant coordinate <literal REMAP="tt">typedef</literal>'s:
 
 <screen>typedef float vec_t;
 
@@ -237,37 +239,37 @@ be stored in a `block' of the QWD file.</para>
 
 <variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">float time;</literal></term>
+<term><literal REMAP="tt">float time;</literal></term>
 <listitem>
 <para>is the time stamp of the block.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">char code;</literal></term>
+<term><literal REMAP="tt">char code;</literal></term>
 <listitem>
 <para>is the sign to indicate the block type. Each block type will be parsed
 totally different.
 
 <table>
 <title>Block types</title>
-<TGROUP COLS="2">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="2">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
-<entry><LITERAL REMAP="tt">code</literal> </entry>
+<entry><literal REMAP="tt">code</literal> </entry>
 <entry>block type</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x00</literal> </entry>
+<entry><literal REMAP="tt">0x00</literal> </entry>
 <entry>client block</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x01</literal> </entry>
+<entry><literal REMAP="tt">0x01</literal> </entry>
 <entry>server block</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x02</literal> </entry>
+<entry><literal REMAP="tt">0x02</literal> </entry>
 <entry>frame block</entry>
 </row>
 </tbody>
@@ -278,7 +280,7 @@ totally different.
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">char data[???];</literal></term>
+<term><literal REMAP="tt">char data[???];</literal></term>
 <listitem>
 <para>is actual data of the block.</para>
 </listitem>
@@ -305,25 +307,25 @@ packed.</para>
 </para>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long load;</literal></term>
+<term><literal REMAP="tt">long load;</literal></term>
 <listitem>
 <para>is connected somehow with the workload on the client. ?FIXME?</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t angles;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t angles;</literal></term>
 <listitem>
 <para>point in the viewing direction (in degree) of the client.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">short speed[3];</literal></term>
+<term><literal REMAP="tt">short speed[3];</literal></term>
 <listitem>
 <para>is the intended translation of the client (forward, right, up).</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">flag;</literal></term>
+<term><literal REMAP="tt">flag;</literal></term>
 <listitem>
 <para>is a collection of flags and must be splitted:
 
@@ -334,21 +336,21 @@ Other bits may contain additional information.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">int fire;</literal></term>
+<term><literal REMAP="tt">int fire;</literal></term>
 <listitem>
-<para>indicates an <EMPHASIS REMAP="it">attack</emphasis> console command.</para>
+<para>indicates an <emphasis REMAP="it">attack</emphasis> console command.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">int jump;</literal></term>
+<term><literal REMAP="tt">int jump;</literal></term>
 <listitem>
-<para>indicates a <EMPHASIS REMAP="it">jump</emphasis> console command.</para>
+<para>indicates a <emphasis REMAP="it">jump</emphasis> console command.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long impulse;</literal></term>
+<term><literal REMAP="tt">long impulse;</literal></term>
 <listitem>
-<para>is the value of a currently activated <EMPHASIS REMAP="it">impulse</emphasis> console command.</para>
+<para>is the value of a currently activated <emphasis REMAP="it">impulse</emphasis> console command.</para>
 </listitem>
 </varlistentry>
 </variablelist></para>
@@ -369,12 +371,12 @@ from the server to the client. It has the following structure:
 </para>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long blocksize;</literal></term>
+<term><literal REMAP="tt">long blocksize;</literal></term>
 <listitem>
-<para>is the number of bytes in the block following the <LITERAL REMAP="tt">blocksize</literal>
-variable itself (but including <LITERAL REMAP="tt">seq&lowbar;rel&lowbar;1</literal>).
-The full server block has <LITERAL REMAP="tt">blocksize+9</literal> bytes. 
-The maximim value for <LITERAL REMAP="tt">blocksize</literal> (<LITERAL REMAP="tt">MAX&lowbar;MSGLEN</literal>) used to be 
+<para>is the number of bytes in the block following the <literal REMAP="tt">blocksize</literal>
+variable itself (but including <literal REMAP="tt">seq&lowbar;rel&lowbar;1</literal>).
+The full server block has <literal REMAP="tt">blocksize+9</literal> bytes. 
+The maximim value for <literal REMAP="tt">blocksize</literal> (<literal REMAP="tt">MAX&lowbar;MSGLEN</literal>) used to be 
 7500 but changed from protocol 25 to 26 (game version 2.10 to 2.20) to 1450.
 The new value avoids fragmentation of the UDP packets on an Ethernet.
 The MTU in PPP is much smaller but the reduced packet size is for LAN play
@@ -382,10 +384,10 @@ definitely a great improvement.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">unsigned long seq&lowbar;rel&lowbar;1;</literal></term>
+<term><literal REMAP="tt">unsigned long seq&lowbar;rel&lowbar;1;</literal></term>
 <listitem>
 <para>is a sign to distinguish between a connectionless block 
-(<LITERAL REMAP="tt">==0xFFFFFFFF</literal>) or a game block (<LITERAL REMAP="tt">!=0xFFFFFFFF</literal>).</para>
+(<literal REMAP="tt">==0xFFFFFFFF</literal>) or a game block (<literal REMAP="tt">!=0xFFFFFFFF</literal>).</para>
 </listitem>
 </varlistentry>
 </variablelist></para>
@@ -406,15 +408,15 @@ control the server-client network connection and has the structure
 </para>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">char connless&lowbar;id;</literal></term>
+<term><literal REMAP="tt">char connless&lowbar;id;</literal></term>
 <listitem>
-<para>is a code to explain the following <LITERAL REMAP="tt">connless&lowbar;data</literal>.</para>
+<para>is a code to explain the following <literal REMAP="tt">connless&lowbar;data</literal>.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">char connless&lowbar;data[blocksize-5];</literal></term>
+<term><literal REMAP="tt">char connless&lowbar;data[blocksize-5];</literal></term>
 <listitem>
-<para>is the rest of the block and depends on the value of <LITERAL REMAP="tt">connless&lowbar;id</literal>.</para>
+<para>is the rest of the block and depends on the value of <literal REMAP="tt">connless&lowbar;id</literal>.</para>
 </listitem>
 </varlistentry>
 </variablelist></para>
@@ -435,7 +437,7 @@ control the server-client network connection and has the structure
 </para>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">unsigned long seq&lowbar;rel&lowbar;1;</literal></term>
+<term><literal REMAP="tt">unsigned long seq&lowbar;rel&lowbar;1;</literal></term>
 <listitem>
 <para>is a compound variable and must be splitted:
 
@@ -446,21 +448,21 @@ reliable1 = ( seq_rel_1 &gt;&gt; 31 ) &amp; 0x01;</screen>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">unsigned long seq1;</literal></term>
+<term><literal REMAP="tt">unsigned long seq1;</literal></term>
 <listitem>
 <para>is the sequence code of the sent network packet
 (from the server to the client).</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">int reliable1;</literal></term>
+<term><literal REMAP="tt">int reliable1;</literal></term>
 <listitem>
 <para>Indicates, that this packet is a reliable one. In the actual network 
 protocol, the server retransmit it until the client send the acknowledge.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">unsigned long seq&lowbar;rel&lowbar;2;</literal></term>
+<term><literal REMAP="tt">unsigned long seq&lowbar;rel&lowbar;2;</literal></term>
 <listitem>
 <para>is a compound variable and must be splitted:
 
@@ -471,21 +473,21 @@ reliable2 = ( seq_rel_2 &gt;&gt; 31 ) &amp; 0x01;</screen>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">unsigned long seq2;</literal></term>
+<term><literal REMAP="tt">unsigned long seq2;</literal></term>
 <listitem>
 <para>is the sequence code of the last received network packet (from the client to 
 the server).</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">int reliable2;</literal></term>
+<term><literal REMAP="tt">int reliable2;</literal></term>
 <listitem>
 <para>Indicates, that this packet was a reliable one. In the actual network
 protocol, the server acknowledge so a reliable packet from the client.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">char messages[blocksize-8];</literal></term>
+<term><literal REMAP="tt">char messages[blocksize-8];</literal></term>
 <listitem>
 <para>contain several game messages with the main game data. The structure is 
 similar to the messages in Quake DEM files. </para>
@@ -513,13 +515,13 @@ A frame block appears first in protocol version 26 (game version 2.20).</para>
 </para>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">unsigned long seq1;</literal></term>
+<term><literal REMAP="tt">unsigned long seq1;</literal></term>
 <listitem>
 <para>is the current sequence number (from the server to the client).</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">unsigned long seq2;</literal></term>
+<term><literal REMAP="tt">unsigned long seq2;</literal></term>
 <listitem>
 <para>is certainly some kind of an already received sequence number.</para>
 </listitem>
@@ -530,12 +532,12 @@ A frame block appears first in protocol version 26 (game version 2.20).</para>
 <title>Auxiliary routines</title>
 <para>Here comes the definition of some small auxiliary routines to 
 simplify
-the main message description. <LITERAL REMAP="tt">get&lowbar;next&lowbar;unsigned&lowbar;char</literal>,
-<LITERAL REMAP="tt">get&lowbar;next&lowbar;signed&lowbar;char</literal>, <LITERAL REMAP="tt">get&lowbar;next&lowbar;short</literal>,
-<LITERAL REMAP="tt">get&lowbar;next&lowbar;long</literal> and <LITERAL REMAP="tt">get&lowbar;next&lowbar;float</literal> are basic functions and 
+the main message description. <literal REMAP="tt">get&lowbar;next&lowbar;unsigned&lowbar;char</literal>,
+<literal REMAP="tt">get&lowbar;next&lowbar;signed&lowbar;char</literal>, <literal REMAP="tt">get&lowbar;next&lowbar;short</literal>,
+<literal REMAP="tt">get&lowbar;next&lowbar;long</literal> and <literal REMAP="tt">get&lowbar;next&lowbar;float</literal> are basic functions and 
 they do exactly what they are 
-called. Please note: <LITERAL REMAP="tt">byte</literal>, <LITERAL REMAP="tt">char</literal> or <LITERAL REMAP="tt">short</literal> will be 
-converted to <LITERAL REMAP="tt">long</literal>.
+called. Please note: <literal REMAP="tt">byte</literal>, <literal REMAP="tt">char</literal> or <literal REMAP="tt">short</literal> will be 
+converted to <literal REMAP="tt">long</literal>.
 Second note: Don't look at the variable types for size calculations. 
 Look at the routine names.</para>
 <para>In the following I often use a count variable 
@@ -645,14 +647,14 @@ The length of a message depends on its type.</para>
 <para>The easiest way to explain a message in a connectionless block is to give a 
 short C like program fragment to parse such a message. It is not really the 
 same code base as in LMPC but it should be <emphasis>very</emphasis> similar. Each message
-can be described by its <LITERAL REMAP="tt">connless&lowbar;id</literal> or its name. </para>
+can be described by its <literal REMAP="tt">connless&lowbar;id</literal> or its name. </para>
 <sect2>
 <title>disconnect</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">connless&lowbar;id</literal></term>
+<term><literal REMAP="tt">connless&lowbar;id</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x02</literal></para>
+<para><literal REMAP="tt">0x02</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -666,7 +668,7 @@ can be described by its <LITERAL REMAP="tt">connless&lowbar;id</literal> or its 
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">char* text;</literal></term>
+<term><literal REMAP="tt">char* text;</literal></term>
 <listitem>
 <para>is an unused and (by QuakeWorld) unparsed text. Its value is "EndOfDemo".</para>
 </listitem>
@@ -690,9 +692,9 @@ can be described by its <LITERAL REMAP="tt">connless&lowbar;id</literal> or its 
 <title>client&lowbar;command</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">connless&lowbar;id</literal></term>
+<term><literal REMAP="tt">connless&lowbar;id</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x42</literal> = 'B'</para>
+<para><literal REMAP="tt">0x42</literal> = 'B'</para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -707,7 +709,7 @@ only come from a local server.</para>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">char* text;</literal></term>
+<term><literal REMAP="tt">char* text;</literal></term>
 <listitem>
 <para>is the console command, to be executed.</para>
 </listitem>
@@ -731,9 +733,9 @@ only come from a local server.</para>
 <title>challenge</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">connless&lowbar;id</literal></term>
+<term><literal REMAP="tt">connless&lowbar;id</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x63</literal> = 'c'</para>
+<para><literal REMAP="tt">0x63</literal> = 'c'</para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -759,9 +761,9 @@ only come from a local server.</para>
 <title>connect</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">connless&lowbar;id</literal></term>
+<term><literal REMAP="tt">connless&lowbar;id</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x6A</literal> = 'j'</para>
+<para><literal REMAP="tt">0x6A</literal> = 'j'</para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -782,9 +784,9 @@ only come from a local server.</para>
 <title>ping</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">connless&lowbar;id</literal></term>
+<term><literal REMAP="tt">connless&lowbar;id</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x6B</literal> = 'k'</para>
+<para><literal REMAP="tt">0x6B</literal> = 'k'</para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -805,9 +807,9 @@ only come from a local server.</para>
 <title>console</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">connless&lowbar;id</literal></term>
+<term><literal REMAP="tt">connless&lowbar;id</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x6E</literal> = 'n'</para>
+<para><literal REMAP="tt">0x6E</literal> = 'n'</para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -821,7 +823,7 @@ only come from a local server.</para>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">char* text;</literal></term>
+<term><literal REMAP="tt">char* text;</literal></term>
 <listitem>
 <para>is the text to be printed.</para>
 </listitem>
@@ -851,15 +853,15 @@ only come from a local server.</para>
                  char          messagecontent[????];
                } game_message_t;</screen>
 
-The length of a message depends on its type (or <LITERAL REMAP="tt">ID</literal>).</para>
-<para>Each message can be described by its <LITERAL REMAP="tt">ID</literal> or its name. </para>
+The length of a message depends on its type (or <literal REMAP="tt">ID</literal>).</para>
+<para>Each message can be described by its <literal REMAP="tt">ID</literal> or its name. </para>
 <sect2>
 <title>bad</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x00</literal></para>
+<para><literal REMAP="tt">0x00</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -884,9 +886,9 @@ The length of a message depends on its type (or <LITERAL REMAP="tt">ID</literal>
 <title>nop</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x01</literal></para>
+<para><literal REMAP="tt">0x01</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -907,9 +909,9 @@ The length of a message depends on its type (or <LITERAL REMAP="tt">ID</literal>
 <title>disconnect</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x02</literal></para>
+<para><literal REMAP="tt">0x02</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -926,21 +928,21 @@ The length of a message depends on its type (or <LITERAL REMAP="tt">ID</literal>
 </varlistentry>
 </variablelist></para>
 </sect2>
-<SECT2 ID="UPDATESTAT">
+<sect2 ID="UPDATESTAT">
 <title>updatestat</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x03</literal></para>
+<para><literal REMAP="tt">0x03</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>purpose</term>
 <listitem>
-<para>Updates directly a <LITERAL REMAP="tt">byte</literal> value in the player state array of 
-<LITERAL REMAP="tt">long</literal> numbers. To update a <LITERAL REMAP="tt">long</literal>
-value, look in section <XREF LINKEND="UPDATESTATLONG">.</para>
+<para>Updates directly a <literal REMAP="tt">byte</literal> value in the player state array of 
+<literal REMAP="tt">long</literal> numbers. To update a <literal REMAP="tt">long</literal>
+value, look in section <xref LINKEND="UPDATESTATLONG">.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -948,20 +950,20 @@ value, look in section <XREF LINKEND="UPDATESTATLONG">.</para>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long index;</literal></term>
+<term><literal REMAP="tt">long index;</literal></term>
 <listitem>
-<para>is the index in the <LITERAL REMAP="tt">playerstate</literal>
-array. Table `<LITERAL REMAP="tt">updatestat</literal> indices' lists
-all possible indices and their real name. The value of an <LITERAL REMAP="tt">items</literal>
-entry (<LITERAL REMAP="tt">index</literal>=15) is a bit difficult and will be explained in the 
-table `<LITERAL REMAP="tt">items</literal> bits'.</para>
+<para>is the index in the <literal REMAP="tt">playerstate</literal>
+array. Table `<literal REMAP="tt">updatestat</literal> indices' lists
+all possible indices and their real name. The value of an <literal REMAP="tt">items</literal>
+entry (<literal REMAP="tt">index</literal>=15) is a bit difficult and will be explained in the 
+table `<literal REMAP="tt">items</literal> bits'.</para>
 <para>
 
 <table>
-<title><LITERAL REMAP="tt">updatestat</literal> indices</title>
-<TGROUP COLS="2">
-<COLSPEC COLSEP="0" ALIGN="RIGHT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<title><literal REMAP="tt">updatestat</literal> indices</title>
+<tgroup COLS="2">
+<colspec COLSEP="0" ALIGN="RIGHT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>index </entry>
@@ -969,7 +971,7 @@ table `<LITERAL REMAP="tt">items</literal> bits'.</para>
 </row>
 <row>
 <entry>0 </entry>
-<entry><LITERAL REMAP="tt">health</literal></entry>
+<entry><literal REMAP="tt">health</literal></entry>
 </row>
 <row>
 <entry>1 </entry>
@@ -977,59 +979,59 @@ table `<LITERAL REMAP="tt">items</literal> bits'.</para>
 </row>
 <row>
 <entry>2 </entry>
-<entry><LITERAL REMAP="tt">weaponmodel</literal></entry>
+<entry><literal REMAP="tt">weaponmodel</literal></entry>
 </row>
 <row>
 <entry>3 </entry>
-<entry><LITERAL REMAP="tt">currentammo</literal></entry>
+<entry><literal REMAP="tt">currentammo</literal></entry>
 </row>
 <row>
 <entry>4 </entry>
-<entry><LITERAL REMAP="tt">armorvalue</literal></entry>
+<entry><literal REMAP="tt">armorvalue</literal></entry>
 </row>
 <row>
 <entry>5 </entry>
-<entry><LITERAL REMAP="tt">weaponframe</literal></entry>
+<entry><literal REMAP="tt">weaponframe</literal></entry>
 </row>
 <row>
 <entry>6 </entry>
-<entry><LITERAL REMAP="tt">ammo&lowbar;shells</literal></entry>
+<entry><literal REMAP="tt">ammo&lowbar;shells</literal></entry>
 </row>
 <row>
 <entry>7 </entry>
-<entry><LITERAL REMAP="tt">ammo&lowbar;nails</literal></entry>
+<entry><literal REMAP="tt">ammo&lowbar;nails</literal></entry>
 </row>
 <row>
 <entry>8 </entry>
-<entry><LITERAL REMAP="tt">ammo&lowbar;rockets</literal></entry>
+<entry><literal REMAP="tt">ammo&lowbar;rockets</literal></entry>
 </row>
 <row>
 <entry>9 </entry>
-<entry><LITERAL REMAP="tt">ammo&lowbar;cells</literal></entry>
+<entry><literal REMAP="tt">ammo&lowbar;cells</literal></entry>
 </row>
 <row>
 <entry>10 </entry>
-<entry><LITERAL REMAP="tt">weapon</literal></entry>
+<entry><literal REMAP="tt">weapon</literal></entry>
 </row>
 <row>
 <entry>11 </entry>
-<entry><LITERAL REMAP="tt">total&lowbar;secrets</literal></entry>
+<entry><literal REMAP="tt">total&lowbar;secrets</literal></entry>
 </row>
 <row>
 <entry>12 </entry>
-<entry><LITERAL REMAP="tt">total&lowbar;monsters</literal></entry>
+<entry><literal REMAP="tt">total&lowbar;monsters</literal></entry>
 </row>
 <row>
 <entry>13 </entry>
-<entry><LITERAL REMAP="tt">found&lowbar;secrets</literal></entry>
+<entry><literal REMAP="tt">found&lowbar;secrets</literal></entry>
 </row>
 <row>
 <entry>14 </entry>
-<entry><LITERAL REMAP="tt">killed&lowbar;monsters</literal></entry>
+<entry><literal REMAP="tt">killed&lowbar;monsters</literal></entry>
 </row>
 <row>
 <entry>15 </entry>
-<entry><LITERAL REMAP="tt">items</literal></entry>
+<entry><literal REMAP="tt">items</literal></entry>
 </row>
 <row>
 <entry>. </entry>
@@ -1071,12 +1073,12 @@ table `<LITERAL REMAP="tt">items</literal> bits'.</para>
 <para>
 
 <table>
-<title><LITERAL REMAP="tt">items</literal> bits</title>
-<TGROUP COLS="4">
-<COLSPEC COLSEP="0" ALIGN="RIGHT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<title><literal REMAP="tt">items</literal> bits</title>
+<tgroup COLS="4">
+<colspec COLSEP="0" ALIGN="RIGHT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>bit </entry>
@@ -1086,193 +1088,193 @@ table `<LITERAL REMAP="tt">items</literal> bits'.</para>
 </row>
 <row>
 <entry>0 </entry>
-<entry><LITERAL REMAP="tt">0x00000001</literal> </entry>
+<entry><literal REMAP="tt">0x00000001</literal> </entry>
 <entry>IT&lowbar;SHOTGUN </entry>
 <entry>Shotgun (should be always 1)</entry>
 </row>
 <row>
 <entry>1 </entry>
-<entry><LITERAL REMAP="tt">0x00000002</literal> </entry>
+<entry><literal REMAP="tt">0x00000002</literal> </entry>
 <entry>IT&lowbar;SUPER&lowbar;SHOTGUN</entry>
 <entry>Double-barrelled Shotgun</entry>
 </row>
 <row>
 <entry>2 </entry>
-<entry><LITERAL REMAP="tt">0x00000004</literal> </entry>
+<entry><literal REMAP="tt">0x00000004</literal> </entry>
 <entry>IT&lowbar;NAILGUN </entry>
 <entry>Nailgun</entry>
 </row>
 <row>
 <entry>3 </entry>
-<entry><LITERAL REMAP="tt">0x00000008</literal> </entry>
+<entry><literal REMAP="tt">0x00000008</literal> </entry>
 <entry>IT&lowbar;SUPER&lowbar;NAILGUN</entry>
 <entry>Perforator</entry>
 </row>
 <row>
 <entry>4 </entry>
-<entry><LITERAL REMAP="tt">0x00000010</literal> </entry>
+<entry><literal REMAP="tt">0x00000010</literal> </entry>
 <entry>IT&lowbar;GRENADE&lowbar;LAUNCHER</entry>
 <entry>Grenade Launcher</entry>
 </row>
 <row>
 <entry>5 </entry>
-<entry><LITERAL REMAP="tt">0x00000020</literal> </entry>
+<entry><literal REMAP="tt">0x00000020</literal> </entry>
 <entry>IT&lowbar;ROCKET&lowbar;LAUNCHER</entry>
 <entry>Rocket Launcher</entry>
 </row>
 <row>
 <entry>6 </entry>
-<entry><LITERAL REMAP="tt">0x00000040</literal> </entry>
+<entry><literal REMAP="tt">0x00000040</literal> </entry>
 <entry>IT&lowbar;LIGHTNING </entry>
 <entry>Thunderbolt</entry>
 </row>
 <row>
 <entry>7 </entry>
-<entry><LITERAL REMAP="tt">0x00000080</literal> </entry>
+<entry><literal REMAP="tt">0x00000080</literal> </entry>
 <entry>IT&lowbar;EXTRA&lowbar;WEAPON</entry>
 <entry>extra weapon (there is no extra weapon)</entry>
 </row>
 <row>
 <entry>8 </entry>
-<entry><LITERAL REMAP="tt">0x00000100</literal> </entry>
+<entry><literal REMAP="tt">0x00000100</literal> </entry>
 <entry>IT&lowbar;SHELLS </entry>
 <entry>Shells are active</entry>
 </row>
 <row>
 <entry>9 </entry>
-<entry><LITERAL REMAP="tt">0x00000200</literal> </entry>
+<entry><literal REMAP="tt">0x00000200</literal> </entry>
 <entry>IT&lowbar;NAILS </entry>
 <entry>Nails are active</entry>
 </row>
 <row>
 <entry>10 </entry>
-<entry><LITERAL REMAP="tt">0x00000400</literal> </entry>
+<entry><literal REMAP="tt">0x00000400</literal> </entry>
 <entry>IT&lowbar;ROCKETS </entry>
 <entry>Grenades are active</entry>
 </row>
 <row>
 <entry>11 </entry>
-<entry><LITERAL REMAP="tt">0x00000800</literal> </entry>
+<entry><literal REMAP="tt">0x00000800</literal> </entry>
 <entry>IT&lowbar;CELLS </entry>
 <entry>Cells are active</entry>
 </row>
 <row>
 <entry>12 </entry>
-<entry><LITERAL REMAP="tt">0x00001000</literal> </entry>
+<entry><literal REMAP="tt">0x00001000</literal> </entry>
 <entry>IT&lowbar;AXE </entry>
 <entry>Axe (should be always 1)</entry>
 </row>
 <row>
 <entry>13 </entry>
-<entry><LITERAL REMAP="tt">0x00002000</literal> </entry>
+<entry><literal REMAP="tt">0x00002000</literal> </entry>
 <entry>IT&lowbar;ARMOR1 </entry>
 <entry>green Armor</entry>
 </row>
 <row>
 <entry>14 </entry>
-<entry><LITERAL REMAP="tt">0x00004000</literal> </entry>
+<entry><literal REMAP="tt">0x00004000</literal> </entry>
 <entry>IT&lowbar;ARMOR2 </entry>
 <entry>yellow Armor</entry>
 </row>
 <row>
 <entry>15 </entry>
-<entry><LITERAL REMAP="tt">0x00008000</literal> </entry>
+<entry><literal REMAP="tt">0x00008000</literal> </entry>
 <entry>IT&lowbar;ARMOR3 </entry>
 <entry>red Armor</entry>
 </row>
 <row>
 <entry>16 </entry>
-<entry><LITERAL REMAP="tt">0x00010000</literal> </entry>
+<entry><literal REMAP="tt">0x00010000</literal> </entry>
 <entry>IT&lowbar;SUPERHEALTH </entry>
 <entry>Megahealth</entry>
 </row>
 <row>
 <entry>17 </entry>
-<entry><LITERAL REMAP="tt">0x00020000</literal> </entry>
+<entry><literal REMAP="tt">0x00020000</literal> </entry>
 <entry>IT&lowbar;KEY1 </entry>
 <entry>silver keycard (or runekey or key)</entry>
 </row>
 <row>
 <entry>18 </entry>
-<entry><LITERAL REMAP="tt">0x00040000</literal> </entry>
+<entry><literal REMAP="tt">0x00040000</literal> </entry>
 <entry>IT&lowbar;KEY2 </entry>
 <entry>gold keycard (or runekey or key)</entry>
 </row>
 <row>
 <entry>19 </entry>
-<entry><LITERAL REMAP="tt">0x00080000</literal> </entry>
+<entry><literal REMAP="tt">0x00080000</literal> </entry>
 <entry>IT&lowbar;INVISIBILITY </entry>
 <entry>Ring of Shadows</entry>
 </row>
 <row>
 <entry>20 </entry>
-<entry><LITERAL REMAP="tt">0x00100000</literal> </entry>
+<entry><literal REMAP="tt">0x00100000</literal> </entry>
 <entry>IT&lowbar;INVULNERABILITY </entry>
 <entry>Pentagram of Protection</entry>
 </row>
 <row>
 <entry>21 </entry>
-<entry><LITERAL REMAP="tt">0x00200000</literal> </entry>
+<entry><literal REMAP="tt">0x00200000</literal> </entry>
 <entry>IT&lowbar;SUIT </entry>
 <entry>Biosuit</entry>
 </row>
 <row>
 <entry>22 </entry>
-<entry><LITERAL REMAP="tt">0x00400000</literal> </entry>
+<entry><literal REMAP="tt">0x00400000</literal> </entry>
 <entry>IT&lowbar;QUAD </entry>
 <entry>Quad Damage</entry>
 </row>
 <row>
 <entry>23 </entry>
-<entry><LITERAL REMAP="tt">0x00800000</literal> </entry>
+<entry><literal REMAP="tt">0x00800000</literal> </entry>
 <entry>unknown </entry>
 <entry>unknown (is 0)</entry>
 </row>
 <row>
 <entry>24 </entry>
-<entry><LITERAL REMAP="tt">0x01000000</literal> </entry>
+<entry><literal REMAP="tt">0x01000000</literal> </entry>
 <entry>unknown </entry>
 <entry>unknown (is 0)</entry>
 </row>
 <row>
 <entry>25 </entry>
-<entry><LITERAL REMAP="tt">0x02000000</literal> </entry>
+<entry><literal REMAP="tt">0x02000000</literal> </entry>
 <entry>unknown </entry>
 <entry>unknown (is 0)</entry>
 </row>
 <row>
 <entry>26 </entry>
-<entry><LITERAL REMAP="tt">0x04000000</literal> </entry>
+<entry><literal REMAP="tt">0x04000000</literal> </entry>
 <entry>unknown </entry>
 <entry>unknown (is 0)</entry>
 </row>
 <row>
 <entry>27 </entry>
-<entry><LITERAL REMAP="tt">0x08000000</literal> </entry>
+<entry><literal REMAP="tt">0x08000000</literal> </entry>
 <entry>unknown </entry>
 <entry>unknown (is 0)</entry>
 </row>
 <row>
 <entry>28 </entry>
-<entry><LITERAL REMAP="tt">0x10000000</literal> </entry>
+<entry><literal REMAP="tt">0x10000000</literal> </entry>
 <entry>unknown </entry>
 <entry>Rune 1</entry>
 </row>
 <row>
 <entry>29 </entry>
-<entry><LITERAL REMAP="tt">0x20000000</literal> </entry>
+<entry><literal REMAP="tt">0x20000000</literal> </entry>
 <entry>unknown </entry>
 <entry>Rune 2</entry>
 </row>
 <row>
 <entry>30 </entry>
-<entry><LITERAL REMAP="tt">0x40000000</literal> </entry>
+<entry><literal REMAP="tt">0x40000000</literal> </entry>
 <entry>unknown </entry>
 <entry>Rune 3</entry>
 </row>
 <row>
 <entry>31 </entry>
-<entry><LITERAL REMAP="tt">0x80000000</literal> </entry>
+<entry><literal REMAP="tt">0x80000000</literal> </entry>
 <entry>unknown </entry>
 <entry>Rune 4</entry>
 </row>
@@ -1284,13 +1286,13 @@ table `<LITERAL REMAP="tt">items</literal> bits'.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long value;</literal></term>
+<term><literal REMAP="tt">long value;</literal></term>
 <listitem>
-<para>is the new (<LITERAL REMAP="tt">byte</literal>) value.</para>
+<para>is the new (<literal REMAP="tt">byte</literal>) value.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long playerstate[32];</literal></term>
+<term><literal REMAP="tt">long playerstate[32];</literal></term>
 <listitem>
 <para>is the array to describe the
 player state.</para>
@@ -1319,15 +1321,15 @@ playerstate[index] = value;</screen>
 <title>version</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x04</literal></para>
+<para><literal REMAP="tt">0x04</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>purpose</term>
 <listitem>
-<para>Not used any more. Calls the <EMPHASIS REMAP="bf">bad</emphasis>-routine.</para>
+<para>Not used any more. Calls the <emphasis REMAP="bf">bad</emphasis>-routine.</para>
 </listitem>
 </varlistentry>
 </variablelist></para>
@@ -1336,26 +1338,26 @@ playerstate[index] = value;</screen>
 <title>setview</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x05</literal></para>
+<para><literal REMAP="tt">0x05</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>purpose</term>
 <listitem>
-<para>Not used any more. Calls the <EMPHASIS REMAP="bf">bad</emphasis>-routine.</para>
+<para>Not used any more. Calls the <emphasis REMAP="bf">bad</emphasis>-routine.</para>
 </listitem>
 </varlistentry>
 </variablelist></para>
 </sect2>
-<SECT2 ID="SOUND">
+<sect2 ID="SOUND">
 <title>sound</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x06</literal></para>
+<para><literal REMAP="tt">0x06</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -1369,23 +1371,23 @@ playerstate[index] = value;</screen>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">float vol;</literal></term>
+<term><literal REMAP="tt">float vol;</literal></term>
 <listitem>
 <para>is the volume of the sound (0.0 off, 
 1.0 max).</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">float attenuation;</literal></term>
+<term><literal REMAP="tt">float attenuation;</literal></term>
 <listitem>
 <para>is the attenuation of the sound.
 
 <table>
 <title>Sound attenuations</title>
-<TGROUP COLS="3">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="3">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>value </entry>
@@ -1420,17 +1422,17 @@ playerstate[index] = value;</screen>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long channel;</literal></term>
+<term><literal REMAP="tt">long channel;</literal></term>
 <listitem>
 <para>is the sound channel. There are 8 possible
 sound channels for each entity in QuakeWorld but it uses 5 only. 
 
 <table>
 <title>Sound channels</title>
-<TGROUP COLS="3">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="3">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>value </entry>
@@ -1472,19 +1474,19 @@ playing sound on that channel.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long entity;</literal></term>
+<term><literal REMAP="tt">long entity;</literal></term>
 <listitem>
 <para>is the entity which caused the sound.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long soundnum;</literal></term>
+<term><literal REMAP="tt">long soundnum;</literal></term>
 <listitem>
 <para>is the index in the precache sound table.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t origin;</literal></term>
 <listitem>
 <para>is the origin of the sound.</para>
 </listitem>
@@ -1518,15 +1520,15 @@ for (i=0 ; i&lt;3 ; i++) origin[i] = ReadCoord;</screen>
 <title>time</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x07</literal></para>
+<para><literal REMAP="tt">0x07</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>purpose</term>
 <listitem>
-<para>Not used any more. Calls the <EMPHASIS REMAP="bf">bad</emphasis>-routine.</para>
+<para>Not used any more. Calls the <emphasis REMAP="bf">bad</emphasis>-routine.</para>
 </listitem>
 </varlistentry>
 </variablelist></para>
@@ -1535,9 +1537,9 @@ for (i=0 ; i&lt;3 ; i++) origin[i] = ReadCoord;</screen>
 <title>print</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x08</literal></para>
+<para><literal REMAP="tt">0x08</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -1553,16 +1555,16 @@ The text will be printed on the console as well. </para>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long level;</literal></term>
+<term><literal REMAP="tt">long level;</literal></term>
 <listitem>
 <para>is the priority level of the text. 
 
 <table>
 <title>Print priority levels</title>
-<TGROUP COLS="3">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="3">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>value </entry>
@@ -1597,10 +1599,10 @@ The text will be printed on the console as well. </para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">char* text;</literal></term>
+<term><literal REMAP="tt">char* text;</literal></term>
 <listitem>
 <para>is the text to be displayed.
-All font specials are explained in section <XREF LINKEND="FONT">.</para>
+All font specials are explained in section <xref LINKEND="FONT">.</para>
 </listitem>
 </varlistentry>
 </variablelist></para>
@@ -1623,9 +1625,9 @@ text = ReadString;</screen>
 <title>stufftext</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x09</literal></para>
+<para><literal REMAP="tt">0x09</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -1639,7 +1641,7 @@ text = ReadString;</screen>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">char* text;</literal></term>
+<term><literal REMAP="tt">char* text;</literal></term>
 <listitem>
 <para>is the command, which the client has to 
 execute. </para>
@@ -1664,9 +1666,9 @@ execute. </para>
 <title>setangle</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x0A</literal></para>
+<para><literal REMAP="tt">0x0A</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -1680,7 +1682,7 @@ execute. </para>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t angles;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t angles;</literal></term>
 <listitem>
 <para>is the new camera orientation.</para>
 </listitem>
@@ -1704,9 +1706,9 @@ execute. </para>
 <title>serverdata</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x0B</literal></para>
+<para><literal REMAP="tt">0x0B</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -1720,16 +1722,16 @@ execute. </para>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long serverversion;</literal></term>
+<term><literal REMAP="tt">long serverversion;</literal></term>
 <listitem>
 <para>is the protocol version coming from
 the server.
 
 <table>
-<title>QuakeWorld values for <LITERAL REMAP="tt">PROTOCOL&lowbar;VERSION</literal></title>
-<TGROUP COLS="2">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<title>QuakeWorld values for <literal REMAP="tt">PROTOCOL&lowbar;VERSION</literal></title>
+<tgroup COLS="2">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>game </entry>
@@ -1771,47 +1773,47 @@ the server.
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long age;</literal></term>
+<term><literal REMAP="tt">long age;</literal></term>
 <listitem>
 <para>is the number of levels analysed since the
 existence of the server process. Starts with 1.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">char* game;</literal></term>
+<term><literal REMAP="tt">char* game;</literal></term>
 <listitem>
 <para>is the QuakeWorld game directory. It has
 usually the value "qw";</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long client;</literal></term>
+<term><literal REMAP="tt">long client;</literal></term>
 <listitem>
 <para>is the client id.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">char* mapname;</literal></term>
+<term><literal REMAP="tt">char* mapname;</literal></term>
 <listitem>
 <para>is the name of the level.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">float maxspeed;</literal></term>
+<term><literal REMAP="tt">float maxspeed;</literal></term>
 <listitem>
 <para>is the maximum running speed. It may be
-changed during the game with the <EMPHASIS REMAP="bf">maxspeed</emphasis> message.</para>
+changed during the game with the <emphasis REMAP="bf">maxspeed</emphasis> message.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">float entgravity;</literal></term>
+<term><literal REMAP="tt">float entgravity;</literal></term>
 <listitem>
 <para>is the gravity in the level.
-It may be changed during the game with the <EMPHASIS REMAP="bf">entgravity</emphasis> message.</para>
+It may be changed during the game with the <emphasis REMAP="bf">entgravity</emphasis> message.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">float var0, var1, var3, var4, var4, var5, var6, var7,
+<term><literal REMAP="tt">float var0, var1, var3, var4, var4, var5, var6, var7,
 var8</literal></term>
 <listitem>
 <para>are other global definition variables. ?FIXME?</para>
@@ -1854,9 +1856,9 @@ if (serverversion &gt;= 25) { // from 2.00 on
 <title>lightstyle</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x0C</literal></para>
+<para><literal REMAP="tt">0x0C</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -1870,13 +1872,13 @@ if (serverversion &gt;= 25) { // from 2.00 on
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long style;</literal></term>
+<term><literal REMAP="tt">long style;</literal></term>
 <listitem>
 <para>is the light style number.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">char* string;</literal></term>
+<term><literal REMAP="tt">char* string;</literal></term>
 <listitem>
 <para>is a string of letters `a' .. `z', where `a' means black and `z' white.
 All effects from nervous flashing (``az'') to slow dimming 
@@ -1884,7 +1886,7 @@ All effects from nervous flashing (``az'') to slow dimming
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define MAX&lowbar;LIGHTSTYLES 63</literal></term>
+<term><literal REMAP="tt">&num;define MAX&lowbar;LIGHTSTYLES 63</literal></term>
 <listitem>
 <para>is the last number number of
 a light style.</para>
@@ -1912,15 +1914,15 @@ string = ReadString;</screen>
 <title>updatename</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x0D</literal></para>
+<para><literal REMAP="tt">0x0D</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>purpose</term>
 <listitem>
-<para>Not used any more. Calls the <EMPHASIS REMAP="bf">bad</emphasis>-routine.</para>
+<para>Not used any more. Calls the <emphasis REMAP="bf">bad</emphasis>-routine.</para>
 </listitem>
 </varlistentry>
 </variablelist></para>
@@ -1929,9 +1931,9 @@ string = ReadString;</screen>
 <title>updatefrags</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x0E</literal></para>
+<para><literal REMAP="tt">0x0E</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -1945,19 +1947,19 @@ string = ReadString;</screen>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long player;</literal></term>
+<term><literal REMAP="tt">long player;</literal></term>
 <listitem>
 <para>is the player number (0 .. MAX&lowbar;SCOREBOARD).</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long frags;</literal></term>
+<term><literal REMAP="tt">long frags;</literal></term>
 <listitem>
 <para>is the new frag count for this player.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define MAX&lowbar;SCOREBOARD 31</literal></term>
+<term><literal REMAP="tt">&num;define MAX&lowbar;SCOREBOARD 31</literal></term>
 <listitem>
 <para>is the last possible number of a
 player.</para>
@@ -1985,15 +1987,15 @@ frags = ReadShort;</screen>
 <title>clientdata</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x0F</literal></para>
+<para><literal REMAP="tt">0x0F</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>purpose</term>
 <listitem>
-<para>Not used any more. Calls the <EMPHASIS REMAP="bf">bad</emphasis>-routine.</para>
+<para>Not used any more. Calls the <emphasis REMAP="bf">bad</emphasis>-routine.</para>
 </listitem>
 </varlistentry>
 </variablelist></para>
@@ -2002,16 +2004,16 @@ frags = ReadShort;</screen>
 <title>stopsound</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x10</literal></para>
+<para><literal REMAP="tt">0x10</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>purpose</term>
 <listitem>
-<para>Stops a sound. It looks for a sound started with a <EMPHASIS REMAP="bf">sound</emphasis> message
-with the same <LITERAL REMAP="tt">channel</literal> and <LITERAL REMAP="tt">entity</literal>.</para>
+<para>Stops a sound. It looks for a sound started with a <emphasis REMAP="bf">sound</emphasis> message
+with the same <literal REMAP="tt">channel</literal> and <literal REMAP="tt">entity</literal>.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -2019,13 +2021,13 @@ with the same <LITERAL REMAP="tt">channel</literal> and <LITERAL REMAP="tt">enti
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long channel;</literal></term>
+<term><literal REMAP="tt">long channel;</literal></term>
 <listitem>
 <para>is the sound channel.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long entity;</literal></term>
+<term><literal REMAP="tt">long entity;</literal></term>
 <listitem>
 <para>is the entity which caused the sound.</para>
 </listitem>
@@ -2053,15 +2055,15 @@ entity = (channel_entity &gt;&gt; 3) &amp; 0x03FF;</screen>
 <title>updatecolors</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x11</literal></para>
+<para><literal REMAP="tt">0x11</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>purpose</term>
 <listitem>
-<para>Not used any more. Calls the <EMPHASIS REMAP="bf">bad</emphasis>-routine.</para>
+<para>Not used any more. Calls the <emphasis REMAP="bf">bad</emphasis>-routine.</para>
 </listitem>
 </varlistentry>
 </variablelist></para>
@@ -2070,15 +2072,15 @@ entity = (channel_entity &gt;&gt; 3) &amp; 0x03FF;</screen>
 <title>particle</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x12</literal></para>
+<para><literal REMAP="tt">0x12</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>purpose</term>
 <listitem>
-<para>Not used any more. Calls the <EMPHASIS REMAP="bf">bad</emphasis>-routine.</para>
+<para>Not used any more. Calls the <emphasis REMAP="bf">bad</emphasis>-routine.</para>
 </listitem>
 </varlistentry>
 </variablelist></para>
@@ -2087,9 +2089,9 @@ entity = (channel_entity &gt;&gt; 3) &amp; 0x03FF;</screen>
 <title>damage</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x13</literal></para>
+<para><literal REMAP="tt">0x13</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -2103,20 +2105,20 @@ entity = (channel_entity &gt;&gt; 3) &amp; 0x03FF;</screen>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long save;</literal></term>
+<term><literal REMAP="tt">long save;</literal></term>
 <listitem>
 <para>will be subtracted from the current armor.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long take;</literal></term>
+<term><literal REMAP="tt">long take;</literal></term>
 <listitem>
 <para>will be subtracted from the current
 health.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t origin;</literal></term>
 <listitem>
 <para>is the origin of the
 hit. It points to the weapon (not the origin) of the attacking entity 
@@ -2140,13 +2142,13 @@ for (i=0 ; i&lt;3 ; i++) origin[i] = ReadCoord;</screen>
 </varlistentry>
 </variablelist></para>
 </sect2>
-<SECT2 ID="SPAWNSTATIC">
+<sect2 ID="SPAWNSTATIC">
 <title>spawnstatic</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x14</literal></para>
+<para><literal REMAP="tt">0x14</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -2160,53 +2162,53 @@ for (i=0 ; i&lt;3 ; i++) origin[i] = ReadCoord;</screen>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long StaticEntityCount;</literal></term>
+<term><literal REMAP="tt">long StaticEntityCount;</literal></term>
 <listitem>
 <para>is the number of already started
 static entities. The maximum number is 127.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">entity&lowbar;t* staticentities;</literal></term>
+<term><literal REMAP="tt">entity&lowbar;t* staticentities;</literal></term>
 <listitem>
 <para>is the array filled up with
 the data of the static entities.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long default&lowbar;modelindex;</literal></term>
+<term><literal REMAP="tt">long default&lowbar;modelindex;</literal></term>
 <listitem>
 <para>is the model index in the 
 precache model table for the entity.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long default&lowbar;frame;</literal></term>
+<term><literal REMAP="tt">long default&lowbar;frame;</literal></term>
 <listitem>
 <para>is the frame number of the model.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long default&lowbar;colormap;</literal></term>
+<term><literal REMAP="tt">long default&lowbar;colormap;</literal></term>
 <listitem>
 <para>is the colormap number to display 
 the model.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long default&lowbar;skin;</literal></term>
+<term><literal REMAP="tt">long default&lowbar;skin;</literal></term>
 <listitem>
 <para>is the skin number of the model. </para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t default&lowbar;origin;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t default&lowbar;origin;</literal></term>
 <listitem>
 <para>is the origin of the entity.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t default&lowbar;angles;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t default&lowbar;angles;</literal></term>
 <listitem>
 <para>is the orientation of the entity.</para>
 </listitem>
@@ -2240,26 +2242,26 @@ StaticEntityCount++;</screen>
 <title>spawnbinary</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x15</literal></para>
+<para><literal REMAP="tt">0x15</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>purpose</term>
 <listitem>
-<para>Not used any more. Calls the <EMPHASIS REMAP="bf">bad</emphasis>-routine.</para>
+<para>Not used any more. Calls the <emphasis REMAP="bf">bad</emphasis>-routine.</para>
 </listitem>
 </varlistentry>
 </variablelist></para>
 </sect2>
-<SECT2 ID="SPAWNBASELINE">
+<sect2 ID="SPAWNBASELINE">
 <title>spawnbaseline</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x16</literal></para>
+<para><literal REMAP="tt">0x16</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -2273,7 +2275,7 @@ StaticEntityCount++;</screen>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long entity;</literal></term>
+<term><literal REMAP="tt">long entity;</literal></term>
 <listitem>
 <para>is the number of the entity. In Quake
 there was a test if this number is too big. There is no such test in 
@@ -2281,46 +2283,46 @@ QuakeWorld.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">entity&lowbar;t* entities;</literal></term>
+<term><literal REMAP="tt">entity&lowbar;t* entities;</literal></term>
 <listitem>
 <para>is the array filled up with
 the data of the dynamic entities.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long default&lowbar;modelindex;</literal></term>
+<term><literal REMAP="tt">long default&lowbar;modelindex;</literal></term>
 <listitem>
 <para>is the model index in the 
 precache model table for the entity.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long default&lowbar;frame;</literal></term>
+<term><literal REMAP="tt">long default&lowbar;frame;</literal></term>
 <listitem>
 <para>is the frame number of the model.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long default&lowbar;colormap;</literal></term>
+<term><literal REMAP="tt">long default&lowbar;colormap;</literal></term>
 <listitem>
 <para>is the colormap number to display 
 the model.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long default&lowbar;skin;</literal></term>
+<term><literal REMAP="tt">long default&lowbar;skin;</literal></term>
 <listitem>
 <para>is the skin number of the model.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t default&lowbar;origin;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t default&lowbar;origin;</literal></term>
 <listitem>
 <para>is the origin of the entity.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t default&lowbar;angles;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t default&lowbar;angles;</literal></term>
 <listitem>
 <para>is the orientation of the entity.</para>
 </listitem>
@@ -2348,13 +2350,13 @@ for (i=0 ; i&lt;3 ; i++) {
 </varlistentry>
 </variablelist></para>
 </sect2>
-<SECT2 ID="TEMP-ENTITY">
+<sect2 ID="TEMP-ENTITY">
 <title>temp&lowbar;entity</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x17</literal></para>
+<para><literal REMAP="tt">0x17</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -2368,7 +2370,7 @@ for (i=0 ; i&lt;3 ; i++) {
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long entitytype;</literal></term>
+<term><literal REMAP="tt">long entitytype;</literal></term>
 <listitem>
 <para>is the type of the temporary entity.
 There are three kinds of temporary entities:
@@ -2380,10 +2382,10 @@ There are three kinds of temporary entities:
 
 <table>
 <title>point entities</title>
-<TGROUP COLS="3">
-<COLSPEC COLSEP="0" ALIGN="RIGHT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="3">
+<colspec COLSEP="0" ALIGN="RIGHT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>value </entry>
@@ -2449,10 +2451,10 @@ There are three kinds of temporary entities:
 
 <table>
 <title>line entities</title>
-<TGROUP COLS="3">
-<COLSPEC COLSEP="0" ALIGN="RIGHT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="3">
+<colspec COLSEP="0" ALIGN="RIGHT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>value </entry>
@@ -2488,10 +2490,10 @@ There are three kinds of temporary entities:
 
 <table>
 <title>multi entities</title>
-<TGROUP COLS="3">
-<COLSPEC COLSEP="0" ALIGN="RIGHT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="3">
+<colspec COLSEP="0" ALIGN="RIGHT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>value </entry>
@@ -2519,25 +2521,25 @@ There are three kinds of temporary entities:
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long entity;</literal></term>
+<term><literal REMAP="tt">long entity;</literal></term>
 <listitem>
 <para>is the entity which created the temporary entity.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t origin;</literal></term>
 <listitem>
 <para>is the origin of the entity.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t trace&lowbar;endpos;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t trace&lowbar;endpos;</literal></term>
 <listitem>
 <para>is the destination of the line entity.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long count;</literal></term>
+<term><literal REMAP="tt">long count;</literal></term>
 <listitem>
 <para>is the number of particles in a multi entity.</para>
 </listitem>
@@ -2578,9 +2580,9 @@ switch (entitytype) {
 <title>setpause</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x18</literal></para>
+<para><literal REMAP="tt">0x18</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -2596,7 +2598,7 @@ switch (entitytype) {
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long pausestate;</literal></term>
+<term><literal REMAP="tt">long pausestate;</literal></term>
 <listitem>
 <para>is non-zero to start the pause and 
 zero to stop it.</para>
@@ -2627,15 +2629,15 @@ else {
 <title>signonum</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x19</literal></para>
+<para><literal REMAP="tt">0x19</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>purpose</term>
 <listitem>
-<para>Not used any more. Calls the <EMPHASIS REMAP="bf">bad</emphasis>-routine.</para>
+<para>Not used any more. Calls the <emphasis REMAP="bf">bad</emphasis>-routine.</para>
 </listitem>
 </varlistentry>
 </variablelist></para>
@@ -2644,9 +2646,9 @@ else {
 <title>centerprint</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x1A</literal></para>
+<para><literal REMAP="tt">0x1A</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -2654,9 +2656,9 @@ else {
 <listitem>
 <para>Prints the specified text at the centre of the screen. There is only one text
 line with a maximum of 40 characters. To print more than this one line, use
-`&bsol;n' in a single <EMPHASIS REMAP="bf">centerprint</emphasis> message for a new line. Every text 
+`&bsol;n' in a single <emphasis REMAP="bf">centerprint</emphasis> message for a new line. Every text 
 line (the first 40 characters) will be centred horizontally.</para>
-<para>All font specials are explained in section <XREF LINKEND="FONT">.</para>
+<para>All font specials are explained in section <xref LINKEND="FONT">.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -2664,7 +2666,7 @@ line (the first 40 characters) will be centred horizontally.</para>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">char* text;</literal></term>
+<term><literal REMAP="tt">char* text;</literal></term>
 <listitem>
 <para>is the text to be displayed.</para>
 </listitem>
@@ -2688,9 +2690,9 @@ line (the first 40 characters) will be centred horizontally.</para>
 <title>killedmonster</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x1B</literal></para>
+<para><literal REMAP="tt">0x1B</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -2704,10 +2706,10 @@ line (the first 40 characters) will be centred horizontally.</para>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long killed&lowbar;monsters;</literal></term>
+<term><literal REMAP="tt">long killed&lowbar;monsters;</literal></term>
 <listitem>
 <para>is the number of killed monsters. 
-It may be displayed with the console command <EMPHASIS REMAP="it">showscores</emphasis>.</para>
+It may be displayed with the console command <emphasis REMAP="it">showscores</emphasis>.</para>
 </listitem>
 </varlistentry>
 </variablelist></para>
@@ -2729,16 +2731,16 @@ It may be displayed with the console command <EMPHASIS REMAP="it">showscores</em
 <title>foundsecret</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x1C</literal></para>
+<para><literal REMAP="tt">0x1C</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>purpose</term>
 <listitem>
 <para>Indicates, that the player just entered a secret area.
-It comes usually with a <LITERAL REMAP="tt">centerprint</literal> message.</para>
+It comes usually with a <literal REMAP="tt">centerprint</literal> message.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -2746,10 +2748,10 @@ It comes usually with a <LITERAL REMAP="tt">centerprint</literal> message.</para
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long found&lowbar;secrets;</literal></term>
+<term><literal REMAP="tt">long found&lowbar;secrets;</literal></term>
 <listitem>
 <para>is the number of found secrets. It may
-be displayed with the console command <EMPHASIS REMAP="it">showscores</emphasis>.</para>
+be displayed with the console command <emphasis REMAP="it">showscores</emphasis>.</para>
 </listitem>
 </varlistentry>
 </variablelist></para>
@@ -2771,9 +2773,9 @@ be displayed with the console command <EMPHASIS REMAP="it">showscores</emphasis>
 <title>spawnstaticsound</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x1D</literal></para>
+<para><literal REMAP="tt">0x1D</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -2788,31 +2790,31 @@ a position.</para>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t origin;</literal></term>
 <listitem>
 <para>is the origin of 
 the sound.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long soundnum;</literal></term>
+<term><literal REMAP="tt">long soundnum;</literal></term>
 <listitem>
 <para>is the sound index in the precache sound
 table.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">float vol;</literal></term>
+<term><literal REMAP="tt">float vol;</literal></term>
 <listitem>
 <para>is the volume (0.0 off, 1.0 max)</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">float attenuation;</literal></term>
+<term><literal REMAP="tt">float attenuation;</literal></term>
 <listitem>
 <para>is the attenuation of the sound. 
 Possible attenuations can be found in the table `Sound attenuations'
-of section <XREF LINKEND="SOUND">.</para>
+of section <xref LINKEND="SOUND">.</para>
 </listitem>
 </varlistentry>
 </variablelist></para>
@@ -2837,9 +2839,9 @@ attenuation = (float) ReadByte / 64.0;</screen>
 <title>intermission</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x1E</literal></para>
+<para><literal REMAP="tt">0x1E</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -2853,13 +2855,13 @@ attenuation = (float) ReadByte / 64.0;</screen>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t origin;</literal></term>
 <listitem>
 <para>is the origin of the intermission waiting place. </para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t angles;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t angles;</literal></term>
 <listitem>
 <para>is the viewing direction from the intermission
 waiting place.</para>
@@ -2885,16 +2887,16 @@ for ( i=0 ; i&lt;3 ; i++) angles[i] = ReadAngle;</screen>
 <title>finale</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x1F</literal></para>
+<para><literal REMAP="tt">0x1F</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>purpose</term>
 <listitem>
 <para>Displays the episode end screen and some text. The text will be printed
-like <LITERAL REMAP="tt">centerprint</literal> but slower.</para>
+like <literal REMAP="tt">centerprint</literal> but slower.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -2902,7 +2904,7 @@ like <LITERAL REMAP="tt">centerprint</literal> but slower.</para>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">char* text;</literal></term>
+<term><literal REMAP="tt">char* text;</literal></term>
 <listitem>
 <para>is the episode end text.</para>
 </listitem>
@@ -2926,9 +2928,9 @@ like <LITERAL REMAP="tt">centerprint</literal> but slower.</para>
 <title>cdtrack</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x20</literal></para>
+<para><literal REMAP="tt">0x20</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -2942,7 +2944,7 @@ like <LITERAL REMAP="tt">centerprint</literal> but slower.</para>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long track;</literal></term>
+<term><literal REMAP="tt">long track;</literal></term>
 <listitem>
 <para>is the audio CD track to play.</para>
 </listitem>
@@ -2966,9 +2968,9 @@ like <LITERAL REMAP="tt">centerprint</literal> but slower.</para>
 <title>sellscreen</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x21</literal></para>
+<para><literal REMAP="tt">0x21</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -2989,9 +2991,9 @@ like <LITERAL REMAP="tt">centerprint</literal> but slower.</para>
 <title>smallkick</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x22</literal></para>
+<para><literal REMAP="tt">0x22</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -3013,9 +3015,9 @@ Rocket Launcher and Thunderbolt kicks the shooter soft.</para>
 <title>bigkick</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x23</literal></para>
+<para><literal REMAP="tt">0x23</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -3036,9 +3038,9 @@ Rocket Launcher and Thunderbolt kicks the shooter soft.</para>
 <title>updateping</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x24</literal></para>
+<para><literal REMAP="tt">0x24</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -3052,13 +3054,13 @@ Rocket Launcher and Thunderbolt kicks the shooter soft.</para>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long player;</literal></term>
+<term><literal REMAP="tt">long player;</literal></term>
 <listitem>
 <para>is the number of the player (0 .. MAX&lowbar;SCOREBOARD).</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long ping;</literal></term>
+<term><literal REMAP="tt">long ping;</literal></term>
 <listitem>
 <para>is the ping time in milliseconds.</para>
 </listitem>
@@ -3085,9 +3087,9 @@ ping = ReadShort;</screen>
 <title>updateentertime</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x25</literal></para>
+<para><literal REMAP="tt">0x25</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -3101,13 +3103,13 @@ ping = ReadShort;</screen>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long player;</literal></term>
+<term><literal REMAP="tt">long player;</literal></term>
 <listitem>
 <para>is the number of the player (0 .. MAX&lowbar;SCOREBOARD).</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">float entertime;</literal></term>
+<term><literal REMAP="tt">float entertime;</literal></term>
 <listitem>
 <para>is the time stamp, as the client enters a server.</para>
 </listitem>
@@ -3130,21 +3132,21 @@ entertime = ReadFloat;</screen>
 </varlistentry>
 </variablelist></para>
 </sect2>
-<SECT2 ID="UPDATESTATLONG">
+<sect2 ID="UPDATESTATLONG">
 <title>updatestatlong</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x26</literal></para>
+<para><literal REMAP="tt">0x26</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>purpose</term>
 <listitem>
-<para>Updates directly a <LITERAL REMAP="tt">long</literal> value in the player state array 
-of <LITERAL REMAP="tt">long</literal> numbers. To update a <LITERAL REMAP="tt">byte</literal>
-value, look in section <XREF LINKEND="UPDATESTAT">.</para>
+<para>Updates directly a <literal REMAP="tt">long</literal> value in the player state array 
+of <literal REMAP="tt">long</literal> numbers. To update a <literal REMAP="tt">byte</literal>
+value, look in section <xref LINKEND="UPDATESTAT">.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -3152,21 +3154,21 @@ value, look in section <XREF LINKEND="UPDATESTAT">.</para>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long index;</literal></term>
+<term><literal REMAP="tt">long index;</literal></term>
 <listitem>
-<para>is the index in the <LITERAL REMAP="tt">playerstate</literal> array.
-Look in table `<LITERAL REMAP="tt">updatestat</literal> indices' in section 
-<XREF LINKEND="UPDATESTAT"> for a list of possible indices.</para>
+<para>is the index in the <literal REMAP="tt">playerstate</literal> array.
+Look in table `<literal REMAP="tt">updatestat</literal> indices' in section 
+<xref LINKEND="UPDATESTAT"> for a list of possible indices.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long value;</literal></term>
+<term><literal REMAP="tt">long value;</literal></term>
 <listitem>
-<para>is the new (<LITERAL REMAP="tt">long</literal>) value.</para>
+<para>is the new (<literal REMAP="tt">long</literal>) value.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long playerstate[32];</literal></term>
+<term><literal REMAP="tt">long playerstate[32];</literal></term>
 <listitem>
 <para>is the array to describe the player state. </para>
 </listitem>
@@ -3194,9 +3196,9 @@ playerstate[index] = value;</screen>
 <title>muzzleflash</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x27</literal></para>
+<para><literal REMAP="tt">0x27</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -3234,9 +3236,9 @@ playerstate[index] = value;</screen>
 <title>updateuserinfo</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x28</literal></para>
+<para><literal REMAP="tt">0x28</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -3292,9 +3294,9 @@ text = ReadString;</screen>
 <title>download</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x29</literal></para>
+<para><literal REMAP="tt">0x29</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -3308,20 +3310,20 @@ text = ReadString;</screen>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long size;</literal></term>
+<term><literal REMAP="tt">long size;</literal></term>
 <listitem>
 <para>is the length of the data block. 
 A typical value is 1024.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long percent;</literal></term>
+<term><literal REMAP="tt">long percent;</literal></term>
 <listitem>
 <para>is the transferred amount of data in percent.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">char* downloadbuffer;</literal></term>
+<term><literal REMAP="tt">char* downloadbuffer;</literal></term>
 <listitem>
 <para>is the buffer for downloaded files.</para>
 </listitem>
@@ -3362,9 +3364,9 @@ else {
 <title>playerinfo</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x2A</literal></para>
+<para><literal REMAP="tt">0x2A</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -3378,121 +3380,121 @@ else {
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long player;</literal></term>
+<term><literal REMAP="tt">long player;</literal></term>
 <listitem>
 <para>is the number of the player (0 .. MAX&lowbar;SCOREBOARD).</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long mask;</literal></term>
+<term><literal REMAP="tt">long mask;</literal></term>
 <listitem>
 <para>is a bit mask to reduce the network traffic.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t origin;</literal></term>
 <listitem>
 <para>is the origin of the player.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long frame;</literal></term>
+<term><literal REMAP="tt">long frame;</literal></term>
 <listitem>
 <para>is the frame number of the player model.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">float ping;</literal></term>
+<term><literal REMAP="tt">float ping;</literal></term>
 <listitem>
 <para>has something to do with the ping time. ?FIXME?</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long mask2;</literal></term>
+<term><literal REMAP="tt">long mask2;</literal></term>
 <listitem>
 <para>is another bit mask to reduce the network traffic.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt"> unsigned char load;</literal></term>
+<term><literal REMAP="tt"> unsigned char load;</literal></term>
 <listitem>
 <para>is connected somehow to the workload of the client. ?FIXME?</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t angles;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t angles;</literal></term>
 <listitem>
 <para>point in the viewing direction (in degree) of the client.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t speed;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t speed;</literal></term>
 <listitem>
 <para>is the translation of the client (forward, right, up).</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long flag;</literal></term>
+<term><literal REMAP="tt">long flag;</literal></term>
 <listitem>
 <para>is a collection of flags and must be splitted.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">int fire;</literal></term>
+<term><literal REMAP="tt">int fire;</literal></term>
 <listitem>
-<para>indicates an <EMPHASIS REMAP="it">attack</emphasis> console command.</para>
+<para>indicates an <emphasis REMAP="it">attack</emphasis> console command.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">int jump;</literal></term>
+<term><literal REMAP="tt">int jump;</literal></term>
 <listitem>
-<para>indicates a <EMPHASIS REMAP="it">jump</emphasis> console command.</para>
+<para>indicates a <emphasis REMAP="it">jump</emphasis> console command.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long impulse;</literal></term>
+<term><literal REMAP="tt">long impulse;</literal></term>
 <listitem>
-<para>is the value of a currently activated <EMPHASIS REMAP="it">impulse</emphasis> console command.</para>
+<para>is the value of a currently activated <emphasis REMAP="it">impulse</emphasis> console command.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t cspeed;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t cspeed;</literal></term>
 <listitem>
 <para>is the current speed in the x,y, and z direction. Used to predict the 
 future.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long model;</literal></term>
+<term><literal REMAP="tt">long model;</literal></term>
 <listitem>
 <para>is the model index in the precache model table of the player.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long playermodel;</literal></term>
+<term><literal REMAP="tt">long playermodel;</literal></term>
 <listitem>
 <para>is the model index in the precache model table for the standard value 
-<LITERAL REMAP="tt">"progs/player.mdl"</literal>.</para>
+<literal REMAP="tt">"progs/player.mdl"</literal>.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long uk&lowbar;byte6;</literal></term>
+<term><literal REMAP="tt">long uk&lowbar;byte6;</literal></term>
 <listitem>
 <para>is an unknown byte. ?FIXME?</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long weapon;</literal></term>
+<term><literal REMAP="tt">long weapon;</literal></term>
 <listitem>
 <para>contains a bit mask for the current weapon.
 
 <table>
-<title><LITERAL REMAP="tt">weapon</literal> bits</title>
-<TGROUP COLS="4">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<title><literal REMAP="tt">weapon</literal> bits</title>
+<tgroup COLS="4">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>bit </entry>
@@ -3502,55 +3504,55 @@ future.</para>
 </row>
 <row>
 <entry>? </entry>
-<entry><LITERAL REMAP="tt">0x00</literal> </entry>
+<entry><literal REMAP="tt">0x00</literal> </entry>
 <entry>not available </entry>
 <entry>Axe</entry>
 </row>
 <row>
 <entry>0 </entry>
-<entry><LITERAL REMAP="tt">0x01</literal> </entry>
+<entry><literal REMAP="tt">0x01</literal> </entry>
 <entry>IT&lowbar;SHOTGUN </entry>
 <entry>Shotgun</entry>
 </row>
 <row>
 <entry>1 </entry>
-<entry><LITERAL REMAP="tt">0x02</literal> </entry>
+<entry><literal REMAP="tt">0x02</literal> </entry>
 <entry>IT&lowbar;SUPER&lowbar;SHOTGUN </entry>
 <entry>Double-barrelled Shotgun</entry>
 </row>
 <row>
 <entry>2 </entry>
-<entry><LITERAL REMAP="tt">0x04</literal> </entry>
+<entry><literal REMAP="tt">0x04</literal> </entry>
 <entry>IT&lowbar;NAILGUN </entry>
 <entry>Nailgun</entry>
 </row>
 <row>
 <entry>3 </entry>
-<entry><LITERAL REMAP="tt">0x08</literal> </entry>
+<entry><literal REMAP="tt">0x08</literal> </entry>
 <entry>IT&lowbar;SUPER&lowbar;NAILGUN</entry>
 <entry>Perforator</entry>
 </row>
 <row>
 <entry>4 </entry>
-<entry><LITERAL REMAP="tt">0x10</literal> </entry>
+<entry><literal REMAP="tt">0x10</literal> </entry>
 <entry>IT&lowbar;GRENADE&lowbar;LAUNCHER</entry>
 <entry>Grenade Launcher</entry>
 </row>
 <row>
 <entry>5 </entry>
-<entry><LITERAL REMAP="tt">0x20</literal> </entry>
+<entry><literal REMAP="tt">0x20</literal> </entry>
 <entry>IT&lowbar;ROCKET&lowbar;LAUNCHER</entry>
 <entry>Rocket Launcher</entry>
 </row>
 <row>
 <entry>6 </entry>
-<entry><LITERAL REMAP="tt">0x40</literal> </entry>
+<entry><literal REMAP="tt">0x40</literal> </entry>
 <entry>IT&lowbar;LIGHTNING</entry>
 <entry>Thunderbolt</entry>
 </row>
 <row>
 <entry>7 </entry>
-<entry><LITERAL REMAP="tt">0x80</literal> </entry>
+<entry><literal REMAP="tt">0x80</literal> </entry>
 <entry>IT&lowbar;EXTRA&lowbar;WEAPON</entry>
 <entry>extra weapon (there is no extra weapon)</entry>
 </row>
@@ -3562,7 +3564,7 @@ future.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long weaponframe;</literal></term>
+<term><literal REMAP="tt">long weaponframe;</literal></term>
 <listitem>
 <para>is the frame of the current weapon model.</para>
 </listitem>
@@ -3626,9 +3628,9 @@ if (mask &amp; 0x0100) weaponframe = ReadByte;         // bit 8</screen>
 <title>nails</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x2B</literal></para>
+<para><literal REMAP="tt">0x2B</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -3656,31 +3658,31 @@ if (mask &amp; 0x0100) weaponframe = ReadByte;         // bit 8</screen>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long nailcount;</literal></term>
+<term><literal REMAP="tt">long nailcount;</literal></term>
 <listitem>
 <para>is the number of nails.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">nail&lowbar;t* nails;</literal></term>
+<term><literal REMAP="tt">nail&lowbar;t* nails;</literal></term>
 <listitem>
 <para>is the internal array with all nail coordinates.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t origin;</literal></term>
 <listitem>
 <para>is the origin of the nail.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">float angle&lowbar;1;</literal></term>
+<term><literal REMAP="tt">float angle&lowbar;1;</literal></term>
 <listitem>
 <para>is the tilt angle of the nail.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">float angle&lowbar;2;</literal></term>
+<term><literal REMAP="tt">float angle&lowbar;2;</literal></term>
 <listitem>
 <para>is the yaw angle of the nail.</para>
 </listitem>
@@ -3727,10 +3729,10 @@ some general remarks.</para>
 
 <table>
 <title>the 6 nails bytes</title>
-<TGROUP COLS="3">
-<COLSPEC COLSEP="0" ALIGN="RIGHT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="3">
+<colspec COLSEP="0" ALIGN="RIGHT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>byte </entry>
@@ -3774,7 +3776,7 @@ some general remarks.</para>
 </para>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">origin[i]</literal></term>
+<term><literal REMAP="tt">origin[i]</literal></term>
 <listitem>
 <para>A standard coordinate is a signed 16 bit number with 1 sign bit, 12 integer
 bits and 3 fraction bits. Nail coordinates have only 12 bits in total.
@@ -3786,7 +3788,7 @@ network transmission.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">angle&lowbar;1</literal></term>
+<term><literal REMAP="tt">angle&lowbar;1</literal></term>
 <listitem>
 <para>The tilt angle of a fast flying nail is not very important. 
 There are only 4 bits
@@ -3794,13 +3796,13 @@ to describe the tilt angle and only 3 of them are used at all. The 4 bits
 form a normal (but very short) signed integer. To compute an angle in
 degree back from this short value, it must be multiplied by 360/16=22.5.
 The range of values of a tilt angle of a nail is &lsqb;-90,90] and not &lsqb;-180,180].
-Therefore bit 2 of <LITERAL REMAP="tt">angle&lowbar;1</literal> is always equal to bit 3 (the sign bit).
+Therefore bit 2 of <literal REMAP="tt">angle&lowbar;1</literal> is always equal to bit 3 (the sign bit).
 So the eight possible values for the tilt angle are -90.0, -67.5, -45.0, 
 -22.5, 0.0, 22.5, 45.0, 67.5.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">angle&lowbar;2</literal></term>
+<term><literal REMAP="tt">angle&lowbar;2</literal></term>
 <listitem>
 <para>The yaw angle is a standard 1 byte signed integer angle. It must be 
 multiplied by the usual 360/256.</para>
@@ -3815,9 +3817,9 @@ multiplied by the usual 360/256.</para>
 <title>choke</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x2C</literal></para>
+<para><literal REMAP="tt">0x2C</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -3834,7 +3836,7 @@ information.</para>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long choke;</literal></term>
+<term><literal REMAP="tt">long choke;</literal></term>
 <listitem>
 <para>is the number of entries to cancel.</para>
 </listitem>
@@ -3858,9 +3860,9 @@ information.</para>
 <title>modellist</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x2D</literal></para>
+<para><literal REMAP="tt">0x2D</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -3874,7 +3876,7 @@ information.</para>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">char* precache&lowbar;models[256];</literal></term>
+<term><literal REMAP="tt">char* precache&lowbar;models[256];</literal></term>
 <listitem>
 <para>is the precache model table. It will be filled
 up with model file names. Many other messages contain an index in this array.
@@ -3884,19 +3886,19 @@ uses a new parse method and sends an unused index first.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long nummodels;</literal></term>
+<term><literal REMAP="tt">long nummodels;</literal></term>
 <listitem>
 <para>is the number of models in the precache model table.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long first;</literal></term>
+<term><literal REMAP="tt">long first;</literal></term>
 <listitem>
 <para>is the index of the first model.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long next;</literal></term>
+<term><literal REMAP="tt">long next;</literal></term>
 <listitem>
 <para>is the index for the next group of models.
 It is 0 to end the precache model table.</para>
@@ -3939,9 +3941,9 @@ else { // up to 2.10
 <title>soundlist</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x2E</literal></para>
+<para><literal REMAP="tt">0x2E</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -3955,7 +3957,7 @@ else { // up to 2.10
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">char* precache&lowbar;sounds[256];</literal></term>
+<term><literal REMAP="tt">char* precache&lowbar;sounds[256];</literal></term>
 <listitem>
 <para>is the precache sound table. It will be filled
 up with sound file names. Many other messages contain an index in this array.
@@ -3965,19 +3967,19 @@ uses a new parse method and sends an unused index first.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long numsounds;</literal></term>
+<term><literal REMAP="tt">long numsounds;</literal></term>
 <listitem>
 <para>is the number of sounds in the precache sound table.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long first;</literal></term>
+<term><literal REMAP="tt">long first;</literal></term>
 <listitem>
 <para>is the index of the first sound.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long next;</literal></term>
+<term><literal REMAP="tt">long next;</literal></term>
 <listitem>
 <para>is the index of the next group of sounds.
 It is 0 to end the precache sound table.</para>
@@ -4020,17 +4022,17 @@ else { // up to 2.10
 <title>packetentities</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x2F</literal></para>
+<para><literal REMAP="tt">0x2F</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>purpose</term>
 <listitem>
 <para>This message contains the entity numbers in sight and all the changed 
-properties of these entities. The list ends with a <LITERAL REMAP="tt">0x0000</literal> for 
-<LITERAL REMAP="tt">mask</literal>.</para>
+properties of these entities. The list ends with a <literal REMAP="tt">0x0000</literal> for 
+<literal REMAP="tt">mask</literal>.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -4038,67 +4040,67 @@ properties of these entities. The list ends with a <LITERAL REMAP="tt">0x0000</l
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long mask;</literal></term>
+<term><literal REMAP="tt">long mask;</literal></term>
 <listitem>
 <para>is a bit mask to reduce the network traffic.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long entity;</literal></term>
+<term><literal REMAP="tt">long entity;</literal></term>
 <listitem>
 <para>is the entity number. </para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long remove;</literal></term>
+<term><literal REMAP="tt">long remove;</literal></term>
 <listitem>
 <para>indicates a disappearing entity.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">entity&lowbar;t* entities;</literal></term>
+<term><literal REMAP="tt">entity&lowbar;t* entities;</literal></term>
 <listitem>
 <para>is the array filled up with all dynamic entities.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long modelindex;</literal></term>
+<term><literal REMAP="tt">long modelindex;</literal></term>
 <listitem>
 <para>is the model index in the 
 precache model table. </para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long frame;</literal></term>
+<term><literal REMAP="tt">long frame;</literal></term>
 <listitem>
 <para>is the frame number of the model.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long colormap;</literal></term>
+<term><literal REMAP="tt">long colormap;</literal></term>
 <listitem>
 <para>is the colormap number to display the
 model.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long skin;</literal></term>
+<term><literal REMAP="tt">long skin;</literal></term>
 <listitem>
 <para>is the skin number of the model.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long effects;</literal></term>
+<term><literal REMAP="tt">long effects;</literal></term>
 <listitem>
 <para>contains a bit mask for special entity
 effects.
 
 <table>
-<title><LITERAL REMAP="tt">effects</literal> values</title>
-<TGROUP COLS="3">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<title><literal REMAP="tt">effects</literal> values</title>
+<tgroup COLS="3">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>bit </entry>
@@ -4107,42 +4109,42 @@ effects.
 </row>
 <row>
 <entry>0 </entry>
-<entry><LITERAL REMAP="tt">0x01</literal> </entry>
+<entry><literal REMAP="tt">0x01</literal> </entry>
 <entry>EF&lowbar;ROCKET</entry>
 </row>
 <row>
 <entry>1 </entry>
-<entry><LITERAL REMAP="tt">0x02</literal> </entry>
+<entry><literal REMAP="tt">0x02</literal> </entry>
 <entry>EF&lowbar;GRENADE</entry>
 </row>
 <row>
 <entry>2 </entry>
-<entry><LITERAL REMAP="tt">0x04</literal> </entry>
+<entry><literal REMAP="tt">0x04</literal> </entry>
 <entry>EF&lowbar;GIB</entry>
 </row>
 <row>
 <entry>3 </entry>
-<entry><LITERAL REMAP="tt">0x08</literal> </entry>
+<entry><literal REMAP="tt">0x08</literal> </entry>
 <entry>EF&lowbar;ROTATE</entry>
 </row>
 <row>
 <entry>4 </entry>
-<entry><LITERAL REMAP="tt">0x10</literal> </entry>
+<entry><literal REMAP="tt">0x10</literal> </entry>
 <entry>EF&lowbar;TRACER</entry>
 </row>
 <row>
 <entry>5 </entry>
-<entry><LITERAL REMAP="tt">0x20</literal> </entry>
+<entry><literal REMAP="tt">0x20</literal> </entry>
 <entry>EF&lowbar;ZOMGIB</entry>
 </row>
 <row>
 <entry>6 </entry>
-<entry><LITERAL REMAP="tt">0x40</literal> </entry>
+<entry><literal REMAP="tt">0x40</literal> </entry>
 <entry>EF&lowbar;TRACER2</entry>
 </row>
 <row>
 <entry>7 </entry>
-<entry><LITERAL REMAP="tt">0x80</literal> </entry>
+<entry><literal REMAP="tt">0x80</literal> </entry>
 <entry>EF&lowbar;TRACER3</entry>
 </row>
 </tbody>
@@ -4153,13 +4155,13 @@ effects.
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t origin;</literal></term>
 <listitem>
 <para>is the origin of the entity.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t angles;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t angles;</literal></term>
 <listitem>
 <para>is the orientation of the entity.</para>
 </listitem>
@@ -4199,9 +4201,9 @@ effects.
 <title>deltapacketentities</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x30</literal></para>
+<para><literal REMAP="tt">0x30</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -4209,8 +4211,8 @@ effects.
 <listitem>
 <para>This message contains the changed properties of some entities in sight
 relative to a specified former frame number.
-The list ends with a <LITERAL REMAP="tt">0x0000</literal> 
-<LITERAL REMAP="tt">mask</literal>.</para>
+The list ends with a <literal REMAP="tt">0x0000</literal> 
+<literal REMAP="tt">mask</literal>.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -4218,77 +4220,77 @@ The list ends with a <LITERAL REMAP="tt">0x0000</literal>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long frame;</literal></term>
+<term><literal REMAP="tt">long frame;</literal></term>
 <listitem>
 <para>is the lowest byte of the frame number with
 the full state, to which this message is the delta.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long mask;</literal></term>
+<term><literal REMAP="tt">long mask;</literal></term>
 <listitem>
 <para>is a bit mask to reduce the network traffic.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">entity&lowbar;t* entities;</literal></term>
+<term><literal REMAP="tt">entity&lowbar;t* entities;</literal></term>
 <listitem>
 <para>is the array filled up with all dynamic entities.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long entity;</literal></term>
+<term><literal REMAP="tt">long entity;</literal></term>
 <listitem>
 <para>is the entity number. </para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long remove;</literal></term>
+<term><literal REMAP="tt">long remove;</literal></term>
 <listitem>
 <para>indicates a disappearing entity.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long modelindex;</literal></term>
+<term><literal REMAP="tt">long modelindex;</literal></term>
 <listitem>
 <para>is the model index in the 
 precache model table. </para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long frame;</literal></term>
+<term><literal REMAP="tt">long frame;</literal></term>
 <listitem>
 <para>is the frame number of the model.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long colormap;</literal></term>
+<term><literal REMAP="tt">long colormap;</literal></term>
 <listitem>
 <para>is the colormap number to display the
 model.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long skin;</literal></term>
+<term><literal REMAP="tt">long skin;</literal></term>
 <listitem>
 <para>is the skin number of the model.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long effects;</literal></term>
+<term><literal REMAP="tt">long effects;</literal></term>
 <listitem>
 <para>contains a bit mask for special entity
 effects.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t origin;</literal></term>
 <listitem>
 <para>is the origin of the entity.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t angles;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t angles;</literal></term>
 <listitem>
 <para>is the orientation of the entity.</para>
 </listitem>
@@ -4329,9 +4331,9 @@ while (mask = ReadShort) {
 <title>maxspeed</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x31</literal></para>
+<para><literal REMAP="tt">0x31</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -4345,7 +4347,7 @@ while (mask = ReadShort) {
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">float maxspeed;</literal></term>
+<term><literal REMAP="tt">float maxspeed;</literal></term>
 <listitem>
 <para>is the maximum speed. It appears 
 first in protocol version 25 (game version 2.00).</para>
@@ -4370,9 +4372,9 @@ first in protocol version 25 (game version 2.00).</para>
 <title>entgravity</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x32</literal></para>
+<para><literal REMAP="tt">0x32</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -4387,7 +4389,7 @@ version 25 (game version 2.00).</para>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">float gravity;</literal></term>
+<term><literal REMAP="tt">float gravity;</literal></term>
 <listitem>
 <para>is the gravity.</para>
 </listitem>
@@ -4411,9 +4413,9 @@ version 25 (game version 2.00).</para>
 <title>setinfo</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x33</literal></para>
+<para><literal REMAP="tt">0x33</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -4428,19 +4430,19 @@ protocol version 26 (game version 2.20).</para>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long player;</literal></term>
+<term><literal REMAP="tt">long player;</literal></term>
 <listitem>
 <para>is the player number.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">char* name;</literal></term>
+<term><literal REMAP="tt">char* name;</literal></term>
 <listitem>
 <para>is the name of the variable.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">char* string;</literal></term>
+<term><literal REMAP="tt">char* string;</literal></term>
 <listitem>
 <para>is the value of the variable.</para>
 </listitem>
@@ -4466,9 +4468,9 @@ string = ReadString;</screen>
 <title>serverinfo</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x34</literal></para>
+<para><literal REMAP="tt">0x34</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -4483,13 +4485,13 @@ string = ReadString;</screen>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">char* name;</literal></term>
+<term><literal REMAP="tt">char* name;</literal></term>
 <listitem>
 <para>is the name of the variable.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">char* string;</literal></term>
+<term><literal REMAP="tt">char* string;</literal></term>
 <listitem>
 <para>is the value of the variable.</para>
 </listitem>
@@ -4514,9 +4516,9 @@ string = ReadString;</screen>
 <title>updatepl</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x35</literal></para>
+<para><literal REMAP="tt">0x35</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -4532,13 +4534,13 @@ It appears first in protocol version 28 (game version 2.30).</para>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long player;</literal></term>
+<term><literal REMAP="tt">long player;</literal></term>
 <listitem>
 <para>is the player number (0 .. MAX&lowbar;SCOREBOARD).</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long loss;</literal></term>
+<term><literal REMAP="tt">long loss;</literal></term>
 <listitem>
 <para>is the packet loss in percent.</para>
 </listitem>
@@ -4576,12 +4578,12 @@ loss = ReadByte;</screen>
 </listitem>
 <listitem>
 <para>Many thanks to Olivier Montanuy
-(<ULINK URL="mailto:Olivier.Montanuy@wanadoo.fr">Olivier.Montanuy@wanadoo.fr</ulink>) for his 
-<ULINK URL="http://www.ens.fr/~cridlig/bot/qwspec11.html">QuakeWorld Network Protocol Specs</ulink>. </para>
+(<ulink URL="mailto:Olivier.Montanuy@wanadoo.fr">Olivier.Montanuy@wanadoo.fr</ulink>) for his 
+<ulink URL="http://www.ens.fr/~cridlig/bot/qwspec11.html">QuakeWorld Network Protocol Specs</ulink>. </para>
 </listitem>
 <listitem>
 <para>Many thanks to Steffen Winterfeldt
-(<ULINK URL="mailto:Steffen.Winterfeldt@itp.uni-leipzig.de">Steffen.Winterfeldt@itp.uni-leipzig.de</ulink>)
+(<ulink URL="mailto:Steffen.Winterfeldt@itp.uni-leipzig.de">Steffen.Winterfeldt@itp.uni-leipzig.de</ulink>)
 for his reverse engineering work. He worked out many of the 
 general structure information.</para>
 </listitem>
@@ -4597,7 +4599,7 @@ general structure information.</para>
 
 <itemizedlist>
 <listitem>
-<para>Many new structure information. <EMPHASIS REMAP="bf">sound</emphasis> and <EMPHASIS REMAP="bf">nails</emphasis>
+<para>Many new structure information. <emphasis REMAP="bf">sound</emphasis> and <emphasis REMAP="bf">nails</emphasis>
 messages are now correct.</para>
 </listitem>
 </itemizedlist>
@@ -4612,7 +4614,7 @@ messages are now correct.</para>
 
 <itemizedlist>
 <listitem>
-<para><EMPHASIS REMAP="bf">packetentities</emphasis> and <EMPHASIS REMAP="bf">deltapacketentities</emphasis> are better 
+<para><emphasis REMAP="bf">packetentities</emphasis> and <emphasis REMAP="bf">deltapacketentities</emphasis> are better 
 now.</para>
 </listitem>
 <listitem>
@@ -4689,7 +4691,7 @@ now.</para>
 <para>QuakeWorld version 2.20, 2.21 and 2.29BETA included.</para>
 </listitem>
 <listitem>
-<para><EMPHASIS REMAP="bf">stopsound</emphasis> is OK now.</para>
+<para><emphasis REMAP="bf">stopsound</emphasis> is OK now.</para>
 </listitem>
 <listitem>
 <para>SGML-Tools 1.0.7 used.</para>
@@ -4705,7 +4707,7 @@ now.</para>
 
 <itemizedlist>
 <listitem>
-<para>Corrected info on <LITERAL REMAP="tt">blocksize</literal>.</para>
+<para>Corrected info on <literal REMAP="tt">blocksize</literal>.</para>
 </listitem>
 <listitem>
 <para>Some small correction with respect to the new LMPC, which can
@@ -4742,11 +4744,11 @@ compile QWD files beginning with version 3.1.9.</para>
 <para>QuakeWorld version 2.30 corrected.</para>
 </listitem>
 <listitem>
-<para><EMPHASIS REMAP="bf">updatepl</emphasis> better. </para>
+<para><emphasis REMAP="bf">updatepl</emphasis> better. </para>
 </listitem>
 <listitem>
 <para>Many thanks to Tim Holliefield
-(<ULINK URL="mailto:holliefiel@bad-durkheim.netsurf.de">holliefiel@bad-durkheim.netsurf.de</ulink>)
+(<ulink URL="mailto:holliefiel@bad-durkheim.netsurf.de">holliefiel@bad-durkheim.netsurf.de</ulink>)
 for some hints on the frame block.</para>
 </listitem>
 <listitem>
@@ -4764,9 +4766,9 @@ for some hints on the frame block.</para>
 
 <itemizedlist>
 <listitem>
-<para><EMPHASIS REMAP="bf">setpause</emphasis> corrected. 
+<para><emphasis REMAP="bf">setpause</emphasis> corrected. 
 Many thanks to Christer Sandin 
-(<ULINK URL="mailto:czsuch@ocag.ch">czsuch@ocag.ch</ulink>)
+(<ulink URL="mailto:czsuch@ocag.ch">czsuch@ocag.ch</ulink>)
 for his bug report.</para>
 </listitem>
 </itemizedlist>
@@ -4781,12 +4783,12 @@ for his bug report.</para>
 
 <itemizedlist>
 <listitem>
-<para><EMPHASIS REMAP="bf">modellist</emphasis> and <EMPHASIS REMAP="bf">soundlist</emphasis> corrected. 
+<para><emphasis REMAP="bf">modellist</emphasis> and <emphasis REMAP="bf">soundlist</emphasis> corrected. 
 Many thanks to Hoffy 
-(<ULINK URL="mailto:ripple@powerup.com.au">ripple@powerup.com.au</ulink>)
-for his bug report. The old token <LITERAL REMAP="tt">last</literal> is called
-<LITERAL REMAP="tt">next</literal> now, so better recreate all your QWD text files. I know, it is
-bad to change the text format but <LITERAL REMAP="tt">last</literal> is simply totally wrong.</para>
+(<ulink URL="mailto:ripple@powerup.com.au">ripple@powerup.com.au</ulink>)
+for his bug report. The old token <literal REMAP="tt">last</literal> is called
+<literal REMAP="tt">next</literal> now, so better recreate all your QWD text files. I know, it is
+bad to change the text format but <literal REMAP="tt">last</literal> is simply totally wrong.</para>
 </listitem>
 </itemizedlist>
 

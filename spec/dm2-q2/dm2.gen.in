@@ -1,6 +1,8 @@
 <!ENTITY lowbar "_">
 	<!ENTITY lsqb "[">
 	<!ENTITY rsqb "]">
+	<!ENTITY lcub "{">
+	<!ENTITY rcub "}">
 	<!ENTITY num "#">
 	<!ENTITY bsol "\">
 	]><article>
@@ -22,24 +24,24 @@ II Relay modification is also part of this documentation.</para>
 <sect2>
 <title>Recording and Playback</title>
 <para>To create a recording of your Quake II play start any map and then use the
-console command <EMPHASIS REMAP="it">record name</emphasis>. This records the game play from your
-point of view into the file <LITERAL REMAP="tt">demos/name.dm2</literal>. <LITERAL REMAP="tt">demos</literal> is a
+console command <emphasis REMAP="it">record name</emphasis>. This records the game play from your
+point of view into the file <literal REMAP="tt">demos/name.dm2</literal>. <literal REMAP="tt">demos</literal> is a
 sub-directory of the current game directory.
-To stop this recording use <EMPHASIS REMAP="it">stop</emphasis> or even quit the whole game 
-(<EMPHASIS REMAP="it">quit</emphasis>). To play it back, use the command <EMPHASIS REMAP="it">demomap name.dm2</emphasis>
-or simply <EMPHASIS REMAP="it">map name.dm2</emphasis>. This kind of recording is called ``client
+To stop this recording use <emphasis REMAP="it">stop</emphasis> or even quit the whole game 
+(<emphasis REMAP="it">quit</emphasis>). To play it back, use the command <emphasis REMAP="it">demomap name.dm2</emphasis>
+or simply <emphasis REMAP="it">map name.dm2</emphasis>. This kind of recording is called ``client
 side recording''.</para>
 <para>To create a ``server side recording'' invoke at the server during a running
-game the console command <EMPHASIS REMAP="it">serverrecord name</emphasis>. This records all 
+game the console command <emphasis REMAP="it">serverrecord name</emphasis>. This records all 
 information of all entities in the whole level but no player information
-into the file <LITERAL REMAP="tt">demos/name.dm2</literal>. Quake II can't play back these
+into the file <literal REMAP="tt">demos/name.dm2</literal>. Quake II can't play back these
 server side recordings.</para>
 <para>The third variant of DM2 files should be better called RLA files. They are
 created by the Quake II Relay server modification. This is a user-made 
 modification to create a special kind of server side demos but they can be
 read in again (at the server side) and replayed by any client, who connects
 to this modified server. Read more about this interesting modification at
-<ULINK URL="http://www.planetquake.com/relay/"></ulink>.</para>
+<ulink URL="http://www.planetquake.com/relay/"></ulink>.</para>
 </sect2>
 <sect2>
 <title>Versions</title>
@@ -48,7 +50,7 @@ significant differences between the Quake II test release (engine version
 3.00) and the CD retail
 version (3.05). This difference consists especially in the reordered message
 code bytes, so that the ``normal codes'' have the values 1 to 5 in 3.05.
-There are some more differences in the <EMPHASIS REMAP="bf">spawnbaseline</emphasis> message. 
+There are some more differences in the <emphasis REMAP="bf">spawnbaseline</emphasis> message. 
 Due to the existence of a sole DM2 file in the 3.00 format 
 (packed in the PAK file of the test release) and considering the fact, that 
 the test release can't even record new ones, I
@@ -61,16 +63,16 @@ all entities but no player information and Quake II isn't even able to play
 them back.</para>
 <para>In 3.17 (protocol version 33) the server side recordings became easier to
 parse because 
-<EMPHASIS REMAP="bf">serverdata</emphasis> can now be used to distinguish between client side and
+<emphasis REMAP="bf">serverdata</emphasis> can now be used to distinguish between client side and
 server side recordings.
 
 <table>
 <title>Covered Quake II versions.</title>
-<TGROUP COLS="4">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="4">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry><emphasis>version</emphasis></entry>
@@ -211,7 +213,7 @@ and</para>
 With LMPC it is very easy to analyse a DM2 file but you may change it
 as well and so create a DM2 file of a Quake II game you 
 never played. The current version of LMPC can be found at my 
-<ULINK URL="@HOMEURL@">@HOMENAME@</ulink>.</para>
+<ulink URL="@HOMEURL@">@HOMENAME@</ulink>.</para>
 </sect2>
 </sect1>
 <sect1>
@@ -219,26 +221,26 @@ never played. The current version of LMPC can be found at my
 <sect2>
 <title>General remarks</title>
 <para>To describe the file structure, which is very complicated, I use 
-C like program fragments and <LITERAL REMAP="tt">struct</literal> definitions. This 
+C like program fragments and <literal REMAP="tt">struct</literal> definitions. This 
 simplifies my task a lot. </para>
 <para>I invented all used names (messages, variables etc.) for myself, took them 
 from the Quake II binary but almost all from the many published source code
 snippets. </para>
 <para>All multi-byte structures in DM2 files are ``little endian'' (VAX or Intel
 ordered, lowest byte first),</para>
-<para>Descriptive sentences in <EMPHASIS REMAP="it">italics</emphasis> are copied from the published game 
+<para>Descriptive sentences in <emphasis REMAP="it">italics</emphasis> are copied from the published game 
 source. There are several different source packages available from 
 id Software: 
 
 <itemizedlist>
 <listitem>
 <para>the oldest from december 1997 with the source of the game
-library and some tools (unpacked in the directory <LITERAL REMAP="tt">q2source&lowbar;12&lowbar;11</literal>):
+library and some tools (unpacked in the directory <literal REMAP="tt">q2source&lowbar;12&lowbar;11</literal>):
 
 <itemizedlist>
 <listitem>
 <para>general version:
-<ULINK URL="ftp://ftp.idsoftware.com/pub/quake2/source/old/q2source_12_11.zip"></ulink></para>
+<ulink URL="ftp://ftp.idsoftware.com/pub/quake2/source/old/q2source_12_11.zip"></ulink></para>
 </listitem>
 </itemizedlist>
 
@@ -250,11 +252,11 @@ library and some tools (unpacked in the directory <LITERAL REMAP="tt">q2source&l
 <itemizedlist>
 <listitem>
 <para>Linux version:
-<ULINK URL="ftp://ftp.idsoftware.com/pub/quake2/source/old/q2-3.14-source.shar.Z"></ulink></para>
+<ulink URL="ftp://ftp.idsoftware.com/pub/quake2/source/old/q2-3.14-source.shar.Z"></ulink></para>
 </listitem>
 <listitem>
 <para>Windows version:
-<ULINK URL="ftp://ftp.idsoftware.com/pub/quake2/source/old/q2-3.14-source.exe"></ulink></para>
+<ulink URL="ftp://ftp.idsoftware.com/pub/quake2/source/old/q2-3.14-source.exe"></ulink></para>
 </listitem>
 </itemizedlist>
 
@@ -265,16 +267,16 @@ library and some tools (unpacked in the directory <LITERAL REMAP="tt">q2source&l
 
 <itemizedlist>
 <listitem>
-<para>Plain game (unpacked in the directory <LITERAL REMAP="tt">q2src320/game/</literal>)
+<para>Plain game (unpacked in the directory <literal REMAP="tt">q2src320/game/</literal>)
 
 <itemizedlist>
 <listitem>
 <para>Linux version:
-<ULINK URL="ftp://ftp.idsoftware.com/pub/quake2/source/q2src320.shar.Z"></ulink></para>
+<ulink URL="ftp://ftp.idsoftware.com/pub/quake2/source/q2src320.shar.Z"></ulink></para>
 </listitem>
 <listitem>
 <para>Windows version:
-<ULINK URL="ftp://ftp.idsoftware.com/pub/quake2/source/q2src320.exe"></ulink></para>
+<ulink URL="ftp://ftp.idsoftware.com/pub/quake2/source/q2src320.exe"></ulink></para>
 </listitem>
 </itemizedlist>
 
@@ -282,16 +284,16 @@ library and some tools (unpacked in the directory <LITERAL REMAP="tt">q2source&l
 </listitem>
 <listitem>
 <para>Xatrix Quake II Mission Pack 1: The Reckoning (unpacked in
-the directory <LITERAL REMAP="tt">xatrixsrc320/game/</literal>)
+the directory <literal REMAP="tt">xatrixsrc320/game/</literal>)
 
 <itemizedlist>
 <listitem>
 <para>Linux version:
-<ULINK URL="ftp://ftp.idsoftware.com/pub/quake2/source/xatrixsrc320.shar.Z"></ulink></para>
+<ulink URL="ftp://ftp.idsoftware.com/pub/quake2/source/xatrixsrc320.shar.Z"></ulink></para>
 </listitem>
 <listitem>
 <para>Windows version:
-<ULINK URL="ftp://ftp.idsoftware.com/pub/quake2/source/xatrixsrc320.exe"></ulink></para>
+<ulink URL="ftp://ftp.idsoftware.com/pub/quake2/source/xatrixsrc320.exe"></ulink></para>
 </listitem>
 </itemizedlist>
 
@@ -299,16 +301,16 @@ the directory <LITERAL REMAP="tt">xatrixsrc320/game/</literal>)
 </listitem>
 <listitem>
 <para>Rouge Quake II Mission Pack 2: Ground Zero (unpacked in
-the directory <LITERAL REMAP="tt">roguesrc320/game</literal>)
+the directory <literal REMAP="tt">roguesrc320/game</literal>)
 
 <itemizedlist>
 <listitem>
 <para>Linux version:
-<ULINK URL="ftp://ftp.idsoftware.com/pub/quake2/source/roguesrc320.shar.Z"></ulink></para>
+<ulink URL="ftp://ftp.idsoftware.com/pub/quake2/source/roguesrc320.shar.Z"></ulink></para>
 </listitem>
 <listitem>
 <para>Windows version:
-<ULINK URL="ftp://ftp.idsoftware.com/pub/quake2/source/roguesrc320.exe"></ulink></para>
+<ulink URL="ftp://ftp.idsoftware.com/pub/quake2/source/roguesrc320.exe"></ulink></para>
 </listitem>
 </itemizedlist>
 
@@ -321,8 +323,8 @@ the directory <LITERAL REMAP="tt">roguesrc320/game</literal>)
 </itemizedlist>
 
 I refer to the files with the full path name 
-(e.g. <LITERAL REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>).</para>
-<para>And now some QuakeEd compliant coordinate <LITERAL REMAP="tt">typedef</literal>'s:
+(e.g. <literal REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>).</para>
+<para>And now some QuakeEd compliant coordinate <literal REMAP="tt">typedef</literal>'s:
 
 <screen>typedef float vec_t;
 
@@ -343,7 +345,7 @@ typedef vec_t vec3_t[3];</screen>
 </para>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define MAX&lowbar;MSGLEN 1400</literal></term>
+<term><literal REMAP="tt">&num;define MAX&lowbar;MSGLEN 1400</literal></term>
 <listitem>
 <para>is the maximum message
 size (real game data in a network packet).
@@ -363,8 +365,8 @@ a restriction.</para>
 </varlistentry>
 </variablelist></para>
 <para>Beginning with version 3.05 (protocol version 26) Quake II uses an empty block
-with a block size of -1 (<LITERAL REMAP="tt">0xffffffff</literal>) as the last block. 
-This remindes (at least) me of the DOOM LMP end byte (<LITERAL REMAP="tt">0x80</literal>).</para>
+with a block size of -1 (<literal REMAP="tt">0xffffffff</literal>) as the last block. 
+This remindes (at least) me of the DOOM LMP end byte (<literal REMAP="tt">0x80</literal>).</para>
 <para>Between 2 levels of a multi-level recoring there is an empty block with the
 block size 0. Quake II can't replay multi-level recordings.</para>
 </sect2>
@@ -372,11 +374,11 @@ block size 0. Quake II can't replay multi-level recordings.</para>
 <title>Auxiliary routines</title>
 <para>Here comes the definition of some small auxiliary routines to 
 simplify
-the main message description. <LITERAL REMAP="tt">get&lowbar;next&lowbar;unsigned&lowbar;char</literal>,
-<LITERAL REMAP="tt">get&lowbar;next&lowbar;signed&lowbar;char</literal>, <LITERAL REMAP="tt">get&lowbar;next&lowbar;short</literal> and
-<LITERAL REMAP="tt">get&lowbar;next&lowbar;long</literal>, <LITERAL REMAP="tt">get&lowbar;next&lowbar;float</literal> are basic functions and they 
-do exactly what they are called. Please note: <LITERAL REMAP="tt">byte</literal>, <LITERAL REMAP="tt">char</literal> or 
-<LITERAL REMAP="tt">short</literal> will be converted to <LITERAL REMAP="tt">long</literal>.</para>
+the main message description. <literal REMAP="tt">get&lowbar;next&lowbar;unsigned&lowbar;char</literal>,
+<literal REMAP="tt">get&lowbar;next&lowbar;signed&lowbar;char</literal>, <literal REMAP="tt">get&lowbar;next&lowbar;short</literal> and
+<literal REMAP="tt">get&lowbar;next&lowbar;long</literal>, <literal REMAP="tt">get&lowbar;next&lowbar;float</literal> are basic functions and they 
+do exactly what they are called. Please note: <literal REMAP="tt">byte</literal>, <literal REMAP="tt">char</literal> or 
+<literal REMAP="tt">short</literal> will be converted to <literal REMAP="tt">long</literal>.</para>
 <para>In the following I often use a count variable 
 
 <screen>int i;</screen>
@@ -458,8 +460,8 @@ buffer has only 0x800 bytes available.</para>
 <para>A direction for temporary entities is stored in a single byte. 
 The 162 possible orientations are precalculated and stored in a template list. 
 Each direction is represented by a normalised vector. The template list 
-can be found in the source, <LITERAL REMAP="tt">q2source&lowbar;12&lowbar;11/utils3/qdata/anorms.h</literal></para>
-<para>I tried to reproduce (for <LITERAL REMAP="tt">WriteDir</literal>) the template list but I didn't
+can be found in the source, <literal REMAP="tt">q2source&lowbar;12&lowbar;11/utils3/qdata/anorms.h</literal></para>
+<para>I tried to reproduce (for <literal REMAP="tt">WriteDir</literal>) the template list but I didn't
 find the algorithm
 behind it. Take it as it is: even Quake II uses the list and calculates
 with dot products the best fitting direction.</para>
@@ -469,14 +471,14 @@ with dot products the best fitting direction.</para>
 {
   #define NUMVERTEXNORMALS 162
   int code;
-  float avertexnormals[NUMVERTEXNORMALS][3] = {
+  float avertexnormals[NUMVERTEXNORMALS&rsqb;&lsqb;3] = {
     #include "q2source_12_11/utils3/qdata/anorms.h"
   }
   code = ReadByte;  
   if (code &gt;= NUMVERTEXNORMALS) error("MSF_ReadDir: out of range");
-  pos[0] = avertexnormals[code][0];
-  pos[1] = avertexnormals[code][1];
-  pos[2] = avertexnormals[code][2];
+  pos[0] = avertexnormals[code&rsqb;&lsqb;0];
+  pos[1] = avertexnormals[code&rsqb;&lsqb;1];
+  pos[2] = avertexnormals[code&rsqb;&lsqb;2];
 }</screen>
 
 </para>
@@ -509,15 +511,15 @@ direction to look into.</para>
                  char          messagecontents[???];
                } message_t;</screen>
 
-The length of a message depends on its type (or <LITERAL REMAP="tt">ID</literal>) but it can't
-be bigger than <LITERAL REMAP="tt">MAX&lowbar;MSGLEN</literal>, the size of a full block.</para>
+The length of a message depends on its type (or <literal REMAP="tt">ID</literal>) but it can't
+be bigger than <literal REMAP="tt">MAX&lowbar;MSGLEN</literal>, the size of a full block.</para>
 </sect2>
 <sect2>
 <title>Unicast</title>
 <para>RLA files (DM2 files with Relay extension) can have special uni-cast messages.
 This is done to distinguish between ordinary messages, which go to every
 client (multi-cast) and messages, which go only to selected clients.
-A good example are the <EMPHASIS REMAP="bf">playerinfo</emphasis> messages. Every client should get 
+A good example are the <emphasis REMAP="bf">playerinfo</emphasis> messages. Every client should get 
 a different one and in RLA files all these messages are marked with
 the destination client number:</para>
 <para>
@@ -544,14 +546,14 @@ base as in LMPC but it should be <emphasis>very</emphasis> similar.
 Future version will be based on the exact same code base to simplify my
 task.</para>
 <para>Each message can be
-described by its <LITERAL REMAP="tt">ID</literal> or its name. </para>
+described by its <literal REMAP="tt">ID</literal> or its name. </para>
 <sect2>
 <title>bad</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x00</literal></para>
+<para><literal REMAP="tt">0x00</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -576,15 +578,15 @@ described by its <LITERAL REMAP="tt">ID</literal> or its name. </para>
 <title>muzzleflash</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x01</literal></para>
+<para><literal REMAP="tt">0x01</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>purpose</term>
 <listitem>
-<para><EMPHASIS REMAP="it">muzzle flashes / player effects</emphasis>.</para>
+<para><emphasis REMAP="it">muzzle flashes / player effects</emphasis>.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -592,17 +594,17 @@ described by its <LITERAL REMAP="tt">ID</literal> or its name. </para>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long entity;</literal></term>
+<term><literal REMAP="tt">long entity;</literal></term>
 <listitem>
 <para>is the player entity with the effect.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long value;</literal></term>
+<term><literal REMAP="tt">long value;</literal></term>
 <listitem>
 <para>is the muzzle flash / player effect.
-The <LITERAL REMAP="tt">value</literal> should be one of the <LITERAL REMAP="tt">MZ&lowbar;</literal> constants 
-(source, <LITERAL REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 602 - 638). It may be ``OR''ed
+The <literal REMAP="tt">value</literal> should be one of the <literal REMAP="tt">MZ&lowbar;</literal> constants 
+(source, <literal REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 602 - 638). It may be ``OR''ed
 with
 
 <screen>#define MZ_SILENCED 128</screen>
@@ -630,15 +632,15 @@ value = ReadByte;</screen>
 <title>muzzlflash2</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x02</literal></para>
+<para><literal REMAP="tt">0x02</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>purpose</term>
 <listitem>
-<para><EMPHASIS REMAP="it">monster muzzle flashes</emphasis>.</para>
+<para><emphasis REMAP="it">monster muzzle flashes</emphasis>.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -646,17 +648,17 @@ value = ReadByte;</screen>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long entity;</literal></term>
+<term><literal REMAP="tt">long entity;</literal></term>
 <listitem>
 <para>is the monster entity with the effect.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long value;</literal></term>
+<term><literal REMAP="tt">long value;</literal></term>
 <listitem>
 <para>is the monster muzzle flash.
-The <LITERAL REMAP="tt">value</literal> should be one of the <LITERAL REMAP="tt">MZ2&lowbar;</literal> constants
-(source, <LITERAL REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 640 - 871).</para>
+The <literal REMAP="tt">value</literal> should be one of the <literal REMAP="tt">MZ2&lowbar;</literal> constants
+(source, <literal REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 640 - 871).</para>
 </listitem>
 </varlistentry>
 </variablelist></para>
@@ -679,16 +681,16 @@ value = ReadByte;</screen>
 <title>temp&lowbar;entity</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x03</literal></para>
+<para><literal REMAP="tt">0x03</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>purpose</term>
 <listitem>
 <para>Spawns a temporary entity.
-<EMPHASIS REMAP="it">Temp entity events are for things that happen
+<emphasis REMAP="it">Temp entity events are for things that happen
 at a location seperate from any existing entity.
 Temporary entity messages are explicitly constructed
 and broadcast.</emphasis></para>
@@ -702,22 +704,22 @@ variables over all different temporary entities in the same order. This was
 no real restriction but with game version 3.18 (protocol version 34) came 
 many new types of temporary entities, which reordered their arguments 
 almost random. So I had to rename some variables and to insert some 
-totally senseless new ones (like <LITERAL REMAP="tt">flash&lowbar;entity</literal> instead of
-<LITERAL REMAP="tt">entity</literal> or <LITERAL REMAP="tt">type</literal> in addition to <LITERAL REMAP="tt">style</literal>). This simply
-comes, because these values come now at the other side of <LITERAL REMAP="tt">origin</literal>.
-The old order was <LITERAL REMAP="tt">entity</literal>, <LITERAL REMAP="tt">origin</literal>, <LITERAL REMAP="tt">style</literal> but now a
-<LITERAL REMAP="tt">style</literal> comes sometimes before the <LITERAL REMAP="tt">origin</literal> or an
-<LITERAL REMAP="tt">entity</literal> comes after the <LITERAL REMAP="tt">origin</literal>. After I finish the text
+totally senseless new ones (like <literal REMAP="tt">flash&lowbar;entity</literal> instead of
+<literal REMAP="tt">entity</literal> or <literal REMAP="tt">type</literal> in addition to <literal REMAP="tt">style</literal>). This simply
+comes, because these values come now at the other side of <literal REMAP="tt">origin</literal>.
+The old order was <literal REMAP="tt">entity</literal>, <literal REMAP="tt">origin</literal>, <literal REMAP="tt">style</literal> but now a
+<literal REMAP="tt">style</literal> comes sometimes before the <literal REMAP="tt">origin</literal> or an
+<literal REMAP="tt">entity</literal> comes after the <literal REMAP="tt">origin</literal>. After I finish the text
 parse rewrite of LMPC, I will surely remove the additional senseless new
 variables.</para>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long entitytype;</literal></term>
+<term><literal REMAP="tt">long entitytype;</literal></term>
 <listitem>
 <para>is the type of the temporary entity.
-<LITERAL REMAP="tt">entitytype</literal> should be one of the <LITERAL REMAP="tt">TE&lowbar;</literal> constants 
-(source, <LITERAL REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 876 - 942). They are defined with 
-a <LITERAL REMAP="tt">typedef enum</literal> and not as <LITERAL REMAP="tt">&num;define</literal> but who cares?</para>
+<literal REMAP="tt">entitytype</literal> should be one of the <literal REMAP="tt">TE&lowbar;</literal> constants 
+(source, <literal REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 876 - 942). They are defined with 
+a <literal REMAP="tt">typedef enum</literal> and not as <literal REMAP="tt">&num;define</literal> but who cares?</para>
 <para>There are many different kinds of temporary entities in Quake II:</para>
 <para><variablelist>
 <varlistentry>
@@ -727,132 +729,132 @@ a <LITERAL REMAP="tt">typedef enum</literal> and not as <LITERAL REMAP="tt">&num
 teleport fog. It needs a position.
 <variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;EXPLOSION1 5</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;EXPLOSION1 5</literal></term>
 <listitem>
 <para>boss, barrels etc.
 explosion</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;EXPLOSION2 6</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;EXPLOSION2 6</literal></term>
 <listitem>
 <para>barrels explosion</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;ROCKET&lowbar;EXPLOSION 7</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;ROCKET&lowbar;EXPLOSION 7</literal></term>
 <listitem>
 <para>rocket
 explosion</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;GRENADE&lowbar;EXPLOSION 8</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;GRENADE&lowbar;EXPLOSION 8</literal></term>
 <listitem>
 <para>grenade
 explosion</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;ROCKET&lowbar;EXPLOSION&lowbar;WATER
+<term><literal REMAP="tt">&num;define TE&lowbar;ROCKET&lowbar;EXPLOSION&lowbar;WATER
 17</literal></term>
 <listitem>
 <para>rocket explosion under water</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;GRENADE&lowbar;EXPLOSION&lowbar;WATER
+<term><literal REMAP="tt">&num;define TE&lowbar;GRENADE&lowbar;EXPLOSION&lowbar;WATER
 18</literal></term>
 <listitem>
 <para>grenade explosion under water</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;BFG&lowbar;EXPLOSION 20</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;BFG&lowbar;EXPLOSION 20</literal></term>
 <listitem>
 <para>BFG explosion</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;BFG&lowbar;BIGEXPLOSION 21</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;BFG&lowbar;BIGEXPLOSION 21</literal></term>
 <listitem>
 <para>big BFG
 explosion</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;BOSSTPORT 22</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;BOSSTPORT 22</literal></term>
 <listitem>
 <para>boss teleports away</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;PLASMA&lowbar;EXPLOSION 28</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;PLASMA&lowbar;EXPLOSION 28</literal></term>
 <listitem>
 <para>(new in
 3.15, MP1) plasma explosion on touch</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;PLAIN&lowbar;EXPLOSION 35</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;PLAIN&lowbar;EXPLOSION 35</literal></term>
 <listitem>
 <para>(new in 3.18,
 MP2) flame burst, turret death</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;CHAINFIST&lowbar;SMOKE 45</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;CHAINFIST&lowbar;SMOKE 45</literal></term>
 <listitem>
 <para>(new in 3.18,
 MP2)
-<EMPHASIS REMAP="it">this spits out some smoke from the motor. it's a two-stroke, you
+<emphasis REMAP="it">this spits out some smoke from the motor. it's a two-stroke, you
 know.</emphasis></para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;TRACKER&lowbar;EXPLOSION 47</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;TRACKER&lowbar;EXPLOSION 47</literal></term>
 <listitem>
 <para>(new in
 3.18, MP2) tracker explosion</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;TELEPORT&lowbar;EFFECT 48</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;TELEPORT&lowbar;EFFECT 48</literal></term>
 <listitem>
 <para>(new in 3.18,
 MP2) teleport away effect</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;DBALL&lowbar;GOAL 49</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;DBALL&lowbar;GOAL 49</literal></term>
 <listitem>
 <para>(new in 3.18, MP2)
 ball disappears after a goal</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;NUKEBLAST 51</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;NUKEBLAST 51</literal></term>
 <listitem>
 <para>(new in 3.18, MP2)
 nuke explosion</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;WIDOWSPLASH 52</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;WIDOWSPLASH 52</literal></term>
 <listitem>
 <para>(new in 3.18, MP2)
 last part of the death of the widow</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;EXPLOSION1&lowbar;BIG 53</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;EXPLOSION1&lowbar;BIG 53</literal></term>
 <listitem>
 <para>(new in 3.18,
 MP2) big explosion</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;EXPLOSION1&lowbar;NP 54</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;EXPLOSION1&lowbar;NP 54</literal></term>
 <listitem>
 <para>(new in 3.18,
 MP2) widow explosion</para>
@@ -869,108 +871,108 @@ of a bullet etc. It needs a position (often a trace end) and a direction
 from there.
 <variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;GUNSHOT 0</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;GUNSHOT 0</literal></term>
 <listitem>
 <para>hit with Machine Gun and
 Chain Gun</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;BLOOD 1</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;BLOOD 1</literal></term>
 <listitem>
 <para>clients and monsters bleed when
 hit</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;BLASTER 2</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;BLASTER 2</literal></term>
 <listitem>
 <para>hit with Blaster</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;SHOTGUN 4</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;SHOTGUN 4</literal></term>
 <listitem>
 <para>hit with Shotgun</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;SPARKS 9</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;SPARKS 9</literal></term>
 <listitem>
 <para>hit someone</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;SCREEN&lowbar;SPARKS 12</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;SCREEN&lowbar;SPARKS 12</literal></term>
 <listitem>
 <para>hit on an Energy
 Armor</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;SHIELD&lowbar;SPARKS 13</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;SHIELD&lowbar;SPARKS 13</literal></term>
 <listitem>
 <para>hit on a
 different Energy Armor</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;BULLET&lowbar;SPARKS 14</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;BULLET&lowbar;SPARKS 14</literal></term>
 <listitem>
 <para>hit someone
 with bullets</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;GREENBLOOD&lowbar;new 26</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;GREENBLOOD&lowbar;new 26</literal></term>
 <listitem>
 <para>(new in 3.15, MP1)
 a ``gekk'' bleeds green.
 Note: the value 26 stood from
 game version 3.12 to 3.14 (protocol version 31)
-for <LITERAL REMAP="tt">TE&lowbar;PLASMATRAIL</literal> and was a line entity.</para>
+for <literal REMAP="tt">TE&lowbar;PLASMATRAIL</literal> and was a line entity.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;GREENBLOOD&lowbar;old 27</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;GREENBLOOD&lowbar;old 27</literal></term>
 <listitem>
 <para>(from 3.12 to 3.14) not
 used.
 Note: the value 27 stands from
 game version 3.15 (protocol version &gt;= 32) on for
-<LITERAL REMAP="tt">TT&lowbar;BLUEHYPERBLASTER</literal> and is a line entity.</para>
+<literal REMAP="tt">TT&lowbar;BLUEHYPERBLASTER</literal> and is a line entity.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;BLASTER2 30</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;BLASTER2 30</literal></term>
 <listitem>
 <para>(new in 3.18, MP2)
 hit by green monster blaster shot</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;MOREBLOOD 42</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;MOREBLOOD 42</literal></term>
 <listitem>
 <para>(new in 3.18, MP2) more
 blood with chainfist</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;HEATBEAM&lowbar;SPARKS 43</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;HEATBEAM&lowbar;SPARKS 43</literal></term>
 <listitem>
 <para>(new in 3.18,
 MP2) heat beam water impact</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;HEATBEAM&lowbar;STEAM 44</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;HEATBEAM&lowbar;STEAM 44</literal></term>
 <listitem>
 <para>(new in 3.18,
 MP2) heat beam impact</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;FLECHETTE 55</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;FLECHETTE 55</literal></term>
 <listitem>
 <para>(new in 3.18, MP2)
 touch a flechette</para>
@@ -986,61 +988,61 @@ touch a flechette</para>
 end position.
 <variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;RAILTRAIL 3</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;RAILTRAIL 3</literal></term>
 <listitem>
 <para>trail of the Rail Gun
 (blue)</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;BUBBLETRAIL 11</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;BUBBLETRAIL 11</literal></term>
 <listitem>
 <para>shot with a bullet 
 through water</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;BFG&lowbar;LASER 23</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;BFG&lowbar;LASER 23</literal></term>
 <listitem>
 <para>(new in 3.12) BFG
 laser</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;PLASMATRAIL 26</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;PLASMATRAIL 26</literal></term>
 <listitem>
 <para>(from 3.12 to 3.14) not used.
 Note: the value 26 stands from
 game version 3.15 (protocol version &gt;= 32) on for 
-<LITERAL REMAP="tt">TE&lowbar;GREENBLOOD&lowbar;new</literal> and is an impact entity.</para>
+<literal REMAP="tt">TE&lowbar;GREENBLOOD&lowbar;new</literal> and is an impact entity.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;BLUEHYPERBLASTER 27</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;BLUEHYPERBLASTER 27</literal></term>
 <listitem>
 <para>(new in 3.15, MP1)
 not used.
 Note: the value 27 stood from
 game version 3.12 to 3.14 (protocol version 31) for
-<LITERAL REMAP="tt">TE&lowbar;GREENBLOOD&lowbar;old</literal> and was an impact entity.</para>
+<literal REMAP="tt">TE&lowbar;GREENBLOOD&lowbar;old</literal> and was an impact entity.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;DEBUGTRAIL 34</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;DEBUGTRAIL 34</literal></term>
 <listitem>
 <para>(new in 3.18, MP2)
 debug use, trail drawing</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;BUBBLETRAIL2 41</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;BUBBLETRAIL2 41</literal></term>
 <listitem>
 <para>(new in 3.18, MP2)
 bubbles above heat beam</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;ELECTRIC&lowbar;SPARKS 46</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;ELECTRIC&lowbar;SPARKS 46</literal></term>
 <listitem>
 <para>(new in 3.18,
 MP2) hit on something mechanical</para>
@@ -1056,104 +1058,104 @@ MP2) hit on something mechanical</para>
 categories.
 <variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;SPLASH 10</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;SPLASH 10</literal></term>
 <listitem>
 <para>creates a particle splash
 effect</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;LASER&lowbar;SPARKS 15</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;LASER&lowbar;SPARKS 15</literal></term>
 <listitem>
 <para>laser hits a
 wall</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;PARASITE&lowbar;ATTACK 16</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;PARASITE&lowbar;ATTACK 16</literal></term>
 <listitem>
 <para>parasite
 attack</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;MEDIC&lowbar;CABLE&lowbar;ATTACK
+<term><literal REMAP="tt">&num;define TE&lowbar;MEDIC&lowbar;CABLE&lowbar;ATTACK
 19</literal></term>
 <listitem>
 <para>medic cable attac</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;GRAPPLE&lowbar;CABLE 24</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;GRAPPLE&lowbar;CABLE 24</literal></term>
 <listitem>
 <para>(new in 3.12)
 used in CFT</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;WELDING&lowbar;SPARKS 25</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;WELDING&lowbar;SPARKS 25</literal></term>
 <listitem>
 <para>(new in 3.12)
 ionripper fire, fixbot melder fire</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;TUNNEL&lowbar;SPARKS 29</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;TUNNEL&lowbar;SPARKS 29</literal></term>
 <listitem>
 <para>(new in 3.15,
 MP1) trigger effect</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;FLAME 32</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;FLAME 32</literal></term>
 <listitem>
 <para>(new in 3.18, MP2) flame
 thrower, Quake II can't parse this</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;LIGHTNING 33</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;LIGHTNING 33</literal></term>
 <listitem>
 <para>(new in 3.18, MP2)
 tesla weapon</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;FLASHLIGHT 36</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;FLASHLIGHT 36</literal></term>
 <listitem>
 <para>(new in 3.18, MP2)
 player with torch</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;FORCEWALL 37</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;FORCEWALL 37</literal></term>
 <listitem>
 <para>(new in 3.18, MP2)
 force wall</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;HEATBEAM 38</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;HEATBEAM 38</literal></term>
 <listitem>
 <para>(new in 3.18, MP2) heat beam</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;MONSTER&lowbar;HEATBEAM 39</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;MONSTER&lowbar;HEATBEAM 39</literal></term>
 <listitem>
 <para>(new in
 3.18, MP2) monster fires a heat beam</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;STEAM 40</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;STEAM 40</literal></term>
 <listitem>
 <para>(new in 3.18, MP2) 
-<EMPHASIS REMAP="it">Creates a steam effect (particles w/ velocity in a line).</emphasis></para>
+<emphasis REMAP="it">Creates a steam effect (particles w/ velocity in a line).</emphasis></para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;WIDOWBEAMOUT 50</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;WIDOWBEAMOUT 50</literal></term>
 <listitem>
 <para>(new in 3.18, MP2)
 part of the death of the widow</para>
@@ -1168,7 +1170,7 @@ part of the death of the widow</para>
 <para>is a entity which is not used anymore.
 <variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define TE&lowbar;RAILTRAIL2 31</literal></term>
+<term><literal REMAP="tt">&num;define TE&lowbar;RAILTRAIL2 31</literal></term>
 <listitem>
 <para>(new in 13.18, MP2)
 not used, Quake II can't parse this</para>
@@ -1181,110 +1183,110 @@ not used, Quake II can't parse this</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long dest&lowbar;entity;</literal></term>
+<term><literal REMAP="tt">long dest&lowbar;entity;</literal></term>
 <listitem>
 <para>&nbsp; is the entity, where an effect ends.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long entity;</literal></term>
+<term><literal REMAP="tt">long entity;</literal></term>
 <listitem>
 <para>&nbsp; is the entity, which spawned the effect.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long nextid;</literal></term>
+<term><literal REMAP="tt">long nextid;</literal></term>
 <listitem>
 <para>&nbsp; is a special value to chain multiple
-<LITERAL REMAP="tt">TE&lowbar;STEAM</literal> effects. The last one has here the value
-<LITERAL REMAP="tt">-1</literal>.</para>
+<literal REMAP="tt">TE&lowbar;STEAM</literal> effects. The last one has here the value
+<literal REMAP="tt">-1</literal>.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long count;</literal></term>
+<term><literal REMAP="tt">long count;</literal></term>
 <listitem>
 <para>&nbsp; is a number for multi-particle temporary
 entities.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t start;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t start;</literal></term>
 <listitem>
 <para>is the start of the unparsable 
-temporary <LITERAL REMAP="tt">TE&lowbar;FLAME</literal> entity.</para>
+temporary <literal REMAP="tt">TE&lowbar;FLAME</literal> entity.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t dest&lowbar;origin;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t dest&lowbar;origin;</literal></term>
 <listitem>
 <para>is the origin of an entity,
 where the temporary entity ends.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long type;</literal></term>
+<term><literal REMAP="tt">long type;</literal></term>
 <listitem>
 <para>&nbsp; is an additional type value for the
-temporary <LITERAL REMAP="tt">TE&lowbar;WIDOWBEAMOUT</literal> entity.
+temporary <literal REMAP="tt">TE&lowbar;WIDOWBEAMOUT</literal> entity.
 number for multi-particle temporary. It may be 20001 or 20002
-(source, <LITERAL REMAP="tt">roguesrc320/game/m&lowbar;widow.c</literal>, 831 - 842).</para>
+(source, <literal REMAP="tt">roguesrc320/game/m&lowbar;widow.c</literal>, 831 - 842).</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t origin;</literal></term>
 <listitem>
 <para>is the origin of the temporary entity.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long flash&lowbar;entity;</literal></term>
+<term><literal REMAP="tt">long flash&lowbar;entity;</literal></term>
 <listitem>
 <para>&nbsp; is the entity, which spawned the
-temporary <LITERAL REMAP="tt">TE&lowbar;FLASHLIGHT</literal> entity.</para>
+temporary <literal REMAP="tt">TE&lowbar;FLASHLIGHT</literal> entity.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t trace&lowbar;endpos;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t trace&lowbar;endpos;</literal></term>
 <listitem>
 <para>is the end position of the line
 like temporary entity.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t pos1, pos2, pos3, pos4;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t pos1, pos2, pos3, pos4;</literal></term>
 <listitem>
 <para>are additional positions
 for bigger enitities.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t movedir;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t movedir;</literal></term>
 <listitem>
 <para>is the moving direction for the
 temporary entity.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long style;</literal></term>
+<term><literal REMAP="tt">long style;</literal></term>
 <listitem>
 <para>&nbsp; is an additional style value.
-In the special <LITERAL REMAP="tt">TE&lowbar;SPLASH</literal>
-temporary entity it should be one of the <LITERAL REMAP="tt">SPLASH&lowbar;</literal> constants
-(source, <LITERAL REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 944 - 950).</para>
+In the special <literal REMAP="tt">TE&lowbar;SPLASH</literal>
+temporary entity it should be one of the <literal REMAP="tt">SPLASH&lowbar;</literal> constants
+(source, <literal REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 944 - 950).</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long plat2flags;</literal></term>
+<term><literal REMAP="tt">long plat2flags;</literal></term>
 <listitem>
 <para>&nbsp; are used for the 
-<LITERAL REMAP="tt">TE&lowbar;STEAM</literal> temporary entity.</para>
+<literal REMAP="tt">TE&lowbar;STEAM</literal> temporary entity.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long wait;</literal></term>
+<term><literal REMAP="tt">long wait;</literal></term>
 <listitem>
 <para>&nbsp; is a timeout value (in milliseconds) for the 
-<LITERAL REMAP="tt">TE&lowbar;STEAM</literal> temporary entity.</para>
+<literal REMAP="tt">TE&lowbar;STEAM</literal> temporary entity.</para>
 </listitem>
 </varlistentry>
 </variablelist></para>
@@ -1445,19 +1447,19 @@ switch (entitytype) {
 <title>layout</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x04</literal></para>
+<para><literal REMAP="tt">0x04</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>purpose</term>
 <listitem>
-<para>This message displays the Field Computer (``<EMPHASIS REMAP="it">cmd help</emphasis>'', bound to F1).
+<para>This message displays the Field Computer (``<emphasis REMAP="it">cmd help</emphasis>'', bound to F1).
 It contains the summary screen (Deathmatch Scoreboard or single player 
 secrets, goals etc.). It stores the message only on the client siede. 
-The actual display will be triggered by the <EMPHASIS REMAP="bf">playerinfo</emphasis> message with
-a special <LITERAL REMAP="tt">stats</literal> command.</para>
+The actual display will be triggered by the <emphasis REMAP="bf">playerinfo</emphasis> message with
+a special <literal REMAP="tt">stats</literal> command.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -1465,12 +1467,12 @@ a special <LITERAL REMAP="tt">stats</literal> command.</para>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">char text[MAX&lowbar;MSGLEN];</literal></term>
+<term><literal REMAP="tt">char text[MAX&lowbar;MSGLEN];</literal></term>
 <listitem>
 <para>is the summary screen text with
 some kind of control characters. The control language is very simple. Read some
-examples in the source, <LITERAL REMAP="tt">q2src320/game/p&lowbar;hud.c</literal>, functions 
-<LITERAL REMAP="tt">DeathmatchScoreboardMessage</literal> and <LITERAL REMAP="tt">HelpComputer</literal>.</para>
+examples in the source, <literal REMAP="tt">q2src320/game/p&lowbar;hud.c</literal>, functions 
+<literal REMAP="tt">DeathmatchScoreboardMessage</literal> and <literal REMAP="tt">HelpComputer</literal>.</para>
 </listitem>
 </varlistentry>
 </variablelist></para>
@@ -1492,9 +1494,9 @@ examples in the source, <LITERAL REMAP="tt">q2src320/game/p&lowbar;hud.c</litera
 <title>inventory</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x05</literal></para>
+<para><literal REMAP="tt">0x05</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -1508,7 +1510,7 @@ examples in the source, <LITERAL REMAP="tt">q2src320/game/p&lowbar;hud.c</litera
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">int inventory[MAX&lowbar;ITEMS];</literal></term>
+<term><literal REMAP="tt">int inventory[MAX&lowbar;ITEMS];</literal></term>
 <listitem>
 <para>is the player's inventory
 array. 
@@ -1517,24 +1519,24 @@ array.
  is the number different
 items in the inventory.</para>
 <para>The inventory concept of Quake II is very open and expandable.
-In an global array (source, <LITERAL REMAP="tt">q2src320/game/g&lowbar;items.c</literal>, 1115 - 2097)
+In an global array (source, <literal REMAP="tt">q2src320/game/g&lowbar;items.c</literal>, 1115 - 2097)
 
 <screen>gitem_t itemlist[];</screen>
 
 is the list of all possible things 
 a player can pickup and carry around. This array will be filled at compile
 time.
-In the <LITERAL REMAP="tt">inventory</literal> array are stored how many
-of each thing of the <LITERAL REMAP="tt">itemlist</literal> a players carries. The server tells
-the meaning of each index with <EMPHASIS REMAP="bf">configstring</emphasis> messages.
-I give the original table for <LITERAL REMAP="tt">itemlist</literal>. Every modification can change 
+In the <literal REMAP="tt">inventory</literal> array are stored how many
+of each thing of the <literal REMAP="tt">itemlist</literal> a players carries. The server tells
+the meaning of each index with <emphasis REMAP="bf">configstring</emphasis> messages.
+I give the original table for <literal REMAP="tt">itemlist</literal>. Every modification can change 
 it totally and it changed indeed from 3.05 to 3.12.
 
 <table>
 <title>Standard inventory entries.</title>
-<TGROUP COLS="2">
-<COLSPEC COLSEP="0" ALIGN="RIGHT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="2">
+<colspec COLSEP="0" ALIGN="RIGHT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>value </entry>
@@ -1734,9 +1736,9 @@ it totally and it changed indeed from 3.05 to 3.12.
 <title>nop</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">Quake II ID</literal></term>
+<term><literal REMAP="tt">Quake II ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x06</literal></para>
+<para><literal REMAP="tt">0x06</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -1757,9 +1759,9 @@ it totally and it changed indeed from 3.05 to 3.12.
 <title>disconnect</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">Quake II ID</literal></term>
+<term><literal REMAP="tt">Quake II ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x07</literal></para>
+<para><literal REMAP="tt">0x07</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -1784,9 +1786,9 @@ it totally and it changed indeed from 3.05 to 3.12.
 <title>reconnect</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">Quake II ID</literal></term>
+<term><literal REMAP="tt">Quake II ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x08</literal></para>
+<para><literal REMAP="tt">0x08</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -1811,9 +1813,9 @@ it totally and it changed indeed from 3.05 to 3.12.
 <title>sound</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">Quake II ID</literal></term>
+<term><literal REMAP="tt">Quake II ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x09</literal></para>
+<para><literal REMAP="tt">0x09</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -1827,54 +1829,54 @@ it totally and it changed indeed from 3.05 to 3.12.
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long mask;</literal></term>
+<term><literal REMAP="tt">long mask;</literal></term>
 <listitem>
 <para>is a bit mak to reduce the network traffic.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long soundnum;</literal></term>
+<term><literal REMAP="tt">long soundnum;</literal></term>
 <listitem>
 <para>is the index in the precache sound
 table.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">float vol;</literal></term>
+<term><literal REMAP="tt">float vol;</literal></term>
 <listitem>
 <para>is the volume of the sound (0.0 off, 
 1.0 max).</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">float attenuation;</literal></term>
+<term><literal REMAP="tt">float attenuation;</literal></term>
 <listitem>
 <para>is the attenuation of the sound.
-<LITERAL REMAP="tt">attenuation</literal> should have one of the <LITERAL REMAP="tt">ATTN&lowbar;</literal> constants
-(source, <LITERAL REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 966 - 970).
+<literal REMAP="tt">attenuation</literal> should have one of the <literal REMAP="tt">ATTN&lowbar;</literal> constants
+(source, <literal REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 966 - 970).
 <variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define ATTN&lowbar;NONE 0</literal></term>
+<term><literal REMAP="tt">&num;define ATTN&lowbar;NONE 0</literal></term>
 <listitem>
-<para><EMPHASIS REMAP="it">full volume the entire level</emphasis></para>
+<para><emphasis REMAP="it">full volume the entire level</emphasis></para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define ATTN&lowbar;NORM 1</literal></term>
+<term><literal REMAP="tt">&num;define ATTN&lowbar;NORM 1</literal></term>
 <listitem>
 <para>the normal attenuation</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define ATTN&lowbar;IDLE 2</literal></term>
+<term><literal REMAP="tt">&num;define ATTN&lowbar;IDLE 2</literal></term>
 <listitem>
 <para>for idle monsters</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define ATTN&lowbar;STATIC 3</literal></term>
+<term><literal REMAP="tt">&num;define ATTN&lowbar;STATIC 3</literal></term>
 <listitem>
-<para><EMPHASIS REMAP="it">diminish very rapidly with
+<para><emphasis REMAP="it">diminish very rapidly with
 distance</emphasis></para>
 </listitem>
 </varlistentry>
@@ -1882,7 +1884,7 @@ distance</emphasis></para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">float timeofs;</literal></term>
+<term><literal REMAP="tt">float timeofs;</literal></term>
 <listitem>
 <para>is the offset in seconds between the
 frame start and the sound start.
@@ -1890,40 +1892,40 @@ It is 0 in the entire source.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long channel;</literal></term>
+<term><literal REMAP="tt">long channel;</literal></term>
 <listitem>
 <para>is the sound channel. There are 8 possible
 sound channels for each entity in Quake II (0-7) but it uses 5 only.
-<LITERAL REMAP="tt">channel</literal> should be one of the <LITERAL REMAP="tt">CHAN&lowbar;</literal> constants
-(source, <LITERAL REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 953 - 960).
+<literal REMAP="tt">channel</literal> should be one of the <literal REMAP="tt">CHAN&lowbar;</literal> constants
+(source, <literal REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 953 - 960).
 <variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define CHAN&lowbar;AUTO 0</literal></term>
+<term><literal REMAP="tt">&num;define CHAN&lowbar;AUTO 0</literal></term>
 <listitem>
 <para>selects a channel
 automatically</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define CHAN&lowbar;WEAPON 1</literal></term>
+<term><literal REMAP="tt">&num;define CHAN&lowbar;WEAPON 1</literal></term>
 <listitem>
 <para>weapon use sounds</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define CHAN&lowbar;VOICE 2</literal></term>
+<term><literal REMAP="tt">&num;define CHAN&lowbar;VOICE 2</literal></term>
 <listitem>
 <para>pain calls</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define CHAN&lowbar;ITEM 3</literal></term>
+<term><literal REMAP="tt">&num;define CHAN&lowbar;ITEM 3</literal></term>
 <listitem>
 <para>item get sounds</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define CHAN&lowbar;BODY 4</literal></term>
+<term><literal REMAP="tt">&num;define CHAN&lowbar;BODY 4</literal></term>
 <listitem>
 <para>jump and fall sounds</para>
 </listitem>
@@ -1932,17 +1934,17 @@ automatically</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long entity;</literal></term>
+<term><literal REMAP="tt">long entity;</literal></term>
 <listitem>
 <para>is the entity which caused the sound.
-The maximum value of <LITERAL REMAP="tt">entity</literal> is 
+The maximum value of <literal REMAP="tt">entity</literal> is 
 
 <screen>#define MAX_EDICTS 1024</screen>
 .</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t origin;</literal></term>
 <listitem>
 <para>is the origin of the sound.</para>
 </listitem>
@@ -1986,9 +1988,9 @@ if (mask &amp; 0x04) {
 <title>print</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">Quake II ID</literal></term>
+<term><literal REMAP="tt">Quake II ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x0A</literal></para>
+<para><literal REMAP="tt">0x0A</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -2002,31 +2004,31 @@ if (mask &amp; 0x04) {
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long level;</literal></term>
+<term><literal REMAP="tt">long level;</literal></term>
 <listitem>
 <para>is the priority level.
-<LITERAL REMAP="tt">level</literal> should be one of the following:
+<literal REMAP="tt">level</literal> should be one of the following:
 <variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define PRINT&lowbar;LOW 0</literal></term>
+<term><literal REMAP="tt">&num;define PRINT&lowbar;LOW 0</literal></term>
 <listitem>
 <para>pickup messages</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define PRINT&lowbar;MEDIUM 1</literal></term>
+<term><literal REMAP="tt">&num;define PRINT&lowbar;MEDIUM 1</literal></term>
 <listitem>
 <para>death messages</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define PRINT&lowbar;HIGH 2</literal></term>
+<term><literal REMAP="tt">&num;define PRINT&lowbar;HIGH 2</literal></term>
 <listitem>
 <para>critical messages</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define PRINT&lowbar;CHAT 3</literal></term>
+<term><literal REMAP="tt">&num;define PRINT&lowbar;CHAT 3</literal></term>
 <listitem>
 <para>chat messages</para>
 </listitem>
@@ -2035,7 +2037,7 @@ if (mask &amp; 0x04) {
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">char string[MAX&lowbar;MESSAGE&lowbar;SIZE];</literal></term>
+<term><literal REMAP="tt">char string[MAX&lowbar;MESSAGE&lowbar;SIZE];</literal></term>
 <listitem>
 <para>is the the text 
 to be displayed.</para>
@@ -2062,9 +2064,9 @@ string = ReadString;</screen>
 <title>stufftext</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">Quake II ID</literal></term>
+<term><literal REMAP="tt">Quake II ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x0B</literal></para>
+<para><literal REMAP="tt">0x0B</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -2078,7 +2080,7 @@ string = ReadString;</screen>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">char* text;</literal></term>
+<term><literal REMAP="tt">char* text;</literal></term>
 <listitem>
 <para>is the command, which the client has to execute.</para>
 </listitem>
@@ -2102,9 +2104,9 @@ string = ReadString;</screen>
 <title>serverdata</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">Quake II ID</literal></term>
+<term><literal REMAP="tt">Quake II ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x0C</literal></para>
+<para><literal REMAP="tt">0x0C</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -2118,16 +2120,16 @@ string = ReadString;</screen>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long serverversion;</literal></term>
+<term><literal REMAP="tt">long serverversion;</literal></term>
 <listitem>
 <para>is the protocol version coming from
 the server. 
 
 <table>
-<title>Quake II values for <LITERAL REMAP="tt">PROTOCOL&lowbar;VERSION</literal>.</title>
-<TGROUP COLS="2">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<title>Quake II values for <literal REMAP="tt">PROTOCOL&lowbar;VERSION</literal>.</title>
+<tgroup COLS="2">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>game </entry>
@@ -2201,44 +2203,44 @@ the server.
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long key;</literal></term>
+<term><literal REMAP="tt">long key;</literal></term>
 <listitem>
 <para>some kind of key. Will be used again later in
-a <EMPHASIS REMAP="bf">stufftext</emphasis> message for the login hand-shake.</para>
+a <emphasis REMAP="bf">stufftext</emphasis> message for the login hand-shake.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long isdemo;</literal></term>
+<term><literal REMAP="tt">long isdemo;</literal></term>
 <listitem>
 <para>indicates the demo type. Possible values
 are:
 <variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define RECORD&lowbar;NETWORK 0x00</literal></term>
+<term><literal REMAP="tt">&num;define RECORD&lowbar;NETWORK 0x00</literal></term>
 <listitem>
 <para>data actually over the wire
 (proxy)</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define RECORD&lowbar;CLIENT  0x01</literal></term>
+<term><literal REMAP="tt">&num;define RECORD&lowbar;CLIENT  0x01</literal></term>
 <listitem>
 <para>recorded on the client side.
 Containes information in the direct neighborhood of the recording player.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define RECORD&lowbar;SERVER  0x02</literal></term>
+<term><literal REMAP="tt">&num;define RECORD&lowbar;SERVER  0x02</literal></term>
 <listitem>
 <para>recorded on the server side.
 Containes all information on all entities in the level. These files tend to
 become very large. They can't be played back by Quake II directly.
 This value appears in 3.17 but server side recordings work from 3.15 on.
-This variable is sometimes called <LITERAL REMAP="tt">attractloop</literal> for whatever reason.</para>
+This variable is sometimes called <literal REMAP="tt">attractloop</literal> for whatever reason.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define RECORD&lowbar;RELAY   0x80</literal></term>
+<term><literal REMAP="tt">&num;define RECORD&lowbar;RELAY   0x80</literal></term>
 <listitem>
 <para>recorded with the
 Relay modificiation at the server side. These files can't be played back
@@ -2249,26 +2251,26 @@ only with the Relay modification.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">char* game;</literal></term>
+<term><literal REMAP="tt">char* game;</literal></term>
 <listitem>
 <para>is the game directory (may be empty, which 
-means <LITERAL REMAP="tt">baseq2</literal>).</para>
+means <literal REMAP="tt">baseq2</literal>).</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long client;</literal></term>
+<term><literal REMAP="tt">long client;</literal></term>
 <listitem>
 <para>is the client id.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">char* mapname;</literal></term>
+<term><literal REMAP="tt">char* mapname;</literal></term>
 <listitem>
 <para>is the name of the map.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">int compatible;</literal></term>
+<term><literal REMAP="tt">int compatible;</literal></term>
 <listitem>
 <para>compatibility with the CD retail version
 3.05 (protocol 26). How to set this? ??FIXME??</para>
@@ -2304,17 +2306,17 @@ mapname = ReadString;</screen>
 <title>configstring</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">Quake II ID</literal></term>
+<term><literal REMAP="tt">Quake II ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x0D</literal></para>
+<para><literal REMAP="tt">0x0D</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>purpose</term>
 <listitem>
-<para><EMPHASIS REMAP="it">config strings are a general means of communication from
+<para><emphasis REMAP="it">config strings are a general means of communication from
 the server to all connected clients.
-Each config string can be at most <LITERAL REMAP="tt">MAX&lowbar;QPATH</literal> characters.</emphasis></para>
+Each config string can be at most <literal REMAP="tt">MAX&lowbar;QPATH</literal> characters.</emphasis></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -2322,168 +2324,168 @@ Each config string can be at most <LITERAL REMAP="tt">MAX&lowbar;QPATH</literal>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">int index;</literal></term>
+<term><literal REMAP="tt">int index;</literal></term>
 <listitem>
 <para>is the number of the config string.
-The following constants (source, <LITERAL REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 
+The following constants (source, <literal REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 
 1069 - 1092)
 determine where to find something in the full array of config strings.
 <variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define CS&lowbar;NAME 0</literal></term>
+<term><literal REMAP="tt">&num;define CS&lowbar;NAME 0</literal></term>
 <listitem>
 <para>is the name of the
 level.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define CS&lowbar;CDTRACK 1</literal></term>
+<term><literal REMAP="tt">&num;define CS&lowbar;CDTRACK 1</literal></term>
 <listitem>
 <para>is the audio CD track
 for this level. </para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define CS&lowbar;SKY 2</literal></term>
+<term><literal REMAP="tt">&num;define CS&lowbar;SKY 2</literal></term>
 <listitem>
 <para>is the sky texture.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define CS&lowbar;SKYAXIS 3</literal></term>
+<term><literal REMAP="tt">&num;define CS&lowbar;SKYAXIS 3</literal></term>
 <listitem>
-<para>is the sky axis in the <EMPHASIS REMAP="it">&percnt;f &percnt;f
+<para>is the sky axis in the <emphasis REMAP="it">&percnt;f &percnt;f
 &percnt;f format</emphasis>.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define CS&lowbar;SKYROTATE 4</literal></term>
+<term><literal REMAP="tt">&num;define CS&lowbar;SKYROTATE 4</literal></term>
 <listitem>
 <para>is the rotation speed in the format 
 &percnt;f.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define CS&lowbar;STATUSBAR 5</literal></term>
+<term><literal REMAP="tt">&num;define CS&lowbar;STATUSBAR 5</literal></term>
 <listitem>
 <para>is the start of the list of 
-<EMPHASIS REMAP="it">display program string</emphasis>s for the statusbar.</para>
+<emphasis REMAP="it">display program string</emphasis>s for the statusbar.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define CS&lowbar;MAXCLIENTS 30</literal></term>
+<term><literal REMAP="tt">&num;define CS&lowbar;MAXCLIENTS 30</literal></term>
 <listitem>
 <para>is the current maximum number of 
 clients on a server.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define CS&lowbar;MAPCHECKSUM 31</literal></term>
+<term><literal REMAP="tt">&num;define CS&lowbar;MAPCHECKSUM 31</literal></term>
 <listitem>
 <para>is the map checksum 
-<EMPHASIS REMAP="it">for catching cheater maps</emphasis>.</para>
+<emphasis REMAP="it">for catching cheater maps</emphasis>.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define CS&lowbar;MODELS 32</literal></term>
+<term><literal REMAP="tt">&num;define CS&lowbar;MODELS 32</literal></term>
 <listitem>
 <para>is the start of the precache model 
 table.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define MAX&lowbar;MODELS 256</literal></term>
+<term><literal REMAP="tt">&num;define MAX&lowbar;MODELS 256</literal></term>
 <listitem>
 <para>is the maximum number of the
 precache model table.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define CS&lowbar;SOUNDS (CS&lowbar;MODELS+MAX&lowbar;MODELS)</literal></term>
+<term><literal REMAP="tt">&num;define CS&lowbar;SOUNDS (CS&lowbar;MODELS+MAX&lowbar;MODELS)</literal></term>
 <listitem>
 <para>(288) is the start 
 of the precache sound table.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define MAX&lowbar;SOUNDS 256</literal></term>
+<term><literal REMAP="tt">&num;define MAX&lowbar;SOUNDS 256</literal></term>
 <listitem>
 <para>is the maximum number of the
 precache sound table.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define CS&lowbar;IMAGES (CS&lowbar;SOUNDS+MAX&lowbar;SOUNDS)</literal></term>
+<term><literal REMAP="tt">&num;define CS&lowbar;IMAGES (CS&lowbar;SOUNDS+MAX&lowbar;SOUNDS)</literal></term>
 <listitem>
 <para>(544) is the
 start of the image list.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define MAX&lowbar;IMAGES 256</literal></term>
+<term><literal REMAP="tt">&num;define MAX&lowbar;IMAGES 256</literal></term>
 <listitem>
 <para>is the maximum numer of the
 images.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define CS&lowbar;LIGHTS (CS&lowbar;IMAGES+MAX&lowbar;IMAGES)</literal></term>
+<term><literal REMAP="tt">&num;define CS&lowbar;LIGHTS (CS&lowbar;IMAGES+MAX&lowbar;IMAGES)</literal></term>
 <listitem>
 <para>(800) is the
 start of the light styles list.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define MAX&lowbar;LIGHTSTYLES 256</literal></term>
+<term><literal REMAP="tt">&num;define MAX&lowbar;LIGHTSTYLES 256</literal></term>
 <listitem>
 <para>is the maximum number of the
 light styles.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define CS&lowbar;ITEMS (CS&lowbar;LIGHTS+MAX&lowbar;LIGHTSTYLES)</literal></term>
+<term><literal REMAP="tt">&num;define CS&lowbar;ITEMS (CS&lowbar;LIGHTS+MAX&lowbar;LIGHTSTYLES)</literal></term>
 <listitem>
 <para>(1056) is the
 start of the items list.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define MAX&lowbar;ITEMS 256</literal></term>
+<term><literal REMAP="tt">&num;define MAX&lowbar;ITEMS 256</literal></term>
 <listitem>
 <para>is the maximum number of items in
 the inventory list.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define CS&lowbar;PLAYERSKINS (CS&lowbar;ITEMS+MAX&lowbar;ITEMS)</literal></term>
+<term><literal REMAP="tt">&num;define CS&lowbar;PLAYERSKINS (CS&lowbar;ITEMS+MAX&lowbar;ITEMS)</literal></term>
 <listitem>
 <para>(1312) is the
 start of the player skin list.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define MAX&lowbar;CLIENTS 256</literal></term>
+<term><literal REMAP="tt">&num;define MAX&lowbar;CLIENTS 256</literal></term>
 <listitem>
 <para>is the maximum number of
 players.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define CS&lowbar;GENERAL (CS&lowbar;PLAYERSKINS+MAX&lowbar;CLIENTS)</literal></term>
+<term><literal REMAP="tt">&num;define CS&lowbar;GENERAL (CS&lowbar;PLAYERSKINS+MAX&lowbar;CLIENTS)</literal></term>
 <listitem>
 <para>(1568) is the
 start of the general config strings list.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define MAX&lowbar;GENRAL (MAX&lowbar;CLIENTS*2)</literal></term>
+<term><literal REMAP="tt">&num;define MAX&lowbar;GENRAL (MAX&lowbar;CLIENTS*2)</literal></term>
 <listitem>
 <para>(512) is the maximum 
-number of <EMPHASIS REMAP="it">general config strings</emphasis>.</para>
+number of <emphasis REMAP="it">general config strings</emphasis>.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define MAX&lowbar;CONFIGSTRINGS (CS&lowbar;GENERAL+MAX&lowbar;GENERAL)</literal></term>
+<term><literal REMAP="tt">&num;define MAX&lowbar;CONFIGSTRINGS (CS&lowbar;GENERAL+MAX&lowbar;GENERAL)</literal></term>
 <listitem>
 <para>(2080) is the maximum number of config strings.</para>
 </listitem>
@@ -2492,7 +2494,7 @@ number of <EMPHASIS REMAP="it">general config strings</emphasis>.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">char string[MAX&lowbar;QPATH];</literal></term>
+<term><literal REMAP="tt">char string[MAX&lowbar;QPATH];</literal></term>
 <listitem>
 <para>is the corresponding config string.
 
@@ -2522,9 +2524,9 @@ string = ReadString;</screen>
 <title>spawnbaseline</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x0E</literal></para>
+<para><literal REMAP="tt">0x0E</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -2538,126 +2540,126 @@ string = ReadString;</screen>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long mask;</literal></term>
+<term><literal REMAP="tt">long mask;</literal></term>
 <listitem>
 <para>is a bit-mask to reduce the network traffic.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long entity;</literal></term>
+<term><literal REMAP="tt">long entity;</literal></term>
 <listitem>
 <para>is the number of the entity.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t origin;</literal></term>
 <listitem>
 <para>is the origin.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t angles;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t angles;</literal></term>
 <listitem>
 <para>is the orientation.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t old&lowbar;origin;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t old&lowbar;origin;</literal></term>
 <listitem>
-<para>is the old origin <EMPHASIS REMAP="it">for
+<para>is the old origin <emphasis REMAP="it">for
 lerping</emphasis>. It is used for client-side prediction and interpolation 
 calculations. To compress a DM2 file, just leave it out, if the last frame
-had a <LITERAL REMAP="tt">origin</literal> entry for the entity in question. It is used with
-<EMPHASIS REMAP="it">cl&lowbar;nodelta 1</emphasis> only. From 3.17 on <LITERAL REMAP="tt">old&lowbar;origin</literal> is used for 
+had a <literal REMAP="tt">origin</literal> entry for the entity in question. It is used with
+<emphasis REMAP="it">cl&lowbar;nodelta 1</emphasis> only. From 3.17 on <literal REMAP="tt">old&lowbar;origin</literal> is used for 
 player entities only.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long modelindex;</literal></term>
+<term><literal REMAP="tt">long modelindex;</literal></term>
 <listitem>
 <para>is the model index.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long modelindex2;</literal></term>
+<term><literal REMAP="tt">long modelindex2;</literal></term>
 <listitem>
-<para>is <EMPHASIS REMAP="it">weapons, CTF, flags, etc</emphasis>.</para>
+<para>is <emphasis REMAP="it">weapons, CTF, flags, etc</emphasis>.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long modelindex3;</literal></term>
+<term><literal REMAP="tt">long modelindex3;</literal></term>
 <listitem>
-<para>is <EMPHASIS REMAP="it">weapons, CTF, flags, etc</emphasis>.</para>
+<para>is <emphasis REMAP="it">weapons, CTF, flags, etc</emphasis>.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long modelindex4;</literal></term>
+<term><literal REMAP="tt">long modelindex4;</literal></term>
 <listitem>
-<para>is <EMPHASIS REMAP="it">weapons, CTF, flags, etc</emphasis>. </para>
+<para>is <emphasis REMAP="it">weapons, CTF, flags, etc</emphasis>. </para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long frame;</literal></term>
+<term><literal REMAP="tt">long frame;</literal></term>
 <listitem>
 <para>is the frame of the model.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long skin;</literal></term>
+<term><literal REMAP="tt">long skin;</literal></term>
 <listitem>
 <para>is the number of the skin for the model.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long vwep;</literal></term>
+<term><literal REMAP="tt">long vwep;</literal></term>
 <listitem>
 <para>is the number of visual weapon skin for the model.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long effects;</literal></term>
+<term><literal REMAP="tt">long effects;</literal></term>
 <listitem>
-<para><EMPHASIS REMAP="it">Effects are things handled on the
+<para><emphasis REMAP="it">Effects are things handled on the
 client side (lights, particles, frame animations)
 that happen constantly on the given entity.
 An entity that has effects will be sent to the client
-even if it has a zero index model.</emphasis> The bit-mask <LITERAL REMAP="tt">effects</literal> holds
-the <LITERAL REMAP="tt">EF&lowbar;</literal> constants (source, 
-<LITERAL REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 530 - 569).)</para>
+even if it has a zero index model.</emphasis> The bit-mask <literal REMAP="tt">effects</literal> holds
+the <literal REMAP="tt">EF&lowbar;</literal> constants (source, 
+<literal REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 530 - 569).)</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long renderfx;</literal></term>
+<term><literal REMAP="tt">long renderfx;</literal></term>
 <listitem>
 <para>are some special render flags.
-The bit-mask <LITERAL REMAP="tt">renderfx</literal> holds the <LITERAL REMAP="tt">RF&lowbar;</literal> constants (source, 
-<LITERAL REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 571 - 591).</para>
+The bit-mask <literal REMAP="tt">renderfx</literal> holds the <literal REMAP="tt">RF&lowbar;</literal> constants (source, 
+<literal REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 571 - 591).</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long solid;</literal></term>
+<term><literal REMAP="tt">long solid;</literal></term>
 <listitem>
-<para><EMPHASIS REMAP="it">for client side prediction,
+<para><emphasis REMAP="it">for client side prediction,
 8*(bits 0-4) is x/y radius
 8*(bits 5-9) is z down distance, 
 8(bits10-15) is z up</emphasis></para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long sound;</literal></term>
+<term><literal REMAP="tt">long sound;</literal></term>
 <listitem>
-<para><EMPHASIS REMAP="it">for looping sounds, to guarantee 
+<para><emphasis REMAP="it">for looping sounds, to guarantee 
 shutoff</emphasis></para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long event;</literal></term>
+<term><literal REMAP="tt">long event;</literal></term>
 <listitem>
-<para><EMPHASIS REMAP="it">impulse events -- muzzle flashes, 
+<para><emphasis REMAP="it">impulse events -- muzzle flashes, 
 footsteps, etc
 events only go out for a single frame, they are automatically cleared each 
-frame</emphasis> <LITERAL REMAP="tt">event</literal> should have one of the following values
-(source, <LITERAL REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 1098 - 1112):
+frame</emphasis> <literal REMAP="tt">event</literal> should have one of the following values
+(source, <literal REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 1098 - 1112):
 
 <screen>typedef enum
 {
@@ -2735,9 +2737,9 @@ if (mask &amp; 0x08000000) solid = ReadShort;</screen>
 <title>centerprint</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x0F</literal></para>
+<para><literal REMAP="tt">0x0F</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -2746,7 +2748,7 @@ if (mask &amp; 0x08000000) solid = ReadShort;</screen>
 <para>Prints the specified text at the centre of the screen. There is only one
 text
 line with a maximum of 40 characters. To print more than this one line, use
-`&bsol;n' in a single <EMPHASIS REMAP="bf">centerprint</emphasis> message for a new line. Every text 
+`&bsol;n' in a single <emphasis REMAP="bf">centerprint</emphasis> message for a new line. Every text 
 line (the first 40 characters) will be centred horizontally.</para>
 </listitem>
 </varlistentry>
@@ -2755,7 +2757,7 @@ line (the first 40 characters) will be centred horizontally.</para>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">char* text;</literal></term>
+<term><literal REMAP="tt">char* text;</literal></term>
 <listitem>
 <para>is the text to be displayed.</para>
 </listitem>
@@ -2779,9 +2781,9 @@ line (the first 40 characters) will be centred horizontally.</para>
 <title>download</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x10</literal></para>
+<para><literal REMAP="tt">0x10</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -2801,32 +2803,32 @@ such blocks may actually do something useful in a DM2 file.</para>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long size;</literal></term>
+<term><literal REMAP="tt">long size;</literal></term>
 <listitem>
 <para>is the number of bytes transferred in the
 current packet.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long percent;</literal></term>
+<term><literal REMAP="tt">long percent;</literal></term>
 <listitem>
 <para>is the total amount sended in percent.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">char* downloadbuffer;</literal></term>
+<term><literal REMAP="tt">char* downloadbuffer;</literal></term>
 <listitem>
 <para>is a buffer for downloaded files.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">char* filename;</literal></term>
+<term><literal REMAP="tt">char* filename;</literal></term>
 <listitem>
 <para>is the name for the downloaded file.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">FILE* fp;</literal></term>
+<term><literal REMAP="tt">FILE* fp;</literal></term>
 <listitem>
 <para>is the file pointer for the downloaded file.</para>
 </listitem>
@@ -2869,15 +2871,15 @@ if (serverdata.serverversion &gt;= 32) { // game version &gt;= 3.15
 <title>playerinfo</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x11</literal></para>
+<para><literal REMAP="tt">0x11</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>purpose</term>
 <listitem>
-<para>Player info. <emphasis>Have to</emphasis> come directly after a <EMPHASIS REMAP="bf">frame</emphasis> message
+<para>Player info. <emphasis>Have to</emphasis> come directly after a <emphasis REMAP="bf">frame</emphasis> message
 in client recording. There is no such message in server side recordings
 since there is no special player who does the recording.</para>
 </listitem>
@@ -2887,260 +2889,260 @@ since there is no special player who does the recording.</para>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long mask;</literal></term>
+<term><literal REMAP="tt">long mask;</literal></term>
 <listitem>
 <para>is a bit mask to reduce the network traffic.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long mask2;</literal></term>
+<term><literal REMAP="tt">long mask2;</literal></term>
 <listitem>
 <para>is a bit mask to reduce the network traffic.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long pm&lowbar;type;</literal></term>
+<term><literal REMAP="tt">long pm&lowbar;type;</literal></term>
 <listitem>
 <para>is important for client side prediction and 
-should be one of the <LITERAL REMAP="tt">PM&lowbar;</literal> constants 
-(source, <LITERAL REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 440 - 451).</para>
+should be one of the <literal REMAP="tt">PM&lowbar;</literal> constants 
+(source, <literal REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 440 - 451).</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t origin;</literal></term>
 <listitem>
 <para>is the origin.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t velocity;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t velocity;</literal></term>
 <listitem>
 <para>is the velocity.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">byte pm&lowbar;flags;</literal></term>
+<term><literal REMAP="tt">byte pm&lowbar;flags;</literal></term>
 <listitem>
-<para><EMPHASIS REMAP="it">ducked, jump&lowbar;held, etc</emphasis>
-and should be one of the <LITERAL REMAP="tt">PMF&lowbar;</literal> constants
-(source, <LITERAL REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 453 - 460).</para>
+<para><emphasis REMAP="it">ducked, jump&lowbar;held, etc</emphasis>
+and should be one of the <literal REMAP="tt">PMF&lowbar;</literal> constants
+(source, <literal REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 453 - 460).</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">byte pm&lowbar;time;</literal></term>
+<term><literal REMAP="tt">byte pm&lowbar;time;</literal></term>
 <listitem>
-<para>is unknown (<EMPHASIS REMAP="it">each unit = 8 ms</emphasis>).</para>
+<para>is unknown (<emphasis REMAP="it">each unit = 8 ms</emphasis>).</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">short gravity;</literal></term>
+<term><literal REMAP="tt">short gravity;</literal></term>
 <listitem>
 <para>is the gravity (800, cvar
-<LITERAL REMAP="tt">sv&lowbar;gravity</literal>).</para>
+<literal REMAP="tt">sv&lowbar;gravity</literal>).</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t delta&lowbar;angles;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t delta&lowbar;angles;</literal></term>
 <listitem>
-<para><EMPHASIS REMAP="it">add to command angles to get 
+<para><emphasis REMAP="it">add to command angles to get 
 view direction, changed by spawns, rotating objects, and teleporters</emphasis></para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t viewangles;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t viewangles;</literal></term>
 <listitem>
-<para><EMPHASIS REMAP="it">for fixed views</emphasis></para>
+<para><emphasis REMAP="it">for fixed views</emphasis></para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t viewoffset;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t viewoffset;</literal></term>
 <listitem>
-<para><EMPHASIS REMAP="it">add to
-<LITERAL REMAP="tt">pmovestate-&gt;origin</literal></emphasis></para>
+<para><emphasis REMAP="it">add to
+<literal REMAP="tt">pmovestate-&gt;origin</literal></emphasis></para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t kick&lowbar;angles;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t kick&lowbar;angles;</literal></term>
 <listitem>
-<para><EMPHASIS REMAP="it">add to view direction to get 
+<para><emphasis REMAP="it">add to view direction to get 
 render angles set by weapon kicks, pain effects, etc</emphasis></para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t gunangles;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t gunangles;</literal></term>
 <listitem>
 <para>direction of weapon</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t gunoffset;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t gunoffset;</literal></term>
 <listitem>
 <para>offset of weapon</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">int gunindex;</literal></term>
+<term><literal REMAP="tt">int gunindex;</literal></term>
 <listitem>
 <para>model index of weapon</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">int gunframe;</literal></term>
+<term><literal REMAP="tt">int gunframe;</literal></term>
 <listitem>
 <para>frame of weapon</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">float blend[4];</literal></term>
+<term><literal REMAP="tt">float blend[4];</literal></term>
 <listitem>
-<para><EMPHASIS REMAP="it">rgba full screen effect</emphasis></para>
+<para><emphasis REMAP="it">rgba full screen effect</emphasis></para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long fov;</literal></term>
+<term><literal REMAP="tt">long fov;</literal></term>
 <listitem>
-<para><EMPHASIS REMAP="it">horizontal field of view</emphasis>. Since the
+<para><emphasis REMAP="it">horizontal field of view</emphasis>. Since the
 field of view is no client side variable (as it is in Quake), it is much 
 easier to create zoom effects in movies.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">int rdflags;</literal></term>
+<term><literal REMAP="tt">int rdflags;</literal></term>
 <listitem>
-<para><EMPHASIS REMAP="it">refdef flags</emphasis>, should be
-one of the <LITERAL REMAP="tt">RDF&lowbar;</literal> constants 
-(source, <LITERAL REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 593 - 600).</para>
+<para><emphasis REMAP="it">refdef flags</emphasis>, should be
+one of the <literal REMAP="tt">RDF&lowbar;</literal> constants 
+(source, <literal REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 593 - 600).</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">short stats[MAX&lowbar;STATS];</literal></term>
+<term><literal REMAP="tt">short stats[MAX&lowbar;STATS];</literal></term>
 <listitem>
-<para><EMPHASIS REMAP="it">fast status bar updates</emphasis>
+<para><emphasis REMAP="it">fast status bar updates</emphasis>
 Each entry in this array stays for something on the statusbar. The value of
-an icon entry is the image index defined in a <EMPHASIS REMAP="bf">configstring</emphasis> message.
+an icon entry is the image index defined in a <emphasis REMAP="bf">configstring</emphasis> message.
 A value of 0 on an icon entry switches the icon off. 
-(source, <LITERAL REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 973 - 993)
+(source, <literal REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 973 - 993)
 <variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define MAX&lowbar;STATS 32</literal></term>
+<term><literal REMAP="tt">&num;define MAX&lowbar;STATS 32</literal></term>
 <listitem>
 <para>maximum number of things in the
 status bar</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define STAT&lowbar;HEALTH&lowbar;ICON 0</literal></term>
+<term><literal REMAP="tt">&num;define STAT&lowbar;HEALTH&lowbar;ICON 0</literal></term>
 <listitem>
 <para>health icon image</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define STAT&lowbar;HEALTH 1</literal></term>
+<term><literal REMAP="tt">&num;define STAT&lowbar;HEALTH 1</literal></term>
 <listitem>
 <para>health value</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define STAT&lowbar;AMMO&lowbar;ICON 2</literal></term>
+<term><literal REMAP="tt">&num;define STAT&lowbar;AMMO&lowbar;ICON 2</literal></term>
 <listitem>
 <para>ammo icon image</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define STAT&lowbar;AMMO 3</literal></term>
+<term><literal REMAP="tt">&num;define STAT&lowbar;AMMO 3</literal></term>
 <listitem>
 <para>ammo value</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define STAT&lowbar;ARMOR&lowbar;ICON 4</literal></term>
+<term><literal REMAP="tt">&num;define STAT&lowbar;ARMOR&lowbar;ICON 4</literal></term>
 <listitem>
 <para>armour icon</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define STAT&lowbar;ARMOR 5</literal></term>
+<term><literal REMAP="tt">&num;define STAT&lowbar;ARMOR 5</literal></term>
 <listitem>
 <para>armour value</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define STAT&lowbar;SELECTED&lowbar;ICON 6</literal></term>
+<term><literal REMAP="tt">&num;define STAT&lowbar;SELECTED&lowbar;ICON 6</literal></term>
 <listitem>
 <para>icon image of the selected
 weapon</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define STAT&lowbar;PICKUP&lowbar;ICON 7</literal></term>
+<term><literal REMAP="tt">&num;define STAT&lowbar;PICKUP&lowbar;ICON 7</literal></term>
 <listitem>
 <para>icon image of a recently
 gotten thing</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define STAT&lowbar;PICKUP&lowbar;STRING 8</literal></term>
+<term><literal REMAP="tt">&num;define STAT&lowbar;PICKUP&lowbar;STRING 8</literal></term>
 <listitem>
-<para><EMPHASIS REMAP="bf">configstring</emphasis>
+<para><emphasis REMAP="bf">configstring</emphasis>
 index to describe the recently gotten thing, 0 = string off</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define STAT&lowbar;TIMER&lowbar;ICON 9</literal></term>
+<term><literal REMAP="tt">&num;define STAT&lowbar;TIMER&lowbar;ICON 9</literal></term>
 <listitem>
 <para>icon image of timed object
 (Quad Damage, Invulnerability etc.)</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define STAT&lowbar;TIMER 10</literal></term>
+<term><literal REMAP="tt">&num;define STAT&lowbar;TIMER 10</literal></term>
 <listitem>
 <para>timer value for a timed object
 (in seconds)</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define STAT&lowbar;HELPICON 11</literal></term>
+<term><literal REMAP="tt">&num;define STAT&lowbar;HELPICON 11</literal></term>
 <listitem>
 <para>help icon: 0 off, 1 on</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define STAT&lowbar;SELECTED&lowbar;ITEM 12</literal></term>
+<term><literal REMAP="tt">&num;define STAT&lowbar;SELECTED&lowbar;ITEM 12</literal></term>
 <listitem>
 <para>item number of the selected
 weapon</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define STAT&lowbar;LAYOUTS 13</literal></term>
+<term><literal REMAP="tt">&num;define STAT&lowbar;LAYOUTS 13</literal></term>
 <listitem>
 <para>layout activator: 0 off,
 1 display help/summary screen, 2 display inventory</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define STAT&lowbar;FRAGS 14</literal></term>
+<term><literal REMAP="tt">&num;define STAT&lowbar;FRAGS 14</literal></term>
 <listitem>
 <para>client score value</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define STAT&lowbar;FLASHES 15</literal></term>
+<term><literal REMAP="tt">&num;define STAT&lowbar;FLASHES 15</literal></term>
 <listitem>
-<para><EMPHASIS REMAP="it">flash the backgrounds behind
+<para><emphasis REMAP="it">flash the backgrounds behind
 the status numbers, cleared each frame, 1 = health, 2 = armor</emphasis>, 0 = off</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define STAT&lowbar;CHASE 16</literal></term>
+<term><literal REMAP="tt">&num;define STAT&lowbar;CHASE 16</literal></term>
 <listitem>
 <para>chase target skin number (number in 
-<EMPHASIS REMAP="bf">configstring</emphasis> list)</para>
+<emphasis REMAP="bf">configstring</emphasis> list)</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define STAT&lowbar;SPECTATOR 17</literal></term>
+<term><literal REMAP="tt">&num;define STAT&lowbar;SPECTATOR 17</literal></term>
 <listitem>
 <para>0 = normal play, 1 = spectator</para>
 </listitem>
@@ -3215,9 +3217,9 @@ for (i=0;i&lt;32;i++) if (mask2 &amp; (0x00000001 &lt;&lt; i)) stats[i] = ReadSh
 <title>packetentities</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x12</literal></para>
+<para><literal REMAP="tt">0x12</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -3225,11 +3227,11 @@ for (i=0;i&lt;32;i++) if (mask2 &amp; (0x00000001 &lt;&lt; i)) stats[i] = ReadSh
 <listitem>
 <para>Entity updates. <emphasis>Have to</emphasis> come in a client side recording directly 
 after a 
-<EMPHASIS REMAP="bf">playerinfo</emphasis> message and in a server side recording directly after a
-<EMPHASIS REMAP="bf">frame</emphasis> message. 
-This message is in fact a list of <EMPHASIS REMAP="bf">spawnbaseline</emphasis>
+<emphasis REMAP="bf">playerinfo</emphasis> message and in a server side recording directly after a
+<emphasis REMAP="bf">frame</emphasis> message. 
+This message is in fact a list of <emphasis REMAP="bf">spawnbaseline</emphasis>
 messages. Look there for a longer variable description.
-The list ends with <LITERAL REMAP="tt">entity==0</literal>.</para>
+The list ends with <literal REMAP="tt">entity==0</literal>.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -3237,116 +3239,116 @@ The list ends with <LITERAL REMAP="tt">entity==0</literal>.</para>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long mask;</literal></term>
+<term><literal REMAP="tt">long mask;</literal></term>
 <listitem>
 <para>is used to reduce the network traffic.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long entity;</literal></term>
+<term><literal REMAP="tt">long entity;</literal></term>
 <listitem>
 <para>is the number of the entity.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long remove;</literal></term>
+<term><literal REMAP="tt">long remove;</literal></term>
 <listitem>
 <para>indicates a disappearing entity.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t origin;</literal></term>
 <listitem>
 <para>is the origin.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t angles;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t angles;</literal></term>
 <listitem>
 <para>is the orientation.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">vec3&lowbar;t old&lowbar;origin;</literal></term>
+<term><literal REMAP="tt">vec3&lowbar;t old&lowbar;origin;</literal></term>
 <listitem>
 <para>old origin (for client side
 prediction).</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long modelindex;</literal></term>
+<term><literal REMAP="tt">long modelindex;</literal></term>
 <listitem>
 <para>is the model index.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long modelindex2;</literal></term>
+<term><literal REMAP="tt">long modelindex2;</literal></term>
 <listitem>
-<para>is <EMPHASIS REMAP="it">weapons, CTF, flags, etc</emphasis>.</para>
+<para>is <emphasis REMAP="it">weapons, CTF, flags, etc</emphasis>.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long modelindex3;</literal></term>
+<term><literal REMAP="tt">long modelindex3;</literal></term>
 <listitem>
-<para>is <EMPHASIS REMAP="it">weapons, CTF, flags, etc</emphasis>.</para>
+<para>is <emphasis REMAP="it">weapons, CTF, flags, etc</emphasis>.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long modelindex4;</literal></term>
+<term><literal REMAP="tt">long modelindex4;</literal></term>
 <listitem>
-<para>is <EMPHASIS REMAP="it">weapons, CTF, flags, etc</emphasis>. </para>
+<para>is <emphasis REMAP="it">weapons, CTF, flags, etc</emphasis>. </para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long frame;</literal></term>
+<term><literal REMAP="tt">long frame;</literal></term>
 <listitem>
 <para>is the frame of the model.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long skin;</literal></term>
+<term><literal REMAP="tt">long skin;</literal></term>
 <listitem>
 <para>is the number of the skin for the model.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long vwep;</literal></term>
+<term><literal REMAP="tt">long vwep;</literal></term>
 <listitem>
 <para>is the number of visual weapon skin for the model.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long effects;</literal></term>
+<term><literal REMAP="tt">long effects;</literal></term>
 <listitem>
 <para>is the entity effect.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long renderfx;</literal></term>
+<term><literal REMAP="tt">long renderfx;</literal></term>
 <listitem>
 <para>are some special render flags.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long solid;</literal></term>
+<term><literal REMAP="tt">long solid;</literal></term>
 <listitem>
-<para><EMPHASIS REMAP="it">for client side prediction,
+<para><emphasis REMAP="it">for client side prediction,
 8*(bits 0-4) is x/y radius
 8*(bits 5-9) is z down distance, 
 8(bits10-15) is z up</emphasis></para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long sound;</literal></term>
+<term><literal REMAP="tt">long sound;</literal></term>
 <listitem>
-<para><EMPHASIS REMAP="it">for looping sounds, to guarantee 
+<para><emphasis REMAP="it">for looping sounds, to guarantee 
 shutoff</emphasis></para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long event;</literal></term>
+<term><literal REMAP="tt">long event;</literal></term>
 <listitem>
-<para><EMPHASIS REMAP="it">impulse events -- muzzle flashes, 
+<para><emphasis REMAP="it">impulse events -- muzzle flashes, 
 footsteps, etc
 events only go out for a single frame, they are automatically cleared each 
 frame</emphasis></para>
@@ -3419,16 +3421,16 @@ frame</emphasis></para>
 <title>deltapacketentities</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x13</literal></para>
+<para><literal REMAP="tt">0x13</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term>purpose</term>
 <listitem>
-<para>Entity updates. May come after a <EMPHASIS REMAP="bf">packetentities</emphasis> block.
-It isn't really necessary since <EMPHASIS REMAP="bf">packetentities</emphasis> handles itself all
+<para>Entity updates. May come after a <emphasis REMAP="bf">packetentities</emphasis> block.
+It isn't really necessary since <emphasis REMAP="bf">packetentities</emphasis> handles itself all
 the delta encoding.</para>
 </listitem>
 </varlistentry>
@@ -3448,9 +3450,9 @@ the delta encoding.</para>
 <title>frame</title>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">ID</literal></term>
+<term><literal REMAP="tt">ID</literal></term>
 <listitem>
-<para><LITERAL REMAP="tt">0x14</literal></para>
+<para><literal REMAP="tt">0x14</literal></para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -3458,9 +3460,9 @@ the delta encoding.</para>
 <listitem>
 <para>Sequence numbers to cope with UDP packet loss, delta encoding and 
 portal border crossings. Start of the 
-<EMPHASIS REMAP="bf">playerinfo</emphasis> and <EMPHASIS REMAP="bf">packetentities</emphasis> messages.</para>
+<emphasis REMAP="bf">playerinfo</emphasis> and <emphasis REMAP="bf">packetentities</emphasis> messages.</para>
 <para>In server side recordings this message contains only the current frame number.</para>
-<para>In Relay recordings, this message looks like the client side <EMPHASIS REMAP="bf">frame</emphasis>
+<para>In Relay recordings, this message looks like the client side <emphasis REMAP="bf">frame</emphasis>
 message but it contains also the list of connected clients.</para>
 </listitem>
 </varlistentry>
@@ -3469,66 +3471,66 @@ message but it contains also the list of connected clients.</para>
 <listitem>
 <para><variablelist>
 <varlistentry>
-<term><LITERAL REMAP="tt">long seq1;</literal></term>
+<term><literal REMAP="tt">long seq1;</literal></term>
 <listitem>
 <para>is the sequence number of the current 
 packet or frame. Since the Quake II server uses a fixed time gap of 100ms
-(10Hz) between game state changes <LITERAL REMAP="tt">seq1 / 10</literal> is the time in
+(10Hz) between game state changes <literal REMAP="tt">seq1 / 10</literal> is the time in
 seconds since the server started.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long seq2;</literal></term>
+<term><literal REMAP="tt">long seq2;</literal></term>
 <listitem>
 <para>is the sequence number of the delta reference
-frame. The reference holds for both following <EMPHASIS REMAP="bf">playerinfo</emphasis> and 
-<EMPHASIS REMAP="bf">packetentities</emphasis> messages. The Quake II server has a table with
+frame. The reference holds for both following <emphasis REMAP="bf">playerinfo</emphasis> and 
+<emphasis REMAP="bf">packetentities</emphasis> messages. The Quake II server has a table with
 some old entity states and get from each client the sequence number of
 frames, which arrived correctly at the client side. So the server can decide
 which most currently sended old frame should be used now as the delta encoding
 reference frame.
-<LITERAL REMAP="tt">seq2</literal> is -1 to reference to the <EMPHASIS REMAP="bf">spawnbaseline</emphasis> values.</para>
+<literal REMAP="tt">seq2</literal> is -1 to reference to the <emphasis REMAP="bf">spawnbaseline</emphasis> values.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long count;</literal></term>
+<term><literal REMAP="tt">long count;</literal></term>
 <listitem>
 <para>is the number of bytes in the 
-<LITERAL REMAP="tt">areas</literal> array.</para>
+<literal REMAP="tt">areas</literal> array.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">&num;define MAX&lowbar;MAP&lowbar;AREAS 256</literal></term>
+<term><literal REMAP="tt">&num;define MAX&lowbar;MAP&lowbar;AREAS 256</literal></term>
 <listitem>
 <para>is the maximum number of areas
 in a map.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">unsigned char areas[MAX&lowbar;MAP&lowbar;AREAS / 8];</literal></term>
+<term><literal REMAP="tt">unsigned char areas[MAX&lowbar;MAP&lowbar;AREAS / 8];</literal></term>
 <listitem>
 <para>is the array which defines the areas to be rendered.
-Each bit in the <LITERAL REMAP="tt">areas</literal> array stays for one area in the map.</para>
+Each bit in the <literal REMAP="tt">areas</literal> array stays for one area in the map.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long frame;</literal></term>
+<term><literal REMAP="tt">long frame;</literal></term>
 <listitem>
 <para>is the frame number in server side recordings
-and similar to <LITERAL REMAP="tt">seq1</literal>. I may rename it even to <LITERAL REMAP="tt">seq1</literal> in
+and similar to <literal REMAP="tt">seq1</literal>. I may rename it even to <literal REMAP="tt">seq1</literal> in
 a future revision.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">long connected&lowbar;count</literal></term>
+<term><literal REMAP="tt">long connected&lowbar;count</literal></term>
 <listitem>
 <para>is the number of connected
-clients in the <LITERAL REMAP="tt">connected</literal> array. It is used in Relay recordings
+clients in the <literal REMAP="tt">connected</literal> array. It is used in Relay recordings
 only.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><LITERAL REMAP="tt">unsigned char connected[MAX&lowbar;CLIENTS]</literal></term>
+<term><literal REMAP="tt">unsigned char connected[MAX&lowbar;CLIENTS]</literal></term>
 <listitem>
 <para>is the
 array, which contains the numbers of the connected clients. It is used
@@ -3697,7 +3699,7 @@ if (serverdata.isdemo == RECORD_SERVER) {
 <itemizedlist>
 <listitem>
 <para>Some details better. Many thanks to Kekoa Proundfoot 
-(<ULINK URL="mailto:kekoa@graphics.stanford.edu">kekoa@graphics.stanford.edu</ulink>).</para>
+(<ulink URL="mailto:kekoa@graphics.stanford.edu">kekoa@graphics.stanford.edu</ulink>).</para>
 </listitem>
 <listitem>
 <para>PlanetQuake is the new home.</para>
@@ -3720,7 +3722,7 @@ if (serverdata.isdemo == RECORD_SERVER) {
 
 <itemizedlist>
 <listitem>
-<para>Thanks to Ben Swartzlander (<ULINK URL="mailto:swartz@rice.edu">swartz@rice.edu</ulink>) for the config string index 30.</para>
+<para>Thanks to Ben Swartzlander (<ulink URL="mailto:swartz@rice.edu">swartz@rice.edu</ulink>) for the config string index 30.</para>
 </listitem>
 <listitem>
 <para>Changed some command names (sound volume, server protocol version, 
@@ -3754,7 +3756,7 @@ total number of tokens in the Quake and Quake II text parser of LMPC.</para>
 <para>Compatible with Quake II up to 3.17.</para>
 </listitem>
 <listitem>
-<para>Some hints on <LITERAL REMAP="tt">old&lowbar;origin</literal> updates and sequence numbering.</para>
+<para>Some hints on <literal REMAP="tt">old&lowbar;origin</literal> updates and sequence numbering.</para>
 </listitem>
 <listitem>
 <para>SGML-Tools 1.0.7 used.</para>
@@ -3794,7 +3796,7 @@ total number of tokens in the Quake and Quake II text parser of LMPC.</para>
 
 <itemizedlist>
 <listitem>
-<para>Missing auxiliary function <LITERAL REMAP="tt">ReadCoord</literal> included.</para>
+<para>Missing auxiliary function <literal REMAP="tt">ReadCoord</literal> included.</para>
 </listitem>
 <listitem>
 <para>More versions analysed.</para>
@@ -3827,7 +3829,7 @@ total number of tokens in the Quake and Quake II text parser of LMPC.</para>
 </listitem>
 <listitem>
 <para>Thanks to Conor Davis
-(<ULINK URL="mailto:cedavis@planetquake.com">cedavis@planetquake.com</ulink>) for the information about the Quake II 
+(<ulink URL="mailto:cedavis@planetquake.com">cedavis@planetquake.com</ulink>) for the information about the Quake II 
 Relay project.</para>
 </listitem>
 </itemizedlist>

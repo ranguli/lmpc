@@ -77,7 +77,7 @@ if ($step == "2") {
 	
 	# We need everything as lowercase.
 	# SGML does not care and XML needs it so.
-	$text =~ s:(<[^> ]+>):lc($1):ge;
+	$text =~ s:(<[^> ]+[> ]):lc($1):ge;
 
 	print '<!ENTITY lowbar "_">
 	<!ENTITY lsqb "[">

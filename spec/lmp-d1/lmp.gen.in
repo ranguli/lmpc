@@ -1,6 +1,8 @@
 <!ENTITY lowbar "_">
 	<!ENTITY lsqb "[">
 	<!ENTITY rsqb "]">
+	<!ENTITY lcub "{">
+	<!ENTITY rcub "}">
 	<!ENTITY num "#">
 	<!ENTITY bsol "\">
 	]><article>
@@ -17,7 +19,7 @@ a game in DOOM, DOOM &rsqb;&lsqb;, HERETIC, HEXEN and STRIFE.
 This documentation covers all these games in all known versions.</para>
 </abstract>
 </articleinfo>
-<SECT1 ID="INTRO">
+<sect1 ID="INTRO">
 <title>Introduction</title>
 <para>The LMP file format appears first with the game DOOM on December 10th, 1993 
 and remains relatively unchanged in all its successors.</para>
@@ -147,11 +149,11 @@ and remains relatively unchanged in all its successors.</para>
 <para>The LMP files created with games which appear on one line are not
 distinguishable.</para>
 <para>To create a LMP file start the game with the command line switch
-<LITERAL REMAP="tt">-record foo</literal> (and <LITERAL REMAP="tt">-warp</literal>, <LITERAL REMAP="tt">-skill</literal> etc.) and play as
-usual. If you press <LITERAL REMAP="tt">q</literal> the record (and the game) stops. In old DOOM 
+<literal REMAP="tt">-record foo</literal> (and <literal REMAP="tt">-warp</literal>, <literal REMAP="tt">-skill</literal> etc.) and play as
+usual. If you press <literal REMAP="tt">q</literal> the record (and the game) stops. In old DOOM 
 (&lt; 1.4), HERETIC and HEXEN this happens at the end of a level too.
-You will find a file <LITERAL REMAP="tt">foo.lmp</literal> in the current directory. To play it back
-start the game with the command line switch <LITERAL REMAP="tt">-playdemo foo</literal>.</para>
+You will find a file <literal REMAP="tt">foo.lmp</literal> in the current directory. To play it back
+start the game with the command line switch <literal REMAP="tt">-playdemo foo</literal>.</para>
 <para>A LMP file records all player actions. The monster movements, respawn
 positions etc. are totally deterministic. The messages during a multiplayer
 game (chat mode) do not appear in the LMP.</para>
@@ -197,7 +199,7 @@ So it is not wrong to speak of 35Hz but it is not totally correct.</para>
 <sect1>
 <title>Header</title>
 <para>The easiest way to check the length of the header is to start the games with 
-the <LITERAL REMAP="tt">-record</literal> option. Then you have to press ``<LITERAL REMAP="tt">q</literal>'' during the
+the <literal REMAP="tt">-record</literal> option. Then you have to press ``<literal REMAP="tt">q</literal>'' during the
 startup sequence. 
 In the moment, when the screen switches from text mode to graphics mode,
 the game stops and you receive the shortest LMP file. It consists only of 
@@ -209,11 +211,11 @@ the header and the quit game byte.</para>
 
 <table>
 <title>7 byte Header of old DOOM up to 1.2 and HERETIC.</title>
-<TGROUP COLS="4">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="4">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>address </entry>
@@ -222,44 +224,44 @@ the header and the quit game byte.</para>
 <entry>range</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0000</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0000</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>skill </entry>
 <entry>0-4</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0001</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0001</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>episode </entry>
 <entry>1-3/4</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0002</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0002</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>map </entry>
 <entry>1-9</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0003</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0003</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>green/green player </entry>
 <entry>0: inactive, 1: active</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0004</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0004</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>indigo/yellow player </entry>
 <entry>0: inactive, 1: active</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0005</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0005</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>brown/red player </entry>
 <entry>0: inactive, 1: active</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0006</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0006</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>red/blue player </entry>
 <entry>0: inactive, 1: active</entry>
 </row>
@@ -276,11 +278,11 @@ the header and the quit game byte.</para>
 <table>
 <title>From DOOM 1.4 on and in DOOM &rsqb;&lsqb; the header consists of 13
 bytes.</title>
-<TGROUP COLS="4">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="4">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>address </entry>
@@ -289,80 +291,80 @@ bytes.</title>
 <entry> range</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0000</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0000</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>version </entry>
 <entry>look in the table below</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0001</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0001</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>skill </entry>
 <entry>0-4</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0002</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0002</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>episode </entry>
 <entry>1-4</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0003</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0003</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>map </entry>
 <entry>1-32</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0004</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0004</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>multiplayer rule </entry>
 <entry>0: Cooperative, 1: DeathMatch, 2: AltDeath</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0005</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0005</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>respawn </entry>
-<entry>0: off, !=0: on, <LITERAL REMAP="tt">argv</literal> - number of <LITERAL REMAP="tt">-respawn</literal></entry>
+<entry>0: off, !=0: on, <literal REMAP="tt">argv</literal> - number of <literal REMAP="tt">-respawn</literal></entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0006</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0006</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>fast </entry>
-<entry>0: off, !=0: on, <LITERAL REMAP="tt">argv</literal> - number of <LITERAL REMAP="tt">-fast</literal></entry>
+<entry>0: off, !=0: on, <literal REMAP="tt">argv</literal> - number of <literal REMAP="tt">-fast</literal></entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0007</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0007</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>nomonsters </entry>
-<entry>0: off, !=0: on, <LITERAL REMAP="tt">argv</literal> - number of <LITERAL REMAP="tt">-nomonsters</literal></entry>
+<entry>0: off, !=0: on, <literal REMAP="tt">argv</literal> - number of <literal REMAP="tt">-nomonsters</literal></entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0008</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0008</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>recording player </entry>
 <entry>0-3</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0009</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0009</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>green player </entry>
 <entry>0: inactive, 1: active</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x000A</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x000A</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>indigo player </entry>
 <entry>0: inactive, 1: active</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x000B</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x000B</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>brown player </entry>
 <entry>0: inactive, 1: active</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x000C</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x000C</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>red player </entry>
 <entry>0: inactive, 1: active</entry>
 </row>
@@ -375,10 +377,10 @@ bytes.</title>
 
 <table>
 <title>Known version bytes.</title>
-<TGROUP COLS="3">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="3">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>dec </entry>
@@ -429,7 +431,7 @@ bytes.</title>
 The movement algorithm didn't changed from DOOM 1.2 to DOOM 1.666.
 This is only true if the map also didn't changed. So you can't recycle LMP's
 of E1M4. It is very interesting, that DOOM 1.666 LMP's, recorded even with 
-the <LITERAL REMAP="tt">-turbo</literal> option work with DOOM 1.2.</para>
+the <literal REMAP="tt">-turbo</literal> option work with DOOM 1.2.</para>
 </sect2>
 <sect2>
 <title>HEXEN demo, HEXEN 1.0</title>
@@ -437,11 +439,11 @@ the <LITERAL REMAP="tt">-turbo</literal> option work with DOOM 1.2.</para>
 
 <table>
 <title>11 byte header of HEXEN 1.0</title>
-<TGROUP COLS="4">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="4">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>address </entry>
@@ -450,68 +452,68 @@ the <LITERAL REMAP="tt">-turbo</literal> option work with DOOM 1.2.</para>
 <entry>range</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0000</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0000</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>skill </entry>
 <entry>0-4</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0001</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0001</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>episode </entry>
 <entry>1</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0002</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0002</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>map </entry>
 <entry>1-40</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0003</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0003</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>blue player </entry>
 <entry>0: inactive, 1: active</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0004</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0004</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>blue player's class </entry>
 <entry>0-2</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0005</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0005</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>red player </entry>
 <entry>0: inactive, 1: active</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0006</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0006</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>red player's class </entry>
 <entry>0-2</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0007</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0007</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>yellow player </entry>
 <entry>0: inactive, 1: active</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0008</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0008</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>yellow player's class</entry>
 <entry>0-2</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0009</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0009</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>green player </entry>
 <entry>0: inactive, 1: active</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x000A</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x000A</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>green player's class </entry>
 <entry>0-2</entry>
 </row>
@@ -527,11 +529,11 @@ the <LITERAL REMAP="tt">-turbo</literal> option work with DOOM 1.2.</para>
 
 <table>
 <title>19 byte header for HEXEN 1.1 (with up to 8 players).</title>
-<TGROUP COLS="4">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="4">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>address </entry>
@@ -540,116 +542,116 @@ the <LITERAL REMAP="tt">-turbo</literal> option work with DOOM 1.2.</para>
 <entry>range</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0000</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0000</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>skill </entry>
 <entry>0-4</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0001</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0001</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>episode </entry>
 <entry>1</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0002</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0002</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>map </entry>
 <entry>1-40</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0003</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0003</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>blue player </entry>
 <entry>0: inactive, 1: active</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0004</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0004</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>blue player's class </entry>
 <entry>0-2</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0005</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0005</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>red player </entry>
 <entry>0: inactive, 1: active</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0006</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0006</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>red player's class </entry>
 <entry>0-2</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0007</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0007</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>yellow player </entry>
 <entry>0: inactive, 1: active</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0008</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0008</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>yellow player's class</entry>
 <entry>0-2</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0009</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0009</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>green player </entry>
 <entry>0: inactive, 1: active</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x000A</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x000A</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>green player's class </entry>
 <entry>0-2</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x000B</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x000B</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>jade player </entry>
 <entry>0: inactive, 1: active</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x000C</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x000C</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>jade player's class </entry>
 <entry>0-2</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x000D</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x000D</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>white player </entry>
 <entry>0: inactive, 1: active</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x000E</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x000E</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>white player's class </entry>
 <entry>0-2</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x000F</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x000F</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>hazel player </entry>
 <entry>0: inactive, 1: active</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0010</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0010</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>hazel player's class </entry>
 <entry>0-2</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0011</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0011</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>purple player </entry>
 <entry>0: inactive, 1: active</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0012</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0012</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>purple player's class </entry>
 <entry>0-2</entry>
 </row>
@@ -665,11 +667,11 @@ the <LITERAL REMAP="tt">-turbo</literal> option work with DOOM 1.2.</para>
 
 <table>
 <title>16 byte header of STRIFE with an improved (8 players) DOOM &rsqb;&lsqb; engine.</title>
-<TGROUP COLS="4">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="4">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>address </entry>
@@ -678,98 +680,98 @@ the <LITERAL REMAP="tt">-turbo</literal> option work with DOOM 1.2.</para>
 <entry>range</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0000</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0000</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>version </entry>
 <entry>101 (version 1.0)</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0001</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0001</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>skill </entry>
 <entry>0-4</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0002</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0002</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>map </entry>
 <entry>32-??</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0003</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0003</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>multiplayer rule </entry>
 <entry>0: Cooperative, 1: DeathMatch, 2: AltDeath</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0004</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0004</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>respawn </entry>
-<entry>0: off, !=0: on, <LITERAL REMAP="tt">argv</literal> - number of <LITERAL REMAP="tt">-respawn</literal></entry>
+<entry>0: off, !=0: on, <literal REMAP="tt">argv</literal> - number of <literal REMAP="tt">-respawn</literal></entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0005</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0005</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>fast </entry>
-<entry>0: off, !=0: on, <LITERAL REMAP="tt">argv</literal> - number of <LITERAL REMAP="tt">-fast</literal></entry>
+<entry>0: off, !=0: on, <literal REMAP="tt">argv</literal> - number of <literal REMAP="tt">-fast</literal></entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0006</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0006</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>nomonsters </entry>
-<entry>0: off, !=0: on, <LITERAL REMAP="tt">argv</literal> - number of <LITERAL REMAP="tt">-nomonsters</literal></entry>
+<entry>0: off, !=0: on, <literal REMAP="tt">argv</literal> - number of <literal REMAP="tt">-nomonsters</literal></entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0007</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0007</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>recording player </entry>
 <entry>0-7</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0008</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0008</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>brown player </entry>
 <entry>0: inactive, 1: active</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x0009</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x0009</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>red player </entry>
 <entry>0: inactive, 1: active</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x000A</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x000A</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>redbrown player </entry>
 <entry>0: inactive, 1: active</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x000B</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x000B</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>grey player </entry>
 <entry>0: inactive, 1: active</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x000C</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x000C</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>dark green player </entry>
 <entry>0: inactive, 1: active</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x000D</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x000D</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>gold player </entry>
 <entry>0: inactive, 1: active</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x000E</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x000E</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>bright green player </entry>
 <entry>0: inactive, 1: active</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x000F</literal> </entry>
-<entry><LITERAL REMAP="tt">byte</literal> </entry>
+<entry><literal REMAP="tt">0x000F</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
 <entry>super-hero blue player </entry>
 <entry>0: inactive, 1: active</entry>
 </row>
@@ -782,24 +784,24 @@ the <LITERAL REMAP="tt">-turbo</literal> option work with DOOM 1.2.</para>
 </sect1>
 <sect1>
 <title>Data</title>
-<SECT2 ID="NUMBER">
+<sect2 ID="NUMBER">
 <title>Number of game tics</title>
 <para>This formula for the number of game tics (NGT) follows from the section 
-<XREF LINKEND="INTRO">. 
+<xref LINKEND="INTRO">. 
 section:
 
 <screen>                     filelength-headerlength-1
         NGT = ---------------------------------------
                bytes per gametic * number of players</screen>
 
-The NGT stored in a LMP can also be found out with the <LITERAL REMAP="tt">-timedemo</literal>
+The NGT stored in a LMP can also be found out with the <literal REMAP="tt">-timedemo</literal>
 option.
 At the replay end, the game shows the number of game tics and time tics.
 This game tic number corresponds with NGT only in newer versions of 
 DOOM (&gt;=1.4), in DOOM &rsqb;&lsqb; and STRIFE. Older versions of DOOM
 report the wrong number
-(NGT+1). In HERETIC and HEXEN the <LITERAL REMAP="tt">-timedemo</literal> option doesn't work at all.</para>
-<para>With <LITERAL REMAP="tt">-timedemo</literal> the game plays <emphasis>all</emphasis> scenes in the LMP file back 
+(NGT+1). In HERETIC and HEXEN the <literal REMAP="tt">-timedemo</literal> option doesn't work at all.</para>
+<para>With <literal REMAP="tt">-timedemo</literal> the game plays <emphasis>all</emphasis> scenes in the LMP file back 
 but without any synchronizing. So you can calculate the frames per second 
 also with:
 
@@ -811,16 +813,16 @@ This has nothing to do with your frame rate during the game.
 This frame rate can be computed with the formula (from the DOOM FAQ v6.666
 &lsqb;9-2-1&rsqb;,
 thanks to Hank Leukart 
-(<ULINK URL="mailto:ap641@cleveland.freenet.edu">ap641@cleveland.freenet.edu</ulink>))
+(<ulink URL="mailto:ap641@cleveland.freenet.edu">ap641@cleveland.freenet.edu</ulink>))
 
 <screen>                           70
                   fps = --------
                         dots + 1</screen>
 
-The dots are displayed in DOOM and DOOM &rsqb;&lsqb; with the <LITERAL REMAP="tt">-devparm</literal>
-option in the lower left edge and in HEXEN with the <LITERAL REMAP="tt">TICKER</literal> 
-cheat code (4 level demo: <LITERAL REMAP="tt">RRETTENMUND</literal>) in the upper left edge of the screen. 
-In STRIFE the <LITERAL REMAP="tt">TIC</literal> cheat code toggles these dots.
+The dots are displayed in DOOM and DOOM &rsqb;&lsqb; with the <literal REMAP="tt">-devparm</literal>
+option in the lower left edge and in HEXEN with the <literal REMAP="tt">TICKER</literal> 
+cheat code (4 level demo: <literal REMAP="tt">RRETTENMUND</literal>) in the upper left edge of the screen. 
+In STRIFE the <literal REMAP="tt">TIC</literal> cheat code toggles these dots.
 There are only 35 screens per second 
 (each game tic), so one dot is always displayed. With every additional dot, 
 the game shows how many vertical sync impulses (1/70s) were necessary 
@@ -845,24 +847,24 @@ game tic 3 of player 1
 The problem with multiplayer records is the last game tic. It is indeed
 possible, to end a LMP file not with the actions of the last player. 
 So the formula with the filelength in the section 
-<XREF LINKEND="NUMBER"> is sometimes not correct.</para>
+<xref LINKEND="NUMBER"> is sometimes not correct.</para>
 </sect2>
 <sect2>
-<title>The <LITERAL REMAP="tt">-turbo</literal> parameter (new DOOM, DOOM &rsqb;&lsqb; and STRIFE only)</title>
+<title>The <literal REMAP="tt">-turbo</literal> parameter (new DOOM, DOOM &rsqb;&lsqb; and STRIFE only)</title>
 <para>This parameter speeds up all moves (forward, backward, strafe sideways) but
 not the turn. Due to the value sets described in the section 
-<XREF LINKEND="DATA"> all move bytes
+<xref LINKEND="DATA"> all move bytes
 can be multiplied by 2.55 (or 255&percnt;) until they don't fit in a short int.
 This is exactly what can happen. </para>
 <para>All normal move bytes are multiplied by the turbo value in percent.
-So you can play with <LITERAL REMAP="tt">-turbo 200</literal> a normal game but your speed is
+So you can play with <literal REMAP="tt">-turbo 200</literal> a normal game but your speed is
 the same as the shift key is always pressed. If you now press the shift key,
 you are running like hell.</para>
-<para>The <LITERAL REMAP="tt">-turbo</literal> parameter isn't stored in the LMP but the game shows in the
-message line, if a player plays with <LITERAL REMAP="tt">-turbo</literal> (ie ``green is turbo'').
+<para>The <literal REMAP="tt">-turbo</literal> parameter isn't stored in the LMP but the game shows in the
+message line, if a player plays with <literal REMAP="tt">-turbo</literal> (ie ``green is turbo'').
 The game concludes this from very large move bytes.</para>
 </sect2>
-<SECT2 ID="DATA">
+<sect2 ID="DATA">
 <title>Data description</title>
 <para>There are 3 different kinds of game tics in all the described games:
 <variablelist>
@@ -974,7 +976,7 @@ new DOOM, DOOM &rsqb;&lsqb; and STRIFE slower than a left turn.</para>
           --- * turn_byte degree
           256   </screen>
 
-With the DOOM cheat code <LITERAL REMAP="tt">IDMYPOS</literal> you can check your current viewing
+With the DOOM cheat code <literal REMAP="tt">IDMYPOS</literal> you can check your current viewing
 direction. During 
 recording the games use only one byte out of a long for the viewing angle:
 
@@ -1009,10 +1011,10 @@ bar:</para>
 
 <table>
 <title>DOOM</title>
-<TGROUP COLS="3">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="3">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>no </entry>
@@ -1021,42 +1023,42 @@ bar:</para>
 </row>
 <row>
 <entry>1 </entry>
-<entry><LITERAL REMAP="tt">0x04</literal> </entry>
+<entry><literal REMAP="tt">0x04</literal> </entry>
 <entry>Fist/Chainsaw</entry>
 </row>
 <row>
 <entry>2 </entry>
-<entry><LITERAL REMAP="tt">0x0C</literal> </entry>
+<entry><literal REMAP="tt">0x0C</literal> </entry>
 <entry>Pistol</entry>
 </row>
 <row>
 <entry>3 </entry>
-<entry><LITERAL REMAP="tt">0x14</literal> </entry>
+<entry><literal REMAP="tt">0x14</literal> </entry>
 <entry>Shotgun</entry>
 </row>
 <row>
 <entry>4 </entry>
-<entry><LITERAL REMAP="tt">0x1C</literal> </entry>
+<entry><literal REMAP="tt">0x1C</literal> </entry>
 <entry>Chaingun</entry>
 </row>
 <row>
 <entry>5 </entry>
-<entry><LITERAL REMAP="tt">0x24</literal> </entry>
+<entry><literal REMAP="tt">0x24</literal> </entry>
 <entry>Rocket Launcher</entry>
 </row>
 <row>
 <entry>6 </entry>
-<entry><LITERAL REMAP="tt">0x2C</literal> </entry>
+<entry><literal REMAP="tt">0x2C</literal> </entry>
 <entry>Plasma Rifle</entry>
 </row>
 <row>
 <entry>7 </entry>
-<entry><LITERAL REMAP="tt">0x34</literal> </entry>
+<entry><literal REMAP="tt">0x34</literal> </entry>
 <entry>BFG 9000</entry>
 </row>
 <row>
 <entry>8 </entry>
-<entry><LITERAL REMAP="tt">0x3C</literal> </entry>
+<entry><literal REMAP="tt">0x3C</literal> </entry>
 <entry>Chainsaw</entry>
 </row>
 </tbody>
@@ -1068,10 +1070,10 @@ bar:</para>
 
 <table>
 <title>DOOM II</title>
-<TGROUP COLS="3">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="3">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>no </entry>
@@ -1080,42 +1082,42 @@ bar:</para>
 </row>
 <row>
 <entry>1 </entry>
-<entry><LITERAL REMAP="tt">0x04</literal> </entry>
+<entry><literal REMAP="tt">0x04</literal> </entry>
 <entry>Fist/Chainsaw</entry>
 </row>
 <row>
 <entry>2 </entry>
-<entry><LITERAL REMAP="tt">0x0C</literal> </entry>
+<entry><literal REMAP="tt">0x0C</literal> </entry>
 <entry>Pistol</entry>
 </row>
 <row>
 <entry>3 </entry>
-<entry><LITERAL REMAP="tt">0x14</literal> </entry>
+<entry><literal REMAP="tt">0x14</literal> </entry>
 <entry>Shotgun/Super Shotgun</entry>
 </row>
 <row>
 <entry>4 </entry>
-<entry><LITERAL REMAP="tt">0x1C</literal> </entry>
+<entry><literal REMAP="tt">0x1C</literal> </entry>
 <entry>Chaingun</entry>
 </row>
 <row>
 <entry>5 </entry>
-<entry><LITERAL REMAP="tt">0x24</literal> </entry>
+<entry><literal REMAP="tt">0x24</literal> </entry>
 <entry>Rocket Launcher</entry>
 </row>
 <row>
 <entry>6 </entry>
-<entry><LITERAL REMAP="tt">0x2C</literal> </entry>
+<entry><literal REMAP="tt">0x2C</literal> </entry>
 <entry>Plasma Rifle</entry>
 </row>
 <row>
 <entry>7 </entry>
-<entry><LITERAL REMAP="tt">0x34</literal> </entry>
+<entry><literal REMAP="tt">0x34</literal> </entry>
 <entry>BFG 9000</entry>
 </row>
 <row>
 <entry>8 </entry>
-<entry><LITERAL REMAP="tt">0x3C</literal> </entry>
+<entry><literal REMAP="tt">0x3C</literal> </entry>
 <entry>Chainsaw</entry>
 </row>
 </tbody>
@@ -1127,10 +1129,10 @@ bar:</para>
 
 <table>
 <title>HERETIC</title>
-<TGROUP COLS="3">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="3">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>no </entry>
@@ -1139,42 +1141,42 @@ bar:</para>
 </row>
 <row>
 <entry>1 </entry>
-<entry><LITERAL REMAP="tt">0x04</literal> </entry>
+<entry><literal REMAP="tt">0x04</literal> </entry>
 <entry>Staff/Gauntlets</entry>
 </row>
 <row>
 <entry>2 </entry>
-<entry><LITERAL REMAP="tt">0x0C</literal> </entry>
+<entry><literal REMAP="tt">0x0C</literal> </entry>
 <entry>Elvenwand</entry>
 </row>
 <row>
 <entry>3 </entry>
-<entry><LITERAL REMAP="tt">0x14</literal> </entry>
+<entry><literal REMAP="tt">0x14</literal> </entry>
 <entry>Ethereal Crossbow</entry>
 </row>
 <row>
 <entry>4 </entry>
-<entry><LITERAL REMAP="tt">0x1C</literal> </entry>
+<entry><literal REMAP="tt">0x1C</literal> </entry>
 <entry>Dragon Claw</entry>
 </row>
 <row>
 <entry>5 </entry>
-<entry><LITERAL REMAP="tt">0x24</literal> </entry>
+<entry><literal REMAP="tt">0x24</literal> </entry>
 <entry>Hellstaff</entry>
 </row>
 <row>
 <entry>6 </entry>
-<entry><LITERAL REMAP="tt">0x2C</literal> </entry>
+<entry><literal REMAP="tt">0x2C</literal> </entry>
 <entry>Phoenix Rod</entry>
 </row>
 <row>
 <entry>7 </entry>
-<entry><LITERAL REMAP="tt">0x34</literal> </entry>
+<entry><literal REMAP="tt">0x34</literal> </entry>
 <entry>Mace</entry>
 </row>
 <row>
 <entry>8 </entry>
-<entry><LITERAL REMAP="tt">0x3C</literal> </entry>
+<entry><literal REMAP="tt">0x3C</literal> </entry>
 <entry>Gauntlets</entry>
 </row>
 </tbody>
@@ -1186,10 +1188,10 @@ bar:</para>
 
 <table>
 <title>HEXEN: fighter</title>
-<TGROUP COLS="3">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="3">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>no </entry>
@@ -1198,22 +1200,22 @@ bar:</para>
 </row>
 <row>
 <entry>1 </entry>
-<entry><LITERAL REMAP="tt">0x04</literal> </entry>
+<entry><literal REMAP="tt">0x04</literal> </entry>
 <entry>Spiked Gauntlets</entry>
 </row>
 <row>
 <entry>2 </entry>
-<entry><LITERAL REMAP="tt">0x0C</literal> </entry>
+<entry><literal REMAP="tt">0x0C</literal> </entry>
 <entry>Timon's Axe</entry>
 </row>
 <row>
 <entry>3 </entry>
-<entry><LITERAL REMAP="tt">0x14</literal> </entry>
+<entry><literal REMAP="tt">0x14</literal> </entry>
 <entry>Hammer of Retribution</entry>
 </row>
 <row>
 <entry>4 </entry>
-<entry><LITERAL REMAP="tt">0x1C</literal> </entry>
+<entry><literal REMAP="tt">0x1C</literal> </entry>
 <entry>Quietus</entry>
 </row>
 </tbody>
@@ -1225,10 +1227,10 @@ bar:</para>
 
 <table>
 <title>HEXEN: cleric</title>
-<TGROUP COLS="3">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="3">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>no </entry>
@@ -1237,22 +1239,22 @@ bar:</para>
 </row>
 <row>
 <entry>1 </entry>
-<entry><LITERAL REMAP="tt">0x04</literal> </entry>
+<entry><literal REMAP="tt">0x04</literal> </entry>
 <entry>Mace of Contrition</entry>
 </row>
 <row>
 <entry>2 </entry>
-<entry><LITERAL REMAP="tt">0x0C</literal> </entry>
+<entry><literal REMAP="tt">0x0C</literal> </entry>
 <entry>Serpent</entry>
 </row>
 <row>
 <entry>3 </entry>
-<entry><LITERAL REMAP="tt">0x14</literal> </entry>
+<entry><literal REMAP="tt">0x14</literal> </entry>
 <entry>Firestorm</entry>
 </row>
 <row>
 <entry>4 </entry>
-<entry><LITERAL REMAP="tt">0x1C</literal> </entry>
+<entry><literal REMAP="tt">0x1C</literal> </entry>
 <entry>Justifier</entry>
 </row>
 </tbody>
@@ -1264,10 +1266,10 @@ bar:</para>
 
 <table>
 <title>HEXEN: mage</title>
-<TGROUP COLS="3">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="3">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>no </entry>
@@ -1276,22 +1278,22 @@ bar:</para>
 </row>
 <row>
 <entry>1 </entry>
-<entry><LITERAL REMAP="tt">0x04</literal> </entry>
+<entry><literal REMAP="tt">0x04</literal> </entry>
 <entry>Sapphire Wand</entry>
 </row>
 <row>
 <entry>2 </entry>
-<entry><LITERAL REMAP="tt">0x0C</literal> </entry>
+<entry><literal REMAP="tt">0x0C</literal> </entry>
 <entry>Frost Shards</entry>
 </row>
 <row>
 <entry>3 </entry>
-<entry><LITERAL REMAP="tt">0x14</literal> </entry>
+<entry><literal REMAP="tt">0x14</literal> </entry>
 <entry>Arc of Death</entry>
 </row>
 <row>
 <entry>4 </entry>
-<entry><LITERAL REMAP="tt">0x1C</literal> </entry>
+<entry><literal REMAP="tt">0x1C</literal> </entry>
 <entry>Bloodscourge</entry>
 </row>
 </tbody>
@@ -1303,10 +1305,10 @@ bar:</para>
 
 <table>
 <title>STRIFE</title>
-<TGROUP COLS="3">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="3">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>no </entry>
@@ -1315,47 +1317,47 @@ bar:</para>
 </row>
 <row>
 <entry>1 </entry>
-<entry><LITERAL REMAP="tt">0x04</literal> </entry>
+<entry><literal REMAP="tt">0x04</literal> </entry>
 <entry>Punch Dagger</entry>
 </row>
 <row>
 <entry>2 </entry>
-<entry><LITERAL REMAP="tt">0x0C</literal> </entry>
+<entry><literal REMAP="tt">0x0C</literal> </entry>
 <entry>Crossbow</entry>
 </row>
 <row>
 <entry>3 </entry>
-<entry><LITERAL REMAP="tt">0x14</literal> </entry>
+<entry><literal REMAP="tt">0x14</literal> </entry>
 <entry>Pulse Rifle</entry>
 </row>
 <row>
 <entry>4 </entry>
-<entry><LITERAL REMAP="tt">0x1C</literal> </entry>
+<entry><literal REMAP="tt">0x1C</literal> </entry>
 <entry>Missile Launcher</entry>
 </row>
 <row>
 <entry>5 </entry>
-<entry><LITERAL REMAP="tt">0x24</literal> </entry>
+<entry><literal REMAP="tt">0x24</literal> </entry>
 <entry>Grenade Launcher</entry>
 </row>
 <row>
 <entry>6 </entry>
-<entry><LITERAL REMAP="tt">0x2C</literal> </entry>
+<entry><literal REMAP="tt">0x2C</literal> </entry>
 <entry>Flame Thrower</entry>
 </row>
 <row>
 <entry>7 </entry>
-<entry><LITERAL REMAP="tt">0x34</literal> </entry>
+<entry><literal REMAP="tt">0x34</literal> </entry>
 <entry>Blaster</entry>
 </row>
 <row>
 <entry>8 </entry>
-<entry><LITERAL REMAP="tt">0x3C</literal> </entry>
+<entry><literal REMAP="tt">0x3C</literal> </entry>
 <entry>Sigil</entry>
 </row>
 <row>
 <entry>9 </entry>
-<entry><LITERAL REMAP="tt">0x44</literal> </entry>
+<entry><literal REMAP="tt">0x44</literal> </entry>
 <entry>Punch Dagger</entry>
 </row>
 </tbody>
@@ -1383,9 +1385,9 @@ The x-bits aren't important at all. The games themselves let them 0 but do not
 analyze them afterwards. </para>
 <para>The games save a game state even during the replay of a LMP. So make sure you
 have no important game states in your directory if you plan to play back a
-unknown LMP file. You can remove the ``Save Game'' commands with <LITERAL REMAP="tt">LMPC</literal>,
+unknown LMP file. You can remove the ``Save Game'' commands with <literal REMAP="tt">LMPC</literal>,
 the Little Movie Processing Centre. Get the current version from my  
-<ULINK URL="@HOMEURL@">@HOMENAME@</ulink>.</para>
+<ulink URL="@HOMEURL@">@HOMENAME@</ulink>.</para>
 </sect3>
 <sect3>
 <title>Byte 0x04: Look and Fly</title>
@@ -1402,11 +1404,11 @@ upwards and negative numbers a downwards move.
 
 <table>
 <title>Look- and Fly-values.</title>
-<TGROUP COLS="4">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="4">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>game </entry>
@@ -1441,15 +1443,15 @@ results in the code 0x88.</para>
 <para>This byte appears in HERETIC and HEXEN LMP files <emphasis>only</emphasis>.</para>
 <para>The cursor movements in the inventory isn't recorded. Only the use of an
 artifact is recorded. The ``Use artifacts'' byte contains simply the number of
-the artifact equivalent to the HERETIC ``<LITERAL REMAP="tt">gimme</literal>''-cheat.
+the artifact equivalent to the HERETIC ``<literal REMAP="tt">gimme</literal>''-cheat.
 
 <table>
 <title>HERETIC artifacts.</title>
-<TGROUP COLS="4">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="4">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>no </entry>
@@ -1459,61 +1461,61 @@ the artifact equivalent to the HERETIC ``<LITERAL REMAP="tt">gimme</literal>''-c
 </row>
 <row>
 <entry>1 </entry>
-<entry><LITERAL REMAP="tt">0x01</literal> </entry>
+<entry><literal REMAP="tt">0x01</literal> </entry>
 <entry>a </entry>
 <entry>ring of invincibility</entry>
 </row>
 <row>
 <entry>2 </entry>
-<entry><LITERAL REMAP="tt">0x02</literal> </entry>
+<entry><literal REMAP="tt">0x02</literal> </entry>
 <entry>b </entry>
 <entry>shadowsphere</entry>
 </row>
 <row>
 <entry>3 </entry>
-<entry><LITERAL REMAP="tt">0x03</literal> </entry>
+<entry><literal REMAP="tt">0x03</literal> </entry>
 <entry>c </entry>
 <entry>quartz flask</entry>
 </row>
 <row>
 <entry>4 </entry>
-<entry><LITERAL REMAP="tt">0x04</literal> </entry>
+<entry><literal REMAP="tt">0x04</literal> </entry>
 <entry>d </entry>
 <entry>chaos device</entry>
 </row>
 <row>
 <entry>5 </entry>
-<entry><LITERAL REMAP="tt">0x05</literal> </entry>
+<entry><literal REMAP="tt">0x05</literal> </entry>
 <entry>e </entry>
 <entry>tome of power</entry>
 </row>
 <row>
 <entry>6 </entry>
-<entry><LITERAL REMAP="tt">0x06</literal> </entry>
+<entry><literal REMAP="tt">0x06</literal> </entry>
 <entry>f </entry>
 <entry>torch</entry>
 </row>
 <row>
 <entry>7 </entry>
-<entry><LITERAL REMAP="tt">0x07</literal> </entry>
+<entry><literal REMAP="tt">0x07</literal> </entry>
 <entry>g </entry>
 <entry>time bomb of the ancients</entry>
 </row>
 <row>
 <entry>8 </entry>
-<entry><LITERAL REMAP="tt">0x08</literal> </entry>
+<entry><literal REMAP="tt">0x08</literal> </entry>
 <entry>h </entry>
 <entry>morph ovum</entry>
 </row>
 <row>
 <entry>9 </entry>
-<entry><LITERAL REMAP="tt">0x09</literal> </entry>
+<entry><literal REMAP="tt">0x09</literal> </entry>
 <entry>i </entry>
 <entry>wings of wrath</entry>
 </row>
 <row>
 <entry>10 </entry>
-<entry><LITERAL REMAP="tt">0x0A</literal> </entry>
+<entry><literal REMAP="tt">0x0A</literal> </entry>
 <entry>j </entry>
 <entry>mystic urn</entry>
 </row>
@@ -1526,11 +1528,11 @@ the artifact equivalent to the HERETIC ``<LITERAL REMAP="tt">gimme</literal>''-c
 
 <table>
 <title>HEXEN artifacts.</title>
-<TGROUP COLS="4">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="4">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>no </entry>
@@ -1540,97 +1542,97 @@ the artifact equivalent to the HERETIC ``<LITERAL REMAP="tt">gimme</literal>''-c
 </row>
 <row>
 <entry>1 </entry>
-<entry><LITERAL REMAP="tt">0x01</literal> </entry>
+<entry><literal REMAP="tt">0x01</literal> </entry>
 <entry>a </entry>
 <entry>icon of the defender</entry>
 </row>
 <row>
 <entry>2 </entry>
-<entry><LITERAL REMAP="tt">0x02</literal> </entry>
+<entry><literal REMAP="tt">0x02</literal> </entry>
 <entry>b </entry>
 <entry>quartz flask</entry>
 </row>
 <row>
 <entry>3 </entry>
-<entry><LITERAL REMAP="tt">0x03</literal> </entry>
+<entry><literal REMAP="tt">0x03</literal> </entry>
 <entry>c </entry>
 <entry>mystic urn</entry>
 </row>
 <row>
 <entry>4 </entry>
-<entry><LITERAL REMAP="tt">0x04</literal> </entry>
+<entry><literal REMAP="tt">0x04</literal> </entry>
 <entry>d </entry>
 <entry>clerical healing</entry>
 </row>
 <row>
 <entry>5 </entry>
-<entry><LITERAL REMAP="tt">0x05</literal> </entry>
+<entry><literal REMAP="tt">0x05</literal> </entry>
 <entry>e </entry>
 <entry>dark servant</entry>
 </row>
 <row>
 <entry>6 </entry>
-<entry><LITERAL REMAP="tt">0x06</literal> </entry>
+<entry><literal REMAP="tt">0x06</literal> </entry>
 <entry>f </entry>
 <entry>torch</entry>
 </row>
 <row>
 <entry>7 </entry>
-<entry><LITERAL REMAP="tt">0x07</literal> </entry>
+<entry><literal REMAP="tt">0x07</literal> </entry>
 <entry>g </entry>
 <entry>porkalator</entry>
 </row>
 <row>
 <entry>8 </entry>
-<entry><LITERAL REMAP="tt">0x08</literal> </entry>
+<entry><literal REMAP="tt">0x08</literal> </entry>
 <entry>h </entry>
 <entry>wings of wrath</entry>
 </row>
 <row>
 <entry>9 </entry>
-<entry><LITERAL REMAP="tt">0x09</literal> </entry>
+<entry><literal REMAP="tt">0x09</literal> </entry>
 <entry>i </entry>
 <entry>chaos device</entry>
 </row>
 <row>
 <entry>10 </entry>
-<entry><LITERAL REMAP="tt">0x0A</literal> </entry>
+<entry><literal REMAP="tt">0x0A</literal> </entry>
 <entry>j </entry>
 <entry>flechette</entry>
 </row>
 <row>
 <entry>11 </entry>
-<entry><LITERAL REMAP="tt">0x0B</literal> </entry>
+<entry><literal REMAP="tt">0x0B</literal> </entry>
 <entry>k </entry>
 <entry>banishment device</entry>
 </row>
 <row>
 <entry>12 </entry>
-<entry><LITERAL REMAP="tt">0x0C</literal> </entry>
+<entry><literal REMAP="tt">0x0C</literal> </entry>
 <entry>l </entry>
 <entry>boots of speed</entry>
 </row>
 <row>
 <entry>13 </entry>
-<entry><LITERAL REMAP="tt">0x0D</literal> </entry>
+<entry><literal REMAP="tt">0x0D</literal> </entry>
 <entry>m </entry>
 <entry>krater of might</entry>
 </row>
 <row>
 <entry>14 </entry>
-<entry><LITERAL REMAP="tt">0x0E</literal> </entry>
+<entry><literal REMAP="tt">0x0E</literal> </entry>
 <entry>n </entry>
 <entry>dragonskin bracers</entry>
 </row>
 <row>
 <entry>15 </entry>
-<entry><LITERAL REMAP="tt">0x0F</literal> </entry>
+<entry><literal REMAP="tt">0x0F</literal> </entry>
 <entry>o </entry>
 <entry>disc of repulsion</entry>
 </row>
 <row>
 <entry>- </entry>
-<entry><LITERAL REMAP="tt">0x21</literal> </entry>
+<entry><literal REMAP="tt">0x21</literal> </entry>
 <entry> </entry>
 <entry>panic button (use all you have)</entry>
 </row>
@@ -1643,10 +1645,10 @@ the artifact equivalent to the HERETIC ``<LITERAL REMAP="tt">gimme</literal>''-c
 
 <table>
 <title>HEXEN jump.</title>
-<TGROUP COLS="3">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="3">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>dec </entry>
@@ -1672,10 +1674,10 @@ use of an artifact.</para>
 
 <table>
 <title>The 8 toggle actions of STRIFE.</title>
-<TGROUP COLS="3">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="3">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>bit no </entry>
@@ -1684,42 +1686,42 @@ use of an artifact.</para>
 </row>
 <row>
 <entry>0 </entry>
-<entry><LITERAL REMAP="tt">0x01</literal> </entry>
+<entry><literal REMAP="tt">0x01</literal> </entry>
 <entry>look up</entry>
 </row>
 <row>
 <entry>1 </entry>
-<entry><LITERAL REMAP="tt">0x02</literal> </entry>
+<entry><literal REMAP="tt">0x02</literal> </entry>
 <entry>look down</entry>
 </row>
 <row>
 <entry>2 </entry>
-<entry><LITERAL REMAP="tt">0x04</literal> </entry>
+<entry><literal REMAP="tt">0x04</literal> </entry>
 <entry>run</entry>
 </row>
 <row>
 <entry>3 </entry>
-<entry><LITERAL REMAP="tt">0x08</literal> </entry>
-<entry>use inventory (see section <XREF LINKEND="STRIFEARTIFACTS">)</entry>
+<entry><literal REMAP="tt">0x08</literal> </entry>
+<entry>use inventory (see section <xref LINKEND="STRIFEARTIFACTS">)</entry>
 </row>
 <row>
 <entry>4 </entry>
-<entry><LITERAL REMAP="tt">0x10</literal> </entry>
-<entry>drop inventory (see section <XREF LINKEND="STRIFEARTIFACTS">)</entry>
+<entry><literal REMAP="tt">0x10</literal> </entry>
+<entry>drop inventory (see section <xref LINKEND="STRIFEARTIFACTS">)</entry>
 </row>
 <row>
 <entry>5 </entry>
-<entry><LITERAL REMAP="tt">0x20</literal> </entry>
+<entry><literal REMAP="tt">0x20</literal> </entry>
 <entry>jump</entry>
 </row>
 <row>
 <entry>6 </entry>
-<entry><LITERAL REMAP="tt">0x40</literal> </entry>
+<entry><literal REMAP="tt">0x40</literal> </entry>
 <entry>unknown</entry>
 </row>
 <row>
 <entry>7 </entry>
-<entry><LITERAL REMAP="tt">0x80</literal> </entry>
+<entry><literal REMAP="tt">0x80</literal> </entry>
 <entry>use health</entry>
 </row>
 </tbody>
@@ -1733,7 +1735,7 @@ because the go/strafe/turn-values are already ``run-changed''.</para>
 artifact is recorded.
 If bit 3 or 4 is 1 the next byte in the STRIFE game tic byte becomes important.</para>
 </sect3>
-<SECT3 ID="STRIFEARTIFACTS">
+<sect3 ID="STRIFEARTIFACTS">
 <title>Byte 0x05: STRIFE Artifacts</title>
 <para>This byte appears in STRIFE LMP files <emphasis>only</emphasis>.</para>
 <para>This byte describes the artifact to use or to drop. 1 byte can hold up to
@@ -1741,60 +1743,60 @@ If bit 3 or 4 is 1 the next byte in the STRIFE game tic byte becomes important.<
 
 <table>
 <title>12 known STRFE artifacts.</title>
-<TGROUP COLS="2">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
-<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="2">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>code </entry>
 <entry>name</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x74</literal> </entry>
+<entry><literal REMAP="tt">0x74</literal> </entry>
 <entry>toughness</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x75</literal> </entry>
+<entry><literal REMAP="tt">0x75</literal> </entry>
 <entry>accuracy</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x76</literal> </entry>
+<entry><literal REMAP="tt">0x76</literal> </entry>
 <entry>full health</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x7B</literal> </entry>
+<entry><literal REMAP="tt">0x7B</literal> </entry>
 <entry>teleportor beacon</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x7C</literal> </entry>
+<entry><literal REMAP="tt">0x7C</literal> </entry>
 <entry>metal armor</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0x7D</literal> </entry>
+<entry><literal REMAP="tt">0x7D</literal> </entry>
 <entry>leather armor</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0xA1</literal> </entry>
+<entry><literal REMAP="tt">0xA1</literal> </entry>
 <entry>med patch</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0xA2</literal> </entry>
+<entry><literal REMAP="tt">0xA2</literal> </entry>
 <entry>medical kit</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0xA3</literal> </entry>
+<entry><literal REMAP="tt">0xA3</literal> </entry>
 <entry>coin</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0xA7</literal> </entry>
+<entry><literal REMAP="tt">0xA7</literal> </entry>
 <entry>shadow armor</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0xA8</literal> </entry>
+<entry><literal REMAP="tt">0xA8</literal> </entry>
 <entry>environmental suit</entry>
 </row>
 <row>
-<entry><LITERAL REMAP="tt">0xB7</literal> </entry>
+<entry><literal REMAP="tt">0xB7</literal> </entry>
 <entry>offering chalice</entry>
 </row>
 </tbody>
@@ -1826,7 +1828,7 @@ Because there is no go value of -128 (0x80), the game can't make a mistake.</par
 </listitem>
 <listitem>
 <para>many thanks to Steffen Winterfeldt 
-(<ULINK URL="mailto:wfeldt@itp.uni-leipzig.de">wfeldt@itp.uni-leipzig.de</ulink>)
+(<ulink URL="mailto:wfeldt@itp.uni-leipzig.de">wfeldt@itp.uni-leipzig.de</ulink>)
 for his reverse engineering work</para>
 </listitem>
 </itemizedlist>
@@ -1844,7 +1846,7 @@ for his reverse engineering work</para>
 <para>general release for DOOM</para>
 </listitem>
 <listitem>
-<para>corresponds now to the LMP compiler <LITERAL REMAP="tt">lmpc</literal> 2.1</para>
+<para>corresponds now to the LMP compiler <literal REMAP="tt">lmpc</literal> 2.1</para>
 </listitem>
 </itemizedlist>
 
@@ -1865,7 +1867,7 @@ for his reverse engineering work</para>
 </listitem>
 <listitem>
 <para>thanks to Frans P. de Vries 
-(<ULINK URL="mailto:fpv@xymph.iaf.nl">fpv@xymph.iaf.nl</ulink>), 
+(<ulink URL="mailto:fpv@xymph.iaf.nl">fpv@xymph.iaf.nl</ulink>), 
 who corrected some orthographical bugs</para>
 </listitem>
 </itemizedlist>
@@ -1958,7 +1960,7 @@ who corrected some orthographical bugs</para>
 <listitem>
 <para>some small mistakes in the movement byte table corrected,
 thanks to Rob McCartney 
-(<ULINK URL="mailto:argon@netcom.com">argon@netcom.com</ulink>)
+(<ulink URL="mailto:argon@netcom.com">argon@netcom.com</ulink>)
 for his bug report</para>
 </listitem>
 </itemizedlist>
@@ -1968,9 +1970,9 @@ for his bug report</para>
 </varlistentry>
 <varlistentry>
 <term>2.0.0, 21 November, 1995,  uploaded to 
-<ULINK URL="ftp://ftp.cdrom.com/">ftp.cdrom.com</ulink> 
+<ulink URL="ftp://ftp.cdrom.com/">ftp.cdrom.com</ulink> 
 and announced in
-<ULINK URL="news:rec.games.comp.doom.announce">rec.games.comp.doom.announce</ulink></term>
+<ulink URL="news:rec.games.comp.doom.announce">rec.games.comp.doom.announce</ulink></term>
 <listitem>
 <para>
 
@@ -1988,9 +1990,9 @@ and announced in
 </varlistentry>
 <varlistentry>
 <term>2.1.0, 10 March, 1996, uploaded to 
-<ULINK URL="ftp://ftp.cdrom.com/">ftp.cdrom.com</ulink>
+<ulink URL="ftp://ftp.cdrom.com/">ftp.cdrom.com</ulink>
 and announced in
-<ULINK URL="news:rec.games.comp.doom.announce">rec.games.comp.doom.announce</ulink></term>
+<ulink URL="news:rec.games.comp.doom.announce">rec.games.comp.doom.announce</ulink></term>
 <listitem>
 <para>
 
