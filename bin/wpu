@@ -545,7 +545,7 @@ of several computer games.
 This is not a polished web page. I write only the content and a
 small Perl script glues everything together.
 <P>
-<UL>
+<UL>\@MAINFIXED@
 </UL>
 \@SIG@
 </BASE>
