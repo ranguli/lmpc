@@ -152,10 +152,10 @@ f: linux go32 cygwin mingw html pdf
 ######################################################################
 # publishing rules
 
-.PHONY: upload
+.PHONY: uploadlocal
 
-upload: pack html index.html indexpart.html
-	$(WPU) --set ACTION=upload
+uploadlocal: doc pack index.html indexpart.html
+	cd doc ; $(MAKE) $@
 
 
 ######################################################################
