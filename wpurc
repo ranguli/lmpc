@@ -1,3 +1,5 @@
+# $Id$
+
 # wpu parse start /^([^=]+)="(.*)"/
 TYPE="program"
 
@@ -92,9 +94,11 @@ sf	config.sub	Autoconf host system name normaliser
 sf	configure	Autoconf configure script
 sf	configure.in	Autoconf template for configure
 sf	doc/COMPILE	compilation hints
-sf	doc/COMPILE-go32	cross compilation hints for go32
+sf	doc/COMPILE-go32	cross compilation script for go32
+sf	doc/COMPILE-cygwin	cross compilation script for Cygwin
 sf	doc/Makefile.am	Automake template for doc/Makefile.in
 sf	doc/Makefile.in	Autoconf template for doc/Makefile
+sf 	doc/gdb-patch	patch for a cross-GDB (target Cygwin, host Linux)
 sf	doc/lmpc.base	the main documentation file (SGML-Tools source)
 dwmf	doc/lmpc.doc	documentation (plain ASCII)
 lf	doc/lmpc.txt	documentation (formatted ASCII)
