@@ -915,6 +915,16 @@ sub execsubst
 	}
 	print join (" ", @args), "\n";
 	system @args;
+	if ($? == -1) {
+		print "failed to execute: $!\n";
+	}
+	elsif ($? & 127) {
+		printf "child died with signal %d, %s coredump\n",
+		($? & 127),  ($? & 128) ? 'with' : 'without';
+	}
+	else {
+		exit ($? >> 8);
+	}
 }
 
 
