@@ -1,12 +1,13 @@
 #! /usr/bin/perl -w
 
+# $Id$
+
 # This is The Web Publishing Utility (wpu).
 # It is needed in the process of preparing web pages out of SGML sources
 # and some more macro expansion jobs.
 
 # This tool does not belong to this package. I distribute it only here
-# because it is needed for the documentation processing. So you may have
-# to change the path to your perl binary in the first line yourself.
+# because it is needed for the documentation processing.
 
 # I wont write any documentation for it. Read the source or forget this tool.
 
@@ -17,8 +18,8 @@ use Getopt::Long;
 use strict;
 
 
-my $version = "1.0.8";
-my $date = "1/23/2000";
+(my $version = q$Revision$) =~ s/^[^:]+:\s*(.*?)\s*$/$1/;
+(my $date = q$Date$) =~ s/^[^:]+:\s*(.*?)\s*$/$1/;
 my $comment = "reliable version";
 
 ( my $script=$0 ) =~ s/.*\///;
@@ -26,6 +27,8 @@ my $comment = "reliable version";
 sub syntax;
 sub query;
 sub subst;
+sub xslt;
+sub post;
 sub t2h;
 sub packageindex;
 sub indexpart;
@@ -45,6 +48,8 @@ sub CanonicalName;
 sub uniq;
 sub GetSubstValue;
 sub substvariables;
+sub xslt_process($$);
+sub post_process($);
 
 my %banners = (
 		"main"=>1, 
@@ -71,7 +76,7 @@ my %values = (
   "SUBPACKAGE" => "",
   "STUFF"   => "",
   "BANNER1" => "<!--INSERTADTHISPAGE -->",
-  "BANNER2" => "<!--ACCIPITERADINSERT /SITE=PQ/AAMSZ=IAB_FULL_BANNER-->",
+  "BANNER2" => "<!--ACCIPITERADINSERT /SITE=PQ/GENRE=ACTION/AREA=HOSTED/AAMSZ=IAB_FULL_BANNER-->",
   "SIG"     => "<HR>
 Last changed: \@DATE@, Count: <img
 src=\"/counter/count.exe?srgb=00ff00&prgb=101010&ft=0&tr=1&pad=0&df=pqdemospecs\">,
@@ -88,6 +93,21 @@ BORDER=\"0\"></A></P>",
 
 );
 
+{
+my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) =
+localtime(time);
+$year+=1900;
+$mon+=1;
+ 
+$values{"DATE"}       = sprintf("%d/%d/%d",    $mon ,$mday,$year);
+$values{"DATE_TAG"}   = sprintf("%d-%d-%d",    $year,$mon ,$mday);
+$values{"DATE_ORDER"} = sprintf("%04d%02d%02d",$year,$mon ,$mday);
+$values{"OSNAME"}     = $^O;
+$values{"TOPDIR"}     = cwd();
+
+}
+
+
 # merge the environment ##############################################
 mergehash(\%values, \%ENV);
 
@@ -102,6 +122,7 @@ mergehash(\%values, $optctl{"set"});
 my @wpuconfigfiles = ("${script}rc", 
                       ".${script}", 
                       "Makefile",
+                      "Makefile.inc",
                       "configure.in"
                      );
 
@@ -165,6 +186,11 @@ foreach my $configfile (@configs) {
   ProcessConfigFile($configfile, \%values);
 }
 
+foreach (sort keys %values) {
+	$values{$_} = substvariables ($values{$_});
+#	printf "`%s´ = `%s´\n", $_, $values{$_};
+}
+
 #print  "package=" , $values{"PACKAGE"},  
 #      " version=", $values{"VERSION"},
 #      " date=", $values{"DATE"}, "\n";
@@ -225,6 +251,32 @@ sub subst {
 
   WriteStringToFile($sgmlout, $text);
 }
+
+sub xslt {
+  if (@ARGV != 3) {
+    print "xmlfile xsltfile output\n";
+    exit 1;
+  }
+  my ( $xml_input , $xslt, $output ) = @ARGV;
+  my $text = xslt_process( $xml_input, $xslt);
+  $text = post_process ($text);
+  WriteStringToFile($output, $text);
+}
+
+
+sub post {
+  if (@ARGV < 1) {
+    print "post-process-files ...\n";
+    exit 1;
+  }
+  foreach my $file (@ARGV) {
+    my $text = ReadFileToString($file);
+    $text = post_process($text);
+    WriteStringToFile($file, $text);
+  }
+}
+
+
 
 sub t2h {
   if (@ARGV != 2) {
@@ -625,6 +677,9 @@ sub upload {
         warn "$file does not exist.\n";
         next;
       }
+#      else {
+#        print STDERR "$file\n";
+#      }
       (my $basename=$file) =~ s|.*/||g;
       (my $tempname=$file) =~ s|\.\./||;
       $tempname =~ s|/|,|;
@@ -991,4 +1046,29 @@ sub GetSubstValue{
   (my $key) = @_;
 
   return substvariables $values{$key};
+}
+
+
+sub xslt_process($$)
+{
+  my ($xml,$xslt) = @_;
+
+  my $java = "/usr/self/jdk1.2.2/bin/java";
+  $ENV{"CLASSPATH"} = "/usr/lib/xml/xp.jar:/usr/lib/xml/xt.jar:/usr/lib/xml/sax.jar";
+  my $xslt_processor = "$java com.jclark.xsl.sax.Driver";
+  my $xslt_command = "$xslt_processor $xml $xslt";
+  my $textstring = `$xslt_command`;
+  die "Problems in '$xslt_command'.\n" if $?;
+  return $textstring;
+}
+
+
+sub post_process($)
+{
+  my ($text) = @_;
+  $text =~ s/&amp;/&/g;
+  $text =~ s/&gt;/>/g;
+  $text =~ s/&lt;/</g;
+  $text =~ s|/>|>|g;
+  return $text;
 }
