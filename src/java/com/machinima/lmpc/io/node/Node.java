@@ -3,11 +3,11 @@
 package com.machinima.lmpc.io.node;
 
 public class Node {
-	Node next;
+	public Node next;
 	String comment;
 	int type;
 	int hint;
-	Node down;
+	public Node down;
 
 	public Node add_next(Node node)
 	{
