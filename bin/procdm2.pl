@@ -1,10 +1,20 @@
 #!/usr/bin/perl -w
+
+# -------------
+# DM2 Processor
+# -------------
+
+# With this Perl script you can manipulate frames and skins in ranges of
+# blocks in DM2 files. It works on DM2 text files and (if LMPC is available),
+# also on DM2 binary files.
+
+# Get dm2proc (without HTML decorations) from
+# http://www.planetquake.com/demospecs/misc/dm2proc.pl
+# or from the CVS repository
+# http://cvs.sourceforge.net/viewcvs.py/lmpc/lmpc/bin/procdm2.pl.
+
 # $Id$
 # Uwe Girlich (uwe@planetquake.com)
-# DM2 Processor
-
-
-# You need Perl from http://www.perl.org.
 
 
 # modules init
@@ -531,6 +541,7 @@ allowed.
 =head1 SEE ALSO
 
 L<http://www.planetquake.com/demospecs/lmpc-stable>
+L<http://www.planetquake.com/demospecs/misc/procdm2.html>
 L<http://www.sourceforge.net/projects/lmpc>
 
 =head1 AUTHOR
