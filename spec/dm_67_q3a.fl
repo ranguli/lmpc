@@ -1,0 +1,17 @@
+// $Id$
+
+// Flavor specification for binary Quake3Arena DM_67 files
+
+%pragma array=65536
+
+class dm_67_q3a_block {
+	little unsigned int(32)		sequence;
+	little int(32)			size;
+	if (size > 0 && size <= 65536) {
+		unsigned char(8)	data[size];
+	}
+//	if (size == -1) {
+//		int			eof = 1;
+//	}
+}
+
