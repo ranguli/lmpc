@@ -9,9 +9,6 @@ SUBDIRS = bin doc src spec
 ######################################################################
 # documentation rules
 
-docu:
-	cd doc && $(MAKE) $@
-
 sgml:
 	cd doc && $(MAKE) $@
 
@@ -27,7 +24,6 @@ pdf:
 
 index.html indexpart.html:
 	cd doc && $(MAKE) $@
-	mv doc/$@ $@
 
 
 ######################################################################
@@ -117,7 +113,7 @@ compile-bin:
 		CFLAGS=$(CFLAGS_GEN) \
 		LDFLAGS=$(LDFLAGS_GEN) \
 		../../configure --host=$(TARGET_GEN)
-	cd systems/$(TARGET_GEN) && $(MAKE)
+	cd systems/$(TARGET_GEN)/src && $(MAKE) $(BINS_GEN)
 	mv config.status.orig config.status
 	for i in $(BINS_GEN) ; do \
 		j=`echo $$i|sed -e $(CHANGE_GEN)` ; \
