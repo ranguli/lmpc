@@ -43,10 +43,7 @@
 #define H_RECORD_STOPSOUND	( H_RECORD_HINT | 1 )
 
 
-#ifndef __UDEMY_H
-#define __UDEMY_H
-#include <udemy.h>
-#endif /* __UDEMY_H */
+#include "udemy.h"
 
 
 typedef float vec_t;
