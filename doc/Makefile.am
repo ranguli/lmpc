@@ -1,21 +1,15 @@
-## Process this file with automake to produce Makefile.in
-
-PERL=@PERL@
-SED=@SED@
+# $Id$
 
 EXTRA_DIST=$(PACKAGE).base COMPILE COMPILE-go32
 
-TYPE=document
+$(srcdir)/../README:
+	$(top_srcdir)/bin/wpu --set ACTION=readme --set SRCDIR=$(top_srcdir) --set PACK=f $(top_srcdir)/README.base $(srcdir)/../README
 
-.PHONY: docu sgml txt doc html dvi ps ps.gz ps.zip
 
-doc: pdf html
-
-#CLEANFILES=$(PACKAGE).sgml \
-#	$(PACKAGE).txt $(PACKAGE).doc \
-#	$(PACKAGE).html $(PACKAGE)-?.html $(PACKAGE)-??.html \
-#	$(PACKAGE).dvi $(PACKAGE).ps \
-#	index.html indexpart.html
+TYPE=misc
+UPLOAD_FILES_misc=$(UPLOAD_FILES_document) ../README
+UPLOAD_DIR_misc=$(PACKAGE)-$(QUALITY)
+DEFAULT_TARGET_misc=$(DEFAULT_TARGET_document)
 
 include $(top_srcdir)/spec/Make.spec.rules
 
