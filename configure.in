@@ -86,6 +86,7 @@ cd $olddir
 AC_PATH_PROG(WPU, wpu, wpu, $fulldir:$PATH)dnl
 unset fulldir
 AC_PROG_YACC
+AC_DEFINE(YY_NO_UNPUT,1,[Define, if unput should not be used, the lex code is much in this way.])
 AC_PATH_PROG(ZIP, zip, zip)dnl
 
 # this is specific to my own computer, this should really be checked somehow
