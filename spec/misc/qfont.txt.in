@@ -1,0 +1,115 @@
+// ----------------
+// Quake Font Table
+// ----------------
+
+// Compile this DEM text file to a binary DEM file with LMPC (version>=3.0.1):
+// lmpc --to-bin --game QUAKE qfont.txt qfont.dem
+// and copy it in your quake/id1 directory.
+
+// Playback the binary DEM file with
+// <insert your Quake binary here> -winsize 600 600 +playdemo qfont
+
+// The playback should create an ASCII-Table with Quake extensions
+// on the screen and save it as an PCX screenshot.
+
+// Get the current version of "The Little Movie Processing Centre" from
+// @HOMEURL@
+
+// Get the precompiled binary DEM file from
+// @HOMEURL@/misc/qfont.dem
+
+// Get the DEM text file from
+// @HOMEURL@/misc/qfont.txt
+
+// Get the PCX screenshot from
+// @HOMEURL@/misc/qfont.pcx 
+
+// 6/18/1998, Uwe Girlich (@MYEMAIL@)
+
+track "-1\n"; 
+block {
+ camera 0.00000000 0.00000000 0.00000000;
+ print "\n";
+ print "\n";
+ print "\002                     Quake Font Table\n";
+ print "\n";
+ print "dec oct hx     dec oct hx      dec oct hx      dec oct hx\n";
+ print "\n";
+ print "  0 000 00 NUL  64 100 40 \100    128 200 80 \200    192 300 C0 \300\n";
+ print "  1 001 01 \001    65 101 41 \101    129 201 81 \201    193 301 C1 \301\n";
+ print "  2 002 02 \002    66 102 42 \102    130 202 82 \202    194 302 C2 \302\n";
+ print "  3 003 03 \003    67 103 43 \103    131 203 83 \203    195 303 C3 \303\n";
+ print "  4 004 04 \004    68 104 44 \104    132 204 84 \204    196 304 C4 \304\n";
+ print "  5 005 05 \005    69 105 45 \105    133 205 85 \205    197 305 C5 \305\n";
+ print "  6 006 06 \006    70 106 46 \106    134 206 86 \206    198 306 C6 \306\n";
+ print "  7 007 07 \007    71 107 47 \107    135 207 87 \207    199 307 C7 \307\n";
+ print "  8 010 08 \010    72 110 48 \110    136 210 88 \210    200 310 C8 \310\n";
+ print "  9 011 09 \011    73 111 49 \111    137 211 89 \211    201 311 C9 \311\n";
+ print " 10 012 0A LF   74 112 4A \112    138 212 8A \212    202 312 CA \312\n";
+ print " 11 013 0B \013    75 113 4B \113    139 213 8B \213    203 313 CB \313\n";
+ print " 12 014 0C \014    76 114 4C \114    140 214 8C \214    204 314 CC \314\n";
+ print " 13 015 0D CR   77 115 4D \115    141 215 8D \215    205 315 CD \315\n";
+ print " 14 016 0E \016    78 116 4E \116    142 216 8E \216    206 316 CE \316\n";
+ print " 15 017 0F \017    79 117 4F \117    143 217 8F \217    207 317 CF \317\n";
+ print " 16 020 10 \020    80 120 50 \120    144 220 90 \220    208 320 D0 \320\n";
+ print " 17 021 11 \021    81 121 51 \121    145 221 91 \221    209 321 D1 \321\n";
+ print " 18 022 12 \022    82 122 52 \122    146 222 92 \222    210 322 D2 \322\n";
+ print " 19 023 13 \023    83 123 53 \123    147 223 93 \223    211 323 D3 \323\n";
+ print " 20 024 14 \024    84 124 54 \124    148 224 94 \224    212 324 D4 \324\n";
+ print " 21 025 15 \025    85 125 55 \125    149 225 95 \225    213 325 D5 \325\n";
+ print " 22 026 16 \026    86 126 56 \126    150 226 96 \226    214 326 D6 \326\n";
+ print " 23 027 17 \027    87 127 57 \127    151 227 97 \227    215 327 D7 \327\n";
+ print " 24 030 18 \030    88 130 58 \130    152 230 98 \230    216 330 D8 \330\n";
+ print " 25 031 19 \031    89 131 59 \131    153 231 99 \231    217 331 D9 \331\n";
+ print " 26 032 1A \032    90 132 5A \132    154 232 9A \232    218 332 DA \332\n";
+ print " 27 033 1B \033    91 133 5B \133    155 233 9B \233    219 333 DB \333\n";
+ print " 28 034 1C \034    92 134 5C \134    156 234 9C \234    220 334 DC \334\n";
+ print " 29 035 1D \035    93 135 5D \135    157 235 9D \235    221 335 DD \335\n";
+ print " 30 036 1E \036    94 136 5E \136    158 236 9E \236    222 336 DE \336\n";
+ print " 31 037 1F \037    95 137 5F \137    159 237 9F \237    223 337 DF \337\n";
+ print " 32 040 20 \040    96 140 60 \140    160 240 A0 \240    224 340 E0 \340\n";
+ print " 33 041 21 \041    97 141 61 \141    161 241 A1 \241    225 341 E1 \341\n";
+ print " 34 042 22 \042    98 142 62 \142    162 242 A2 \242    226 342 E2 \342\n";
+ print " 35 043 23 \043    99 143 63 \143    163 243 A3 \243    227 343 E3 \343\n";
+ print " 36 044 24 \044   100 144 64 \144    164 244 A4 \244    228 344 E4 \344\n";
+ // The LINUX version has problems with %. It uses something like sprintf
+ // for the output. %i creates some interesting integers etc.
+ // To prevent us from such inconveniences we stop after the %.
+ // Another posibility is to double the % but this is incompatible with the
+ // DOS version of Quake.
+ print " 37 045 25 \045";
+ print                "   101 145 65 \145    165 245 A5 \245    229 345 E5 \345\n";
+ print " 38 046 26 \046   102 146 66 \146    166 246 A6 \246    230 346 E6 \346\n";
+ print " 39 047 27 \047   103 147 67 \147    167 247 A7 \247    231 347 E7 \347\n";
+ print " 40 050 28 \050   104 150 68 \150    168 250 A8 \250    232 350 E8 \350\n";
+ print " 41 051 29 \051   105 151 69 \151    169 251 A9 \251    233 351 E9 \351\n";
+ print " 42 052 2A \052   106 152 6A \152    170 252 AA \252    234 352 EA \352\n";
+ print " 43 053 2B \053   107 153 6B \153    171 253 AB \253    235 353 EB \353\n";
+ print " 44 054 2C \054   108 154 6C \154    172 254 AC \254    236 354 EC \354\n";
+ print " 45 055 2D \055   109 155 6D \155    173 255 AD \255    237 355 ED \355\n";
+ print " 46 056 2E \056   110 156 6E \156    174 256 AE \256    238 356 EE \356\n";
+ print " 47 057 2F \057   111 157 6F \157    175 257 AF \257    239 357 EF \357\n";
+ print " 48 060 30 \060   112 160 70 \160    176 260 B0 \260    240 360 F0 \360\n";
+ print " 49 061 31 \061   113 161 71 \161    177 261 B1 \261    241 361 F1 \361\n";
+ print " 50 062 32 \062   114 162 72 \162    178 262 B2 \262    242 362 F2 \362\n";
+ print " 51 063 33 \063   115 163 73 \163    179 263 B3 \263    243 363 F3 \363\n";
+ print " 52 064 34 \064   116 164 74 \164    180 264 B4 \264    244 364 F4 \364\n";
+ print " 53 065 35 \065   117 165 75 \165    181 265 B5 \265    245 365 F5 \365\n";
+ print " 54 066 36 \066   118 166 76 \166    182 266 B6 \266    246 366 F6 \366\n";
+ print " 55 067 37 \067   119 167 77 \167    183 267 B7 \267    247 367 F7 \367\n";
+ print " 56 070 38 \070   120 170 78 \170    184 270 B8 \270    248 370 F8 \370\n";
+ print " 57 071 39 \071   121 171 79 \171    185 271 B9 \271    249 371 F9 \371\n";
+ print " 58 072 3A \072   122 172 7A \172    186 272 BA \272    250 372 FA \372\n";
+ print " 59 073 3B \073   123 173 7B \173    187 273 BB \273    251 373 FB \373\n";
+ print " 60 074 3C \074   124 174 7C \174    188 274 BC \274    252 374 FC \374\n";
+ print " 61 075 3D \075   125 175 7D \175    189 275 BD \275    253 375 FD \375\n";
+ print " 62 076 3E \076   126 176 7E \176    190 276 BE \276    254 376 FE \376\n";
+ print " 63 077 3F \077   127 177 7F \177    191 277 BF \277    255 377 FF not allowed\n";
+ print "\n";
+ print "@MYEMAIL@, 6/18/1998\n";
+ print "\n";
+ print "\n";
+ print "\n";
+ stufftext "screenshot\n";
+ disconnect;
+}

@@ -1,0 +1,178 @@
+#!/usr/local/bin/perl -w
+
+# ----------------------
+# Eschaton Repair Script
+# ----------------------
+
+# With this Perl script you can repair the standard Eschaton distribution 1.1.
+# Don't install the patch glfix.zip.
+
+# All following problems are severe for Unix users only.
+
+# Get ers from @HOMEURL@/@PACKAGE@/ers.
+
+# The "Eschaton Repair Script" copes with the following problems:
+# Problem: the ZIP file contains files in the Sound and sound subdirectory.
+# Solution: copy all files from Sound to sound and remove Sound.
+
+# Problem: the ZIP file contains empty files and senseless .PK files.
+# Solution: remove them.
+
+# Problem: the ZIP file contains sound file names with upper case first char.
+# Solution: rename them to lower case.
+
+# Problem: the DEM files in the PAK file use \ instead of / as path separator.
+# Solution: unpack the DEM files and apply a binary patch.
+
+# Problem: the DEM file finesc5.dem has no leading CD track.
+# Solution: copy "-1\n" at the start of the file.
+
+# Open problem:
+# Problem: there is a reference to sound/misc/crowd.wav but no file.
+# Solution: unknown.
+
+
+die "You _HAVE_ _TO_ change some paths in this script!
+Don't run it and blame me if it doesn't work for you.
+";
+
+# 8/6/1998, @MYNAME@ (@MYEMAIL@)
+
+use strict;
+use File::Find;
+use Cwd;
+
+# This is the Eschaton directory. It should be a subdirectory of the 
+# Quake directory.
+# CHANGE this.
+my $EschatonDir = "/home/uwe/games/q1/eschaton";
+
+# This is the Eschaton distribution file. Get it from Jagged's Quake Movie 
+# Review http://www.vortexq.com/bestmovies/eschaton.zip and place it somewhere
+# on your disk.
+# CHANGE this.
+my $EschatonZip = "/usr/self/archiv/stuff/dem/eschaton.zip";
+
+# This is the unzip(1) command.
+my $UnzipCommand = "/usr/bin/unzip";
+
+# This is a simple PAK file manipulation tool for Unix. Get it from
+# ftp://ftp.cdrom.com/pub/quake/utils/bsp_pak_tools/nwreckdum-0.0.6.tgz
+# and place the binary somewhere on your disk.
+# CHANGE this.
+my $nwreckdum = "/usr/self/bin/nwreckdum";
+
+# The script can be used for 2 different goals:
+# 1. allnew = 0
+#    This unpacks the PAK file and repairs the DEM files. They will be
+#    placed in a new PAK file pak1.pak. This is good to make a patch for
+#    some existing Eschaton installation.
+# 2. allnew = 1
+#    This unpacks the PAK file and repairs the DEM files. Now all files
+#    from pak0.pak will come again in such a PAK file. This is good to 
+#    create a new full Eschaton distribution.
+# CHANGE this.
+my $allnew = 1;
+
+# There is no need to change anything below this line.
+
+# This is the directory, where the PAK files will be unpacked.
+my $UnpackDir = "$EschatonDir/unpack";
+# This is the name of the original PAK file.
+my $OrigPakFile = "$EschatonDir/pak0.pak";
+
+# This is the name of the new PAK file.
+my $NewPakFile;
+# This is the name for the new PAK directory.
+my $NewpackDir;
+
+if ($allnew) {
+  # This is the name of the new PAK file. allnew=1 replaces the old one.
+  $NewPakFile = $OrigPakFile;
+  # This is the name for the new PAK directory. allnew=1 packs all files
+  # from the old one.
+  $NewpackDir = $UnpackDir;
+}
+else {
+  # This is the name of the new PAK file. allnew=0 writes a new one.
+  $NewPakFile = "$EschatonDir/pak1.pak";
+  # This is the name for the new PAK directory. allnew=0 packs only the DEM
+  # files there.
+  $NewpackDir = "$EschatonDir/new";
+}
+
+# This is the nwreckdum command line to unpack the original PAK file.
+my $UnpackCommand  = "$nwreckdum --pak=$OrigPakFile --dir=$UnpackDir";
+# This is the nwreckdum command line to pack the new PAK file.
+my $NewpackCommand = "$nwreckdum --create --pak=$NewPakFile --dir=$NewpackDir";
+
+# Memorize the current directory.
+my $olddir = cwd;
+
+# Remove all traces from former Eschaton stuff.
+system "rm -rf $EschatonDir" if -d $EschatonDir;
+# Create the empty Eschaton directory.
+mkdir $EschatonDir, 0755;
+# Change into it.
+chdir $EschatonDir;
+# Unzip the Eschaton distribution file there.
+system "$UnzipCommand $EschatonZip";
+# Copy all the files from the Sound directory over to sound.
+system "cp -p -r Sound/* sound";
+# Remove the Sound directory
+system "rm -r -f Sound";
+# Repair some file names and remove senseless dummy files.
+find(\&wanted, 'sound');
+# Unpack the PAK file.
+system "$UnpackCommand";
+# Create a new directory for the repaired DEM files.
+mkdir $NewpackDir, 0755 if !-d $NewpackDir;
+# Go over all unpacked DEM files.
+my $file;
+foreach $file (glob "$UnpackDir/*.dem") {
+  # Read the DEM file in.
+  open F,$file or die "can't read $file: $!\n";
+  my $text=join "", <F>;
+  close F;
+  # If something was lost, stop.
+  if (length($text) != -s $file) {
+    die sprintf "file length=%d, should be %d\n", length($text), -s $file;
+  }
+  # Change foo\bar\file.wav to foo/bar/file.wav.
+  $text =~ s,([\w -]+)\\([\w -]+)\\([\w \-+]+\.wav),$1/$2/$3,g;
+  # Change foo\file.wav to foo/file.wav.
+  $text =~ s,([\w -]+)\\([\w \-+]+\.wav),$1/$2,g;
+  # Calculate the new file name in the new directory.
+  $file =~ s ,.*/,,g;
+  $file = "$NewpackDir/$file";
+  # Open a new DEM file for writing.
+  open F,">$file" or die "can't write $file: $!\n";
+  # Write the CD track at the beginning of finesc5.dem.
+  print F "-1\n" if $file =~ /finesc5.dem/;
+  # Write the changed file contents.
+  print F $text;
+  # Close it.
+  close F;
+}
+# Pack the new PAK file.
+system $NewpackCommand;
+# Remove the unpack directory.
+system "rm -r -f $UnpackDir" if -d $UnpackDir;
+# Remove the new directory for repaired DEM files.
+system "rm -r -f $NewpackDir" if -d $NewpackDir;
+
+# Change back to the old directory.
+chdir $olddir;
+
+# End.
+0;
+
+# This is the routine, which will be called from the find subroutine
+# to repair some minor file problems.
+sub wanted {
+  # Remove the file, if it is empty or a .pk file.
+  unlink $_ if -z || /.pk$/;
+  # Rename all the files to lower case.
+  rename $_, lc $_ if $_ ne lc $_;
+}
+

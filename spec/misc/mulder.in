@@ -1,0 +1,90 @@
+#!/usr/local/bin/perl -w
+
+# ---------------------------
+# MUlti-Level DEmo Repair kit
+# ---------------------------
+
+# With this Perl script you can repair multi-level DM2 text files (created
+# with LMPC --to-txt) or split them into single-level recordings. They can
+# than be replayed by Quake II as usual.
+
+# Find out more on this topic on 
+# @HOMEURL@/faq/faq-2.html#ss2.1.
+
+# Get MULDER (without HTML decorations) from 
+# @HOMEURL@/@PACKAGE@/mulder.
+
+# @MYNAME@ (@MYEMAIL@)
+
+use strict;
+use IO::File;
+use vars qw($opt_h);
+use Getopt::Std;
+
+my $release = "1.0.4";
+my $date = "8/18/1999";
+my $comment = "stable version";
+
+getopts('h');
+
+if ($opt_h || (@ARGV != 2)) {
+  print "The MUlti-Level DEmo Repair kit\n";
+  print "MULDER (c) @MYNAME@, 1998-99, Release $release $date ($comment)\n";
+  print "mulder DM2_text_in DM2_text_out\n";
+  print "DM2_text_out may contain a printf place-holder like %d.\n";
+  print "In this case  MULDER splits the DM2 text file at the level change\n";
+  print "and replaces the place-holder with the level number beginning with 1.\n";
+  exit;
+}
+
+my $level = 0;
+
+my ($textin,$baseout) = @ARGV;
+my $fhtextin = new IO::File "<$textin" or die "can't read $textin: $!\n";
+my $split = 0;
+if ((sprintf "$baseout", $level) ne $baseout) {
+  $split = 1;
+}
+
+my $fhtextout = new IO::File;
+my $block = "";
+while (<$fhtextin>) {
+  if (/serverdata/) {
+    if ($split) {
+      if ($fhtextout->opened) {
+        print $fhtextout "endblock;\n";
+        $fhtextout->close;
+      }
+    }
+    $level++;
+    if ($split || ($level == 1)) {
+      my $textout = sprintf "$baseout", $level;
+      $fhtextout->open(">$textout") or die "can't write $textout: $!\n";
+      print "$textin (DM2 txt) -> $textout (DM2 txt)\n"; 
+    }
+  }
+  s/betweenblock\s*;//g;
+  s/reconnect\s*;//g;
+  s/stufftext\s*\"reconnect\\n\"\s*;/nop;/g;
+  s/stufftext\s*\"cmd\s*configstrings\s+\d+\s+\d+\\n\";/nop;/g;
+  s/stufftext\s*\"cmd\s*baselines\s+\d+\s+\d+\\n\";/nop;/g;
+  s/(stufftext\s*\"precache)\s*\d+(\\n\"\s*;)/$1$2/g;
+  s/stufftext\s*\"record\s*\w+\\n\"\s*;/nop;/g;
+  if (/^\s*download/) {
+    my $dummy = <$fhtextin>;
+    $dummy = <$fhtextin>;
+    $dummy = <$fhtextin>;
+    $_=" nop;\n";
+  }
+  s/(isdemo\s+)0(\s*;)/${1}1$2/;
+  if (/^block {/ || /^endblock;/) {
+    $block = "";
+  }
+  $block .= $_;
+  if (/^}\n$/) {
+    print $fhtextout $block if $fhtextout->opened;
+  }
+}
+$fhtextin->close;
+$fhtextout->close;
+

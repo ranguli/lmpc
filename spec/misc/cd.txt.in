@@ -1,0 +1,55 @@
+// -------------------------------
+// Quake CD track parsing analyser
+// -------------------------------
+
+// Compile this DEM text file to a binary DEM file with LMPC (version>=3.1.6):
+// lmpc --to-bin --game QUAKE cd.txt cd.dem
+// and copy it in your quake/id1 directory.
+
+// Playback the binary DEM file with
+// <insert your Quake binary here> +playdemo cd
+
+// The playback should print a short message on the console, which says
+// what CD track parsing method your Quake binary uses.
+
+// Find out more about CD track parsing methods in
+// "The unofficial DEM format description" on
+// @HOMEURL@/dem
+
+// Get the current version of "The Little Movie Processing Centre" from
+// @HOMEURL@
+
+// Get the precompiled binary DEM file from
+// @HOMEURL@/@PACKAGE@/cd.dem
+
+// Get the DEM text file from 
+// @HOMEURL@/@PACKAGE@/cd.txt
+
+// 6/16/1998, @MYNAME@ (@MYEMAIL@)
+
+// This track can only be parsed correctly by the fscanf method
+// The byte-by-byte method simply continues.
+track "-1 ";
+
+// This block will be parsed as usual from the fscanf method but
+// the byte-by-byte method starts reading after the first 0x0A byte (\n).
+block {
+  camera 0.0 0.0 0.0;
+  // Print the message for the old fscanf method.
+  // \n is not allowed here because it would stop the byte-by-byte method.
+  print "        old: fscanf        ";
+  // Stop further reading.
+  disconnect;
+  unknown {
+    // This is a 0x0A (\n) to stop the byte-by-byte parsing method.
+    id 0x0A;
+    // 0x1D (29) is the length of the following data block.
+    data 0x1D 0x00 0x00 0x00
+    // 12 bytes for the camera.
+    0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00;
+  }  
+  // Print the message for the byte-by-byte method.
+  print "        new: byte-by-byte\n";
+  // Stop further reading.
+  disconnect;
+}
