@@ -1,0 +1,1804 @@
+<!doctype linuxdoc system>
+<article>
+<title>@TITLE@
+<author>@MYNAME@, 
+<htmlurl url="mailto:@MYEMAIL@" name="@MYEMAIL@">
+<date>v@VERSION@, @DATE@
+<abstract>
+This document describes the DM2 file format. This file format is the result of
+``recording'' a game in Quake II. The extended DM2 version used in the Quake
+II Relay modification is also part of this documentation.
+</abstract>
+
+<toc>
+
+<sect>Introduction
+<p>
+<sect1>Recording and Playback
+<p>
+To create a recording of your Quake II play start any map and then use the
+console command <it>record name</it>. This records the game play from your
+point of view into the file <tt>demos/name.dm2</tt>. <tt>demos</tt> is a
+sub-directory of the current game directory.
+To stop this recording use <it>stop</it> or even quit the whole game 
+(<it>quit</it>). To play it back, use the command <it>demomap name.dm2</it>
+or simply <it>map name.dm2</it>. This kind of recording is called ``client
+side recording''.
+<p>
+To create a ``server side recording'' invoke at the server during a running
+game the console command <it>serverrecord name</it>. This records all 
+information of all entities in the whole level but no player information
+into the file <tt>demos/name.dm2</tt>. Quake II can't play back these
+server side recordings.
+<p>
+The third variant of DM2 files should be better called RLA files. They are
+created by the Quake II Relay server modification. This is a user-made 
+modification to create a special kind of server side demos but they can be
+read in again (at the server side) and replayed by any client, who connects
+to this modified server. Read more about this interesting modification at
+<url url="http://www.planetquake.com/relay/">.
+
+<sect1>Versions
+<p>
+In this document I'll discuss the DM2 format used by Quake II. There are
+significant differences between the Quake II test release (engine version
+3.00) and the CD retail
+version (3.05). This difference consists especially in the reordered message
+code bytes, so that the ``normal codes'' have the values 1 to 5 in 3.05.
+There are some more differences in the <bf>spawnbaseline</bf> message. 
+Due to the existence of a sole DM2 file in the 3.00 format 
+(packed in the PAK file of the test release) and considering the fact, that 
+the test release can't even record new ones, I
+will confine myself to the ``new'' format, introduced with the CD
+retail version 3.05 (protocol version 26).
+<p>
+With 3.15 (protocol version 32) a new kind of DM2 file was introduced:
+server side recordings.
+These are for DM2 editors only, since they contain all information from
+all entities but no player information and Quake II isn't even able to play 
+them back.
+<p>
+In 3.17 (protocol version 33) the server side recordings became easier to
+parse because 
+<bf>serverdata</bf> can now be used to distinguish between client side and
+server side recordings.
+<table loc="ht">
+<tabular ca="llll">
+<em>version</em><colsep>platform<colsep>note<rowsep>
+3.05 x86 Nov 30 1997 RELEASE<colsep>Win32<colsep>CD retail<rowsep>
+3.06 x86 Dec  9 1997 RELEASE<colsep>Win32<colsep>first patch<rowsep>
+3.07 x86 Dec 27 1997 RELEASE<colsep>Win32<colsep>interim release<rowsep>
+3.08 x86 Dec 28 1997 RELEASE<colsep>Win32<colsep>another interim release<rowsep>
+3.09 x86 Dec 29 1997 RELEASE<colsep>Win32<colsep>with patch program<rowsep>
+3.10 x86 Jan  4 1998 RELEASE<colsep>Win32<colsep>last before point release<rowsep>
+3.10 NON-WIN32 Jan  5 1998 NON-WIN32<colsep>Linux<colsep>first Linux release<rowsep>
+3.12 x86 Feb 16 1998 RELEASE<colsep>Win32<colsep>point release<rowsep>
+3.13 x86 Feb 23 1998 RELEASE<colsep>Win32<colsep>point fix release<rowsep>
+3.13 i386 Feb 24 1998 RELEASE<colsep>Linux<colsep>point fix release<rowsep>
+3.14 i386 Mar  2 1998 RELEASE<colsep>Linux<colsep>another fix release<rowsep>
+3.14 x86 Mar  2 1998 RELEASE<colsep>Win32<colsep>another fix release<rowsep>
+3.14 i386 Mar  3 1998 RELEASE<colsep>Linux<colsep>bug fix release 3.14a<rowsep>
+3.15 x86 May 27 1998 Win32 RELEASE<colsep>Win32<colsep>Mission Pack 1 release<rowsep>
+3.15 i386 May 29 1998 Linux<colsep>Linux<colsep>bug fix release 3.15a<rowsep>
+3.17 i386 Jun 21 1998 Linux<colsep>Linux<colsep>stable release<rowsep>
+3.17 x86 Jun 22 1998 Win32 RELEASE<colsep>Win32<colsep>stable release<rowsep>
+3.18 x86 Aug 19 1998 Win32 RELEASE<colsep>Win32<colsep>Mission Pack 2 release<rowsep>
+3.19 x86 Sep  1 1998 Win32 RELEASE<colsep>Win32<colsep>bug fix release<rowsep>
+3.19 x86 Sep 10 1998 Linux<colsep>Linux<colsep>bug fix release<rowsep>
+3.20 x86 Oct  9 1998 Linux<colsep>Linux<colsep>final release
+(equal to 3.20 beta)<rowsep>
+3.20 x86 Oct 16 1998 Win32 RELEASE<colsep>Win32<colsep>final release
+(equal to 3.20 beta)
+</tabular>
+<caption>Covered Quake II versions.</caption>
+</table>
+
+<sect1>Advertising
+<p>
+As the clever reader may know I'm the author of LMPC, the Little Movie 
+Processing Centre. With this tool you may
+<itemize>
+<item>``decompile'' an existing DM2 file (3.05 ... 3.20) to a simple text file
+and
+<item>``compile'' such a (modified) text file back to a binary DM2 file.
+</itemize>
+With LMPC it is very easy to analyse a DM2 file but you may change it
+as well and so create a DM2 file of a Quake II game you 
+never played. The current version of LMPC can be found at my 
+<url url="@HOMEURL@" name="@HOMENAME@">.
+
+
+<sect>File structure
+<p>
+
+<sect1>General remarks
+<p>
+To describe the file structure, which is very complicated, I use 
+C like program fragments and <tt>struct</tt> definitions. This 
+simplifies my task a lot. 
+<p>
+I invented all used names (messages, variables etc.) for myself, took them 
+from the Quake II binary but almost all from the many published source code
+snippets. 
+<p>
+All multi-byte structures in DM2 files are ``little endian'' (VAX or Intel
+ordered, lowest byte first),
+<p>
+Descriptive sentences in <it>italics</it> are copied from the published game 
+source. There are several different source packages available from 
+id Software: 
+<itemize>
+<item>the oldest from december 1997 with the source of the game
+library and some tools (unpacked in the directory <tt>q2source_12_11</tt>):
+<itemize>
+<item>
+general version:
+<url url="ftp://ftp.idsoftware.com/pub/quake2/source/old/q2source_12_11.zip">
+</itemize>
+<item>
+the newer one from march 1998 with the source of the game library only:
+<itemize>
+<item>
+Linux version:
+<url 
+url="ftp://ftp.idsoftware.com/pub/quake2/source/old/q2-3.14-source.shar.Z">
+<item>
+Windows version:
+<url url="ftp://ftp.idsoftware.com/pub/quake2/source/old/q2-3.14-source.exe">
+</itemize>
+<item>
+The newest release from the end of november 1998 with both Mission Packs:
+<itemize>
+<item>Plain game (unpacked in the directory <tt>q2src320/game/</tt>)
+<itemize>
+<item>Linux version:
+<url url="ftp://ftp.idsoftware.com/pub/quake2/source/q2src320.shar.Z">
+<item>Windows version:
+<url url="ftp://ftp.idsoftware.com/pub/quake2/source/q2src320.exe">
+</itemize>
+<item>Xatrix Quake II Mission Pack 1: The Reckoning (unpacked in
+the directory <tt>xatrixsrc320/game/</tt>)
+<itemize>
+<item>Linux version:
+<url url="ftp://ftp.idsoftware.com/pub/quake2/source/xatrixsrc320.shar.Z">
+<item>Windows version:
+<url url="ftp://ftp.idsoftware.com/pub/quake2/source/xatrixsrc320.exe">
+</itemize>
+<item>Rouge Quake II Mission Pack 2: Ground Zero (unpacked in
+the directory <tt>roguesrc320/game</tt>)
+<itemize>
+<item>Linux version:
+<url url="ftp://ftp.idsoftware.com/pub/quake2/source/roguesrc320.shar.Z">
+<item>Windows version:
+<url url="ftp://ftp.idsoftware.com/pub/quake2/source/roguesrc320.exe">
+</itemize>
+</itemize>
+</itemize>
+I refer to the files with the full path name 
+(e.g. <tt>q2src320/game/q_shared.h</tt>).
+<p>
+And now some QuakeEd compliant coordinate <tt>typedef</tt>'s:
+<tscreen><verb>typedef float vec_t;
+
+typedef vec_t vec3_t[3];</verb></tscreen>
+
+
+<sect1>Block of messages
+<p>
+A DM2 file is a set of ``blocks'' of ``messages''. A block consists of a 
+4 byte length entry and the actual messages:
+<tscreen><verb>typedef struct {
+                 unsigned long size;
+                 unsigned char messages[size];
+               } block_t;</verb></tscreen>
+
+<descrip>
+<tag><tt>#define MAX&lowbar;MSGLEN 1400</tt></tag> is the maximum message
+size (real game data in a network packet).
+The value must be less than or equal to 1472 to avoid fragmentation of the UDP
+packets on an Ethernet. The MTU in PPP is much smaller and QuakeWorld used up
+to 2.10 
+also much bigger network packets but the reduced packet size is for LAN play
+definitely a great improvement. In server side recordings there is not such
+a restriction.
+
+<tscreen><verb>if (serverdata.isdemo != RECORD_SERVER && block.size>MAX_MSGLEN) 
+  error("Demo message > MAX_MSGLEN");</verb></tscreen>
+</descrip>
+<p>
+Beginning with version 3.05 (protocol version 26) Quake II uses an empty block
+with a block size of -1 (<tt>0xffffffff</tt>) as the last block. 
+This remindes (at least) me of the DOOM LMP end byte (<tt>0x80</tt>).
+<p>
+Between 2 levels of a multi-level recoring there is an empty block with the
+block size 0. Quake II can't replay multi-level recordings.
+
+<sect1>Auxiliary routines
+<p>
+Here comes the definition of some small auxiliary routines to 
+simplify
+the main message description. <tt>get_next_unsigned_char</tt>,
+<tt>get_next_signed_char</tt>, <tt>get_next_short</tt> and
+<tt>get_next_long</tt>, <tt>get_next_float</tt> are basic functions and they 
+do exactly what they are called. Please note: <tt>byte</tt>, <tt>char</tt> or 
+<tt>short</tt> will be converted to <tt>long</tt>.
+
+In the following I often use a count variable 
+<tscreen><verb>int i;</verb></tscreen>
+without declaration. I hope this does not confuses you. 
+
+
+<tscreen><verb>int ReadChar
+{
+  return (int) get_next_signed_char;
+}</verb></tscreen>
+
+
+<tscreen><verb>int ReadByte
+{
+  return (int) get_next_unsigned_char;
+}</verb></tscreen>
+
+
+<tscreen><verb>int ReadShort
+{
+  return (int) get_next_short;
+}</verb></tscreen>
+
+
+<tscreen><verb>int ReadLong
+{
+  return (int)get_next_long;
+}</verb></tscreen>
+
+
+<tscreen><verb>float ReadFloat
+{
+  return get_next_float;
+}</verb></tscreen>                   
+
+
+The string reading stops at '&bsol;0' or after 0x7FF bytes. The internal
+buffer has only 0x800 bytes available.
+
+<tscreen><verb>char* ReadString
+{
+  char* string_pointer;
+  char string_buffer[0x800];
+
+  string_pointer=string_buffer;
+  for (i=0 ; i<0x7FF ; i++, string_pointer++) {
+    if (! (*string_pointer = ReadChar) ) break;
+  }
+  *string_pointer = '\0';
+  return strdup(string_buffer);
+}</verb></tscreen>
+
+
+<tscreen><verb>vec_t ReadCoord
+{
+  return (vec_t) ReadShort * 0.125;
+}</verb></tscreen>
+
+
+<tscreen><verb>ReadPosition(vec_t* pos)
+{
+  for (i=0 ; i<3 ; i++) pos[i] = ReadCoord;
+}</verb></tscreen>
+
+
+A direction for temporary entities is stored in a single byte. 
+The 162 possible orientations are precalculated and stored in a template list. 
+Each direction is represented by a normalised vector. The template list 
+can be found in the source, <tt>q2source_12_11/utils3/qdata/anorms.h</tt>
+
+I tried to reproduce (for <tt>WriteDir</tt>) the template list but I didn't
+find the algorithm
+behind it. Take it as it is: even Quake II uses the list and calculates
+with dot products the best fitting direction.
+
+<tscreen><verb>ReadDir(vec_t* pos)
+{
+  #define NUMVERTEXNORMALS 162
+  int code;
+  float avertexnormals[NUMVERTEXNORMALS][3] = {
+    #include "q2source_12_11/utils3/qdata/anorms.h"
+  }
+  code = ReadByte;  
+  if (code >= NUMVERTEXNORMALS) error("MSF_ReadDir: out of range");
+  pos[0] = avertexnormals[code][0];
+  pos[1] = avertexnormals[code][1];
+  pos[2] = avertexnormals[code][2];
+}</verb></tscreen>
+
+Note: A signed angle in a single byte. There are only 256 possible 
+direction to look into.
+
+<tscreen><verb>vec_t ReadAngle
+{
+  return (vec_t) ReadChar * 360.0 / 256.0;
+}</verb></tscreen>
+
+
+<tscreen><verb>vec_t ReadAngle16
+{
+  return (vec_t) ReadShort * 360.0 / 65536.0;
+}</verb></tscreen>
+
+
+<sect1>Message
+<p>
+This is the message structure:
+<tscreen><verb>typedef struct {
+                 unsigned char ID;
+                 unsigned char unicast_client // RLA only
+                 char          messagecontents[???];
+               } message_t;</verb></tscreen>
+The length of a message depends on its type (or <tt>ID</tt>) but it can't
+be bigger than <tt>MAX&lowbar;MSGLEN</tt>, the size of a full block.
+
+
+<sect1>Unicast
+<p>
+RLA files (DM2 files with Relay extension) can have special uni-cast messages.
+This is done to distinguish between ordinary messages, which go to every
+client (multi-cast) and messages, which go only to selected clients.
+A good example are the <bf>playerinfo</bf> messages. Every client should get 
+a different one and in RLA files all these messages are marked with
+the destination client number:
+
+<tscreen><verb>ID = ReadByte;
+if (ID & 0x80) {              // the special sign for uni-cast
+  ID &= ~0x80;                // remove it
+  unicast.use = 1;            // but memorize it
+  unicast.client = ReadByte;  // get the uni-cast destination client
+}
+else {
+  unicast.use = 0;            // multi-cast message
+}</verb></tscreen>
+
+
+<sect>List of all message types
+<p>
+The easiest way to explain a message is to give a short
+C like program fragment to parse such a message. It is not really the same
+code
+base as in LMPC but it should be <em>very</em> similar. 
+Future version will be based on the exact same code base to simplify my
+task.
+<p>
+
+Each message can be
+described by its <tt>ID</tt> or its name. 
+<p>
+
+<sect1>bad<p><descrip><tag><tt>ID</tt></tag><tt>0x00</tt>
+
+<tag>purpose</tag>
+Something is bad. This message should never appear.
+
+<tag>parse routine</tag>
+<tscreen><verb>error("CL_ParseServerMessage: Illegible server message\n");</verb></tscreen>
+
+</descrip>
+
+<sect1>muzzleflash<p><descrip><tag><tt>ID</tt></tag><tt>0x01</tt>
+<tag>purpose</tag>
+<it>muzzle flashes / player effects</it>.
+
+<tag>variables</tag>
+<descrip>
+<tag><tt>long entity;</tt></tag> is the player entity with the effect.
+<tag><tt>long value;</tt></tag> is the muzzle flash / player effect.
+The <tt>value</tt> should be one of the <tt>MZ_</tt> constants 
+(source, <tt>q2src320/game/q_shared.h</tt>, 602 - 638). It may be ``OR''ed
+with
+<tscreen><verb>#define MZ_SILENCED 128</verb></tscreen> if the player uses
+the Silencer.
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>entity = ReadShort;
+value = ReadByte;</verb></tscreen>
+
+</descrip>
+
+<sect1>muzzlflash2<p><descrip><tag><tt>ID</tt></tag><tt>0x02</tt>
+
+<tag>purpose</tag>
+<it>monster muzzle flashes</it>.
+
+<tag>variables</tag>
+<descrip>
+<tag><tt>long entity;</tt></tag> is the monster entity with the effect.
+<tag><tt>long value;</tt></tag> is the monster muzzle flash.
+The <tt>value</tt> should be one of the <tt>MZ2_</tt> constants
+(source, <tt>q2src320/game/q_shared.h</tt>, 640 - 871).
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>entity = ReadShort;
+value = ReadByte;</verb></tscreen>
+
+</descrip>
+
+<sect1>temp&lowbar;entity<p><descrip><tag><tt>ID</tt></tag><tt>0x03</tt>
+
+<tag>purpose</tag>
+Spawns a temporary entity.
+<it>Temp entity events are for things that happen
+at a location seperate from any existing entity.
+Temporary entity messages are explicitly constructed
+and broadcast.</it>
+
+<tag>variables</tag>
+Due to the special parse method I use in my LMPC program, I have to use the
+variables over all different temporary entities in the same order. This was
+no real restriction but with game version 3.18 (protocol version 34) came 
+many new types of temporary entities, which reordered their arguments 
+almost random. So I had to rename some variables and to insert some 
+totally senseless new ones (like <tt>flash&lowbar;entity</tt> instead of
+<tt>entity</tt> or <tt>type</tt> in addition to <tt>style</tt>). This simply
+comes, because these values come now at the other side of <tt>origin</tt>.
+The old order was <tt>entity</tt>, <tt>origin</tt>, <tt>style</tt> but now a
+<tt>style</tt> comes sometimes before the <tt>origin</tt> or an
+<tt>entity</tt> comes after the <tt>origin</tt>. After I finish the text
+parse rewrite of LMPC, I will surely remove the additional senseless new
+variables.
+
+<descrip>
+<tag><tt>long entitytype;</tt></tag> is the type of the temporary entity.
+<tt>entitytype</tt> should be one of the <tt>TE_</tt> constants 
+(source, <tt>q2src320/game/q_shared.h</tt>, 876 - 942). They are defined with 
+a <tt>typedef enum</tt> and not as <tt>#define</tt> but who cares?
+<p>
+There are many different kinds of temporary entities in Quake II:
+
+
+<descrip>
+
+
+<tag>point entity</tag> is a point like entity like explosions or
+teleport fog. It needs a position.
+<descrip>
+<tag><tt>#define TE&lowbar;EXPLOSION1 5</tt></tag>boss, barrels etc.
+explosion
+<tag><tt>#define TE&lowbar;EXPLOSION2 6</tt></tag>barrels explosion
+<tag><tt>#define TE&lowbar;ROCKET&lowbar;EXPLOSION 7</tt></tag>rocket
+explosion
+<tag><tt>#define TE&lowbar;GRENADE&lowbar;EXPLOSION 8</tt></tag>grenade
+explosion
+<tag><tt>#define TE&lowbar;ROCKET&lowbar;EXPLOSION&lowbar;WATER
+17</tt></tag>rocket explosion under water
+<tag><tt>#define TE&lowbar;GRENADE&lowbar;EXPLOSION&lowbar;WATER
+18</tt></tag>grenade explosion under water
+<tag><tt>#define TE&lowbar;BFG&lowbar;EXPLOSION 20</tt></tag>BFG explosion
+<tag><tt>#define TE&lowbar;BFG&lowbar;BIGEXPLOSION 21</tt></tag>big BFG
+explosion
+<tag><tt>#define TE&lowbar;BOSSTPORT 22</tt></tag>boss teleports away
+<tag><tt>#define TE&lowbar;PLASMA&lowbar;EXPLOSION 28</tt></tag>(new in
+3.15, MP1) plasma explosion on touch
+<tag><tt>#define TE&lowbar;PLAIN&lowbar;EXPLOSION 35</tt></tag>(new in 3.18,
+MP2) flame burst, turret death
+<tag><tt>#define TE&lowbar;CHAINFIST&lowbar;SMOKE 45</tt></tag>(new in 3.18,
+MP2)
+<it>this spits out some smoke from the motor. it's a two-stroke, you
+know.</it>
+<tag><tt>#define TE&lowbar;TRACKER&lowbar;EXPLOSION 47</tt></tag>(new in
+3.18, MP2) tracker explosion
+<tag><tt>#define TE&lowbar;TELEPORT&lowbar;EFFECT 48</tt></tag>(new in 3.18,
+MP2) teleport away effect
+<tag><tt>#define TE&lowbar;DBALL&lowbar;GOAL 49</tt></tag>(new in 3.18, MP2)
+ball disappears after a goal
+<tag><tt>#define TE&lowbar;NUKEBLAST 51</tt></tag>(new in 3.18, MP2)
+nuke explosion
+<tag><tt>#define TE&lowbar;WIDOWSPLASH 52</tt></tag>(new in 3.18, MP2)
+last part of the death of the widow
+<tag><tt>#define TE&lowbar;EXPLOSION1&lowbar;BIG 53</tt></tag>(new in 3.18,
+MP2) big explosion
+<tag><tt>#define TE&lowbar;EXPLOSION1&lowbar;NP 54</tt></tag>(new in 3.18,
+MP2) widow explosion
+</descrip>
+
+
+<tag>impact entity</tag> is a small point like entity, spawned on an impact
+of a bullet etc. It needs a position (often a trace end) and a direction
+from there.
+<descrip>
+<tag><tt>#define TE&lowbar;GUNSHOT 0</tt></tag>hit with Machine Gun and
+Chain Gun
+<tag><tt>#define TE&lowbar;BLOOD 1</tt></tag>clients and monsters bleed when
+hit
+<tag><tt>#define TE&lowbar;BLASTER 2</tt></tag>hit with Blaster
+<tag><tt>#define TE&lowbar;SHOTGUN 4</tt></tag>hit with Shotgun
+<tag><tt>#define TE&lowbar;SPARKS 9</tt></tag>hit someone
+<tag><tt>#define TE&lowbar;SCREEN&lowbar;SPARKS 12</tt></tag>hit on an Energy
+Armor
+<tag><tt>#define TE&lowbar;SHIELD&lowbar;SPARKS 13</tt></tag>hit on a
+different Energy Armor
+<tag><tt>#define TE&lowbar;BULLET&lowbar;SPARKS 14</tt></tag>hit someone
+with bullets
+<tag><tt>#define TE&lowbar;GREENBLOOD_new 26</tt></tag>(new in 3.15, MP1)
+a ``gekk'' bleeds green.
+Note: the value 26 stood from
+game version 3.12 to 3.14 (protocol version 31)
+for <tt>TE&lowbar;PLASMATRAIL</tt> and was a line entity.
+<tag><tt>#define TE&lowbar;GREENBLOOD_old 27</tt></tag>(from 3.12 to 3.14) not
+used.
+Note: the value 27 stands from
+game version 3.15 (protocol version &gt;= 32) on for
+<tt>TT&lowbar;BLUEHYPERBLASTER</tt> and is a line entity.
+<tag><tt>#define TE&lowbar;BLASTER2 30</tt></tag>(new in 3.18, MP2)
+hit by green monster blaster shot
+<tag><tt>#define TE&lowbar;MOREBLOOD 42</tt></tag>(new in 3.18, MP2) more
+blood with chainfist
+<tag><tt>#define TE&lowbar;HEATBEAM&lowbar;SPARKS 43</tt></tag>(new in 3.18,
+MP2) heat beam water impact
+<tag><tt>#define TE&lowbar;HEATBEAM&lowbar;STEAM 44</tt></tag>(new in 3.18,
+MP2) heat beam impact
+<tag><tt>#define TE&lowbar;FLECHETTE 55</tt></tag>(new in 3.18, MP2)
+touch a flechette
+</descrip>
+
+
+<tag>line entity</tag> is a 2 dimensional entity. It needs an origin and an
+end position.
+<descrip>
+<tag><tt>#define TE&lowbar;RAILTRAIL 3</tt></tag>trail of the Rail Gun
+(blue)
+<tag><tt>#define TE&lowbar;BUBBLETRAIL 11</tt></tag>shot with a bullet 
+through water
+<tag><tt>#define TE&lowbar;BFG&lowbar;LASER 23</tt></tag>(new in 3.12) BFG
+laser
+<tag><tt>#define TE&lowbar;PLASMATRAIL 26</tt></tag>(from 3.12 to 3.14) not used.
+Note: the value 26 stands from
+game version 3.15 (protocol version &gt;= 32) on for 
+<tt>TE&lowbar;GREENBLOOD&lowbar;new</tt> and is an impact entity.
+<tag><tt>#define TE&lowbar;BLUEHYPERBLASTER 27</tt></tag>(new in 3.15, MP1)
+not used.
+Note: the value 27 stood from
+game version 3.12 to 3.14 (protocol version 31) for
+<tt>TE&lowbar;GREENBLOOD&lowbar;old</tt> and was an impact entity.
+<tag><tt>#define TE&lowbar;DEBUGTRAIL 34</tt></tag>(new in 3.18, MP2)
+debug use, trail drawing
+<tag><tt>#define TE&lowbar;BUBBLETRAIL2 41</tt></tag>(new in 3.18, MP2)
+bubbles above heat beam
+<tag><tt>#define TE&lowbar;ELECTRIC&lowbar;SPARKS 46</tt></tag>(new in 3.18,
+MP2) hit on something mechanical
+</descrip>
+
+<tag>special entity</tag> is a entity which doesn't fit into the other
+categories.
+<descrip>
+<tag><tt>#define TE&lowbar;SPLASH 10</tt></tag>creates a particle splash
+effect
+<tag><tt>#define TE&lowbar;LASER&lowbar;SPARKS 15</tt></tag>laser hits a
+wall
+<tag><tt>#define TE&lowbar;PARASITE&lowbar;ATTACK 16</tt></tag>parasite
+attack
+<tag><tt>#define TE&lowbar;MEDIC&lowbar;CABLE&lowbar;ATTACK
+19</tt></tag>medic cable attac
+<tag><tt>#define TE&lowbar;GRAPPLE&lowbar;CABLE 24</tt></tag>(new in 3.12)
+used in CFT
+<tag><tt>#define TE&lowbar;WELDING&lowbar;SPARKS 25</tt></tag>(new in 3.12)
+ionripper fire, fixbot melder fire
+<tag><tt>#define TE&lowbar;TUNNEL&lowbar;SPARKS 29</tt></tag>(new in 3.15,
+MP1) trigger effect
+<tag><tt>#define TE&lowbar;FLAME 32</tt></tag>(new in 3.18, MP2) flame
+thrower, Quake II can't parse this
+<tag><tt>#define TE&lowbar;LIGHTNING 33</tt></tag>(new in 3.18, MP2)
+tesla weapon
+<tag><tt>#define TE&lowbar;FLASHLIGHT 36</tt></tag>(new in 3.18, MP2)
+player with torch
+<tag><tt>#define TE&lowbar;FORCEWALL 37</tt></tag>(new in 3.18, MP2)
+force wall
+<tag><tt>#define TE&lowbar;HEATBEAM 38</tt></tag>(new in 3.18, MP2) heat beam
+<tag><tt>#define TE&lowbar;MONSTER&lowbar;HEATBEAM 39</tt></tag>(new in
+3.18, MP2) monster fires a heat beam
+<tag><tt>#define TE&lowbar;STEAM 40</tt></tag>(new in 3.18, MP2) 
+<it>Creates a steam effect (particles w/ velocity in a line).</it>
+<tag><tt>#define TE&lowbar;WIDOWBEAMOUT 50</tt></tag>(new in 3.18, MP2)
+part of the death of the widow
+</descrip>
+
+<tag>bad entity</tag> is a entity which is not used anymore.
+<descrip>
+<tag><tt>#define TE&lowbar;RAILTRAIL2 31</tt></tag>(new in 13.18, MP2)
+not used, Quake II can't parse this
+</descrip>
+
+</descrip>
+
+<tag><tt>long dest_entity;</tt></tag>&nbsp; is the entity, where an effect ends.
+
+<tag><tt>long entity;</tt></tag>&nbsp; is the entity, which spawned the effect.
+
+<tag><tt>long nextid;</tt></tag>&nbsp; is a special value to chain multiple
+<tt>TE&lowbar;STEAM</tt> effects. The last one has here the value
+<tt>-1</tt>.
+
+<tag><tt>long count;</tt></tag>&nbsp; is a number for multi-particle temporary
+entities.
+
+<tag><tt>vec3_t start;</tt></tag> is the start of the unparsable 
+temporary <tt>TE&lowbar;FLAME</tt> entity.
+
+<tag><tt>vec3_t dest_origin;</tt></tag> is the origin of an entity,
+where the temporary entity ends.
+
+<tag><tt>long type;</tt></tag>&nbsp; is an additional type value for the
+temporary <tt>TE&lowbar;WIDOWBEAMOUT</tt> entity.
+number for multi-particle temporary. It may be 20001 or 20002
+(source, <tt>roguesrc320/game/m_widow.c</tt>, 831 - 842).
+
+<tag><tt>vec3_t origin;</tt></tag> is the origin of the temporary entity.
+
+<tag><tt>long flash_entity;</tt></tag>&nbsp; is the entity, which spawned the
+temporary <tt>TE&lowbar;FLASHLIGHT</tt> entity.
+
+<tag><tt>vec3_t trace_endpos;</tt></tag> is the end position of the line
+like temporary entity.
+
+<tag><tt>vec3_t pos1, pos2, pos3, pos4;</tt></tag> are additional positions
+for bigger enitities.
+
+<tag><tt>vec3_t movedir;</tt></tag> is the moving direction for the
+temporary entity.
+
+<tag><tt>long style;</tt></tag>&nbsp; is an additional style value.
+In the special <tt>TE&lowbar;SPLASH</tt>
+temporary entity it should be one of the <tt>SPLASH_</tt> constants
+(source, <tt>q2src320/game/q_shared.h</tt>, 944 - 950).
+
+<tag><tt>long plat2flags;</tt></tag>&nbsp; are used for the 
+<tt>TE&lowbar;STEAM</tt> temporary entity.
+
+<tag><tt>long wait;</tt></tag>&nbsp; is a timeout value (in milliseconds) for the 
+<tt>TE&lowbar;STEAM</tt> temporary entity.
+
+</descrip>
+
+<tag>parse routine</tag>
+
+<tscreen><verb>entitytype = ReadByte;
+switch (entitytype) {
+  // version problems
+  // case TE_PLASMATRAIL:
+  case TE_GREENBLOOD_new:
+    if (serverversion >= 32) // game version >= 3.15
+      goto impact_entity;
+    else
+      goto line_entity;
+  break;
+  // case TE_GREENBLOOD_old:
+  case TE_BLUEHYPERBLASTER:
+    if (serverversion >= 32) // game version >= 3.15
+      goto line_entity;
+    else
+      goto impact_entity;
+  break;
+  // point entity
+  case TE_EXPLOSION1:
+  case TE_EXPLOSION2:
+  case TE_ROCKET_EXPLOSION:
+  case TE_GRENADE_EXPLOSION:
+  case TE_ROCKET_EXPLOSION_WATER:
+  case TE_GRENADE_EXPLOSION_WATER:
+  case TE_BFG_EXPLOSION:
+  case TE_BFG_BIGEXPLOSION:
+  case TE_BOSSTPORT:
+  case TE_PLASMA_EXPLOSION:
+  case TE_PLAIN_EXPLOSION:
+  case TE_CHAINFIST_SMOKE:
+  case TE_TRACKER_EXPLOSION:
+  case TE_TELEPORT_EFFECT:
+  case TE_DBALL_GOAL:
+  case TE_NUKEBLAST:
+  case TE_WIDOWSPLASH:
+  case TE_EXPLOSION1_BIG:
+  case TE_EXPLOSION1_NP:
+    ReadPosition(origin);
+  break;
+  // impact entity
+  case TE_GUNSHOT:
+  case TE_BLOOD:
+  case TE_BLASTER:
+  case TE_SHOTGUN:
+  case TE_SPARKS:
+  case TE_SCREEN_SPARKS:
+  case TE_SHIELD_SPARKS:
+  case TE_BULLET_SPARKS:
+  // case TE_GREENBLOOD_new:
+  // case TE_GREENBLOOD_old:
+  case TE_BLASTER2:
+  case TE_MOREBLOOD:
+  case TE_HEATBEAM_SPARKS:
+  case TE_HEATBEAM_STEAM:
+  case TE_ELECTRIC_SPARKS:
+  case TE_FLECHETTE:
+  impact_entity:
+    ReadPosition(origin);
+    ReadDir(movedir);
+  break;
+  // line entity
+  case TE_RAILTRAIL:
+  case TE_BUBBLETRAIL:
+  case TE_BFG_LASER:
+  // case TE_PLASMATRAIL:
+  // case TE_BLUEHYPERBLASTER:
+  case TE_DEBUGTRAIL:
+  case TE_BUBBLETRAIL2:
+  line_entity:
+    ReadPosition(origin);
+    ReadPosition(trace_endpos);
+  break;
+  // special entity
+  case TE_SPLASH:
+  case TE_LASER_SPARKS:
+  case TE_WELDING_SPARKS:
+  case TE_TUNNEL_SPARKS:
+    count = ReadByte;
+    ReadPosition(origin);
+    ReadDir(movedir);
+    style = ReadByte;
+  break;
+  case TE_PARASITE_ATTACK:
+  case TE_MEDIC_CABLE_ATTACK:
+  case TE_HEATBEAM:
+  case TE_MONSTER_HEATBEAM:
+    entity = ReadShort;
+    ReadPosition(origin);
+    ReadPosition(trace_endpos);
+  break;  
+  case TE_GRAPPLE_CABLE:
+    entity = ReadShort;
+    ReadPosition(origin);
+    ReadPosition(trace_endpos);
+    ReadPosition(pos1);
+  break;
+  case TE_FLAME: // Quake2 can't parse this!
+    entity = ReadShort;
+    count = ReadShort;
+    ReadPosition(start);
+    ReadPosition(origin);
+    ReadPosition(pos1);
+    ReadPosition(pos2);
+    ReadPosition(pos3);
+    ReadPosition(pos4);
+  break;
+  case TE_LIGHTNING:
+    dest_entity = ReadShort;
+    entity = ReadShort;
+    ReadPosition(dest_origin);
+    ReadPosition(origin);
+  break;
+  case TE_FLASHLIGHT:
+    ReadPosition(origin);
+    flash_entity = ReadShort;
+  break;
+  case TE_FORCEWALL:
+    ReadPosition(origin);
+    ReadPosition(trace_endpos);
+    style = ReadShort;
+  break;
+  case TE_STEAM:
+    nextid = ReadShort;
+    count = ReadByte;
+    ReadPosition(origin);
+    ReadDir(movedir);
+    style = ReadByte;
+    plat2flags = ReadShort;
+    if (nextid != -1)
+      wait = ReadLong;
+  break;
+  case TE_WIDOWBEAMOUT:
+    type = ReadShort;
+    ReadPosition(origin);
+  break;
+  case TE_RAILTRAIL2: // senseless, I know
+  default:
+    error("CL_ParseTEnt: bad type");
+  break;
+}</verb></tscreen>
+
+</descrip>
+
+<sect1>layout<p><descrip><tag><tt>ID</tt></tag><tt>0x04</tt>
+
+<tag>purpose</tag>
+This message displays the Field Computer (``<it>cmd help</it>'', bound to F1).
+It contains the summary screen (Deathmatch Scoreboard or single player 
+secrets, goals etc.). It stores the message only on the client siede. 
+The actual display will be triggered by the <bf>playerinfo</bf> message with
+a special <tt>stats</tt> command.
+
+<tag>variable</tag>
+<descrip>
+<tag><tt>char text[MAX_MSGLEN];</tt></tag> is the summary screen text with
+some kind of control characters. The control language is very simple. Read some
+examples in the source, <tt>q2src320/game/p_hud.c</tt>, functions 
+<tt>DeathmatchScoreboardMessage</tt> and <tt>HelpComputer</tt>.
+
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>text = ReadString;</verb></tscreen>
+
+</descrip>
+
+<sect1>inventory<p><descrip><tag><tt>ID</tt></tag><tt>0x05</tt>
+
+<tag>purpose</tag>
+Tells the clients its inventory.
+
+<tag>variable</tag>
+<descrip>
+<tag><tt>int inventory[MAX_ITEMS];</tt></tag> is the player's inventory
+array. 
+<tscreen><verb>#define MAX_ITEMS 256</verb></tscreen> is the number different
+items in the inventory.
+<p>
+The inventory concept of Quake II is very open and expandable.
+In an global array (source, <tt>q2src320/game/g_items.c</tt>, 1115 - 2097)
+<tscreen><verb>gitem_t itemlist[];</verb></tscreen>
+is the list of all possible things 
+a player can pickup and carry around. This array will be filled at compile
+time.
+In the <tt>inventory</tt> array are stored how many
+of each thing of the <tt>itemlist</tt> a players carries. The server tells
+the meaning of each index with <bf>configstring</bf> messages.
+I give the original table for <tt>itemlist</tt>. Every modification can change 
+it totally and it changed indeed from 3.05 to 3.12.
+<table loc="htbp">
+<tabular ca="rl">
+value <colsep>purpose<rowsep>
+0 <colsep>not used<rowsep> 
+1 <colsep>Body Armor<rowsep>
+2 <colsep>Combat Armor<rowsep>
+3 <colsep>Jacket Armor<rowsep>
+4 <colsep>Armor Shard<rowsep>
+5 <colsep>Power Screen<rowsep>
+6 <colsep>Power Shield<rowsep>
+7 <colsep>Blaster<rowsep>
+8 <colsep>Shotgun<rowsep>
+9 <colsep>Super Shotgun<rowsep>
+10 <colsep>Machinegun<rowsep>
+11 <colsep>Chaingun<rowsep>
+12 <colsep>Grenades<rowsep>
+13 <colsep>Grenade Launcher<rowsep>
+14 <colsep>Rocket Launcher<rowsep>
+15 <colsep>HyperBlaster<rowsep>
+16 <colsep>Railgun<rowsep>
+17 <colsep>BFG10K<rowsep>
+18 <colsep>Shells<rowsep>
+19 <colsep>Bullets<rowsep>
+20 <colsep>Cells<rowsep>
+21 <colsep>Rockets<rowsep>
+22 <colsep>Slugs<rowsep>
+23 <colsep>Quad Damage<rowsep>
+24 <colsep>Invulnerability<rowsep>
+25 <colsep>Silencer<rowsep>
+26 <colsep>Rebreather<rowsep>
+27 <colsep>Environment Suit<rowsep>
+28 <colsep>Ancient Head<rowsep>
+29 <colsep>Adrenaline<rowsep>
+30 <colsep>Bandolier<rowsep>
+31 <colsep>Ammo Pack<rowsep>
+32 <colsep>Data CD<rowsep>
+33 <colsep>Power Cube<rowsep>
+34 <colsep>Pyramid Key<rowsep>
+35 <colsep>Data Spinner<rowsep>
+36 <colsep>Security Pass<rowsep>
+37 <colsep>Blue Key<rowsep>
+38 <colsep>Red Key<rowsep>
+39 <colsep>Commander's Head<rowsep>
+40 <colsep>Airstrike Marker<rowsep>
+41 <colsep>Health
+</tabular>
+<caption>Standard inventory entries.</caption>
+</table>
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>for (i=0 ; i<MAX_ITEMS ; i++) inventory[i] = ReadShort;</verb></tscreen>
+</descrip>
+
+
+<sect1>nop<p><descrip>
+<tag><tt>Quake II ID</tt></tag><tt>0x06</tt>
+
+<tag>purpose</tag>
+Do nothing.
+
+<tag>parse routine</tag>none
+
+</descrip>
+
+
+<sect1>disconnect<p><descrip>
+<tag><tt>Quake II ID</tt></tag><tt>0x07</tt>
+
+<tag>purpose</tag>
+Diconnect from the server.
+
+<tag>parse routine</tag>
+<tscreen><verb>print("Server disconnected\n");</verb></tscreen>
+
+</descrip>
+
+
+<sect1>reconnect<p><descrip>
+<tag><tt>Quake II ID</tt></tag><tt>0x08</tt>
+
+<tag>purpose</tag>
+Reconnect to the server.
+
+<tag>parse routine</tag>
+<tscreen><verb>print("Server disconnected, reconnecting\n");</verb></tscreen>
+
+</descrip>
+
+
+<sect1>sound<p><descrip>
+<tag><tt>Quake II ID</tt></tag><tt>0x09</tt>
+
+<tag>purpose</tag>
+Plays a sound.
+
+<tag>variables</tag>
+<descrip>
+<tag><tt>long mask;</tt></tag>is a bit mak to reduce the network traffic.
+<tag><tt>long soundnum;</tt></tag>is the index in the precache sound
+table.
+<tag><tt>float vol;</tt></tag>is the volume of the sound (0.0 off, 
+1.0 max).
+<tag><tt>float attenuation;</tt></tag> is the attenuation of the sound.
+<tt>attenuation</tt> should have one of the <tt>ATTN_</tt> constants
+(source, <tt>q2src320/game/q_shared.h</tt>, 966 - 970).
+<descrip>
+<tag><tt>#define ATTN_NONE 0</tt></tag><it>full volume the entire level</it>
+<tag><tt>#define ATTN_NORM 1</tt></tag>the normal attenuation
+<tag><tt>#define ATTN_IDLE 2</tt></tag>for idle monsters
+<tag><tt>#define ATTN_STATIC 3</tt></tag><it>diminish very rapidly with
+distance</it>
+</descrip>
+<tag><tt>float timeofs;</tt></tag>is the offset in seconds between the
+frame start and the sound start.
+It is 0 in the entire source.
+<tag><tt>long channel;</tt></tag>is the sound channel. There are 8 possible
+sound channels for each entity in Quake II (0-7) but it uses 5 only.
+<tt>channel</tt> should be one of the <tt>CHAN_</tt> constants
+(source, <tt>q2src320/game/q_shared.h</tt>, 953 - 960).
+<descrip>
+<tag><tt>#define CHAN&lowbar;AUTO 0</tt></tag>selects a channel
+automatically
+<tag><tt>#define CHAN&lowbar;WEAPON 1</tt></tag>weapon use sounds
+<tag><tt>#define CHAN&lowbar;VOICE 2</tt></tag>pain calls
+<tag><tt>#define CHAN&lowbar;ITEM 3</tt></tag>item get sounds
+<tag><tt>#define CHAN&lowbar;BODY 4</tt></tag>jump and fall sounds
+</descrip>
+<tag><tt>long entity;</tt></tag>is the entity which caused the sound.
+The maximum value of <tt>entity</tt> is 
+<tscreen><verb>#define MAX_EDICTS 1024</verb></tscreen>.
+<tag><tt>vec3_t origin;</tt></tag>is the origin of the sound.
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>long entity_channel; // combined variable
+
+mask = ReadByte;
+soundnum = ReadByte;
+vol = (mask & 0x01) ? ((float)ReadByte / 255.0) : (1.0);
+attenuation = (mask & 0x02) ? ((float)ReadByte / 64.0) : (1.0);
+timeofs = (mask & 0x10) ? ((float)ReadByte * 0.001) : (0.0); 
+if (mask & 0x08) {
+  entity_channel = ReadShort;
+  entity = (entity_channel >> 3);
+  channel = entity_channel & 0x07;
+  if (entity > MAX_EDICTS) {
+    error("CL_ParseStartSoundPacket: ent = %i", entity);
+  }
+} else {
+  channel = 0;
+  entity = 0;
+}
+if (mask & 0x04) {
+  ReadPosition(origin);
+}
+</verb></tscreen>
+
+</descrip>
+
+
+<sect1>print<p><descrip>
+<tag><tt>Quake II ID</tt></tag><tt>0x0A</tt>
+
+<tag>purpose</tag>
+Prints a text at the top of the screen.
+
+<tag>variables</tag>
+<descrip>
+<tag><tt>long level;</tt></tag>is the priority level.
+<tt>level</tt> should be one of the following:
+<descrip>
+<tag><tt>#define PRINT&lowbar;LOW 0</tt></tag>pickup messages
+<tag><tt>#define PRINT&lowbar;MEDIUM 1</tt></tag>death messages
+<tag><tt>#define PRINT&lowbar;HIGH 2</tt></tag>critical messages
+<tag><tt>#define PRINT&lowbar;CHAT 3</tt></tag>chat messages
+</descrip>
+<tag><tt>char string[MAX&lowbar;MESSAGE&lowbar;SIZE];</tt></tag>is the the text 
+to be displayed.
+
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>level = ReadByte;
+if (level == PRINT_CHAT) sound("misc/talk.wav");
+string = ReadString;</verb></tscreen>
+</descrip>
+
+
+<sect1>stufftext<p><descrip>
+<tag><tt>Quake II ID</tt></tag><tt>0x0B</tt>
+
+<tag>purpose</tag>
+The client transfers the text to the console and runs it.
+
+<tag>variables</tag>
+<descrip>
+<tag><tt>char* text;</tt></tag>is the command, which the client has to execute.
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>text = ReadString;</verb></tscreen>
+
+</descrip>
+
+
+<sect1>serverdata<p><descrip>
+<tag><tt>Quake II ID</tt></tag><tt>0x0C</tt>
+
+<tag>purpose</tag>
+Set some global info.
+
+<tag>variables</tag>
+<descrip>
+<tag><tt>long serverversion;</tt></tag>is the protocol version coming from
+the server. 
+<table loc="htbp">
+<tabular ca="ll">
+game <colsep>protocol<rowsep>
+3.00 <colsep>25<rowsep>
+3.05 <colsep>26<rowsep>
+3.06 <colsep>26<rowsep>
+3.07 <colsep>27<rowsep>
+3.08 <colsep>27<rowsep>
+3.09 <colsep>28<rowsep>
+3.10 <colsep>30<rowsep>
+3.12 <colsep>31<rowsep>
+3.13 <colsep>31<rowsep>
+3.14 <colsep>31<rowsep>
+3.15 <colsep>32<rowsep>
+3.17 <colsep>33<rowsep>
+3.18 <colsep>34<rowsep>
+3.19 <colsep>34<rowsep>
+3.20 <colsep>34
+</tabular>
+<caption>Quake II values for <tt>PROTOCOL&lowbar;VERSION</tt>.</caption>
+</table>
+
+<tag><tt>long key;</tt></tag>some kind of key. Will be used again later in
+a <bf>stufftext</bf> message for the login hand-shake.
+
+<tag><tt>long isdemo;</tt></tag>indicates the demo type. Possible values
+are:
+<descrip>
+<tag><tt>#define RECORD_NETWORK 0x00</tt></tag>data actually over the wire
+(proxy)
+<tag><tt>#define RECORD_CLIENT  0x01</tt></tag>recorded on the client side.
+Containes information in the direct neighborhood of the recording player.
+<tag><tt>#define RECORD_SERVER  0x02</tt></tag>recorded on the server side.
+Containes all information on all entities in the level. These files tend to
+become very large. They can't be played back by Quake II directly.
+This value appears in 3.17 but server side recordings work from 3.15 on.
+This variable is sometimes called <tt>attractloop</tt> for whatever reason.
+<tag><tt>#define RECORD_RELAY   0x80</tt></tag>recorded with the
+Relay modificiation at the server side. These files can't be played back
+only with the Relay modification.
+</descrip>
+<tag><tt>char* game;</tt></tag>is the game directory (may be empty, which 
+means <tt>baseq2</tt>).
+
+<tag><tt>long client;</tt></tag>is the client id.
+
+<tag><tt>char* mapname;</tt></tag>is the name of the map.
+
+<tag><tt>int compatible;</tt></tag>compatibility with the CD retail version
+3.05 (protocol 26). How to set this? ??FIXME??
+
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>log("Serverdata packet received.\n");
+serverversion = ReadLong;
+if (!compatible) {
+  if (serverversion != PROTOCOL_VERSION) 
+    error("Server returned version %i, not %i", serverversion, PROTOCOL_VERSION);
+  }
+}
+key = ReadLong; 
+isdemo = ReadByte;
+game = ReadString;
+client = ReadShort;  
+mapname = ReadString;</verb></tscreen>
+
+</descrip>
+
+
+<sect1>configstring<p><descrip>
+<tag><tt>Quake II ID</tt></tag><tt>0x0D</tt>
+
+<tag>purpose</tag>
+<it>config strings are a general means of communication from
+the server to all connected clients.
+Each config string can be at most <tt>MAX_QPATH</tt> characters.</it>
+
+<tag>variables</tag>
+<descrip>
+<tag><tt>int index;</tt></tag> is the number of the config string.
+The following constants (source, <tt>q2src320/game/q_shared.h</tt>, 
+1069 - 1092)
+determine where to find something in the full array of config strings.
+<descrip>
+<tag><tt>#define CS_NAME 0</tt></tag>is the name of the
+level.
+<tag><tt>#define CS_CDTRACK 1</tt></tag>is the audio CD track
+for this level. 
+<tag><tt>#define CS_SKY 2</tt></tag>is the sky texture.
+<tag><tt>#define CS_SKYAXIS 3</tt></tag>is the sky axis in the <it>%f %f
+%f format</it>.
+<tag><tt>#define CS_SKYROTATE 4</tt></tag>is the rotation speed in the format 
+%f.
+<tag><tt>#define CS_STATUSBAR 5</tt></tag>is the start of the list of 
+<it>display program string</it>s for the statusbar.
+<tag><tt>#define CS_MAXCLIENTS 30</tt></tag>is the current maximum number of 
+clients on a server.
+<tag><tt>#define CS_MAPCHECKSUM 31</tt></tag>is the map checksum 
+<it>for catching cheater maps</it>.
+<tag><tt>#define CS_MODELS 32</tt></tag>is the start of the precache model 
+table.
+<tag><tt>#define MAX_MODELS 256</tt></tag>is the maximum number of the
+precache model table.
+<tag><tt>#define CS_SOUNDS (CS_MODELS+MAX_MODELS)</tt></tag>(288) is the start 
+of the precache sound table.
+<tag><tt>#define MAX_SOUNDS 256</tt></tag>is the maximum number of the
+precache sound table.
+<tag><tt>#define CS_IMAGES (CS_SOUNDS+MAX_SOUNDS)</tt></tag>(544) is the
+start of the image list.
+<tag><tt>#define MAX_IMAGES 256</tt></tag>is the maximum numer of the
+images.
+<tag><tt>#define CS_LIGHTS (CS_IMAGES+MAX_IMAGES)</tt></tag>(800) is the
+start of the light styles list.
+<tag><tt>#define MAX_LIGHTSTYLES 256</tt></tag>is the maximum number of the
+light styles.
+<tag><tt>#define CS_ITEMS (CS_LIGHTS+MAX_LIGHTSTYLES)</tt></tag>(1056) is the
+start of the items list.
+<tag><tt>#define MAX_ITEMS 256</tt></tag>is the maximum number of items in
+the inventory list.
+<tag><tt>#define CS_PLAYERSKINS (CS_ITEMS+MAX_ITEMS)</tt></tag>(1312) is the
+start of the player skin list.
+<tag><tt>#define MAX_CLIENTS 256</tt></tag>is the maximum number of
+players.
+<tag><tt>#define CS_GENERAL (CS_PLAYERSKINS+MAX_CLIENTS)</tt></tag>(1568) is the
+start of the general config strings list.
+<tag><tt>#define MAX_GENRAL (MAX_CLIENTS*2)</tt></tag>(512) is the maximum 
+number of <it>general config strings</it>.
+<tag><tt>#define MAX_CONFIGSTRINGS (CS_GENERAL+MAX_GENERAL)</tt></tag>
+(2080) is the maximum number of config strings.
+</descrip>
+
+<tag><tt>char string[MAX_QPATH];</tt></tag> is the corresponding config string.
+<tscreen><verb>#define MAX_QPATH 64</verb></tscreen> is the maximum length 
+of a config string.
+
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>index = ReadShort;
+if (index > MAX_CONFIGSTRINGS) error("configstring > MAX_CONFIGSTRINGS");
+string = ReadString;</verb></tscreen>
+
+</descrip>
+
+
+<sect1>spawnbaseline<p><descrip><tag><tt>ID</tt></tag><tt>0x0E</tt>
+
+<tag>purpose</tag>
+Spawns a new entity.
+
+<tag>variables</tag>
+<descrip>
+<tag><tt>long mask;</tt></tag>is a bit-mask to reduce the network traffic.
+<tag><tt>long entity;</tt></tag>is the number of the entity.
+<tag><tt>vec3_t origin;</tt></tag>is the origin.
+<tag><tt>vec3_t angles;</tt></tag>is the orientation.
+<tag><tt>vec3_t old_origin;</tt></tag>is the old origin <it>for
+lerping</it>. It is used for client-side prediction and interpolation 
+calculations. To compress a DM2 file, just leave it out, if the last frame
+had a <tt>origin</tt> entry for the entity in question. It is used with
+<it>cl_nodelta 1</it> only. From 3.17 on <tt>old_origin</tt> is used for 
+player entities only.
+<tag><tt>long modelindex;</tt></tag>is the model index.
+<tag><tt>long modelindex2;</tt></tag>is <it>weapons, CTF, flags, etc</it>.
+<tag><tt>long modelindex3;</tt></tag>is <it>weapons, CTF, flags, etc</it>.
+<tag><tt>long modelindex4;</tt></tag>is <it>weapons, CTF, flags, etc</it>. 
+<tag><tt>long frame;</tt></tag>is the frame of the model.
+<tag><tt>long skin;</tt></tag>is the number of the skin for the model.
+<tag><tt>long vwep;</tt></tag>is the number of visual weapon skin for the model.
+<tag><tt>long effects;</tt></tag><it>Effects are things handled on the
+client side (lights, particles, frame animations)
+that happen constantly on the given entity.
+An entity that has effects will be sent to the client
+even if it has a zero index model.</it> The bit-mask <tt>effects</tt> holds
+the <tt>EF_</tt> constants (source, 
+<tt>q2src320/game/q_shared.h</tt>, 530 - 569).)
+<tag><tt>long renderfx;</tt></tag>are some special render flags.
+The bit-mask <tt>renderfx</tt> holds the <tt>RF_</tt> constants (source, 
+<tt>q2src320/game/q_shared.h</tt>, 571 - 591).
+<tag><tt>long solid;</tt></tag><it>for client side prediction,
+8*(bits 0-4) is x/y radius
+8*(bits 5-9) is z down distance, 
+8(bits10-15) is z up</it>
+<tag><tt>long sound;</tt></tag><it>for looping sounds, to guarantee 
+shutoff</it>
+<tag><tt>long event;</tt></tag><it>impulse events -- muzzle flashes, 
+footsteps, etc
+events only go out for a single frame, they are automatically cleared each 
+frame</it> <tt>event</tt> should have one of the following values
+(source, <tt>q2src320/game/q_shared.h</tt>, 1098 - 1112):
+<tscreen><verb>typedef enum
+{
+        EV_NONE,             // 0
+        EV_ITEM_RESPAWN,     // 1
+        EV_FOOTSTEP,         // 2
+        EV_FALLSHORT,        // 3
+        EV_FALL,             // 4
+        EV_FALLFAR,          // 5
+        EV_PLAYER_TELEPORT   // 6
+} entity_event_t;</verb></tscreen>
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>
+mask = ReadByte;
+if (mask & 0x00000080) mask |= (ReadByte <<  8);
+if (mask & 0x00008000) mask |= (ReadByte << 16);
+if (mask & 0x00800000) mask |= (ReadByte << 24);
+entity = (mask & 0x00000100) ? ReadShort : ReadByte;
+if (mask & 0x00000800) modelindex = ReadByte;
+if (mask & 0x00100000) modelindex2 = ReadByte;
+if (mask & 0x00200000) modelindex3 = ReadByte;
+if (mask & 0x00400000) modelindex4 = ReadByte;
+if (mask & 0x00000010) frame = ReadByte;
+if (mask & 0x00020000) frame = ReadShort;
+if (mask & 0x00010000) {
+  if (mask & 0x02000000) skin = ReadLong;
+  else skin = ReadByte;
+}
+else {
+  if (mask & 0x02000000) skin = ReadShort;
+}
+vwep = skin >> 8;
+skin &= 0xFF;
+if (mask & 0x00004000) {
+  if (mask & 0x00080000) effects = ReadLong;
+  else effects = ReadByte;
+}
+else {
+  if (mask & 0x00080000) effects = ReadShort;
+}
+if (mask & 0x00001000) {
+  if (mask & 0x00040000) renderfx = ReadLong;
+  else renderfx = ReadByte;
+}
+else {
+  if (mask & 0x00040000) renderfx = ReadShort;
+}
+if (mask & 0x00000001) origin[0] = ReadCoord;
+if (mask & 0x00000002) origin[1] = ReadCoord;
+if (mask & 0x00000200) origin[2] = ReadCoord;
+if (mask & 0x00000400) angles[0] = ReadAngle;
+if (mask & 0x00000004) angles[1] = ReadAngle;
+if (mask & 0x00000008) angles[2] = ReadAngle;
+if (mask & 0x01000000) ReadPosition(old_origin);
+if (mask & 0x04000000) sound = ReadByte;
+event = (mask & 0x00000020) ? ReadByte : 0;
+if (mask & 0x08000000) solid = ReadShort;
+</verb></tscreen>
+</descrip>
+
+
+<sect1>centerprint<p><descrip><tag><tt>ID</tt></tag><tt>0x0F</tt>
+
+<tag>purpose</tag>
+Prints the specified text at the centre of the screen. There is only one
+text
+line with a maximum of 40 characters. To print more than this one line, use
+`&bsol;n' in a single <bf>centerprint</bf> message for a new line. Every text 
+line (the first 40 characters) will be centred horizontally.
+
+<tag>variables</tag>
+<descrip>
+<tag><tt>char* text;</tt></tag> is the text to be displayed.
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>text = ReadString;</verb></tscreen>
+
+</descrip>
+
+
+<sect1>download<p><descrip><tag><tt>ID</tt></tag><tt>0x10</tt>
+
+<tag>purpose</tag>
+Download a file (sound, model etc.) from the server. It needs at least
+version 3.15 to transfer any data. There is no position information in the
+packet, so the client can't rearrange packets, which arrive in the wrong
+order. Therefore all download network packets are reliable packets and they
+need the usual acknowledgement. The client itself starts the whole 
+thing, if something is missing and asks the server for it. I'm not sure, if 
+such blocks may actually do something useful in a DM2 file.
+
+<tag>variables</tag>
+<descrip>
+<tag><tt>long size;</tt></tag>is the number of bytes transferred in the
+current packet.
+
+<tag><tt>long percent;</tt></tag>is the total amount sended in percent.
+
+<tag><tt>char* downloadbuffer;</tt></tag>is a buffer for downloaded files.
+
+<tag><tt>char* filename;</tt></tag>is the name for the downloaded file.
+
+<tag><tt>FILE* fp;</tt></tag>is the file pointer for the downloaded file.
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>size = ReadShort;
+percent=ReadByte;
+if (size == -1) {
+  error("File not found.\n");
+}
+if (serverdata.serverversion >= 32) { // game version >= 3.15
+  if (percent == 0) {
+    fp = fopen(filename, "wb");
+  }
+  for ( i=0 ; i<size ; i++ ) {
+    downloadbuffer[i] = ReadByte;
+  }
+  fwrite(fp, size, 1, downloadbuffer);
+  if (percent != 100) {
+    servercommand("nextdl"); // ask for the next part
+  }
+  else {
+    fclose(fp);
+  }
+}</verb></tscreen>
+
+</descrip>
+
+
+<sect1>playerinfo<p><descrip><tag><tt>ID</tt></tag><tt>0x11</tt>
+
+<tag>purpose</tag>
+
+Player info. <em>Have to</em> come directly after a <bf>frame</bf> message
+in client recording. There is no such message in server side recordings
+since there is no special player who does the recording.
+
+<tag>variables</tag>
+<descrip>
+<tag><tt>long mask;</tt></tag>is a bit mask to reduce the network traffic.
+<tag><tt>long mask2;</tt></tag>is a bit mask to reduce the network traffic.
+<tag><tt>long pm_type;</tt></tag>is important for client side prediction and 
+should be one of the <tt>PM_</tt> constants 
+(source, <tt>q2src320/game/q_shared.h</tt>, 440 - 451).
+<tag><tt>vec3_t origin;</tt></tag>is the origin.
+<tag><tt>vec3_t velocity;</tt></tag>is the velocity.
+<tag><tt>byte pm_flags;</tt></tag><it>ducked, jump_held, etc</it>
+and should be one of the <tt>PMF_</tt> constants
+(source, <tt>q2src320/game/q_shared.h</tt>, 453 - 460).
+<tag><tt>byte pm_time;</tt></tag>is unknown (<it>each unit = 8 ms</it>).
+<tag><tt>short gravity;</tt></tag>is the gravity (800, cvar
+<tt>sv_gravity</tt>).
+<tag><tt>vec3_t delta_angles;</tt></tag><it>add to command angles to get 
+view direction, changed by spawns, rotating objects, and teleporters</it>
+<tag><tt>vec3_t viewangles;</tt></tag><it>for fixed views</it>
+<tag><tt>vec3_t viewoffset;</tt></tag><it>add to
+<tt>pmovestate-&gt;origin</tt></it>
+<tag><tt>vec3_t kick_angles;</tt></tag><it>add to view direction to get 
+render angles set by weapon kicks, pain effects, etc</it>
+<tag><tt>vec3_t gunangles;</tt></tag>direction of weapon
+<tag><tt>vec3_t gunoffset;</tt></tag>offset of weapon
+<tag><tt>int gunindex;</tt></tag>model index of weapon
+<tag><tt>int gunframe;</tt></tag>frame of weapon
+<tag><tt>float blend[4];</tt></tag><it>rgba full screen effect</it>
+<tag><tt>long fov;</tt></tag><it>horizontal field of view</it>. Since the
+field of view is no client side variable (as it is in Quake), it is much 
+easier to create zoom effects in movies.
+<tag><tt>int rdflags;</tt></tag><it>refdef flags</it>, should be
+one of the <tt>RDF_</tt> constants 
+(source, <tt>q2src320/game/q_shared.h</tt>, 593 - 600).
+<tag><tt>short stats[MAX_STATS];</tt></tag><it>fast status bar updates</it>
+Each entry in this array stays for something on the statusbar. The value of
+an icon entry is the image index defined in a <bf>configstring</bf> message.
+A value of 0 on an icon entry switches the icon off. 
+(source, <tt>q2src320/game/q_shared.h</tt>, 973 - 993)
+<descrip>
+<tag><tt>#define MAX_STATS 32</tt></tag>maximum number of things in the
+status bar
+<tag><tt>#define STAT_HEALTH_ICON 0</tt></tag>health icon image
+<tag><tt>#define STAT_HEALTH 1</tt></tag>health value
+<tag><tt>#define STAT_AMMO_ICON 2</tt></tag>ammo icon image
+<tag><tt>#define STAT_AMMO 3</tt></tag>ammo value
+<tag><tt>#define STAT_ARMOR_ICON 4</tt></tag>armour icon
+<tag><tt>#define STAT_ARMOR 5</tt></tag>armour value
+<tag><tt>#define STAT_SELECTED_ICON 6</tt></tag>icon image of the selected
+weapon
+<tag><tt>#define STAT_PICKUP_ICON 7</tt></tag>icon image of a recently
+gotten thing
+<tag><tt>#define STAT_PICKUP_STRING 8</tt></tag><bf>configstring</bf>
+index to describe the recently gotten thing, 0 = string off
+<tag><tt>#define STAT_TIMER_ICON 9</tt></tag>icon image of timed object
+(Quad Damage, Invulnerability etc.)
+<tag><tt>#define STAT_TIMER 10</tt></tag>timer value for a timed object
+(in seconds)
+<tag><tt>#define STAT_HELPICON 11</tt></tag>help icon: 0 off, 1 on
+<tag><tt>#define STAT_SELECTED_ITEM 12</tt></tag>item number of the selected
+weapon
+<tag><tt>#define STAT_LAYOUTS 13</tt></tag>layout activator: 0 off,
+1 display help/summary screen, 2 display inventory
+<tag><tt>#define STAT_FRAGS 14</tt></tag>client score value
+<tag><tt>#define STAT_FLASHES 15</tt></tag><it>flash the backgrounds behind
+the status numbers, cleared each frame, 1 = health, 2 = armor</it>, 0 = off
+<tag><tt>#define STAT_CHASE 16</tt></tag>chase target skin number (number in 
+<bf>configstring</bf> list)
+<tag><tt>#define STAT_SPECTATOR 17</tt></tag>0 = normal play, 1 = spectator
+</descrip>
+
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>mask = ReadShort;
+if (mask & 0x0001) pm_type = ReadByte;
+if (mask & 0x0002) 
+  ReadPostion(origin);
+if (mask & 0x0004) 
+  ReadPosition(velocity);
+if (mask & 0x0008) teleport_time = ReadByte;
+if (mask & 0x0010) pm_flags = ReadByte;
+if (mask & 0x0020) gravity = ReadShort;
+if (mask & 0x0040) {
+  delta_angles[0] = ReadAngle16;
+  delta_angles[1] = ReadAngle16;
+  delta_angles[2] = ReadAngle16;
+}
+if (mask & 0x0080) {
+  viewoffset[0] = ReadChar / 4.0;
+  viewoffset[1] = ReadChar / 4.0;
+  viewoffset[2] = ReadChar / 4.0;
+}
+if (mask & 0x0100) {
+  viewangles[0] = ReadAngle16;
+  viewangles[1] = ReadAngle16;
+  viewangles[2] = ReadAngle16;
+}
+if (mask & 0x0200) {
+  kick_angles[0] = ReadChar / 4.0;
+  kick_angles[1] = ReadChar / 4.0;
+  kick_angles[2] = ReadChar / 4.0;
+}
+if (mask & 0x1000) gunindex = ReadByte;
+if (mask & 0x2000) {
+  gunframe = ReadByte;
+  gunoffset[0] = ReadChar / 4.0;
+  gunoffset[1] = ReadChar / 4.0;
+  gunoffset[2] = ReadChar / 4.0;
+  gunangles[0] = ReadChar / 4.0;
+  gunangles[1] = ReadChar / 4.0;
+  gunangles[2] = ReadChar / 4.0;
+}
+if (mask & 0x0400) {
+  blend[0] = ReadByte / 255.0;
+  blend[1] = ReadByte / 255.0;
+  blend[2] = ReadByte / 255.0;
+  blend[3] = ReadByte / 255.0;
+}
+if (mask & 0x0800) fov = ReadByte;
+if (mask & 0x4000) rdflags = ReadByte;
+mask2 = ReadLong;
+for (i=0;i<32;i++) if (mask2 & (0x00000001 << i)) stats[i] = ReadShort;
+</verb></tscreen>
+</descrip>
+
+
+<sect1>packetentities<p><descrip><tag><tt>ID</tt></tag><tt>0x12</tt>
+
+<tag>purpose</tag>
+Entity updates. <em>Have to</em> come in a client side recording directly 
+after a 
+<bf>playerinfo</bf> message and in a server side recording directly after a
+<bf>frame</bf> message. 
+This message is in fact a list of <bf>spawnbaseline</bf>
+messages. Look there for a longer variable description.
+The list ends with <tt>entity==0</tt>.
+
+<tag>variables</tag>
+<descrip>
+<tag><tt>long mask;</tt></tag>is used to reduce the network traffic.
+<tag><tt>long entity;</tt></tag>is the number of the entity.
+<tag><tt>long remove;</tt></tag>indicates a disappearing entity.
+<tag><tt>vec3_t origin;</tt></tag>is the origin.
+<tag><tt>vec3_t angles;</tt></tag>is the orientation.
+<tag><tt>vec3_t old_origin;</tt></tag>old origin (for client side
+prediction).
+<tag><tt>long modelindex;</tt></tag>is the model index.
+<tag><tt>long modelindex2;</tt></tag>is <it>weapons, CTF, flags, etc</it>.
+<tag><tt>long modelindex3;</tt></tag>is <it>weapons, CTF, flags, etc</it>.
+<tag><tt>long modelindex4;</tt></tag>is <it>weapons, CTF, flags, etc</it>. 
+<tag><tt>long frame;</tt></tag>is the frame of the model.
+<tag><tt>long skin;</tt></tag>is the number of the skin for the model.
+<tag><tt>long vwep;</tt></tag>is the number of visual weapon skin for the model.
+<tag><tt>long effects;</tt></tag>is the entity effect.
+<tag><tt>long renderfx;</tt></tag>are some special render flags.
+<tag><tt>long solid;</tt></tag><it>for client side prediction,
+8*(bits 0-4) is x/y radius
+8*(bits 5-9) is z down distance, 
+8(bits10-15) is z up</it>
+<tag><tt>long sound;</tt></tag><it>for looping sounds, to guarantee 
+shutoff</it>
+<tag><tt>long event;</tt></tag><it>impulse events -- muzzle flashes, 
+footsteps, etc
+events only go out for a single frame, they are automatically cleared each 
+frame</it>
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>for (;;) {
+  mask = ReadByte;
+  if (mask & 0x00000080) mask |= (ReadByte <<  8);
+  if (mask & 0x00008000) mask |= (ReadByte << 16);
+  if (mask & 0x00800000) mask |= (ReadByte << 24);
+  entity = (mask & 0x00000100) ? ReadShort : ReadByte;
+  if (entity >= MAX_EDICTS) error("CL_ParsePacketEntities: bad number:%i",entity);
+  if (entity == 0) break;
+  remove = (mask & 0x00000040) ? 1 : 0;
+  if (mask & 0x00000800) modelindex = ReadByte;
+  if (mask & 0x00100000) modelindex2 = ReadByte;
+  if (mask & 0x00200000) modelindex3 = ReadByte;
+  if (mask & 0x00400000) modelindex4 = ReadByte;
+  if (mask & 0x00000010) frame = ReadByte;
+  if (mask & 0x00020000) frame = ReadShort;
+  if (mask & 0x00010000) {
+    if (mask & 0x02000000) skin = ReadLong;
+    else skin = ReadByte;
+  }
+  else {
+    if (mask & 0x02000000) skin = ReadShort;
+  }
+  vwep = skin >> 8;
+  skin &= 0xFF;
+  if (mask & 0x00004000) {
+    if (mask & 0x00080000) effects = ReadLong;
+    else effects = ReadByte;
+  }
+  else {
+    if (mask & 0x00080000) effects = ReadShort;
+  }
+  if (mask & 0x00001000) {
+    if (mask & 0x00040000) renderfx = ReadLong;
+    else renderfx = ReadByte;
+  }
+  else {
+    if (mask & 0x00040000) renderfx = ReadShort;
+  }
+  if (mask & 0x00000001) origin[0] = ReadCoord;
+  if (mask & 0x00000002) origin[1] = ReadCoord;
+  if (mask & 0x00000200) origin[2] = ReadCoord;
+  if (mask & 0x00000400) angles[0] = ReadAngle;
+  if (mask & 0x00000004) angles[1] = ReadAngle;
+  if (mask & 0x00000008) angles[2] = ReadAngle;
+  if (mask & 0x01000000) ReadPosition(old_origin);
+  if (mask & 0x04000000) sound = ReadByte;
+  event = (mask & 0x00000020) ? ReadByte : 0;
+  if (mask & 0x08000000) solid = ReadShort;
+}</verb></tscreen>
+
+</descrip>
+
+
+<sect1>deltapacketentities<p><descrip><tag><tt>ID</tt></tag><tt>0x13</tt>
+
+<tag>purpose</tag>
+Entity updates. May come after a <bf>packetentities</bf> block.
+It isn't really necessary since <bf>packetentities</bf> handles itself all
+the delta encoding.
+
+<tag>parse routine</tag>
+<tscreen><verb>unknown ??FIXME??</verb></tscreen>
+</descrip>
+
+
+<sect1>frame<p><descrip><tag><tt>ID</tt></tag><tt>0x14</tt>
+
+<tag>purpose</tag>
+Sequence numbers to cope with UDP packet loss, delta encoding and 
+portal border crossings. Start of the 
+<bf>playerinfo</bf> and <bf>packetentities</bf> messages.
+<p>
+In server side recordings this message contains only the current frame number.
+<p>
+In Relay recordings, this message looks like the client side <bf>frame</bf>
+message but it contains also the list of connected clients.
+<tag>variables</tag>
+<descrip>
+<tag><tt>long seq1;</tt></tag> is the sequence number of the current 
+packet or frame. Since the Quake II server uses a fixed time gap of 100ms
+(10Hz) between game state changes <tt>seq1 / 10</tt> is the time in
+seconds since the server started.
+<tag><tt>long seq2;</tt></tag> is the sequence number of the delta reference
+frame. The reference holds for both following <bf>playerinfo</bf> and 
+<bf>packetentities</bf> messages. The Quake II server has a table with
+some old entity states and get from each client the sequence number of
+frames, which arrived correctly at the client side. So the server can decide
+which most currently sended old frame should be used now as the delta encoding
+reference frame.
+<tt>seq2</tt> is -1 to reference to the <bf>spawnbaseline</bf> values.
+<tag><tt>long count;</tt></tag>is the number of bytes in the 
+<tt>areas</tt> array.
+<tag><tt>#define MAX&lowbar;MAP&lowbar;AREAS 256</tt></tag>is the maximum number of areas
+in a map.
+<tag><tt>unsigned char areas[MAX&lowbar;MAP&lowbar;AREAS / 8];</tt></tag>
+is the array which defines the areas to be rendered.
+Each bit in the <tt>areas</tt> array stays for one area in the map.
+<tag><tt>long frame;</tt></tag>is the frame number in server side recordings
+and similar to <tt>seq1</tt>. I may rename it even to <tt>seq1</tt> in
+a future revision.
+<tag><tt>long connected&lowbar;count</tt></tag> is the number of connected
+clients in the <tt>connected</tt> array. It is used in Relay recordings
+only.
+<tag><tt>unsigned char connected[MAX&lowbar;CLIENTS]</tt></tag> is the
+array, which contains the numbers of the connected clients. It is used
+in Relay recordings only.
+
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>long uk_b1;
+
+if (serverdata.isdemo == RECORD_CLIENT || 
+    serverdata.isdemo == RECORD_NETWORK ||
+    serverdata.isdemo == RECORD_RELAY) {
+  seq1 = ReadLong;
+  seq2 = ReadLong;
+  if (serverdata.serverversion != 26) uk_b1 = ReadByte;
+  count = ReadByte;
+  for (i=0;i<count;i++) areas[i] = ReadByte;
+  if (serverdata.isdemo == RECORD_RELAY) {
+    connected_count = ReadByte;
+    for (i=0;i<connected_count;i++) connected[i] = ReadByte;
+  }
+}
+if (serverdata.isdemo == RECORD_SERVER) {
+  frame = ReadLong;
+}
+</verb></tscreen>
+</descrip>
+
+<sect>Version History and Acknowledgements
+<p>
+<descrip>
+
+<tag>0.0.1, 13 December, 1997</tag>
+<itemize>
+<item>First version (working paper) completed.
+<item>Only based on the published game source.
+<item>Never ever published.
+</itemize>
+
+<tag>0.0.2, 23 December, 1997</tag>
+<itemize>
+<item>Old 3.00 ID codes included.
+<item>Version info included.
+<item>All simple ID codes ok.
+<item>packetentities, deltapacketentities, playerinfo missing.
+<item>spawnbaseline is very difficult.
+<item>Never published.
+</itemize>
+
+<tag>0.0.3, 27 December, 1997</tag>
+<itemize>
+<item>Old 3.00 ID codes removed. Nobody wants to know them.
+<item>spawnbaseline is ok now.
+<item>playerinfo ok.
+<item>packetentities should be ok.
+<item>ReadDir for temp&lowbar;entity ok.
+<item>deltapacketentities missing.
+<item>Never published.
+</itemize>
+
+<tag>0.0.4, 28 December, 1997</tag>
+<itemize>
+<item>SGML-Tools 1.0.2 used for formatting.
+<item>Some minor tweaks.
+</itemize>
+
+<tag>0.0.5, 1 January, 1998</tag>
+<itemize>
+<item>SGML-Tools 1.0.2 formatting problems solved.
+<item>Long #define tables removed.
+<item>More references to the source.
+</itemize>
+
+<tag>0.0.6, 12 March, 1998</tag>
+<itemize>
+<item>Some details better. Many thanks to Kekoa Proundfoot 
+(<htmlurl url="mailto:kekoa@graphics.stanford.edu"
+name="kekoa@graphics.stanford.edu">).
+<item>PlanetQuake is the new home.
+<item>Compatible with Quake II up to version 3.14.
+<item>SGML-Tools 1.0.5 used.
+</itemize>
+
+<tag>1.0.0, 17 June, 1998</tag>
+<itemize>
+<item>Thanks to Ben Swartzlander (<htmlurl url="mailto:swartz@rice.edu"
+name="swartz@rice.edu">) for the config string index 30.
+<item>Changed some command names (sound volume, server protocol version, 
+config string, print text). 
+<item>Changed the coordinates in playerinfo to standard coordinates.
+<item>Most changes in variable types and names were necessary to reduce the 
+total number of tokens in the Quake and Quake II text parser of LMPC.
+<item>Compatible with Quake II up to 3.15a.
+</itemize>
+
+<tag>1.0.1, 15 July, 1998</tag>
+<itemize>
+<item>server side recording information included.
+<item>Compatible with Quake II up to 3.17.
+<item>Some hints on <tt>old_origin</tt> updates and sequence numbering.
+<item>SGML-Tools 1.0.7 used.
+</itemize>
+
+<tag>1.0.2, 16 August, 1998</tag>
+<itemize>
+<item>More block size hints.
+<item>Visual Weapon (VWep) support.
+<item>Small cosmetic corrections.
+<item>Some hints to multi-level recordings.
+</itemize>
+
+<tag>1.0.3, 8 January, 1999</tag>
+<itemize>
+<item>Missing auxiliary function <tt>ReadCoord</tt> included.
+<item>More versions analysed.
+<item>Compatible with Quake II up to 3.20 with Mission Packs 1 and 2.
+<item>New published source code incorporated.
+<item>SGML-Tools 1.0.9 used.
+<item>General clean-up.
+</itemize>
+
+<tag>1.0.4, 23 January, 2000</tag>
+<itemize>
+<item>New DM2 format variant for Quake II Relay modification included.
+<item>Thanks to Conor Davis
+(<htmlurl
+url="mailto:cedavis@planetquake.com"
+name="cedavis@planetquake.com">) for the information about the Quake II 
+Relay project.
+</itemize>
+
+
+</descrip>
+
+</article>

@@ -1,0 +1,3840 @@
+<!ENTITY lowbar "_">
+	<!ENTITY lsqb "[">
+	<!ENTITY rsqb "]">
+	<!ENTITY num "#">
+	<!ENTITY bsol "\">
+	]><article>
+<articleinfo>
+<title>@TITLE@</title>
+<author>
+<firstname>@MYFIRSTNAME@</firstname><surname>@MYSURNAME@</surname>
+<affiliation><address><email>@MYEMAIL@</email></address></affiliation>
+</author>
+<pubdate>v@VERSION@, @DATE@</pubdate>
+<abstract>
+<para>This document describes the DM2 file format. This file format is the result of
+``recording'' a game in Quake II. The extended DM2 version used in the Quake
+II Relay modification is also part of this documentation.</para>
+</abstract>
+</articleinfo>
+<sect1>
+<title>Introduction</title>
+<sect2>
+<title>Recording and Playback</title>
+<para>To create a recording of your Quake II play start any map and then use the
+console command <EMPHASIS REMAP="it">record name</emphasis>. This records the game play from your
+point of view into the file <LITERAL REMAP="tt">demos/name.dm2</literal>. <LITERAL REMAP="tt">demos</literal> is a
+sub-directory of the current game directory.
+To stop this recording use <EMPHASIS REMAP="it">stop</emphasis> or even quit the whole game 
+(<EMPHASIS REMAP="it">quit</emphasis>). To play it back, use the command <EMPHASIS REMAP="it">demomap name.dm2</emphasis>
+or simply <EMPHASIS REMAP="it">map name.dm2</emphasis>. This kind of recording is called ``client
+side recording''.</para>
+<para>To create a ``server side recording'' invoke at the server during a running
+game the console command <EMPHASIS REMAP="it">serverrecord name</emphasis>. This records all 
+information of all entities in the whole level but no player information
+into the file <LITERAL REMAP="tt">demos/name.dm2</literal>. Quake II can't play back these
+server side recordings.</para>
+<para>The third variant of DM2 files should be better called RLA files. They are
+created by the Quake II Relay server modification. This is a user-made 
+modification to create a special kind of server side demos but they can be
+read in again (at the server side) and replayed by any client, who connects
+to this modified server. Read more about this interesting modification at
+<ULINK URL="http://www.planetquake.com/relay/"></ulink>.</para>
+</sect2>
+<sect2>
+<title>Versions</title>
+<para>In this document I'll discuss the DM2 format used by Quake II. There are
+significant differences between the Quake II test release (engine version
+3.00) and the CD retail
+version (3.05). This difference consists especially in the reordered message
+code bytes, so that the ``normal codes'' have the values 1 to 5 in 3.05.
+There are some more differences in the <EMPHASIS REMAP="bf">spawnbaseline</emphasis> message. 
+Due to the existence of a sole DM2 file in the 3.00 format 
+(packed in the PAK file of the test release) and considering the fact, that 
+the test release can't even record new ones, I
+will confine myself to the ``new'' format, introduced with the CD
+retail version 3.05 (protocol version 26).</para>
+<para>With 3.15 (protocol version 32) a new kind of DM2 file was introduced:
+server side recordings.
+These are for DM2 editors only, since they contain all information from
+all entities but no player information and Quake II isn't even able to play 
+them back.</para>
+<para>In 3.17 (protocol version 33) the server side recordings became easier to
+parse because 
+<EMPHASIS REMAP="bf">serverdata</emphasis> can now be used to distinguish between client side and
+server side recordings.
+
+<table>
+<title>Covered Quake II versions.</title>
+<TGROUP COLS="4">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry><emphasis>version</emphasis></entry>
+<entry>platform</entry>
+<entry>note</entry>
+</row>
+<row>
+<entry>3.05 x86 Nov 30 1997 RELEASE</entry>
+<entry>Win32</entry>
+<entry>CD retail</entry>
+</row>
+<row>
+<entry>3.06 x86 Dec 9 1997 RELEASE</entry>
+<entry>Win32</entry>
+<entry>first patch</entry>
+</row>
+<row>
+<entry>3.07 x86 Dec 27 1997 RELEASE</entry>
+<entry>Win32</entry>
+<entry>interim release</entry>
+</row>
+<row>
+<entry>3.08 x86 Dec 28 1997 RELEASE</entry>
+<entry>Win32</entry>
+<entry>another interim release</entry>
+</row>
+<row>
+<entry>3.09 x86 Dec 29 1997 RELEASE</entry>
+<entry>Win32</entry>
+<entry>with patch program</entry>
+</row>
+<row>
+<entry>3.10 x86 Jan 4 1998 RELEASE</entry>
+<entry>Win32</entry>
+<entry>last before point release</entry>
+</row>
+<row>
+<entry>3.10 NON-WIN32 Jan 5 1998 NON-WIN32</entry>
+<entry>Linux</entry>
+<entry>first Linux release</entry>
+</row>
+<row>
+<entry>3.12 x86 Feb 16 1998 RELEASE</entry>
+<entry>Win32</entry>
+<entry>point release</entry>
+</row>
+<row>
+<entry>3.13 x86 Feb 23 1998 RELEASE</entry>
+<entry>Win32</entry>
+<entry>point fix release</entry>
+</row>
+<row>
+<entry>3.13 i386 Feb 24 1998 RELEASE</entry>
+<entry>Linux</entry>
+<entry>point fix release</entry>
+</row>
+<row>
+<entry>3.14 i386 Mar 2 1998 RELEASE</entry>
+<entry>Linux</entry>
+<entry>another fix release</entry>
+</row>
+<row>
+<entry>3.14 x86 Mar 2 1998 RELEASE</entry>
+<entry>Win32</entry>
+<entry>another fix release</entry>
+</row>
+<row>
+<entry>3.14 i386 Mar 3 1998 RELEASE</entry>
+<entry>Linux</entry>
+<entry>bug fix release 3.14a</entry>
+</row>
+<row>
+<entry>3.15 x86 May 27 1998 Win32 RELEASE</entry>
+<entry>Win32</entry>
+<entry>Mission Pack 1 release</entry>
+</row>
+<row>
+<entry>3.15 i386 May 29 1998 Linux</entry>
+<entry>Linux</entry>
+<entry>bug fix release 3.15a</entry>
+</row>
+<row>
+<entry>3.17 i386 Jun 21 1998 Linux</entry>
+<entry>Linux</entry>
+<entry>stable release</entry>
+</row>
+<row>
+<entry>3.17 x86 Jun 22 1998 Win32 RELEASE</entry>
+<entry>Win32</entry>
+<entry>stable release</entry>
+</row>
+<row>
+<entry>3.18 x86 Aug 19 1998 Win32 RELEASE</entry>
+<entry>Win32</entry>
+<entry>Mission Pack 2 release</entry>
+</row>
+<row>
+<entry>3.19 x86 Sep 1 1998 Win32 RELEASE</entry>
+<entry>Win32</entry>
+<entry>bug fix release</entry>
+</row>
+<row>
+<entry>3.19 x86 Sep 10 1998 Linux</entry>
+<entry>Linux</entry>
+<entry>bug fix release</entry>
+</row>
+<row>
+<entry>3.20 x86 Oct 9 1998 Linux</entry>
+<entry>Linux</entry>
+<entry>final release(equal to 3.20 beta)</entry>
+</row>
+<row>
+<entry>3.20 x86 Oct 16 1998 Win32 RELEASE</entry>
+<entry>Win32</entry>
+<entry>final release(equal to 3.20 beta)</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+</para>
+</sect2>
+<sect2>
+<title>Advertising</title>
+<para>As the clever reader may know I'm the author of LMPC, the Little Movie 
+Processing Centre. With this tool you may
+
+<itemizedlist>
+<listitem>
+<para>``decompile'' an existing DM2 file (3.05 ... 3.20) to a simple text file
+and</para>
+</listitem>
+<listitem>
+<para>``compile'' such a (modified) text file back to a binary DM2 file.</para>
+</listitem>
+</itemizedlist>
+
+With LMPC it is very easy to analyse a DM2 file but you may change it
+as well and so create a DM2 file of a Quake II game you 
+never played. The current version of LMPC can be found at my 
+<ULINK URL="@HOMEURL@">@HOMENAME@</ulink>.</para>
+</sect2>
+</sect1>
+<sect1>
+<title>File structure</title>
+<sect2>
+<title>General remarks</title>
+<para>To describe the file structure, which is very complicated, I use 
+C like program fragments and <LITERAL REMAP="tt">struct</literal> definitions. This 
+simplifies my task a lot. </para>
+<para>I invented all used names (messages, variables etc.) for myself, took them 
+from the Quake II binary but almost all from the many published source code
+snippets. </para>
+<para>All multi-byte structures in DM2 files are ``little endian'' (VAX or Intel
+ordered, lowest byte first),</para>
+<para>Descriptive sentences in <EMPHASIS REMAP="it">italics</emphasis> are copied from the published game 
+source. There are several different source packages available from 
+id Software: 
+
+<itemizedlist>
+<listitem>
+<para>the oldest from december 1997 with the source of the game
+library and some tools (unpacked in the directory <LITERAL REMAP="tt">q2source&lowbar;12&lowbar;11</literal>):
+
+<itemizedlist>
+<listitem>
+<para>general version:
+<ULINK URL="ftp://ftp.idsoftware.com/pub/quake2/source/old/q2source_12_11.zip"></ulink></para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+<listitem>
+<para>the newer one from march 1998 with the source of the game library only:
+
+<itemizedlist>
+<listitem>
+<para>Linux version:
+<ULINK URL="ftp://ftp.idsoftware.com/pub/quake2/source/old/q2-3.14-source.shar.Z"></ulink></para>
+</listitem>
+<listitem>
+<para>Windows version:
+<ULINK URL="ftp://ftp.idsoftware.com/pub/quake2/source/old/q2-3.14-source.exe"></ulink></para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+<listitem>
+<para>The newest release from the end of november 1998 with both Mission Packs:
+
+<itemizedlist>
+<listitem>
+<para>Plain game (unpacked in the directory <LITERAL REMAP="tt">q2src320/game/</literal>)
+
+<itemizedlist>
+<listitem>
+<para>Linux version:
+<ULINK URL="ftp://ftp.idsoftware.com/pub/quake2/source/q2src320.shar.Z"></ulink></para>
+</listitem>
+<listitem>
+<para>Windows version:
+<ULINK URL="ftp://ftp.idsoftware.com/pub/quake2/source/q2src320.exe"></ulink></para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+<listitem>
+<para>Xatrix Quake II Mission Pack 1: The Reckoning (unpacked in
+the directory <LITERAL REMAP="tt">xatrixsrc320/game/</literal>)
+
+<itemizedlist>
+<listitem>
+<para>Linux version:
+<ULINK URL="ftp://ftp.idsoftware.com/pub/quake2/source/xatrixsrc320.shar.Z"></ulink></para>
+</listitem>
+<listitem>
+<para>Windows version:
+<ULINK URL="ftp://ftp.idsoftware.com/pub/quake2/source/xatrixsrc320.exe"></ulink></para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+<listitem>
+<para>Rouge Quake II Mission Pack 2: Ground Zero (unpacked in
+the directory <LITERAL REMAP="tt">roguesrc320/game</literal>)
+
+<itemizedlist>
+<listitem>
+<para>Linux version:
+<ULINK URL="ftp://ftp.idsoftware.com/pub/quake2/source/roguesrc320.shar.Z"></ulink></para>
+</listitem>
+<listitem>
+<para>Windows version:
+<ULINK URL="ftp://ftp.idsoftware.com/pub/quake2/source/roguesrc320.exe"></ulink></para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</itemizedlist>
+
+I refer to the files with the full path name 
+(e.g. <LITERAL REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>).</para>
+<para>And now some QuakeEd compliant coordinate <LITERAL REMAP="tt">typedef</literal>'s:
+
+<screen>typedef float vec_t;
+
+typedef vec_t vec3_t[3];</screen>
+
+</para>
+</sect2>
+<sect2>
+<title>Block of messages</title>
+<para>A DM2 file is a set of ``blocks'' of ``messages''. A block consists of a 
+4 byte length entry and the actual messages:
+
+<screen>typedef struct {
+                 unsigned long size;
+                 unsigned char messages[size];
+               } block_t;</screen>
+
+</para>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define MAX&lowbar;MSGLEN 1400</literal></term>
+<listitem>
+<para>is the maximum message
+size (real game data in a network packet).
+The value must be less than or equal to 1472 to avoid fragmentation of the UDP
+packets on an Ethernet. The MTU in PPP is much smaller and QuakeWorld used up
+to 2.10 
+also much bigger network packets but the reduced packet size is for LAN play
+definitely a great improvement. In server side recordings there is not such
+a restriction.</para>
+<para>
+
+<screen>if (serverdata.isdemo != RECORD_SERVER &amp;&amp; block.size&gt;MAX_MSGLEN) 
+  error("Demo message &gt; MAX_MSGLEN");</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+<para>Beginning with version 3.05 (protocol version 26) Quake II uses an empty block
+with a block size of -1 (<LITERAL REMAP="tt">0xffffffff</literal>) as the last block. 
+This remindes (at least) me of the DOOM LMP end byte (<LITERAL REMAP="tt">0x80</literal>).</para>
+<para>Between 2 levels of a multi-level recoring there is an empty block with the
+block size 0. Quake II can't replay multi-level recordings.</para>
+</sect2>
+<sect2>
+<title>Auxiliary routines</title>
+<para>Here comes the definition of some small auxiliary routines to 
+simplify
+the main message description. <LITERAL REMAP="tt">get&lowbar;next&lowbar;unsigned&lowbar;char</literal>,
+<LITERAL REMAP="tt">get&lowbar;next&lowbar;signed&lowbar;char</literal>, <LITERAL REMAP="tt">get&lowbar;next&lowbar;short</literal> and
+<LITERAL REMAP="tt">get&lowbar;next&lowbar;long</literal>, <LITERAL REMAP="tt">get&lowbar;next&lowbar;float</literal> are basic functions and they 
+do exactly what they are called. Please note: <LITERAL REMAP="tt">byte</literal>, <LITERAL REMAP="tt">char</literal> or 
+<LITERAL REMAP="tt">short</literal> will be converted to <LITERAL REMAP="tt">long</literal>.</para>
+<para>In the following I often use a count variable 
+
+<screen>int i;</screen>
+
+without declaration. I hope this does not confuses you. </para>
+<para>
+
+<screen>int ReadChar
+{
+  return (int) get_next_signed_char;
+}</screen>
+
+</para>
+<para>
+
+<screen>int ReadByte
+{
+  return (int) get_next_unsigned_char;
+}</screen>
+
+</para>
+<para>
+
+<screen>int ReadShort
+{
+  return (int) get_next_short;
+}</screen>
+
+</para>
+<para>
+
+<screen>int ReadLong
+{
+  return (int)get_next_long;
+}</screen>
+
+</para>
+<para>
+
+<screen>float ReadFloat
+{
+  return get_next_float;
+}</screen>
+                   </para>
+<para>The string reading stops at '&bsol;0' or after 0x7FF bytes. The internal
+buffer has only 0x800 bytes available.</para>
+<para>
+
+<screen>char* ReadString
+{
+  char* string_pointer;
+  char string_buffer[0x800];
+
+  string_pointer=string_buffer;
+  for (i=0 ; i&lt;0x7FF ; i++, string_pointer++) {
+    if (! (*string_pointer = ReadChar) ) break;
+  }
+  *string_pointer = '\0';
+  return strdup(string_buffer);
+}</screen>
+
+</para>
+<para>
+
+<screen>vec_t ReadCoord
+{
+  return (vec_t) ReadShort * 0.125;
+}</screen>
+
+</para>
+<para>
+
+<screen>ReadPosition(vec_t* pos)
+{
+  for (i=0 ; i&lt;3 ; i++) pos[i] = ReadCoord;
+}</screen>
+
+</para>
+<para>A direction for temporary entities is stored in a single byte. 
+The 162 possible orientations are precalculated and stored in a template list. 
+Each direction is represented by a normalised vector. The template list 
+can be found in the source, <LITERAL REMAP="tt">q2source&lowbar;12&lowbar;11/utils3/qdata/anorms.h</literal></para>
+<para>I tried to reproduce (for <LITERAL REMAP="tt">WriteDir</literal>) the template list but I didn't
+find the algorithm
+behind it. Take it as it is: even Quake II uses the list and calculates
+with dot products the best fitting direction.</para>
+<para>
+
+<screen>ReadDir(vec_t* pos)
+{
+  #define NUMVERTEXNORMALS 162
+  int code;
+  float avertexnormals[NUMVERTEXNORMALS][3] = {
+    #include "q2source_12_11/utils3/qdata/anorms.h"
+  }
+  code = ReadByte;  
+  if (code &gt;= NUMVERTEXNORMALS) error("MSF_ReadDir: out of range");
+  pos[0] = avertexnormals[code][0];
+  pos[1] = avertexnormals[code][1];
+  pos[2] = avertexnormals[code][2];
+}</screen>
+
+</para>
+<para>Note: A signed angle in a single byte. There are only 256 possible 
+direction to look into.</para>
+<para>
+
+<screen>vec_t ReadAngle
+{
+  return (vec_t) ReadChar * 360.0 / 256.0;
+}</screen>
+
+</para>
+<para>
+
+<screen>vec_t ReadAngle16
+{
+  return (vec_t) ReadShort * 360.0 / 65536.0;
+}</screen>
+
+</para>
+</sect2>
+<sect2>
+<title>Message</title>
+<para>This is the message structure:
+
+<screen>typedef struct {
+                 unsigned char ID;
+                 unsigned char unicast_client // RLA only
+                 char          messagecontents[???];
+               } message_t;</screen>
+
+The length of a message depends on its type (or <LITERAL REMAP="tt">ID</literal>) but it can't
+be bigger than <LITERAL REMAP="tt">MAX&lowbar;MSGLEN</literal>, the size of a full block.</para>
+</sect2>
+<sect2>
+<title>Unicast</title>
+<para>RLA files (DM2 files with Relay extension) can have special uni-cast messages.
+This is done to distinguish between ordinary messages, which go to every
+client (multi-cast) and messages, which go only to selected clients.
+A good example are the <EMPHASIS REMAP="bf">playerinfo</emphasis> messages. Every client should get 
+a different one and in RLA files all these messages are marked with
+the destination client number:</para>
+<para>
+
+<screen>ID = ReadByte;
+if (ID &amp; 0x80) {              // the special sign for uni-cast
+  ID &amp;= ~0x80;                // remove it
+  unicast.use = 1;            // but memorize it
+  unicast.client = ReadByte;  // get the uni-cast destination client
+}
+else {
+  unicast.use = 0;            // multi-cast message
+}</screen>
+
+</para>
+</sect2>
+</sect1>
+<sect1>
+<title>List of all message types</title>
+<para>The easiest way to explain a message is to give a short
+C like program fragment to parse such a message. It is not really the same
+code
+base as in LMPC but it should be <emphasis>very</emphasis> similar. 
+Future version will be based on the exact same code base to simplify my
+task.</para>
+<para>Each message can be
+described by its <LITERAL REMAP="tt">ID</literal> or its name. </para>
+<sect2>
+<title>bad</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x00</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Something is bad. This message should never appear.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>error("CL_ParseServerMessage: Illegible server message\n");</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>muzzleflash</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x01</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para><EMPHASIS REMAP="it">muzzle flashes / player effects</emphasis>.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long entity;</literal></term>
+<listitem>
+<para>is the player entity with the effect.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long value;</literal></term>
+<listitem>
+<para>is the muzzle flash / player effect.
+The <LITERAL REMAP="tt">value</literal> should be one of the <LITERAL REMAP="tt">MZ&lowbar;</literal> constants 
+(source, <LITERAL REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 602 - 638). It may be ``OR''ed
+with
+
+<screen>#define MZ_SILENCED 128</screen>
+ if the player uses
+the Silencer.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>entity = ReadShort;
+value = ReadByte;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>muzzlflash2</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x02</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para><EMPHASIS REMAP="it">monster muzzle flashes</emphasis>.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long entity;</literal></term>
+<listitem>
+<para>is the monster entity with the effect.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long value;</literal></term>
+<listitem>
+<para>is the monster muzzle flash.
+The <LITERAL REMAP="tt">value</literal> should be one of the <LITERAL REMAP="tt">MZ2&lowbar;</literal> constants
+(source, <LITERAL REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 640 - 871).</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>entity = ReadShort;
+value = ReadByte;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>temp&lowbar;entity</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x03</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Spawns a temporary entity.
+<EMPHASIS REMAP="it">Temp entity events are for things that happen
+at a location seperate from any existing entity.
+Temporary entity messages are explicitly constructed
+and broadcast.</emphasis></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para>Due to the special parse method I use in my LMPC program, I have to use the
+variables over all different temporary entities in the same order. This was
+no real restriction but with game version 3.18 (protocol version 34) came 
+many new types of temporary entities, which reordered their arguments 
+almost random. So I had to rename some variables and to insert some 
+totally senseless new ones (like <LITERAL REMAP="tt">flash&lowbar;entity</literal> instead of
+<LITERAL REMAP="tt">entity</literal> or <LITERAL REMAP="tt">type</literal> in addition to <LITERAL REMAP="tt">style</literal>). This simply
+comes, because these values come now at the other side of <LITERAL REMAP="tt">origin</literal>.
+The old order was <LITERAL REMAP="tt">entity</literal>, <LITERAL REMAP="tt">origin</literal>, <LITERAL REMAP="tt">style</literal> but now a
+<LITERAL REMAP="tt">style</literal> comes sometimes before the <LITERAL REMAP="tt">origin</literal> or an
+<LITERAL REMAP="tt">entity</literal> comes after the <LITERAL REMAP="tt">origin</literal>. After I finish the text
+parse rewrite of LMPC, I will surely remove the additional senseless new
+variables.</para>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long entitytype;</literal></term>
+<listitem>
+<para>is the type of the temporary entity.
+<LITERAL REMAP="tt">entitytype</literal> should be one of the <LITERAL REMAP="tt">TE&lowbar;</literal> constants 
+(source, <LITERAL REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 876 - 942). They are defined with 
+a <LITERAL REMAP="tt">typedef enum</literal> and not as <LITERAL REMAP="tt">&num;define</literal> but who cares?</para>
+<para>There are many different kinds of temporary entities in Quake II:</para>
+<para><variablelist>
+<varlistentry>
+<term>point entity</term>
+<listitem>
+<para>is a point like entity like explosions or
+teleport fog. It needs a position.
+<variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;EXPLOSION1 5</literal></term>
+<listitem>
+<para>boss, barrels etc.
+explosion</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;EXPLOSION2 6</literal></term>
+<listitem>
+<para>barrels explosion</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;ROCKET&lowbar;EXPLOSION 7</literal></term>
+<listitem>
+<para>rocket
+explosion</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;GRENADE&lowbar;EXPLOSION 8</literal></term>
+<listitem>
+<para>grenade
+explosion</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;ROCKET&lowbar;EXPLOSION&lowbar;WATER
+17</literal></term>
+<listitem>
+<para>rocket explosion under water</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;GRENADE&lowbar;EXPLOSION&lowbar;WATER
+18</literal></term>
+<listitem>
+<para>grenade explosion under water</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;BFG&lowbar;EXPLOSION 20</literal></term>
+<listitem>
+<para>BFG explosion</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;BFG&lowbar;BIGEXPLOSION 21</literal></term>
+<listitem>
+<para>big BFG
+explosion</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;BOSSTPORT 22</literal></term>
+<listitem>
+<para>boss teleports away</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;PLASMA&lowbar;EXPLOSION 28</literal></term>
+<listitem>
+<para>(new in
+3.15, MP1) plasma explosion on touch</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;PLAIN&lowbar;EXPLOSION 35</literal></term>
+<listitem>
+<para>(new in 3.18,
+MP2) flame burst, turret death</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;CHAINFIST&lowbar;SMOKE 45</literal></term>
+<listitem>
+<para>(new in 3.18,
+MP2)
+<EMPHASIS REMAP="it">this spits out some smoke from the motor. it's a two-stroke, you
+know.</emphasis></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;TRACKER&lowbar;EXPLOSION 47</literal></term>
+<listitem>
+<para>(new in
+3.18, MP2) tracker explosion</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;TELEPORT&lowbar;EFFECT 48</literal></term>
+<listitem>
+<para>(new in 3.18,
+MP2) teleport away effect</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;DBALL&lowbar;GOAL 49</literal></term>
+<listitem>
+<para>(new in 3.18, MP2)
+ball disappears after a goal</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;NUKEBLAST 51</literal></term>
+<listitem>
+<para>(new in 3.18, MP2)
+nuke explosion</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;WIDOWSPLASH 52</literal></term>
+<listitem>
+<para>(new in 3.18, MP2)
+last part of the death of the widow</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;EXPLOSION1&lowbar;BIG 53</literal></term>
+<listitem>
+<para>(new in 3.18,
+MP2) big explosion</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;EXPLOSION1&lowbar;NP 54</literal></term>
+<listitem>
+<para>(new in 3.18,
+MP2) widow explosion</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>impact entity</term>
+<listitem>
+<para>is a small point like entity, spawned on an impact
+of a bullet etc. It needs a position (often a trace end) and a direction
+from there.
+<variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;GUNSHOT 0</literal></term>
+<listitem>
+<para>hit with Machine Gun and
+Chain Gun</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;BLOOD 1</literal></term>
+<listitem>
+<para>clients and monsters bleed when
+hit</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;BLASTER 2</literal></term>
+<listitem>
+<para>hit with Blaster</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;SHOTGUN 4</literal></term>
+<listitem>
+<para>hit with Shotgun</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;SPARKS 9</literal></term>
+<listitem>
+<para>hit someone</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;SCREEN&lowbar;SPARKS 12</literal></term>
+<listitem>
+<para>hit on an Energy
+Armor</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;SHIELD&lowbar;SPARKS 13</literal></term>
+<listitem>
+<para>hit on a
+different Energy Armor</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;BULLET&lowbar;SPARKS 14</literal></term>
+<listitem>
+<para>hit someone
+with bullets</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;GREENBLOOD&lowbar;new 26</literal></term>
+<listitem>
+<para>(new in 3.15, MP1)
+a ``gekk'' bleeds green.
+Note: the value 26 stood from
+game version 3.12 to 3.14 (protocol version 31)
+for <LITERAL REMAP="tt">TE&lowbar;PLASMATRAIL</literal> and was a line entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;GREENBLOOD&lowbar;old 27</literal></term>
+<listitem>
+<para>(from 3.12 to 3.14) not
+used.
+Note: the value 27 stands from
+game version 3.15 (protocol version &gt;= 32) on for
+<LITERAL REMAP="tt">TT&lowbar;BLUEHYPERBLASTER</literal> and is a line entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;BLASTER2 30</literal></term>
+<listitem>
+<para>(new in 3.18, MP2)
+hit by green monster blaster shot</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;MOREBLOOD 42</literal></term>
+<listitem>
+<para>(new in 3.18, MP2) more
+blood with chainfist</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;HEATBEAM&lowbar;SPARKS 43</literal></term>
+<listitem>
+<para>(new in 3.18,
+MP2) heat beam water impact</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;HEATBEAM&lowbar;STEAM 44</literal></term>
+<listitem>
+<para>(new in 3.18,
+MP2) heat beam impact</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;FLECHETTE 55</literal></term>
+<listitem>
+<para>(new in 3.18, MP2)
+touch a flechette</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>line entity</term>
+<listitem>
+<para>is a 2 dimensional entity. It needs an origin and an
+end position.
+<variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;RAILTRAIL 3</literal></term>
+<listitem>
+<para>trail of the Rail Gun
+(blue)</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;BUBBLETRAIL 11</literal></term>
+<listitem>
+<para>shot with a bullet 
+through water</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;BFG&lowbar;LASER 23</literal></term>
+<listitem>
+<para>(new in 3.12) BFG
+laser</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;PLASMATRAIL 26</literal></term>
+<listitem>
+<para>(from 3.12 to 3.14) not used.
+Note: the value 26 stands from
+game version 3.15 (protocol version &gt;= 32) on for 
+<LITERAL REMAP="tt">TE&lowbar;GREENBLOOD&lowbar;new</literal> and is an impact entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;BLUEHYPERBLASTER 27</literal></term>
+<listitem>
+<para>(new in 3.15, MP1)
+not used.
+Note: the value 27 stood from
+game version 3.12 to 3.14 (protocol version 31) for
+<LITERAL REMAP="tt">TE&lowbar;GREENBLOOD&lowbar;old</literal> and was an impact entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;DEBUGTRAIL 34</literal></term>
+<listitem>
+<para>(new in 3.18, MP2)
+debug use, trail drawing</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;BUBBLETRAIL2 41</literal></term>
+<listitem>
+<para>(new in 3.18, MP2)
+bubbles above heat beam</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;ELECTRIC&lowbar;SPARKS 46</literal></term>
+<listitem>
+<para>(new in 3.18,
+MP2) hit on something mechanical</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>special entity</term>
+<listitem>
+<para>is a entity which doesn't fit into the other
+categories.
+<variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;SPLASH 10</literal></term>
+<listitem>
+<para>creates a particle splash
+effect</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;LASER&lowbar;SPARKS 15</literal></term>
+<listitem>
+<para>laser hits a
+wall</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;PARASITE&lowbar;ATTACK 16</literal></term>
+<listitem>
+<para>parasite
+attack</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;MEDIC&lowbar;CABLE&lowbar;ATTACK
+19</literal></term>
+<listitem>
+<para>medic cable attac</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;GRAPPLE&lowbar;CABLE 24</literal></term>
+<listitem>
+<para>(new in 3.12)
+used in CFT</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;WELDING&lowbar;SPARKS 25</literal></term>
+<listitem>
+<para>(new in 3.12)
+ionripper fire, fixbot melder fire</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;TUNNEL&lowbar;SPARKS 29</literal></term>
+<listitem>
+<para>(new in 3.15,
+MP1) trigger effect</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;FLAME 32</literal></term>
+<listitem>
+<para>(new in 3.18, MP2) flame
+thrower, Quake II can't parse this</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;LIGHTNING 33</literal></term>
+<listitem>
+<para>(new in 3.18, MP2)
+tesla weapon</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;FLASHLIGHT 36</literal></term>
+<listitem>
+<para>(new in 3.18, MP2)
+player with torch</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;FORCEWALL 37</literal></term>
+<listitem>
+<para>(new in 3.18, MP2)
+force wall</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;HEATBEAM 38</literal></term>
+<listitem>
+<para>(new in 3.18, MP2) heat beam</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;MONSTER&lowbar;HEATBEAM 39</literal></term>
+<listitem>
+<para>(new in
+3.18, MP2) monster fires a heat beam</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;STEAM 40</literal></term>
+<listitem>
+<para>(new in 3.18, MP2) 
+<EMPHASIS REMAP="it">Creates a steam effect (particles w/ velocity in a line).</emphasis></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;WIDOWBEAMOUT 50</literal></term>
+<listitem>
+<para>(new in 3.18, MP2)
+part of the death of the widow</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>bad entity</term>
+<listitem>
+<para>is a entity which is not used anymore.
+<variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define TE&lowbar;RAILTRAIL2 31</literal></term>
+<listitem>
+<para>(new in 13.18, MP2)
+not used, Quake II can't parse this</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long dest&lowbar;entity;</literal></term>
+<listitem>
+<para>&nbsp; is the entity, where an effect ends.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long entity;</literal></term>
+<listitem>
+<para>&nbsp; is the entity, which spawned the effect.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long nextid;</literal></term>
+<listitem>
+<para>&nbsp; is a special value to chain multiple
+<LITERAL REMAP="tt">TE&lowbar;STEAM</literal> effects. The last one has here the value
+<LITERAL REMAP="tt">-1</literal>.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long count;</literal></term>
+<listitem>
+<para>&nbsp; is a number for multi-particle temporary
+entities.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t start;</literal></term>
+<listitem>
+<para>is the start of the unparsable 
+temporary <LITERAL REMAP="tt">TE&lowbar;FLAME</literal> entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t dest&lowbar;origin;</literal></term>
+<listitem>
+<para>is the origin of an entity,
+where the temporary entity ends.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long type;</literal></term>
+<listitem>
+<para>&nbsp; is an additional type value for the
+temporary <LITERAL REMAP="tt">TE&lowbar;WIDOWBEAMOUT</literal> entity.
+number for multi-particle temporary. It may be 20001 or 20002
+(source, <LITERAL REMAP="tt">roguesrc320/game/m&lowbar;widow.c</literal>, 831 - 842).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<listitem>
+<para>is the origin of the temporary entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long flash&lowbar;entity;</literal></term>
+<listitem>
+<para>&nbsp; is the entity, which spawned the
+temporary <LITERAL REMAP="tt">TE&lowbar;FLASHLIGHT</literal> entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t trace&lowbar;endpos;</literal></term>
+<listitem>
+<para>is the end position of the line
+like temporary entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t pos1, pos2, pos3, pos4;</literal></term>
+<listitem>
+<para>are additional positions
+for bigger enitities.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t movedir;</literal></term>
+<listitem>
+<para>is the moving direction for the
+temporary entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long style;</literal></term>
+<listitem>
+<para>&nbsp; is an additional style value.
+In the special <LITERAL REMAP="tt">TE&lowbar;SPLASH</literal>
+temporary entity it should be one of the <LITERAL REMAP="tt">SPLASH&lowbar;</literal> constants
+(source, <LITERAL REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 944 - 950).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long plat2flags;</literal></term>
+<listitem>
+<para>&nbsp; are used for the 
+<LITERAL REMAP="tt">TE&lowbar;STEAM</literal> temporary entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long wait;</literal></term>
+<listitem>
+<para>&nbsp; is a timeout value (in milliseconds) for the 
+<LITERAL REMAP="tt">TE&lowbar;STEAM</literal> temporary entity.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>entitytype = ReadByte;
+switch (entitytype) {
+  // version problems
+  // case TE_PLASMATRAIL:
+  case TE_GREENBLOOD_new:
+    if (serverversion &gt;= 32) // game version &gt;= 3.15
+      goto impact_entity;
+    else
+      goto line_entity;
+  break;
+  // case TE_GREENBLOOD_old:
+  case TE_BLUEHYPERBLASTER:
+    if (serverversion &gt;= 32) // game version &gt;= 3.15
+      goto line_entity;
+    else
+      goto impact_entity;
+  break;
+  // point entity
+  case TE_EXPLOSION1:
+  case TE_EXPLOSION2:
+  case TE_ROCKET_EXPLOSION:
+  case TE_GRENADE_EXPLOSION:
+  case TE_ROCKET_EXPLOSION_WATER:
+  case TE_GRENADE_EXPLOSION_WATER:
+  case TE_BFG_EXPLOSION:
+  case TE_BFG_BIGEXPLOSION:
+  case TE_BOSSTPORT:
+  case TE_PLASMA_EXPLOSION:
+  case TE_PLAIN_EXPLOSION:
+  case TE_CHAINFIST_SMOKE:
+  case TE_TRACKER_EXPLOSION:
+  case TE_TELEPORT_EFFECT:
+  case TE_DBALL_GOAL:
+  case TE_NUKEBLAST:
+  case TE_WIDOWSPLASH:
+  case TE_EXPLOSION1_BIG:
+  case TE_EXPLOSION1_NP:
+    ReadPosition(origin);
+  break;
+  // impact entity
+  case TE_GUNSHOT:
+  case TE_BLOOD:
+  case TE_BLASTER:
+  case TE_SHOTGUN:
+  case TE_SPARKS:
+  case TE_SCREEN_SPARKS:
+  case TE_SHIELD_SPARKS:
+  case TE_BULLET_SPARKS:
+  // case TE_GREENBLOOD_new:
+  // case TE_GREENBLOOD_old:
+  case TE_BLASTER2:
+  case TE_MOREBLOOD:
+  case TE_HEATBEAM_SPARKS:
+  case TE_HEATBEAM_STEAM:
+  case TE_ELECTRIC_SPARKS:
+  case TE_FLECHETTE:
+  impact_entity:
+    ReadPosition(origin);
+    ReadDir(movedir);
+  break;
+  // line entity
+  case TE_RAILTRAIL:
+  case TE_BUBBLETRAIL:
+  case TE_BFG_LASER:
+  // case TE_PLASMATRAIL:
+  // case TE_BLUEHYPERBLASTER:
+  case TE_DEBUGTRAIL:
+  case TE_BUBBLETRAIL2:
+  line_entity:
+    ReadPosition(origin);
+    ReadPosition(trace_endpos);
+  break;
+  // special entity
+  case TE_SPLASH:
+  case TE_LASER_SPARKS:
+  case TE_WELDING_SPARKS:
+  case TE_TUNNEL_SPARKS:
+    count = ReadByte;
+    ReadPosition(origin);
+    ReadDir(movedir);
+    style = ReadByte;
+  break;
+  case TE_PARASITE_ATTACK:
+  case TE_MEDIC_CABLE_ATTACK:
+  case TE_HEATBEAM:
+  case TE_MONSTER_HEATBEAM:
+    entity = ReadShort;
+    ReadPosition(origin);
+    ReadPosition(trace_endpos);
+  break;  
+  case TE_GRAPPLE_CABLE:
+    entity = ReadShort;
+    ReadPosition(origin);
+    ReadPosition(trace_endpos);
+    ReadPosition(pos1);
+  break;
+  case TE_FLAME: // Quake2 can't parse this!
+    entity = ReadShort;
+    count = ReadShort;
+    ReadPosition(start);
+    ReadPosition(origin);
+    ReadPosition(pos1);
+    ReadPosition(pos2);
+    ReadPosition(pos3);
+    ReadPosition(pos4);
+  break;
+  case TE_LIGHTNING:
+    dest_entity = ReadShort;
+    entity = ReadShort;
+    ReadPosition(dest_origin);
+    ReadPosition(origin);
+  break;
+  case TE_FLASHLIGHT:
+    ReadPosition(origin);
+    flash_entity = ReadShort;
+  break;
+  case TE_FORCEWALL:
+    ReadPosition(origin);
+    ReadPosition(trace_endpos);
+    style = ReadShort;
+  break;
+  case TE_STEAM:
+    nextid = ReadShort;
+    count = ReadByte;
+    ReadPosition(origin);
+    ReadDir(movedir);
+    style = ReadByte;
+    plat2flags = ReadShort;
+    if (nextid != -1)
+      wait = ReadLong;
+  break;
+  case TE_WIDOWBEAMOUT:
+    type = ReadShort;
+    ReadPosition(origin);
+  break;
+  case TE_RAILTRAIL2: // senseless, I know
+  default:
+    error("CL_ParseTEnt: bad type");
+  break;
+}</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>layout</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x04</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This message displays the Field Computer (``<EMPHASIS REMAP="it">cmd help</emphasis>'', bound to F1).
+It contains the summary screen (Deathmatch Scoreboard or single player 
+secrets, goals etc.). It stores the message only on the client siede. 
+The actual display will be triggered by the <EMPHASIS REMAP="bf">playerinfo</emphasis> message with
+a special <LITERAL REMAP="tt">stats</literal> command.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variable</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">char text[MAX&lowbar;MSGLEN];</literal></term>
+<listitem>
+<para>is the summary screen text with
+some kind of control characters. The control language is very simple. Read some
+examples in the source, <LITERAL REMAP="tt">q2src320/game/p&lowbar;hud.c</literal>, functions 
+<LITERAL REMAP="tt">DeathmatchScoreboardMessage</literal> and <LITERAL REMAP="tt">HelpComputer</literal>.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>text = ReadString;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>inventory</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x05</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Tells the clients its inventory.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variable</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">int inventory[MAX&lowbar;ITEMS];</literal></term>
+<listitem>
+<para>is the player's inventory
+array. 
+
+<screen>#define MAX_ITEMS 256</screen>
+ is the number different
+items in the inventory.</para>
+<para>The inventory concept of Quake II is very open and expandable.
+In an global array (source, <LITERAL REMAP="tt">q2src320/game/g&lowbar;items.c</literal>, 1115 - 2097)
+
+<screen>gitem_t itemlist[];</screen>
+
+is the list of all possible things 
+a player can pickup and carry around. This array will be filled at compile
+time.
+In the <LITERAL REMAP="tt">inventory</literal> array are stored how many
+of each thing of the <LITERAL REMAP="tt">itemlist</literal> a players carries. The server tells
+the meaning of each index with <EMPHASIS REMAP="bf">configstring</emphasis> messages.
+I give the original table for <LITERAL REMAP="tt">itemlist</literal>. Every modification can change 
+it totally and it changed indeed from 3.05 to 3.12.
+
+<table>
+<title>Standard inventory entries.</title>
+<TGROUP COLS="2">
+<COLSPEC COLSEP="0" ALIGN="RIGHT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry>value </entry>
+<entry>purpose</entry>
+</row>
+<row>
+<entry>0 </entry>
+<entry>not used</entry>
+</row>
+<row>
+<entry>1 </entry>
+<entry>Body Armor</entry>
+</row>
+<row>
+<entry>2 </entry>
+<entry>Combat Armor</entry>
+</row>
+<row>
+<entry>3 </entry>
+<entry>Jacket Armor</entry>
+</row>
+<row>
+<entry>4 </entry>
+<entry>Armor Shard</entry>
+</row>
+<row>
+<entry>5 </entry>
+<entry>Power Screen</entry>
+</row>
+<row>
+<entry>6 </entry>
+<entry>Power Shield</entry>
+</row>
+<row>
+<entry>7 </entry>
+<entry>Blaster</entry>
+</row>
+<row>
+<entry>8 </entry>
+<entry>Shotgun</entry>
+</row>
+<row>
+<entry>9 </entry>
+<entry>Super Shotgun</entry>
+</row>
+<row>
+<entry>10 </entry>
+<entry>Machinegun</entry>
+</row>
+<row>
+<entry>11 </entry>
+<entry>Chaingun</entry>
+</row>
+<row>
+<entry>12 </entry>
+<entry>Grenades</entry>
+</row>
+<row>
+<entry>13 </entry>
+<entry>Grenade Launcher</entry>
+</row>
+<row>
+<entry>14 </entry>
+<entry>Rocket Launcher</entry>
+</row>
+<row>
+<entry>15 </entry>
+<entry>HyperBlaster</entry>
+</row>
+<row>
+<entry>16 </entry>
+<entry>Railgun</entry>
+</row>
+<row>
+<entry>17 </entry>
+<entry>BFG10K</entry>
+</row>
+<row>
+<entry>18 </entry>
+<entry>Shells</entry>
+</row>
+<row>
+<entry>19 </entry>
+<entry>Bullets</entry>
+</row>
+<row>
+<entry>20 </entry>
+<entry>Cells</entry>
+</row>
+<row>
+<entry>21 </entry>
+<entry>Rockets</entry>
+</row>
+<row>
+<entry>22 </entry>
+<entry>Slugs</entry>
+</row>
+<row>
+<entry>23 </entry>
+<entry>Quad Damage</entry>
+</row>
+<row>
+<entry>24 </entry>
+<entry>Invulnerability</entry>
+</row>
+<row>
+<entry>25 </entry>
+<entry>Silencer</entry>
+</row>
+<row>
+<entry>26 </entry>
+<entry>Rebreather</entry>
+</row>
+<row>
+<entry>27 </entry>
+<entry>Environment Suit</entry>
+</row>
+<row>
+<entry>28 </entry>
+<entry>Ancient Head</entry>
+</row>
+<row>
+<entry>29 </entry>
+<entry>Adrenaline</entry>
+</row>
+<row>
+<entry>30 </entry>
+<entry>Bandolier</entry>
+</row>
+<row>
+<entry>31 </entry>
+<entry>Ammo Pack</entry>
+</row>
+<row>
+<entry>32 </entry>
+<entry>Data CD</entry>
+</row>
+<row>
+<entry>33 </entry>
+<entry>Power Cube</entry>
+</row>
+<row>
+<entry>34 </entry>
+<entry>Pyramid Key</entry>
+</row>
+<row>
+<entry>35 </entry>
+<entry>Data Spinner</entry>
+</row>
+<row>
+<entry>36 </entry>
+<entry>Security Pass</entry>
+</row>
+<row>
+<entry>37 </entry>
+<entry>Blue Key</entry>
+</row>
+<row>
+<entry>38 </entry>
+<entry>Red Key</entry>
+</row>
+<row>
+<entry>39 </entry>
+<entry>Commander's Head</entry>
+</row>
+<row>
+<entry>40 </entry>
+<entry>Airstrike Marker</entry>
+</row>
+<row>
+<entry>41 </entry>
+<entry>Health</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>for (i=0 ; i&lt;MAX_ITEMS ; i++) inventory[i] = ReadShort;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>nop</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">Quake II ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x06</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Do nothing.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>none</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>disconnect</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">Quake II ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x07</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Diconnect from the server.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>print("Server disconnected\n");</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>reconnect</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">Quake II ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x08</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Reconnect to the server.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>print("Server disconnected, reconnecting\n");</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>sound</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">Quake II ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x09</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Plays a sound.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long mask;</literal></term>
+<listitem>
+<para>is a bit mak to reduce the network traffic.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long soundnum;</literal></term>
+<listitem>
+<para>is the index in the precache sound
+table.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">float vol;</literal></term>
+<listitem>
+<para>is the volume of the sound (0.0 off, 
+1.0 max).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">float attenuation;</literal></term>
+<listitem>
+<para>is the attenuation of the sound.
+<LITERAL REMAP="tt">attenuation</literal> should have one of the <LITERAL REMAP="tt">ATTN&lowbar;</literal> constants
+(source, <LITERAL REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 966 - 970).
+<variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define ATTN&lowbar;NONE 0</literal></term>
+<listitem>
+<para><EMPHASIS REMAP="it">full volume the entire level</emphasis></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define ATTN&lowbar;NORM 1</literal></term>
+<listitem>
+<para>the normal attenuation</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define ATTN&lowbar;IDLE 2</literal></term>
+<listitem>
+<para>for idle monsters</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define ATTN&lowbar;STATIC 3</literal></term>
+<listitem>
+<para><EMPHASIS REMAP="it">diminish very rapidly with
+distance</emphasis></para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">float timeofs;</literal></term>
+<listitem>
+<para>is the offset in seconds between the
+frame start and the sound start.
+It is 0 in the entire source.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long channel;</literal></term>
+<listitem>
+<para>is the sound channel. There are 8 possible
+sound channels for each entity in Quake II (0-7) but it uses 5 only.
+<LITERAL REMAP="tt">channel</literal> should be one of the <LITERAL REMAP="tt">CHAN&lowbar;</literal> constants
+(source, <LITERAL REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 953 - 960).
+<variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define CHAN&lowbar;AUTO 0</literal></term>
+<listitem>
+<para>selects a channel
+automatically</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define CHAN&lowbar;WEAPON 1</literal></term>
+<listitem>
+<para>weapon use sounds</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define CHAN&lowbar;VOICE 2</literal></term>
+<listitem>
+<para>pain calls</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define CHAN&lowbar;ITEM 3</literal></term>
+<listitem>
+<para>item get sounds</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define CHAN&lowbar;BODY 4</literal></term>
+<listitem>
+<para>jump and fall sounds</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long entity;</literal></term>
+<listitem>
+<para>is the entity which caused the sound.
+The maximum value of <LITERAL REMAP="tt">entity</literal> is 
+
+<screen>#define MAX_EDICTS 1024</screen>
+.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<listitem>
+<para>is the origin of the sound.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>long entity_channel; // combined variable
+
+mask = ReadByte;
+soundnum = ReadByte;
+vol = (mask &amp; 0x01) ? ((float)ReadByte / 255.0) : (1.0);
+attenuation = (mask &amp; 0x02) ? ((float)ReadByte / 64.0) : (1.0);
+timeofs = (mask &amp; 0x10) ? ((float)ReadByte * 0.001) : (0.0); 
+if (mask &amp; 0x08) {
+  entity_channel = ReadShort;
+  entity = (entity_channel &gt;&gt; 3);
+  channel = entity_channel &amp; 0x07;
+  if (entity &gt; MAX_EDICTS) {
+    error("CL_ParseStartSoundPacket: ent = %i", entity);
+  }
+} else {
+  channel = 0;
+  entity = 0;
+}
+if (mask &amp; 0x04) {
+  ReadPosition(origin);
+}</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>print</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">Quake II ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x0A</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Prints a text at the top of the screen.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long level;</literal></term>
+<listitem>
+<para>is the priority level.
+<LITERAL REMAP="tt">level</literal> should be one of the following:
+<variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define PRINT&lowbar;LOW 0</literal></term>
+<listitem>
+<para>pickup messages</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define PRINT&lowbar;MEDIUM 1</literal></term>
+<listitem>
+<para>death messages</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define PRINT&lowbar;HIGH 2</literal></term>
+<listitem>
+<para>critical messages</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define PRINT&lowbar;CHAT 3</literal></term>
+<listitem>
+<para>chat messages</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">char string[MAX&lowbar;MESSAGE&lowbar;SIZE];</literal></term>
+<listitem>
+<para>is the the text 
+to be displayed.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>level = ReadByte;
+if (level == PRINT_CHAT) sound("misc/talk.wav");
+string = ReadString;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>stufftext</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">Quake II ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x0B</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>The client transfers the text to the console and runs it.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">char* text;</literal></term>
+<listitem>
+<para>is the command, which the client has to execute.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>text = ReadString;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>serverdata</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">Quake II ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x0C</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Set some global info.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long serverversion;</literal></term>
+<listitem>
+<para>is the protocol version coming from
+the server. 
+
+<table>
+<title>Quake II values for <LITERAL REMAP="tt">PROTOCOL&lowbar;VERSION</literal>.</title>
+<TGROUP COLS="2">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry>game </entry>
+<entry>protocol</entry>
+</row>
+<row>
+<entry>3.00 </entry>
+<entry>25</entry>
+</row>
+<row>
+<entry>3.05 </entry>
+<entry>26</entry>
+</row>
+<row>
+<entry>3.06 </entry>
+<entry>26</entry>
+</row>
+<row>
+<entry>3.07 </entry>
+<entry>27</entry>
+</row>
+<row>
+<entry>3.08 </entry>
+<entry>27</entry>
+</row>
+<row>
+<entry>3.09 </entry>
+<entry>28</entry>
+</row>
+<row>
+<entry>3.10 </entry>
+<entry>30</entry>
+</row>
+<row>
+<entry>3.12 </entry>
+<entry>31</entry>
+</row>
+<row>
+<entry>3.13 </entry>
+<entry>31</entry>
+</row>
+<row>
+<entry>3.14 </entry>
+<entry>31</entry>
+</row>
+<row>
+<entry>3.15 </entry>
+<entry>32</entry>
+</row>
+<row>
+<entry>3.17 </entry>
+<entry>33</entry>
+</row>
+<row>
+<entry>3.18 </entry>
+<entry>34</entry>
+</row>
+<row>
+<entry>3.19 </entry>
+<entry>34</entry>
+</row>
+<row>
+<entry>3.20 </entry>
+<entry>34</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long key;</literal></term>
+<listitem>
+<para>some kind of key. Will be used again later in
+a <EMPHASIS REMAP="bf">stufftext</emphasis> message for the login hand-shake.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long isdemo;</literal></term>
+<listitem>
+<para>indicates the demo type. Possible values
+are:
+<variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define RECORD&lowbar;NETWORK 0x00</literal></term>
+<listitem>
+<para>data actually over the wire
+(proxy)</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define RECORD&lowbar;CLIENT  0x01</literal></term>
+<listitem>
+<para>recorded on the client side.
+Containes information in the direct neighborhood of the recording player.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define RECORD&lowbar;SERVER  0x02</literal></term>
+<listitem>
+<para>recorded on the server side.
+Containes all information on all entities in the level. These files tend to
+become very large. They can't be played back by Quake II directly.
+This value appears in 3.17 but server side recordings work from 3.15 on.
+This variable is sometimes called <LITERAL REMAP="tt">attractloop</literal> for whatever reason.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define RECORD&lowbar;RELAY   0x80</literal></term>
+<listitem>
+<para>recorded with the
+Relay modificiation at the server side. These files can't be played back
+only with the Relay modification.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">char* game;</literal></term>
+<listitem>
+<para>is the game directory (may be empty, which 
+means <LITERAL REMAP="tt">baseq2</literal>).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long client;</literal></term>
+<listitem>
+<para>is the client id.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">char* mapname;</literal></term>
+<listitem>
+<para>is the name of the map.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">int compatible;</literal></term>
+<listitem>
+<para>compatibility with the CD retail version
+3.05 (protocol 26). How to set this? ??FIXME??</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>log("Serverdata packet received.\n");
+serverversion = ReadLong;
+if (!compatible) {
+  if (serverversion != PROTOCOL_VERSION) 
+    error("Server returned version %i, not %i", serverversion, PROTOCOL_VERSION);
+  }
+}
+key = ReadLong; 
+isdemo = ReadByte;
+game = ReadString;
+client = ReadShort;  
+mapname = ReadString;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>configstring</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">Quake II ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x0D</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para><EMPHASIS REMAP="it">config strings are a general means of communication from
+the server to all connected clients.
+Each config string can be at most <LITERAL REMAP="tt">MAX&lowbar;QPATH</literal> characters.</emphasis></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">int index;</literal></term>
+<listitem>
+<para>is the number of the config string.
+The following constants (source, <LITERAL REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 
+1069 - 1092)
+determine where to find something in the full array of config strings.
+<variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define CS&lowbar;NAME 0</literal></term>
+<listitem>
+<para>is the name of the
+level.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define CS&lowbar;CDTRACK 1</literal></term>
+<listitem>
+<para>is the audio CD track
+for this level. </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define CS&lowbar;SKY 2</literal></term>
+<listitem>
+<para>is the sky texture.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define CS&lowbar;SKYAXIS 3</literal></term>
+<listitem>
+<para>is the sky axis in the <EMPHASIS REMAP="it">&percnt;f &percnt;f
+&percnt;f format</emphasis>.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define CS&lowbar;SKYROTATE 4</literal></term>
+<listitem>
+<para>is the rotation speed in the format 
+&percnt;f.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define CS&lowbar;STATUSBAR 5</literal></term>
+<listitem>
+<para>is the start of the list of 
+<EMPHASIS REMAP="it">display program string</emphasis>s for the statusbar.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define CS&lowbar;MAXCLIENTS 30</literal></term>
+<listitem>
+<para>is the current maximum number of 
+clients on a server.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define CS&lowbar;MAPCHECKSUM 31</literal></term>
+<listitem>
+<para>is the map checksum 
+<EMPHASIS REMAP="it">for catching cheater maps</emphasis>.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define CS&lowbar;MODELS 32</literal></term>
+<listitem>
+<para>is the start of the precache model 
+table.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define MAX&lowbar;MODELS 256</literal></term>
+<listitem>
+<para>is the maximum number of the
+precache model table.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define CS&lowbar;SOUNDS (CS&lowbar;MODELS+MAX&lowbar;MODELS)</literal></term>
+<listitem>
+<para>(288) is the start 
+of the precache sound table.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define MAX&lowbar;SOUNDS 256</literal></term>
+<listitem>
+<para>is the maximum number of the
+precache sound table.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define CS&lowbar;IMAGES (CS&lowbar;SOUNDS+MAX&lowbar;SOUNDS)</literal></term>
+<listitem>
+<para>(544) is the
+start of the image list.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define MAX&lowbar;IMAGES 256</literal></term>
+<listitem>
+<para>is the maximum numer of the
+images.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define CS&lowbar;LIGHTS (CS&lowbar;IMAGES+MAX&lowbar;IMAGES)</literal></term>
+<listitem>
+<para>(800) is the
+start of the light styles list.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define MAX&lowbar;LIGHTSTYLES 256</literal></term>
+<listitem>
+<para>is the maximum number of the
+light styles.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define CS&lowbar;ITEMS (CS&lowbar;LIGHTS+MAX&lowbar;LIGHTSTYLES)</literal></term>
+<listitem>
+<para>(1056) is the
+start of the items list.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define MAX&lowbar;ITEMS 256</literal></term>
+<listitem>
+<para>is the maximum number of items in
+the inventory list.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define CS&lowbar;PLAYERSKINS (CS&lowbar;ITEMS+MAX&lowbar;ITEMS)</literal></term>
+<listitem>
+<para>(1312) is the
+start of the player skin list.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define MAX&lowbar;CLIENTS 256</literal></term>
+<listitem>
+<para>is the maximum number of
+players.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define CS&lowbar;GENERAL (CS&lowbar;PLAYERSKINS+MAX&lowbar;CLIENTS)</literal></term>
+<listitem>
+<para>(1568) is the
+start of the general config strings list.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define MAX&lowbar;GENRAL (MAX&lowbar;CLIENTS*2)</literal></term>
+<listitem>
+<para>(512) is the maximum 
+number of <EMPHASIS REMAP="it">general config strings</emphasis>.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define MAX&lowbar;CONFIGSTRINGS (CS&lowbar;GENERAL+MAX&lowbar;GENERAL)</literal></term>
+<listitem>
+<para>(2080) is the maximum number of config strings.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">char string[MAX&lowbar;QPATH];</literal></term>
+<listitem>
+<para>is the corresponding config string.
+
+<screen>#define MAX_QPATH 64</screen>
+ is the maximum length 
+of a config string.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>index = ReadShort;
+if (index &gt; MAX_CONFIGSTRINGS) error("configstring &gt; MAX_CONFIGSTRINGS");
+string = ReadString;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>spawnbaseline</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x0E</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Spawns a new entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long mask;</literal></term>
+<listitem>
+<para>is a bit-mask to reduce the network traffic.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long entity;</literal></term>
+<listitem>
+<para>is the number of the entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<listitem>
+<para>is the origin.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t angles;</literal></term>
+<listitem>
+<para>is the orientation.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t old&lowbar;origin;</literal></term>
+<listitem>
+<para>is the old origin <EMPHASIS REMAP="it">for
+lerping</emphasis>. It is used for client-side prediction and interpolation 
+calculations. To compress a DM2 file, just leave it out, if the last frame
+had a <LITERAL REMAP="tt">origin</literal> entry for the entity in question. It is used with
+<EMPHASIS REMAP="it">cl&lowbar;nodelta 1</emphasis> only. From 3.17 on <LITERAL REMAP="tt">old&lowbar;origin</literal> is used for 
+player entities only.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long modelindex;</literal></term>
+<listitem>
+<para>is the model index.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long modelindex2;</literal></term>
+<listitem>
+<para>is <EMPHASIS REMAP="it">weapons, CTF, flags, etc</emphasis>.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long modelindex3;</literal></term>
+<listitem>
+<para>is <EMPHASIS REMAP="it">weapons, CTF, flags, etc</emphasis>.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long modelindex4;</literal></term>
+<listitem>
+<para>is <EMPHASIS REMAP="it">weapons, CTF, flags, etc</emphasis>. </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long frame;</literal></term>
+<listitem>
+<para>is the frame of the model.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long skin;</literal></term>
+<listitem>
+<para>is the number of the skin for the model.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long vwep;</literal></term>
+<listitem>
+<para>is the number of visual weapon skin for the model.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long effects;</literal></term>
+<listitem>
+<para><EMPHASIS REMAP="it">Effects are things handled on the
+client side (lights, particles, frame animations)
+that happen constantly on the given entity.
+An entity that has effects will be sent to the client
+even if it has a zero index model.</emphasis> The bit-mask <LITERAL REMAP="tt">effects</literal> holds
+the <LITERAL REMAP="tt">EF&lowbar;</literal> constants (source, 
+<LITERAL REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 530 - 569).)</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long renderfx;</literal></term>
+<listitem>
+<para>are some special render flags.
+The bit-mask <LITERAL REMAP="tt">renderfx</literal> holds the <LITERAL REMAP="tt">RF&lowbar;</literal> constants (source, 
+<LITERAL REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 571 - 591).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long solid;</literal></term>
+<listitem>
+<para><EMPHASIS REMAP="it">for client side prediction,
+8*(bits 0-4) is x/y radius
+8*(bits 5-9) is z down distance, 
+8(bits10-15) is z up</emphasis></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long sound;</literal></term>
+<listitem>
+<para><EMPHASIS REMAP="it">for looping sounds, to guarantee 
+shutoff</emphasis></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long event;</literal></term>
+<listitem>
+<para><EMPHASIS REMAP="it">impulse events -- muzzle flashes, 
+footsteps, etc
+events only go out for a single frame, they are automatically cleared each 
+frame</emphasis> <LITERAL REMAP="tt">event</literal> should have one of the following values
+(source, <LITERAL REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 1098 - 1112):
+
+<screen>typedef enum
+{
+        EV_NONE,             // 0
+        EV_ITEM_RESPAWN,     // 1
+        EV_FOOTSTEP,         // 2
+        EV_FALLSHORT,        // 3
+        EV_FALL,             // 4
+        EV_FALLFAR,          // 5
+        EV_PLAYER_TELEPORT   // 6
+} entity_event_t;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>mask = ReadByte;
+if (mask &amp; 0x00000080) mask |= (ReadByte &lt;&lt;  8);
+if (mask &amp; 0x00008000) mask |= (ReadByte &lt;&lt; 16);
+if (mask &amp; 0x00800000) mask |= (ReadByte &lt;&lt; 24);
+entity = (mask &amp; 0x00000100) ? ReadShort : ReadByte;
+if (mask &amp; 0x00000800) modelindex = ReadByte;
+if (mask &amp; 0x00100000) modelindex2 = ReadByte;
+if (mask &amp; 0x00200000) modelindex3 = ReadByte;
+if (mask &amp; 0x00400000) modelindex4 = ReadByte;
+if (mask &amp; 0x00000010) frame = ReadByte;
+if (mask &amp; 0x00020000) frame = ReadShort;
+if (mask &amp; 0x00010000) {
+  if (mask &amp; 0x02000000) skin = ReadLong;
+  else skin = ReadByte;
+}
+else {
+  if (mask &amp; 0x02000000) skin = ReadShort;
+}
+vwep = skin &gt;&gt; 8;
+skin &amp;= 0xFF;
+if (mask &amp; 0x00004000) {
+  if (mask &amp; 0x00080000) effects = ReadLong;
+  else effects = ReadByte;
+}
+else {
+  if (mask &amp; 0x00080000) effects = ReadShort;
+}
+if (mask &amp; 0x00001000) {
+  if (mask &amp; 0x00040000) renderfx = ReadLong;
+  else renderfx = ReadByte;
+}
+else {
+  if (mask &amp; 0x00040000) renderfx = ReadShort;
+}
+if (mask &amp; 0x00000001) origin[0] = ReadCoord;
+if (mask &amp; 0x00000002) origin[1] = ReadCoord;
+if (mask &amp; 0x00000200) origin[2] = ReadCoord;
+if (mask &amp; 0x00000400) angles[0] = ReadAngle;
+if (mask &amp; 0x00000004) angles[1] = ReadAngle;
+if (mask &amp; 0x00000008) angles[2] = ReadAngle;
+if (mask &amp; 0x01000000) ReadPosition(old_origin);
+if (mask &amp; 0x04000000) sound = ReadByte;
+event = (mask &amp; 0x00000020) ? ReadByte : 0;
+if (mask &amp; 0x08000000) solid = ReadShort;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>centerprint</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x0F</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Prints the specified text at the centre of the screen. There is only one
+text
+line with a maximum of 40 characters. To print more than this one line, use
+`&bsol;n' in a single <EMPHASIS REMAP="bf">centerprint</emphasis> message for a new line. Every text 
+line (the first 40 characters) will be centred horizontally.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">char* text;</literal></term>
+<listitem>
+<para>is the text to be displayed.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>text = ReadString;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>download</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x10</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Download a file (sound, model etc.) from the server. It needs at least
+version 3.15 to transfer any data. There is no position information in the
+packet, so the client can't rearrange packets, which arrive in the wrong
+order. Therefore all download network packets are reliable packets and they
+need the usual acknowledgement. The client itself starts the whole 
+thing, if something is missing and asks the server for it. I'm not sure, if 
+such blocks may actually do something useful in a DM2 file.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long size;</literal></term>
+<listitem>
+<para>is the number of bytes transferred in the
+current packet.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long percent;</literal></term>
+<listitem>
+<para>is the total amount sended in percent.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">char* downloadbuffer;</literal></term>
+<listitem>
+<para>is a buffer for downloaded files.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">char* filename;</literal></term>
+<listitem>
+<para>is the name for the downloaded file.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">FILE* fp;</literal></term>
+<listitem>
+<para>is the file pointer for the downloaded file.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>size = ReadShort;
+percent=ReadByte;
+if (size == -1) {
+  error("File not found.\n");
+}
+if (serverdata.serverversion &gt;= 32) { // game version &gt;= 3.15
+  if (percent == 0) {
+    fp = fopen(filename, "wb");
+  }
+  for ( i=0 ; i&lt;size ; i++ ) {
+    downloadbuffer[i] = ReadByte;
+  }
+  fwrite(fp, size, 1, downloadbuffer);
+  if (percent != 100) {
+    servercommand("nextdl"); // ask for the next part
+  }
+  else {
+    fclose(fp);
+  }
+}</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>playerinfo</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x11</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Player info. <emphasis>Have to</emphasis> come directly after a <EMPHASIS REMAP="bf">frame</emphasis> message
+in client recording. There is no such message in server side recordings
+since there is no special player who does the recording.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long mask;</literal></term>
+<listitem>
+<para>is a bit mask to reduce the network traffic.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long mask2;</literal></term>
+<listitem>
+<para>is a bit mask to reduce the network traffic.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long pm&lowbar;type;</literal></term>
+<listitem>
+<para>is important for client side prediction and 
+should be one of the <LITERAL REMAP="tt">PM&lowbar;</literal> constants 
+(source, <LITERAL REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 440 - 451).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<listitem>
+<para>is the origin.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t velocity;</literal></term>
+<listitem>
+<para>is the velocity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">byte pm&lowbar;flags;</literal></term>
+<listitem>
+<para><EMPHASIS REMAP="it">ducked, jump&lowbar;held, etc</emphasis>
+and should be one of the <LITERAL REMAP="tt">PMF&lowbar;</literal> constants
+(source, <LITERAL REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 453 - 460).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">byte pm&lowbar;time;</literal></term>
+<listitem>
+<para>is unknown (<EMPHASIS REMAP="it">each unit = 8 ms</emphasis>).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">short gravity;</literal></term>
+<listitem>
+<para>is the gravity (800, cvar
+<LITERAL REMAP="tt">sv&lowbar;gravity</literal>).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t delta&lowbar;angles;</literal></term>
+<listitem>
+<para><EMPHASIS REMAP="it">add to command angles to get 
+view direction, changed by spawns, rotating objects, and teleporters</emphasis></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t viewangles;</literal></term>
+<listitem>
+<para><EMPHASIS REMAP="it">for fixed views</emphasis></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t viewoffset;</literal></term>
+<listitem>
+<para><EMPHASIS REMAP="it">add to
+<LITERAL REMAP="tt">pmovestate-&gt;origin</literal></emphasis></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t kick&lowbar;angles;</literal></term>
+<listitem>
+<para><EMPHASIS REMAP="it">add to view direction to get 
+render angles set by weapon kicks, pain effects, etc</emphasis></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t gunangles;</literal></term>
+<listitem>
+<para>direction of weapon</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t gunoffset;</literal></term>
+<listitem>
+<para>offset of weapon</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">int gunindex;</literal></term>
+<listitem>
+<para>model index of weapon</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">int gunframe;</literal></term>
+<listitem>
+<para>frame of weapon</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">float blend[4];</literal></term>
+<listitem>
+<para><EMPHASIS REMAP="it">rgba full screen effect</emphasis></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long fov;</literal></term>
+<listitem>
+<para><EMPHASIS REMAP="it">horizontal field of view</emphasis>. Since the
+field of view is no client side variable (as it is in Quake), it is much 
+easier to create zoom effects in movies.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">int rdflags;</literal></term>
+<listitem>
+<para><EMPHASIS REMAP="it">refdef flags</emphasis>, should be
+one of the <LITERAL REMAP="tt">RDF&lowbar;</literal> constants 
+(source, <LITERAL REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 593 - 600).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">short stats[MAX&lowbar;STATS];</literal></term>
+<listitem>
+<para><EMPHASIS REMAP="it">fast status bar updates</emphasis>
+Each entry in this array stays for something on the statusbar. The value of
+an icon entry is the image index defined in a <EMPHASIS REMAP="bf">configstring</emphasis> message.
+A value of 0 on an icon entry switches the icon off. 
+(source, <LITERAL REMAP="tt">q2src320/game/q&lowbar;shared.h</literal>, 973 - 993)
+<variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define MAX&lowbar;STATS 32</literal></term>
+<listitem>
+<para>maximum number of things in the
+status bar</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define STAT&lowbar;HEALTH&lowbar;ICON 0</literal></term>
+<listitem>
+<para>health icon image</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define STAT&lowbar;HEALTH 1</literal></term>
+<listitem>
+<para>health value</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define STAT&lowbar;AMMO&lowbar;ICON 2</literal></term>
+<listitem>
+<para>ammo icon image</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define STAT&lowbar;AMMO 3</literal></term>
+<listitem>
+<para>ammo value</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define STAT&lowbar;ARMOR&lowbar;ICON 4</literal></term>
+<listitem>
+<para>armour icon</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define STAT&lowbar;ARMOR 5</literal></term>
+<listitem>
+<para>armour value</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define STAT&lowbar;SELECTED&lowbar;ICON 6</literal></term>
+<listitem>
+<para>icon image of the selected
+weapon</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define STAT&lowbar;PICKUP&lowbar;ICON 7</literal></term>
+<listitem>
+<para>icon image of a recently
+gotten thing</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define STAT&lowbar;PICKUP&lowbar;STRING 8</literal></term>
+<listitem>
+<para><EMPHASIS REMAP="bf">configstring</emphasis>
+index to describe the recently gotten thing, 0 = string off</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define STAT&lowbar;TIMER&lowbar;ICON 9</literal></term>
+<listitem>
+<para>icon image of timed object
+(Quad Damage, Invulnerability etc.)</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define STAT&lowbar;TIMER 10</literal></term>
+<listitem>
+<para>timer value for a timed object
+(in seconds)</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define STAT&lowbar;HELPICON 11</literal></term>
+<listitem>
+<para>help icon: 0 off, 1 on</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define STAT&lowbar;SELECTED&lowbar;ITEM 12</literal></term>
+<listitem>
+<para>item number of the selected
+weapon</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define STAT&lowbar;LAYOUTS 13</literal></term>
+<listitem>
+<para>layout activator: 0 off,
+1 display help/summary screen, 2 display inventory</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define STAT&lowbar;FRAGS 14</literal></term>
+<listitem>
+<para>client score value</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define STAT&lowbar;FLASHES 15</literal></term>
+<listitem>
+<para><EMPHASIS REMAP="it">flash the backgrounds behind
+the status numbers, cleared each frame, 1 = health, 2 = armor</emphasis>, 0 = off</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define STAT&lowbar;CHASE 16</literal></term>
+<listitem>
+<para>chase target skin number (number in 
+<EMPHASIS REMAP="bf">configstring</emphasis> list)</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define STAT&lowbar;SPECTATOR 17</literal></term>
+<listitem>
+<para>0 = normal play, 1 = spectator</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>mask = ReadShort;
+if (mask &amp; 0x0001) pm_type = ReadByte;
+if (mask &amp; 0x0002) 
+  ReadPostion(origin);
+if (mask &amp; 0x0004) 
+  ReadPosition(velocity);
+if (mask &amp; 0x0008) teleport_time = ReadByte;
+if (mask &amp; 0x0010) pm_flags = ReadByte;
+if (mask &amp; 0x0020) gravity = ReadShort;
+if (mask &amp; 0x0040) {
+  delta_angles[0] = ReadAngle16;
+  delta_angles[1] = ReadAngle16;
+  delta_angles[2] = ReadAngle16;
+}
+if (mask &amp; 0x0080) {
+  viewoffset[0] = ReadChar / 4.0;
+  viewoffset[1] = ReadChar / 4.0;
+  viewoffset[2] = ReadChar / 4.0;
+}
+if (mask &amp; 0x0100) {
+  viewangles[0] = ReadAngle16;
+  viewangles[1] = ReadAngle16;
+  viewangles[2] = ReadAngle16;
+}
+if (mask &amp; 0x0200) {
+  kick_angles[0] = ReadChar / 4.0;
+  kick_angles[1] = ReadChar / 4.0;
+  kick_angles[2] = ReadChar / 4.0;
+}
+if (mask &amp; 0x1000) gunindex = ReadByte;
+if (mask &amp; 0x2000) {
+  gunframe = ReadByte;
+  gunoffset[0] = ReadChar / 4.0;
+  gunoffset[1] = ReadChar / 4.0;
+  gunoffset[2] = ReadChar / 4.0;
+  gunangles[0] = ReadChar / 4.0;
+  gunangles[1] = ReadChar / 4.0;
+  gunangles[2] = ReadChar / 4.0;
+}
+if (mask &amp; 0x0400) {
+  blend[0] = ReadByte / 255.0;
+  blend[1] = ReadByte / 255.0;
+  blend[2] = ReadByte / 255.0;
+  blend[3] = ReadByte / 255.0;
+}
+if (mask &amp; 0x0800) fov = ReadByte;
+if (mask &amp; 0x4000) rdflags = ReadByte;
+mask2 = ReadLong;
+for (i=0;i&lt;32;i++) if (mask2 &amp; (0x00000001 &lt;&lt; i)) stats[i] = ReadShort;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>packetentities</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x12</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Entity updates. <emphasis>Have to</emphasis> come in a client side recording directly 
+after a 
+<EMPHASIS REMAP="bf">playerinfo</emphasis> message and in a server side recording directly after a
+<EMPHASIS REMAP="bf">frame</emphasis> message. 
+This message is in fact a list of <EMPHASIS REMAP="bf">spawnbaseline</emphasis>
+messages. Look there for a longer variable description.
+The list ends with <LITERAL REMAP="tt">entity==0</literal>.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long mask;</literal></term>
+<listitem>
+<para>is used to reduce the network traffic.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long entity;</literal></term>
+<listitem>
+<para>is the number of the entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long remove;</literal></term>
+<listitem>
+<para>indicates a disappearing entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<listitem>
+<para>is the origin.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t angles;</literal></term>
+<listitem>
+<para>is the orientation.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t old&lowbar;origin;</literal></term>
+<listitem>
+<para>old origin (for client side
+prediction).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long modelindex;</literal></term>
+<listitem>
+<para>is the model index.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long modelindex2;</literal></term>
+<listitem>
+<para>is <EMPHASIS REMAP="it">weapons, CTF, flags, etc</emphasis>.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long modelindex3;</literal></term>
+<listitem>
+<para>is <EMPHASIS REMAP="it">weapons, CTF, flags, etc</emphasis>.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long modelindex4;</literal></term>
+<listitem>
+<para>is <EMPHASIS REMAP="it">weapons, CTF, flags, etc</emphasis>. </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long frame;</literal></term>
+<listitem>
+<para>is the frame of the model.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long skin;</literal></term>
+<listitem>
+<para>is the number of the skin for the model.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long vwep;</literal></term>
+<listitem>
+<para>is the number of visual weapon skin for the model.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long effects;</literal></term>
+<listitem>
+<para>is the entity effect.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long renderfx;</literal></term>
+<listitem>
+<para>are some special render flags.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long solid;</literal></term>
+<listitem>
+<para><EMPHASIS REMAP="it">for client side prediction,
+8*(bits 0-4) is x/y radius
+8*(bits 5-9) is z down distance, 
+8(bits10-15) is z up</emphasis></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long sound;</literal></term>
+<listitem>
+<para><EMPHASIS REMAP="it">for looping sounds, to guarantee 
+shutoff</emphasis></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long event;</literal></term>
+<listitem>
+<para><EMPHASIS REMAP="it">impulse events -- muzzle flashes, 
+footsteps, etc
+events only go out for a single frame, they are automatically cleared each 
+frame</emphasis></para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>for (;;) {
+  mask = ReadByte;
+  if (mask &amp; 0x00000080) mask |= (ReadByte &lt;&lt;  8);
+  if (mask &amp; 0x00008000) mask |= (ReadByte &lt;&lt; 16);
+  if (mask &amp; 0x00800000) mask |= (ReadByte &lt;&lt; 24);
+  entity = (mask &amp; 0x00000100) ? ReadShort : ReadByte;
+  if (entity &gt;= MAX_EDICTS) error("CL_ParsePacketEntities: bad number:%i",entity);
+  if (entity == 0) break;
+  remove = (mask &amp; 0x00000040) ? 1 : 0;
+  if (mask &amp; 0x00000800) modelindex = ReadByte;
+  if (mask &amp; 0x00100000) modelindex2 = ReadByte;
+  if (mask &amp; 0x00200000) modelindex3 = ReadByte;
+  if (mask &amp; 0x00400000) modelindex4 = ReadByte;
+  if (mask &amp; 0x00000010) frame = ReadByte;
+  if (mask &amp; 0x00020000) frame = ReadShort;
+  if (mask &amp; 0x00010000) {
+    if (mask &amp; 0x02000000) skin = ReadLong;
+    else skin = ReadByte;
+  }
+  else {
+    if (mask &amp; 0x02000000) skin = ReadShort;
+  }
+  vwep = skin &gt;&gt; 8;
+  skin &amp;= 0xFF;
+  if (mask &amp; 0x00004000) {
+    if (mask &amp; 0x00080000) effects = ReadLong;
+    else effects = ReadByte;
+  }
+  else {
+    if (mask &amp; 0x00080000) effects = ReadShort;
+  }
+  if (mask &amp; 0x00001000) {
+    if (mask &amp; 0x00040000) renderfx = ReadLong;
+    else renderfx = ReadByte;
+  }
+  else {
+    if (mask &amp; 0x00040000) renderfx = ReadShort;
+  }
+  if (mask &amp; 0x00000001) origin[0] = ReadCoord;
+  if (mask &amp; 0x00000002) origin[1] = ReadCoord;
+  if (mask &amp; 0x00000200) origin[2] = ReadCoord;
+  if (mask &amp; 0x00000400) angles[0] = ReadAngle;
+  if (mask &amp; 0x00000004) angles[1] = ReadAngle;
+  if (mask &amp; 0x00000008) angles[2] = ReadAngle;
+  if (mask &amp; 0x01000000) ReadPosition(old_origin);
+  if (mask &amp; 0x04000000) sound = ReadByte;
+  event = (mask &amp; 0x00000020) ? ReadByte : 0;
+  if (mask &amp; 0x08000000) solid = ReadShort;
+}</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>deltapacketentities</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x13</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Entity updates. May come after a <EMPHASIS REMAP="bf">packetentities</emphasis> block.
+It isn't really necessary since <EMPHASIS REMAP="bf">packetentities</emphasis> handles itself all
+the delta encoding.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>unknown ??FIXME??</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>frame</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x14</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Sequence numbers to cope with UDP packet loss, delta encoding and 
+portal border crossings. Start of the 
+<EMPHASIS REMAP="bf">playerinfo</emphasis> and <EMPHASIS REMAP="bf">packetentities</emphasis> messages.</para>
+<para>In server side recordings this message contains only the current frame number.</para>
+<para>In Relay recordings, this message looks like the client side <EMPHASIS REMAP="bf">frame</emphasis>
+message but it contains also the list of connected clients.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long seq1;</literal></term>
+<listitem>
+<para>is the sequence number of the current 
+packet or frame. Since the Quake II server uses a fixed time gap of 100ms
+(10Hz) between game state changes <LITERAL REMAP="tt">seq1 / 10</literal> is the time in
+seconds since the server started.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long seq2;</literal></term>
+<listitem>
+<para>is the sequence number of the delta reference
+frame. The reference holds for both following <EMPHASIS REMAP="bf">playerinfo</emphasis> and 
+<EMPHASIS REMAP="bf">packetentities</emphasis> messages. The Quake II server has a table with
+some old entity states and get from each client the sequence number of
+frames, which arrived correctly at the client side. So the server can decide
+which most currently sended old frame should be used now as the delta encoding
+reference frame.
+<LITERAL REMAP="tt">seq2</literal> is -1 to reference to the <EMPHASIS REMAP="bf">spawnbaseline</emphasis> values.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long count;</literal></term>
+<listitem>
+<para>is the number of bytes in the 
+<LITERAL REMAP="tt">areas</literal> array.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define MAX&lowbar;MAP&lowbar;AREAS 256</literal></term>
+<listitem>
+<para>is the maximum number of areas
+in a map.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">unsigned char areas[MAX&lowbar;MAP&lowbar;AREAS / 8];</literal></term>
+<listitem>
+<para>is the array which defines the areas to be rendered.
+Each bit in the <LITERAL REMAP="tt">areas</literal> array stays for one area in the map.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long frame;</literal></term>
+<listitem>
+<para>is the frame number in server side recordings
+and similar to <LITERAL REMAP="tt">seq1</literal>. I may rename it even to <LITERAL REMAP="tt">seq1</literal> in
+a future revision.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long connected&lowbar;count</literal></term>
+<listitem>
+<para>is the number of connected
+clients in the <LITERAL REMAP="tt">connected</literal> array. It is used in Relay recordings
+only.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">unsigned char connected[MAX&lowbar;CLIENTS]</literal></term>
+<listitem>
+<para>is the
+array, which contains the numbers of the connected clients. It is used
+in Relay recordings only.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>long uk_b1;
+
+if (serverdata.isdemo == RECORD_CLIENT || 
+    serverdata.isdemo == RECORD_NETWORK ||
+    serverdata.isdemo == RECORD_RELAY) {
+  seq1 = ReadLong;
+  seq2 = ReadLong;
+  if (serverdata.serverversion != 26) uk_b1 = ReadByte;
+  count = ReadByte;
+  for (i=0;i&lt;count;i++) areas[i] = ReadByte;
+  if (serverdata.isdemo == RECORD_RELAY) {
+    connected_count = ReadByte;
+    for (i=0;i&lt;connected_count;i++) connected[i] = ReadByte;
+  }
+}
+if (serverdata.isdemo == RECORD_SERVER) {
+  frame = ReadLong;
+}</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+</sect1>
+<sect1>
+<title>Version History and Acknowledgements</title>
+<para><variablelist>
+<varlistentry>
+<term>0.0.1, 13 December, 1997</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>First version (working paper) completed.</para>
+</listitem>
+<listitem>
+<para>Only based on the published game source.</para>
+</listitem>
+<listitem>
+<para>Never ever published.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>0.0.2, 23 December, 1997</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>Old 3.00 ID codes included.</para>
+</listitem>
+<listitem>
+<para>Version info included.</para>
+</listitem>
+<listitem>
+<para>All simple ID codes ok.</para>
+</listitem>
+<listitem>
+<para>packetentities, deltapacketentities, playerinfo missing.</para>
+</listitem>
+<listitem>
+<para>spawnbaseline is very difficult.</para>
+</listitem>
+<listitem>
+<para>Never published.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>0.0.3, 27 December, 1997</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>Old 3.00 ID codes removed. Nobody wants to know them.</para>
+</listitem>
+<listitem>
+<para>spawnbaseline is ok now.</para>
+</listitem>
+<listitem>
+<para>playerinfo ok.</para>
+</listitem>
+<listitem>
+<para>packetentities should be ok.</para>
+</listitem>
+<listitem>
+<para>ReadDir for temp&lowbar;entity ok.</para>
+</listitem>
+<listitem>
+<para>deltapacketentities missing.</para>
+</listitem>
+<listitem>
+<para>Never published.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>0.0.4, 28 December, 1997</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>SGML-Tools 1.0.2 used for formatting.</para>
+</listitem>
+<listitem>
+<para>Some minor tweaks.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>0.0.5, 1 January, 1998</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>SGML-Tools 1.0.2 formatting problems solved.</para>
+</listitem>
+<listitem>
+<para>Long &num;define tables removed.</para>
+</listitem>
+<listitem>
+<para>More references to the source.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>0.0.6, 12 March, 1998</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>Some details better. Many thanks to Kekoa Proundfoot 
+(<ULINK URL="mailto:kekoa@graphics.stanford.edu">kekoa@graphics.stanford.edu</ulink>).</para>
+</listitem>
+<listitem>
+<para>PlanetQuake is the new home.</para>
+</listitem>
+<listitem>
+<para>Compatible with Quake II up to version 3.14.</para>
+</listitem>
+<listitem>
+<para>SGML-Tools 1.0.5 used.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>1.0.0, 17 June, 1998</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>Thanks to Ben Swartzlander (<ULINK URL="mailto:swartz@rice.edu">swartz@rice.edu</ulink>) for the config string index 30.</para>
+</listitem>
+<listitem>
+<para>Changed some command names (sound volume, server protocol version, 
+config string, print text). </para>
+</listitem>
+<listitem>
+<para>Changed the coordinates in playerinfo to standard coordinates.</para>
+</listitem>
+<listitem>
+<para>Most changes in variable types and names were necessary to reduce the 
+total number of tokens in the Quake and Quake II text parser of LMPC.</para>
+</listitem>
+<listitem>
+<para>Compatible with Quake II up to 3.15a.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>1.0.1, 15 July, 1998</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>server side recording information included.</para>
+</listitem>
+<listitem>
+<para>Compatible with Quake II up to 3.17.</para>
+</listitem>
+<listitem>
+<para>Some hints on <LITERAL REMAP="tt">old&lowbar;origin</literal> updates and sequence numbering.</para>
+</listitem>
+<listitem>
+<para>SGML-Tools 1.0.7 used.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>1.0.2, 16 August, 1998</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>More block size hints.</para>
+</listitem>
+<listitem>
+<para>Visual Weapon (VWep) support.</para>
+</listitem>
+<listitem>
+<para>Small cosmetic corrections.</para>
+</listitem>
+<listitem>
+<para>Some hints to multi-level recordings.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>1.0.3, 8 January, 1999</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>Missing auxiliary function <LITERAL REMAP="tt">ReadCoord</literal> included.</para>
+</listitem>
+<listitem>
+<para>More versions analysed.</para>
+</listitem>
+<listitem>
+<para>Compatible with Quake II up to 3.20 with Mission Packs 1 and 2.</para>
+</listitem>
+<listitem>
+<para>New published source code incorporated.</para>
+</listitem>
+<listitem>
+<para>SGML-Tools 1.0.9 used.</para>
+</listitem>
+<listitem>
+<para>General clean-up.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>1.0.4, 23 January, 2000</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>New DM2 format variant for Quake II Relay modification included.</para>
+</listitem>
+<listitem>
+<para>Thanks to Conor Davis
+(<ULINK URL="mailto:cedavis@planetquake.com">cedavis@planetquake.com</ulink>) for the information about the Quake II 
+Relay project.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect1>
+</article>
