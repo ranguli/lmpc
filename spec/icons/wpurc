@@ -1,0 +1,10 @@
+# $Id$
+
+## wpu parse start /^([^=]+)=(.+)\s*$/
+PACKAGE=icons
+TITLE=Icons for the web site
+VERSION=1.0.0
+DATE=8/8/2004
+TYPE=misc
+## wpu parse end
+
