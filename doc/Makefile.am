@@ -7,9 +7,9 @@ $(srcdir)/../README:
 
 
 TYPE=program
-UPLOAD_FILES_misc=$(UPLOAD_FILES_document) ../README
-UPLOAD_DIR_misc=$(PACKAGE)-$(QUALITY)
-DEFAULT_TARGET_misc=$(DEFAULT_TARGET_document)
+UPLOAD_FILES_program=$(UPLOAD_FILES_document) ../README
+UPLOAD_DIR_program=$(PACKAGE)-$(QUALITY)
+DEFAULT_TARGET_program=$(DEFAULT_TARGET_document)
 
 include $(top_srcdir)/spec/Make.spec.rules
 
