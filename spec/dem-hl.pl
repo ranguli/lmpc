@@ -10,6 +10,9 @@ sub CL_ParseServerMessage($$);
 
 sub parse_message_01_nop($$$);
 sub parse_message_07_time($$$);
+sub parse_message_11_serverinfo($$$);
+
+sub ReadString($);
 
 
 my $indent_diff = 1;
@@ -24,8 +27,9 @@ my %macroname = (
 
 
 my %parse = (
-	1 => \&parse_message_01_nop,
-	7 => \&parse_message_07_time,
+	 1 => \&parse_message_01_nop,
+	 7 => \&parse_message_07_time,
+	11 => \&parse_message_11_serverinfo,
 );
 
 
@@ -376,3 +380,75 @@ sub parse_message_07_time($$$) {
 	printf $file "%stime %f;\n", " " x $indent, $time;
 	return $rest;
 }
+
+sub parse_message_11_serverinfo($$$) {
+	my ($file, $data, $indent) = @_;
+	my @uk_b3;
+	(
+		my $serverversion,
+		my $uk_i1,
+		my $uk_i2,
+		$uk_b3[0],
+		$uk_b3[1],
+		$uk_b3[2],
+		$uk_b3[3],
+		$uk_b3[4],
+		$uk_b3[5],
+		$uk_b3[6],
+		$uk_b3[7],
+		$uk_b3[8],
+		$uk_b3[9],
+		$uk_b3[10],
+		$uk_b3[11],
+		$uk_b3[12],
+		$uk_b3[13],
+		$uk_b3[14],
+		$uk_b3[15],
+		my $maxclients,
+		my $uk_b4,
+		my $uk_b5,
+		my $rest,
+	) = unpack("V V V C16 C C C a*", $data);
+	(my $gamedir, $rest) = ReadString($rest);
+	(my $map1, $rest) = ReadString($rest);
+	(my $map2, $rest) = ReadString($rest);
+
+	if ($maxclients < 1 || $maxclients > 32) {
+		die "Bad maxclients (%u) from server\n", $maxclients;
+	}
+	printf $file "%sserverinfo {\n", " " x $indent;
+
+	printf $file "%s serverversion %d;\n", " " x $indent,
+		$serverversion;
+	printf $file "%s uk_i1 %d;\n", " " x $indent,
+		$uk_i1;
+	printf $file "%s uk_i2 %d;\n", " " x $indent,
+		$uk_i2;
+	printf $file "%s uk_b3", " " x $indent;
+	for (@uk_b3) { printf $file " %02x", $_; }
+	printf $file ";\n";
+	printf $file "%s maxclients %d;\n", " " x $indent,
+		$maxclients;
+	printf $file "%s uk_b4 %d;\n", " " x $indent,
+		$uk_b4;
+	printf $file "%s uk_b5 %d;\n", " " x $indent,
+		$uk_b5;
+	printf $file "%s gamedir \"%s\";\n", " " x $indent,
+		$gamedir;
+	printf $file "%s map1 \"%s\";\n", " " x $indent,
+		$map1;
+	printf $file "%s map2 \"%s\";\n", " " x $indent,
+		$map2;
+	printf $file "%s}\n", " " x $indent;
+	return $rest;
+}
+
+sub ReadString($)
+{
+	my ($data) = @_;
+
+	$data =~ /^([^\000]*?)\000(.+)$/s;
+	my ($string, $rest) = ($1, $2);
+	return $string, $rest;
+}
+
