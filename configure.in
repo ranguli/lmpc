@@ -26,7 +26,7 @@ AM_INIT_AUTOMAKE($PACKAGE,$VERSION)
 AM_CONFIG_HEADER(config.h)
 
 dnl automake needs this
-AC_ARG_PROGRAM
+dnl AC_ARG_PROGRAM
 
 dnl subst own variables 
 AC_SUBST(DATE)dnl
@@ -74,6 +74,13 @@ AC_PATH_PROG(WPU, wpu, wpu, $PATH:$fulldir)dnl
 unset fulldir
 AC_PROG_YACC
 AC_PATH_PROG(ZIP, zip, zip)dnl
+
+# this is specific to my own computer, this should really be checked somehow
+FLAVOR_HOME=/usr/self/src/flavor/flavor
+AC_MSG_WARN(I fixed FLAVOR_HOME to $FLAVOR_HOME. Please change it.)
+AC_SUBST(FLAVOR_HOME)
+
+AC_PATH_PROG(FLAVORC, flavorc, $FLAVOR_HOME/bin/flavorc)dnl
 
 dnl try to add some options on the already calculated GCC CFLAGS
 if test $GCC = yes; then
@@ -226,7 +233,7 @@ AC_OUTPUT([ \
 	src/java/com/machinima/lmpc/io/base/Makefile \
 	src/java/com/machinima/lmpc/io/node/Makefile \
 	src/java/com/machinima/lmpc/io/text/Makefile \
-	src/java/com/machinima/lmpc/io/bin/Makefile\
+	src/java/com/machinima/lmpc/io/bin/Makefile \
 	],
 [echo timestamp > stamp-h ; chmod +x bin/dema bin/dm2cat bin/extract src/java/lmpcj])
 
