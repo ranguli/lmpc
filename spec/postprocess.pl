@@ -32,6 +32,11 @@ $/='';
 my $text = '';
 while (<>) { $text .= $_; }
 
+
+if ($step == "0") {
+	$text =~ s,(<sect1>[^<]+)(<p>)(<label[^>]+>),$1$3$2,gi;
+}
+
 if ($step == "1") {
 	$text =~ s,-//Davenport//DTD DocBook V3.0//EN,-//OASIS//DTD DocBook V4.2//EN,;
 	$text =~ s,ArtHeader,ArticleInfo,g;
