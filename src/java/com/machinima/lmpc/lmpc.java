@@ -1,7 +1,9 @@
+// $Id$
 
 package com.machinima.lmpc;
-import com.machinima.lmpc.io.text.*;
 
+import com.machinima.lmpc.io.text.*;
+import com.machinima.lmpc.io.node.Node;
 import java.io.*;
 
 class lmpc {
@@ -11,30 +13,31 @@ class lmpc {
 	{
 		System.out.println("Java LMPC");
 
-		LsParse yyparser;
+		LsParse reader;
 
 		if ( args.length > 0 ) {
 			// parse a file
-			yyparser = new 
-				com.machinima.lmpc.io.text.LsParse(new FileReader(args[0]));
+			reader = new LsParse(new FileReader(args[0]));
 		}
 		else {
 			throw new IOException("error: no file");
 		}
 
-		TextOut textout = new TextOut(new FileWriter("out"));
+		TextOut writer = new TextOut(new FileWriter("out"));
+
+		// this main loop should be the same for all tpes of files
 		int top_level_blocks = 0;
+		Node block = null;
 		do {
-			// yyparser.yydebug = true;
-			boolean result = yyparser.block_read();
-			if (result) {
+			block = reader.ReadNextBlock();
+			if (block != null) {
 				top_level_blocks++;
-				textout.node_write_text(yyparser.get_yyval(),0);
+				writer.WriteNextBlock(block);
 			}
 			else {
 				break;
 			}
-		} while (!yyparser.lexer.lex_at_eof());
+		} while (block != null);
 
 		System.out.println(top_level_blocks +
 			" blocks");
