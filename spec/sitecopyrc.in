@@ -1,0 +1,10 @@
+site planetquake
+	server @PQHOST@
+	remote @PQDIR@
+	local @PQSTAGE@
+	username @PQLOGIN@
+	password @PQPASSWORD@
+	url @HOMEURL@
+	protocol ftp
+	nodelete
+
