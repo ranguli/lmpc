@@ -5,6 +5,7 @@
 use strict;
 use IO::Seekable;
 use IO::File;
+use BitField;
 
 sub read_with_check($$);
 sub LittleFloat($);
@@ -570,8 +571,15 @@ sub parse_message_13_updateuserinfo($$$) {
 
 sub parse_message_14_deltadescription($$$) {
 	my ($file, $data, $indent) = @_;
-	my ($text, $rest) = ReadString($data);
-	printf $file "%sdeltadescription \"%s\";\n", " " x $indent, $text;
+	my ($structure, $rest) = ReadString($data);
+	printf $file "%sdeltadescription {\n", " " x $indent;
+	printf $file "%sstructure \"%s\";\n", " " x ($indent+$indent_diff), $structure;
+	my $bf = BitField->new;
+	$bf->set_buffer($rest);
+	my $entries = $bf->read_bits(16);
+	printf $file "%sentries \"%d\";\n", " " x ($indent+$indent_diff), $entries;
+	printf $file "%s}\n", " " x $indent;
+	$rest = $bf->get_buffer();
 	return $rest;
 }
 
