@@ -13,6 +13,7 @@ sub parse_message_07_time($$$);
 sub parse_message_11_serverinfo($$$);
 sub parse_message_13_updateuserinfo($$$);
 sub parse_message_29_spawnstaticsound($$$);
+sub parse_message_37_roomtype($$$);
 
 sub ReadString($);
 
@@ -34,6 +35,7 @@ my %parse = (
 	11 => \&parse_message_11_serverinfo,
 	13 => \&parse_message_13_updateuserinfo,
 	29 => \&parse_message_29_spawnstaticsound,
+	37 => \&parse_message_37_roomtype,
 );
 
 
@@ -501,6 +503,13 @@ sub parse_message_29_spawnstaticsound($$$) {
 	printf $file "%suk_b3 %d;\n", " " x ($indent+$indent_diff), 
 			$uk_b3;
 	printf $file "%s}\n", " " x $indent;
+	return $rest;
+}
+
+sub parse_message_37_roomtype($$$) {
+	my ($file, $data, $indent) = @_;
+	my ($room_type, $rest) = unpack("s a*", $data);
+	printf $file "%sroomtype %d;\n", " " x $indent, $room_type;
 	return $rest;
 }
 
