@@ -1,0 +1,10 @@
+# $Id$
+
+## wpu parse start /^([^=]+)=(.+)\s*$/
+PACKAGE=dem
+TITLE=The unofficial DEM format description
+VERSION=1.0.9
+DATE=1/8/1999
+TYPE=document
+## wpu parse end
+

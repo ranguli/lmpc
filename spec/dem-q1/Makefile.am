@@ -20,15 +20,9 @@
 # Uwe Girlich (uwe@planetquake.com)
 
 #****************************************************************************#
-# Makefile  -  makefile                                                      #
+# Makefile.am  -  automake file                                              #
 #****************************************************************************#
 
-# wpu parse start /^([^=]+)=(.+)\s*$/
-PACKAGE=dem
-TITLE=The unofficial DEM format description
-VERSION=1.0.9
-DATE=1/8/1999
-# wpu parse end
-
-include ../Make.spec.rules
+include $(srcdir)/wpurc
+include $(top_srcdir)/spec/Make.spec.rules
 
