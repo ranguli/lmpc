@@ -6,7 +6,7 @@ dnl wpu parse start /^define\(MY_([^,]+),\[([^\]]+)\]\)/
 define(MY_PACKAGE,[lmpc])
 define(MY_TITLE,[The Little Movie Processing Centre])
 define(MY_VERSION,[3.4.0])
-define(MY_DATE,[8/1/2004])
+define(MY_DATE,[8/29/2004])
 define(MY_COMMENT,[alpha test release])
 define(MY_QUALITY,[alpha])
 define(MY_EMAIL,[uwe@planetquake.com])
