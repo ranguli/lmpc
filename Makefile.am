@@ -32,13 +32,13 @@ index.html indexpart.html:
 linux:
 	$(MAKE) compile TARGET=linux
 
-TARGET_linux=i586-suse-linux
+TARGET_linux=i686-suse-linux
 PREFIX_linux=/usr
-CC_linux=/usr/bin/gcc
-CXX_linux=/usr/bin/g++
-RANLIB_linux=/usr/bin/ranlib
-STRIP_linux=/usr/bin/strip
-BINS_linux=lmpc demcut dbs
+CC_linux=gcc
+CXX_linux=g++
+RANLIB_linux=ranlib
+STRIP_linux=strip
+BINS_linux=dbs demcut lmpc
 CHANGE_linux="\#"
 
 
@@ -52,7 +52,7 @@ CC_go32=$(PREFIX_go32)/$(TARGET_go32)/bin/gcc
 CXX_go32=$(PREFIX_go32)/$(TARGET_go32)/bin/g++
 RANLIB_go32=$(PREFIX_go32)/$(TARGET_go32)/bin/ranlib
 STRIP_go32=$(PREFIX_go32)/$(TARGET_go32)/bin/strip
-BINS_go32=lmpc.exe demcut.exe
+BINS_go32=demcut.exe lmpc.exe
 CHANGE_go32=s/.exe/d.exe/
 
 
@@ -66,7 +66,7 @@ CC_cygwin=$(PREFIX_cygwin)/$(TARGET_cygwin)/bin/gcc
 CXX_cygwin=$(PREFIX_cygwin)/$(TARGET_cygwin)/bin/g++
 RANLIB_cygwin=$(PREFIX_cygwin)/$(TARGET_cygwin)/bin/ranlib
 STRIP_cygwin=$(PREFIX_cygwin)/$(TARGET_cygwin)/bin/strip
-BINS_cygwin=lmpc.exe demcut.exe
+BINS_cygwin=dbs.exe demcut.exe lmpc.exe
 CHANGE_cygwin=s/.exe/w.exe/
 
 
@@ -82,7 +82,7 @@ RANLIB_mingw=$(PREFIX_mingw)/$(TARGET_mingw)/bin/ranlib
 STRIP_mingw=$(PREFIX_mingw)/$(TARGET_mingw)/bin/strip
 CFLAGS_mingw=-mno-cygwin
 LDFLAGS_mingw=-mno-cygwin
-BINS_mingw=lmpc.exe demcut.exe
+BINS_mingw=demcut.exe lmpc.exe
 CHANGE_mingw=s/.exe/m.exe/
 
 
