@@ -127,16 +127,27 @@ UPLOAD_DIR_1=$(PACKAGE)
 endif
 
 uploadlocal:
-	$(WPU) --set ACTION=execsubst -- \
-		mkdir -p @PQSTAGE@/$(UPLOAD_DIR_1)
-	$(WPU) --set ACTION=execsubst -- \
-		cp -a $(UPLOAD_FILES_1) @PQSTAGE@/$(UPLOAD_DIR_1)
-	if [ -n $(UPLOAD_DIR_2) ]; then \
+	$(MAKE) uploadlocalpart UPLOAD_DIR=$(UPLOAD_DIR_1) UPLOAD_FILES="$(UPLOAD_FILES_1)"
+	$(MAKE) uploadlocalpart UPLOAD_DIR=$(UPLOAD_DIR_2) UPLOAD_FILES="$(UPLOAD_FILES_2)"
+
+
+uploadlocalpart:
+	if [ ! -z $(UPLOAD_DIR) ]; then \
+		echo copy the files $(UPLOAD_FILES) ; \
+		echo into $(UPLOAD_DIR) ; \
 		$(WPU) --set ACTION=execsubst -- \
-			mkdir -p @PQSTAGE@/$(UPLOAD_DIR_2) ; \
-		$(WPU) --set ACTION=execsubst -- \
-			cp -a $(UPLOAD_FILES_2) @PQSTAGE@/$(UPLOAD_DIR_2) ; \
+			mkdir -p @PQSTAGE@/$(UPLOAD_DIR) ; \
+		for f in $(UPLOAD_FILES) ; do \
+			if $(WPU) --set ACTION=execsubst -- \
+				cmp -s $$f @PQSTAGE@/$(UPLOAD_DIR)/$$f ; then \
+				echo $$f did not change. ; \
+			else \
+				$(WPU) --set ACTION=execsubst -- \
+					cp -a $$f @PQSTAGE@/$(UPLOAD_DIR) ; \
+			fi ; \
+		done ; \
 	fi
+
 
 clean::
 	$(RM_F) temp0 temp1 temp2 temp3
