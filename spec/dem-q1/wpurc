@@ -1,0 +1,21 @@
+# wpu parse start /^([^=]+)="(.*)"/
+TYPE="document"
+
+UPCOUNT="1"
+UF1="index.html @PACKAGE@.sgml @PACKAGE@.html @PACKAGE@.pdf"
+UD1="@UPWWW@/@PACKAGE@"
+
+
+GOODPACK="s"
+COMMENT_s="Source Package"
+METHOD_s="tbz"
+
+# wpu parse end
+
+# packdb start
+[Files]
+s	@PACKAGE@.base	base documentation in LinuxDoc
+s	@PACKAGE@.sgml.in	base documentation in DocBook
+s	Makefile	main make file
+s	wpurc		configuration file for wpu
+
