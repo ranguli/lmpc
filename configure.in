@@ -1,27 +1,40 @@
 dnl Process this file with autoconf to produce a configure script
 
-AC_INIT(src/lmpc.h)
-dnl get system type
-AC_CANONICAL_SYSTEM
+dnl -----------------------------------------------------
+dnl This is the main version definition area.
+dnl wpu parse start /^define\(MY_([^,]+),\[([^\]]+)\]\)/
+define(MY_PACKAGE,[lmpc])
+define(MY_TITLE,[The Little Movie Processing Centre])
+define(MY_VERSION,[3.4.0])
+define(MY_DATE,[8/3/2003])
+define(MY_COMMENT,[alpha release])
+define(MY_QUALITY,[alpha])
+define(MY_EMAIL,[uwe@planetquake.com])
 
 dnl -----------------------------------------------------
 dnl This is the main version definition area.
 dnl wpu parse start /^([^=]+)="(.*)"/
-PACKAGE="lmpc"
+dnl PACKAGE="lmpc"
 TITLE="The Little Movie Processing Centre"
-VERSION="3.3.0"
-DATE="1/23/2000"
-COMMENT="public release"
-QUALITY="stable"
+dnl VERSION="3.4.0"
+DATE="8/3/2004"
+COMMENT="alpha release"
+QUALITY="alpha"
 dnl wpu parse end
 dnl Here is the end of the main version definition area.
 dnl -----------------------------------------------------
+
+dnl This defines PACKAGE_BUGREPORT, PACKAGE_NAME, AC_PACKAGE_TARNAME, AC_PACKAGE_VERSION
+AC_INIT(MY_TITLE,MY_VERSION,MY_EMAIL,MY_PACKAGE)
+dnl get system type
+AC_CANONICAL_SYSTEM
 
 USE_CPLUSPLUS=no
 
 dnl I know it. The better way is to bring the package and version
 dnl only here but wpu can only parse the upper variant (on two lines).
-AM_INIT_AUTOMAKE($PACKAGE,$VERSION)
+dnl this defines PACKAGE and VERSION
+AM_INIT_AUTOMAKE(AC_PACKAGE_TARNAME,AC_PACKAGE_VERSION)
 
 AM_CONFIG_HEADER(config.h)
 
@@ -29,8 +42,7 @@ dnl automake needs this
 dnl AC_ARG_PROGRAM
 
 dnl subst own variables 
-AC_SUBST(DATE)dnl
-AC_SUBST(COMMENT)dnl
+DATE="MY_DATE"
 
 dnl subst Autoconf variables
 AC_SUBST(DBS)dnl
@@ -38,9 +50,9 @@ AC_SUBST(host)dnl
 AC_SUBST(NETLIBS)dnl
 
 dnl insert in config.h.in
-AC_DEFINE_UNQUOTED(DATE,"${DATE}")
-AC_DEFINE_UNQUOTED(COMMENT,"${COMMENT}")
-AC_DEFINE_UNQUOTED(HOST,"${host}")
+AC_DEFINE_UNQUOTED(DATE,"${DATE}",[Define the build date.])
+AC_DEFINE_UNQUOTED(COMMENT,"${COMMENT}",[Define a release note.])
+AC_DEFINE_UNQUOTED(HOST,"${host}",[Define the host, where the program should run.])
 
 dnl Checks for programs.
 AC_PATH_PROG(BYACC, byacc, byacc)
@@ -53,13 +65,13 @@ dnl AC_PATH_PROG(GZIP, gzip, gzip)dnl
 AC_PROG_INSTALL
 INSTALL_SCRIPT='${INSTALL} -m 755'
 AC_SUBST(INSTALL_SCRIPT)dnl
-AC_PATH_PROG(JAR, jar, jar)dnl
-AC_PATH_PROG(JAVA, java, java)dnl
-AC_PATH_PROG(JAVAC, javac, javac)dnl
-AC_PATH_PROG(JFLEX, jflex, jflex)dnl
+AC_PATH_PROG(JAR, jar)dnl
+AC_PATH_PROG(JAVA, java)dnl
+AC_PATH_PROG(JAVAC, javac)dnl
+AC_PATH_PROG(JFLEX, jflex)dnl
 AM_PROG_LEX
 AC_PROG_MAKE_SET
-AC_PATH_PROG(PERL, perl, perl)dnl
+AC_PATH_PROG(PERL, perl)dnl
 AC_PROG_RANLIB
 AC_PATH_PROG(RM, rm, rm)dnl
 AC_PATH_PROG(SED, sed, sed)dnl
@@ -71,7 +83,7 @@ olddir=`pwd`
 cd $ac_aux_dir/bin
 fulldir=`pwd`
 cd $olddir 
-AC_PATH_PROG(WPU, wpu, wpu, $PATH:$fulldir)dnl
+AC_PATH_PROG(WPU, wpu, wpu, $fulldir:$PATH)dnl
 unset fulldir
 AC_PROG_YACC
 AC_PATH_PROG(ZIP, zip, zip)dnl
@@ -133,11 +145,11 @@ dnl AC_FUNC_SETVBUF_REVERSED
 AC_CHECK_FUNC(shmget, DBS=dbs, unset DBS)
 AC_CHECK_FUNCS(mkfifo gettimeofday strdup)
 dnl AC_CHECK_FUNCS(gethostname select socket strerror strtol)
-AC_CHECK_FUNC(getopt_long,,LIBOBJS="$LIBOBJS getopt.o getopt1.o")
+AC_CHECK_FUNC(getopt_long,,AC_LIBOBJ([getopt]) AC_LIBOBJ([getopt1]))
 AC_MSG_CHECKING(for a memmem prototype)
 AC_EGREP_HEADER(memmem,string.h,ac_memmem_proto=yes,ac_memmem_proto=no)
 if test $ac_memmem_proto = yes; then
-  AC_DEFINE_UNQUOTED(HAVE_MEMMEM_PROTOTYPE)
+  AC_DEFINE_UNQUOTED(HAVE_MEMMEM_PROTOTYPE,1,"Define if you have the memmem prototype.")
 fi
 AC_MSG_RESULT($ac_memmem_proto)
 AC_REPLACE_FUNCS(memmem)
@@ -152,7 +164,7 @@ AC_ARG_ENABLE(lmp,
 case "$ENABLE_LMP" in
     n | no) : ;;
     y | ye | yes) 
-        AC_DEFINE(ENABLE_LMP)
+        AC_DEFINE(ENABLE_LMP,1,"Define if LMP support should be compiled in.")
     ;;
 esac
 
@@ -164,7 +176,7 @@ AC_ARG_ENABLE(dmo,
 case "$ENABLE_DMO" in
     n | no) : ;;
     y | ye | yes) 
-        AC_DEFINE(ENABLE_DMO)
+        AC_DEFINE(ENABLE_DMO,1,"Define if DMO support should be compiled in.")
     ;;
 esac
 
@@ -176,7 +188,7 @@ AC_ARG_ENABLE(dem,
 case "$ENABLE_DEM" in
     n | no) : ;;
     y | ye | yes) 
-        AC_DEFINE(ENABLE_DEM)
+        AC_DEFINE(ENABLE_DEM,1,"Define if DEM support should be compiled in.")
     ;;
 esac
 
@@ -188,7 +200,7 @@ AC_ARG_ENABLE(qwd,
 case "$ENABLE_QWD" in
     n | no) : ;;
     y | ye | yes) 
-        AC_DEFINE(ENABLE_QWD)
+        AC_DEFINE(ENABLE_QWD,1,"Define if QWD support should be compiled in.")
     ;;
 esac
 
@@ -200,7 +212,7 @@ AC_ARG_ENABLE(dm2,
 case "$ENABLE_DM2" in
     n | no) : ;;
     y | ye | yes) 
-        AC_DEFINE(ENABLE_DM2)
+        AC_DEFINE(ENABLE_DM2,1,"Define if DM2 support should be compiled in.")
     ;;
 esac
 
@@ -212,7 +224,7 @@ AC_ARG_ENABLE(dm3,
 case "$ENABLE_DM3" in
     n | no) : ;;
     y | ye | yes) 
-        AC_DEFINE(ENABLE_DM3)
+        AC_DEFINE(ENABLE_DM3,1,"Define if DM3 support should be compiled in.")
     ;;
 esac
 
