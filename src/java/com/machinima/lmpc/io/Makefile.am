@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
 # $Id$
 
-SUBDIRS = node text
+SUBDIRS = node text base
  
