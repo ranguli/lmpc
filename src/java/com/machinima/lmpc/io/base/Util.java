@@ -61,7 +61,14 @@ public class Util {
 			}
 		}
 
-		long fracPartLong = Math.round(fracPart);
+		// long fracPartLong = Math.round(fracPart);
+		long fracPartLong = (int)(fracPart + 0.5);
+		if ((fracPart + 0.5) == fracPartLong ) {
+			// we had to round up
+			// now clear the last bit to make it even
+			fracPartLong &= ~1;
+		}
+
 		if (fracPartLong != 0) {
 			digits += addDigits;
 		}
@@ -86,7 +93,7 @@ public class Util {
 			text.append('e');
 			text.append(exponentText);
 		}
-			
+
 		return new String(text);
 	}
 
