@@ -196,13 +196,34 @@ for (@directory) {
 		}
 		# macro block 6 ###############################################
 		if ($macro{"type"} == 6) {
-			printf $file_out "// XXX: I have never seen a block type 6.\n";
-			$cont = 0;
+			# this is just an educated guess
+			my $data_6_d = read_with_check($file_in,4+4+4+72);
+			(
+				$macro{"uk_i1"},
+				$macro{"uk_i2"},
+				$macro{"uk_f"},
+				my @data,
+			) = unpack "V V f C72", $data_6_d;
+			$macro{"uk_f"} = LittleFloat($macro{"uk_f"});
+			printf $file_out "   uk_i1 %d;\n", $macro{"uk_i1"};
+			printf $file_out "   uk_i2 %d;\n", $macro{"uk_i2"};
+			printf $file_out "   uk_f %f;\n", $macro{"uk_f"};
+			printf $file_out "   data";
+			for (@data) { printf $file_out " %02x", $_; }
+			printf $file_out ";\n";
+			$cont = 1;
 		}
 		# macro block 7 ###############################################
 		if ($macro{"type"} == 7) {
-			printf $file_out "// XXX: I have never seen a block type 7.\n";
-			$cont = 0;
+			# this is just an educated guess
+			my $data_7_d = read_with_check($file_in,8);
+			(
+				$macro{"uk_i1"},
+				$macro{"uk_i2"},
+			) = unpack "V V", $data_7_d;
+			printf $file_out "   uk_i1 %d;\n", $macro{"uk_i1"};
+			printf $file_out "   uk_i2 %d;\n", $macro{"uk_i2"};
+			$cont = 1;
 		}
 		# macro block 8 ###############################################
 		if ($macro{"type"} == 8) {
