@@ -4,7 +4,7 @@
 JAVAROOT=$(top_builddir)/src/java
 
 BUILT_SOURCES=LsLex.java LsParse.java
-java_JAVA=TextOut.java $(BUILT_SOURCES)
+java_JAVA=TextBlockReader.java TextBlockWriter.java $(BUILT_SOURCES)
 CLEANFILES=$(BUILT_SOURCES)
 
 LsLex.java: LsLex.flex
