@@ -58,6 +58,19 @@ HINT_beta="This version is beta code. It contains new bugs."
 HINT_alpha="This code is considered as alpha quality. It contains many new bugs."
 HINT_private="This is a private release. Do not distribute."
 
+
+# generic names
+MYFIRSTNAME="Uwe"
+MYSURNAME="Girlich"
+MYNAME="@MYFIRSTNAME@ @MYSURNAME@"
+MYEMAIL="uwe@planetquake.com"
+PQSITE="www.planetquake.com"
+PLANETQUAKE="http://@PQSITE@"
+BASE="demospecs"
+HOMEURL="@PLANETQUAKE@/@BASE@"
+HOMENAME="Demo Specs page"
+
+
 # wpu parse end
 
 
@@ -75,8 +88,8 @@ sf	Makefile.am	Automake template for Makefile.in
 sf	Makefile.in	Autoconf template for Makefile
 sldwmf	README	you read it
 sf	README.base	template for all READMEs
-sf	acconfig.h	Autoconf template for config.h.in
 sf	aclocal.m4	Automake macros
+sf	autogen.sh	generate initial Autoconf stuff
 sf	bin/Makefile.am	Automake template for bin/Makefile.in
 sf	bin/Makefile.in Autoconf template for bin/Makefile
 sf	bin/cprep	C to C++ conversion tool
@@ -103,7 +116,7 @@ sf	config.guess	Autoconf host system guess
 sf	config.h.in	Autoconf template for config.h
 sf	config.sub	Autoconf host system name normaliser
 sf	configure	Autoconf configure script
-sf	configure.in	Autoconf template for configure
+sf	configure.ac	Autoconf template for configure
 sf	doc/COMPILE	compilation hints
 sf	doc/COMPILE-go32	cross compilation script for go32
 sf	doc/COMPILE-cygwin	cross compilation script for Cygwin
@@ -116,11 +129,9 @@ lf	doc/lmpc.txt	documentation (formatted ASCII)
 f	doc/lmpc.ps	documentation (PostScript)
 sf	install-sh	Autoconf install script
 sf	missing	Automake help script
-sf	mkinstalldirs	make directory hierarchy
 sf	src/Makefile.am	Automake template for src/Makefile.in
 sf	src/Makefile.in	Autoconf template for src/Makefile
 sf	src/alloca.c	alloca(3) source
-sf	src/alloca.h	alloca(3) header
 sf	src/binblock.c	binary block read/write functions
 sf	src/binblock.h	header file for binblock.c
 sf	src/dbs.c	DBS main source
