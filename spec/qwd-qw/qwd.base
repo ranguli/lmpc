@@ -1,0 +1,2249 @@
+<!doctype linuxdoc system>
+<article>
+<title>@TITLE@
+<author>@MYNAME@, 
+<htmlurl url="mailto:@MYEMAIL@" name="@MYEMAIL@">
+<date>v@VERSION@, @DATE@
+<abstract>
+This document describes the QWD file format, which is the result
+of ``recording'' a game in QuakeWorld.
+</abstract>
+
+<toc>
+
+<sect>Introduction
+<p>
+<sect1>Recording and Playback
+<p>
+To create a recording of your network play use up to QuakeWorld 2.10 the 
+console command <em>record name server</em>. This connects you to the 
+server <tt>server</tt> and records the game play from your point of view 
+into the file <tt>name.qwd</tt>.
+<p>
+From version 2.20 on you have first to connect to the server and start the
+recording with the console command <em>record name</em> later.
+<p>
+The recording stops when you disconnect from the server or you use the
+console command <em>stop</em>. To play it back,
+use the commands <em>playdemo name</em> or <em>timedemo name</em>.
+
+<sect1>Versions
+<p>
+<table loc="ht">
+<tabular ca="lll">
+<tt>Exe:</tt><colsep>version<colsep>platform<rowsep>
+12:43:52 Jun 13 1997<colsep>Linux QuakeWorld (0.94) 1.64<colsep>Linux, SVGA<rowsep>
+19:51:52 Aug  7 1997<colsep>Linux QuakeWorld 2.00<colsep>Linux, SVGA<rowsep>
+23:46:07 Oct 13 1997<colsep>Linux QuakeWorld (0.94) 2.10<colsep>Linux, SVGA<rowsep>
+00:03:05 Oct 14 1997<colsep>Linux QuakeWorld (0.94) 2.10<colsep>Linux, X11, 8bpp<rowsep>
+23:46:22 Oct 23 1997<colsep>QuakeWorld Server 2.10<colsep>Linux<rowsep>
+18:32:34 Nov  2 1997<colsep>Linux QuakeWorld (0.94) 2.10<colsep>Linux, OpenGL<rowsep>
+14:47:43 May 16 1998<colsep>QuakeWorld Server 2.20<colsep>Linux<rowsep>
+14:48:28 May 16 1998<colsep>Linux (0.96) QuakeWorld 2.20<colsep>Linux, SVGA<rowsep>
+14:48:28 May 16 1998<colsep>Linux (0.96) QuakeWorld 2.20<colsep>Linux, X11<rowsep>
+14:50:20 May 16 1998<colsep>Linux (0.96) QuakeWorld 2.20<colsep>Linux, OpenGL<rowsep>
+14:37:00 May 20 1998<colsep>QuakeWorld Server 2.21<colsep>Linux<rowsep>
+14:37:46 May 20 1998<colsep>Linux (0.97) QuakeWorld 2.21<colsep>Linux, SVGA, 8bpp<rowsep>
+14:39:38 May 20 1998<colsep>Linux (0.97) QuakeWorld 2.21<colsep>Linux, OpenGL<rowsep>
+17:27:37 Jul 13 1998<colsep>QuakeWorld Server 2.29BETA<colsep>Linux<rowsep>
+17:27:56 Jul 13 1998<colsep>Linux (0.98) QuakeWorld 2.29<colsep>Linux, SVGA<rowsep>
+17:27:56 Jul 13 1998<colsep>Linux (0.98) QuakeWorld 2.29<colsep>Linux, X11<rowsep>
+17:28:42 Jul 13 1998<colsep>Linux (0.98) QuakeWorld 2.29<colsep>Linux, OpenGL<rowsep>
+17:05:37 Aug 26 1998<colsep>QuakeWorld Server 2.30<colsep>Linux<rowsep>
+17:06:04 Aug 26 1998<colsep>Linux (0.98) QuakeWorld 2.30<colsep>Linux, SVGA<rowsep>
+17:06:04 Aug 26 1998<colsep>Linux (0.98) QuakeWorld 2.30<colsep>Linux, X11<rowsep>
+17:07:08 Aug 26 1998<colsep>Linux (0.98) QuakeWorld 2.30<colsep>Linux, OpenGL (Mesa)<rowsep>
+17:07:08 Aug 26 1998<colsep>Linux (0.98) QuakeWorld 2.30<colsep>Linux, OpenGL (any)
+</tabular>
+<caption>Covered QuakeWorld versions</caption>
+</table>
+<p>
+I actually write and check my documentation with Linux 
+<tt>qwcl</tt> and <tt>qwsv</tt> 2.30 on the same machine.
+<p>
+The older versions of QuakeWorld couldn't record a QWD file but playback
+seemed to work. I checked QuakeWorld 1.54c and 1.55 with a QWD file recorded 
+with 1.64 but both old versions crashed on playback.
+
+If you find that this documentation covers even more versions 
+(other operating systems) please drop me a note.
+
+
+<sect1>Advertising
+<p>
+As the clever reader may know I'm the author of LMPC, the Little Movie 
+Processing Centre. With this tool you may
+<itemize>
+<item>``decompile'' an existing QWD file to a simple text file and
+<item>``compile'' such a (modified) text file back to a binary QWD file.
+</itemize>
+With LMPC it is very easy to analyse a QWD file but you may change it
+as well and so create a QWD file of a network game you 
+never played. The current version of LMPC can be found at my 
+<url url="@HOMEURL@" name="@HOMENAME@">.
+
+<sect1>General remarks
+<p>
+The QWD format is very different from the original Quake DEM format. 
+That applies as well to the internal message format as to the general
+game scene representation. Many things are now described totally
+different, which makes an accurate converter (particles, nails etc.) very 
+difficult.
+<p>
+I know for sure that I'll never write a DEM &lt;-&gt; QWD converter.
+
+
+<sect>Game font<label id="font">
+<p>
+A string may contain any 8 bit characters except `&bsol;377' and it ends with
+`&bsol;000'. The special characters `&bsol;n' and `&bsol;r' have their normal
+meaning.
+<p>
+The QuakeWorld font is an extended ASCII font (7 bit) which contains in the upper
+half a similar font but with a different colour.
+<p>
+I used a simple Quake <url url="@HOMEURL@/misc/qfont.html" name="DEM file">
+to print all 252 ASCII characters.  
+
+<sect>File structure
+<p>
+To describe the file structure, which is very complicated, I use 
+C like program fragments and <tt>struct</tt> definitions. This 
+simplifies my task a lot. 
+<p>
+I invented all used names (messages, variables etc.) for myself, took them 
+from the QuakeWorld binary, QuakeEd but almost all from the QuakeC source. 
+<p>
+All multi-byte structures in QWD files are ``little endian'' (VAX or Intel,
+lowest byte first).
+<p>
+At first some QuakeEd compliant coordinate <tt>typedef</tt>'s:
+<tscreen><verb>typedef float vec_t;
+
+typedef vec_t vec3_t[3];</verb></tscreen>
+<p>
+A QWD file is the recording of the network traffic between the client and
+the server in both directions. Each network packet and its time stamp will
+be stored in a `block' of the QWD file.
+<p>
+Every block has the structure
+<tscreen><verb>typedef struct {
+  float time;                 
+  char  code;
+  char  data[???];
+} block_t;</verb></tscreen>
+<descrip>
+
+<tag><tt>float time;</tt></tag>
+is the time stamp of the block.
+
+<tag><tt>char code;</tt></tag>
+is the sign to indicate the block type. Each block type will be parsed
+totally different.
+<table loc="ht">
+<tabular ca="ll">
+<tt>code</tt> <colsep>block type<rowsep>
+<tt>0x00</tt> <colsep>client block<rowsep>
+<tt>0x01</tt> <colsep>server block<rowsep>
+<tt>0x02</tt> <colsep>frame block
+</tabular>
+<caption>Block types</caption>
+</table>
+
+<tag><tt>char data[???];</tt></tag>
+is actual data of the block.
+
+</descrip>
+
+<sect1>Client block
+<p>
+A client block is 41 bytes long and contains an expanded version of a 
+network packet from the client to the server. The actual network packet is 
+packed.
+
+The client block has the following structure:
+<tscreen><verb>typedef struct {
+  float         time;                 
+  char          code;       // == 0
+  long          load;
+  vec3_t        angles;
+  short         speed[3];
+  unsigned char flag;
+  unsigned char impulse;
+  vec3_t        uk_angles;
+} client_block_t;</verb></tscreen>
+
+<descrip>
+<tag><tt>long load;</tt></tag> 
+is connected somehow with the workload on the client. ?FIXME?
+
+<tag><tt>vec3_t angles;</tt></tag>
+point in the viewing direction (in degree) of the client.
+
+<tag><tt>short speed[3];</tt></tag>
+is the intended translation of the client (forward, right, up).
+
+<tag><tt>flag;</tt></tag>
+is a collection of flags and must be splitted:
+<tscreen><verb>fire = (flag & 0x01) ? 1 : 0;
+jump = (flag & 0x02) ? 1 : 0;</verb></tscreen>
+Other bits may contain additional information.
+
+<tag><tt>int fire;</tt></tag>
+indicates an <it>attack</it> console command.
+
+<tag><tt>int jump;</tt></tag>
+indicates a <it>jump</it> console command.
+
+<tag><tt>long impulse;</tt></tag>
+is the value of a currently activated <it>impulse</it> console command.
+
+</descrip>
+
+<sect1>Server block
+<p>
+A server block has a variable length and contains a copy of a network packet 
+from the server to the client. It has the following structure:
+<tscreen><verb>typedef struct {
+  float         time;                 
+  char          code;        // == 1
+  long          blocksize;
+  unsigned long seq_rel_1;
+  char          messages[blocksize-4];
+} server_block_t;</verb></tscreen>
+
+<descrip>
+
+<tag><tt>long blocksize;</tt></tag>
+is the number of bytes in the block following the <tt>blocksize</tt>
+variable itself (but including <tt>seq_rel_1</tt>).
+The full server block has <tt>blocksize+9</tt> bytes. 
+The maximim value for <tt>blocksize</tt> (<tt>MAX_MSGLEN</tt>) used to be 
+7500 but changed from protocol 25 to 26 (game version 2.10 to 2.20) to 1450.
+The new value avoids fragmentation of the UDP packets on an Ethernet.
+The MTU in PPP is much smaller but the reduced packet size is for LAN play
+definitely a great improvement.
+
+<tag><tt>unsigned long seq_rel_1;</tt></tag>
+is a sign to distinguish between a connectionless block 
+(<tt>==0xFFFFFFFF</tt>) or a game block (<tt>!=0xFFFFFFFF</tt>).
+
+</descrip>
+ 
+<sect2>Connectionless block
+<p>
+Each connectionless block or packet contains one server command to 
+control the server-client network connection and has the structure
+<tscreen><verb>typedef struct {
+  float          time;                 
+  char           code;       // == 1
+  long           blocksize;
+  unsigned long  seq_rel_1;  // == 0xFFFFFFFF
+  char           connless_id;                
+  char           connless_data[blocksize-5];
+} connless_block_t;</verb></tscreen>
+
+<descrip>
+
+<tag><tt>char connless_id;</tt></tag>
+is a code to explain the following <tt>connless_data</tt>.
+
+<tag><tt>char connless_data[blocksize-5];</tt></tag>
+is the rest of the block and depends on the value of <tt>connless_id</tt>.
+
+</descrip>
+
+<sect2>Game block
+<p>
+A game block has the structure
+<tscreen><verb>typedef struct {
+  float          time;                 
+  char           code;       // == 1
+  long           blocksize;
+  unsigned long  seq_rel_1;  // != 0xFFFFFFFF
+  unsigned long  seq_rel_2;                 
+  char           messages[blocksize-8];
+} game_blocks_t;</verb></tscreen>
+
+<descrip>
+
+<tag><tt>unsigned long seq_rel_1;</tt></tag>
+is a compound variable and must be splitted:
+<tscreen><verb>seq1 = seq_rel_1 & 0x7FFFFFFF;
+reliable1 = ( seq_rel_1 >> 31 ) & 0x01;</verb></tscreen>
+
+<tag><tt>unsigned long seq1;</tt></tag>
+is the sequence code of the sent network packet
+(from the server to the client).
+
+<tag><tt>int reliable1;</tt></tag>
+Indicates, that this packet is a reliable one. In the actual network 
+protocol, the server retransmit it until the client send the acknowledge.
+
+<tag><tt>unsigned long seq_rel_2;</tt></tag>
+is a compound variable and must be splitted:
+<tscreen><verb>seq2 = seq_rel_2 & 0x7FFFFFFF;
+reliable2 = ( seq_rel_2 >> 31 ) & 0x01;</verb></tscreen>
+
+<tag><tt>unsigned long seq2;</tt></tag>
+is the sequence code of the last received network packet (from the client to 
+the server).
+
+<tag><tt>int reliable2;</tt></tag>
+Indicates, that this packet was a reliable one. In the actual network
+protocol, the server acknowledge so a reliable packet from the client.
+
+<tag><tt>char messages[blocksize-8];</tt></tag>
+contain several game messages with the main game data. The structure is 
+similar to the messages in Quake DEM files. 
+
+</descrip>
+
+<sect1>Frame block
+<p>
+A frame block is 13 bytes long and contains 2 sequence numbers.
+It is a server to client block and the first sequence number goes up in the
+same sequence as in all the surrounding game blocks.
+The exact meaning of these sequence numbers is unknown to me. ?FIXME? 
+A frame block appears first in protocol version 26 (game version 2.20).
+<p>
+The frame block has the following structure:
+<tscreen><verb>typedef struct {
+  float         time;                 
+  char          code;       // == 2
+  unsigned long seq1;
+  unsigned long seq2;
+} frame_block_t;</verb></tscreen>
+
+<descrip>
+<tag><tt>unsigned long seq1;</tt></tag> 
+is the current sequence number (from the server to the client).
+
+<tag><tt>unsigned long seq2;</tt></tag>
+is certainly some kind of an already received sequence number.
+
+</descrip>
+
+<sect1>Auxiliary routines
+<p>
+Here comes the definition of some small auxiliary routines to 
+simplify
+the main message description. <tt>get_next_unsigned_char</tt>,
+<tt>get_next_signed_char</tt>, <tt>get_next_short</tt>,
+<tt>get_next_long</tt> and <tt>get_next_float</tt> are basic functions and 
+they do exactly what they are 
+called. Please note: <tt>byte</tt>, <tt>char</tt> or <tt>short</tt> will be 
+converted to <tt>long</tt>.
+Second note: Don't look at the variable types for size calculations. 
+Look at the routine names.
+<p>
+In the following I often use a count variable 
+<tscreen><verb>int i;</verb></tscreen>
+without declaration. I hope this does not confuses you. 
+
+<tscreen><verb>long ReadByte
+{
+  return (long) get_next_unsigned_char;
+}</verb></tscreen>
+
+<tscreen><verb>long ReadChar
+{
+  return (long) get_next_signed_char;
+}</verb></tscreen>
+
+<tscreen><verb>long ReadShort
+{
+  return (long) get_next_short;
+}</verb></tscreen>
+
+<tscreen><verb>long ReadLong
+{
+  return get_next_long;
+}</verb></tscreen>
+
+Note: A signed angle in a single byte. There are only 256 possible 
+direction to look into.
+
+<tscreen><verb>vec_t ReadAngle
+{
+  return (vec_t) ReadChar / 256.0 * 360.0;
+}</verb></tscreen>
+
+This angle can point in 65536 directions.
+
+<tscreen><verb>vec_t ReadAngle16
+{
+  return (vec_t) ReadShort / 65536.0 * 360.0;
+}</verb></tscreen>
+
+A coordinate is stored in 16 bits: 1 sign bit, 12 integer bits and 3
+fraction bits.
+
+<tscreen><verb>vec_t ReadCoord
+{
+  return (vec_t) ReadShort * 0.125;
+}</verb></tscreen>
+
+The string reading stops at '&bsol;0' or after 0x7FF bytes. The internal
+buffer has only 0x800 bytes available.
+
+<tscreen><verb>char* ReadString
+{
+  char* string_pointer;
+  char string_buffer[0x800];
+
+  string_pointer=string_buffer;
+  for (i=0 ; i<0x7FF ; i++, string_pointer++) {
+    if (! (*string_pointer = ReadChar) ) break;
+  }
+  *string_pointer = '\0';
+  return strdup(string_buffer);
+}</verb></tscreen>
+
+<tscreen><verb>long ReadFloat
+{
+  return get_next_float;
+}</verb></tscreen>
+
+<sect>List of all message types in connectionless blocks
+<p>
+This is the general message structure:
+<tscreen><verb>typedef struct {
+  char connless_id;
+  char connless_data[???];
+} connless_message_t;</verb></tscreen>
+The length of a message depends on its type.
+<p>
+The easiest way to explain a message in a connectionless block is to give a 
+short C like program fragment to parse such a message. It is not really the 
+same code base as in LMPC but it should be <em>very</em> similar. Each message
+can be described by its <tt>connless_id</tt> or its name. 
+
+<sect1>disconnect<p><descrip><tag><tt>connless_id</tt></tag><tt>0x02</tt>
+
+<tag>purpose</tag>
+Stop the playback. It is usually the last block of a QWD file.
+
+<tag>variables</tag>
+<descrip>
+<tag><tt>char* text;</tt></tag>
+is an unused and (by QuakeWorld) unparsed text. Its value is "EndOfDemo".
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>text=ReadString;</verb></tscreen>
+
+</descrip>
+
+
+<sect1>client_command<p><descrip><tag><tt>connless_id</tt></tag><tt>0x42</tt> = 'B'
+
+<tag>purpose</tag>
+The client transfers the text to the console and runs it. The command can 
+only come from a local server.
+
+<tag>variables</tag>
+<descrip>
+<tag><tt>char* text;</tt></tag>
+is the console command, to be executed.
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>text=ReadString;</verb></tscreen>
+
+</descrip>
+
+
+<sect1>challenge<p><descrip><tag><tt>connless_id</tt></tag><tt>0x63</tt> = 'c'
+
+<tag>purpose</tag>
+This special message appears first with protocol version 26 (game version
+2.20).
+
+<tag>parse routine</tag>
+<tscreen><verb>challenge = ReadString;</verb></tscreen>
+
+</descrip>
+
+
+<sect1>connect<p><descrip><tag><tt>connless_id</tt></tag><tt>0x6A</tt> = 'j'
+
+<tag>purpose</tag>
+The server tells the client to start the game initialisation procedure.
+
+<tag>parse routine</tag>
+none
+
+</descrip>
+
+
+<sect1>ping<p><descrip><tag><tt>connless_id</tt></tag><tt>0x6B</tt> = 'k'
+
+<tag>purpose</tag>
+The server tells the client that it is still alive.
+
+<tag>parse routine</tag>
+none
+
+</descrip>
+
+
+<sect1>console<p><descrip><tag><tt>connless_id</tt></tag><tt>0x6E</tt> = 'n'
+
+<tag>purpose</tag>
+The client transfers the text to the console and prints it.
+
+<tag>variables</tag>
+<descrip>
+<tag><tt>char* text;</tt></tag>
+is the text to be printed.
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>text=ReadString;</verb></tscreen>
+
+</descrip>
+
+<sect>List of all game message types
+<p>
+This is the general game message structure:
+<tscreen><verb>typedef struct {
+                 unsigned char ID;
+                 char          messagecontent[????];
+               } game_message_t;</verb></tscreen>
+The length of a message depends on its type (or <tt>ID</tt>).
+<p>
+Each message can be described by its <tt>ID</tt> or its name. 
+<p>
+
+<sect1>bad<p><descrip><tag><tt>ID</tt></tag><tt>0x00</tt>
+
+<tag>purpose</tag>
+Something is bad. This message should never appear.
+
+<tag>parse routine</tag>
+<tscreen><verb>error("CL_ParseServerMessage: Bad server message");</verb></tscreen>
+
+</descrip>
+
+<sect1>nop<p><descrip><tag><tt>ID</tt></tag><tt>0x01</tt>
+
+<tag>purpose</tag>
+No operation.
+
+<tag>parse routine</tag>
+none
+
+</descrip>
+
+<sect1>disconnect<p><descrip><tag><tt>ID</tt></tag><tt>0x02</tt>
+
+<tag>purpose</tag>
+Disconnect from the server. Stops the game.
+
+<tag>parse routine</tag>
+none
+
+</descrip>
+
+<sect1>updatestat<label id="updatestat"><p><descrip><tag><tt>ID</tt></tag><tt>0x03</tt>
+
+<tag>purpose</tag>
+Updates directly a <tt>byte</tt> value in the player state array of 
+<tt>long</tt> numbers. To update a <tt>long</tt>
+value, look in section <ref id="updatestatlong" name="updatestatlong">.
+
+<tag>variables</tag>
+<descrip>
+
+<tag><tt>long index;</tt></tag> is the index in the <tt>playerstate</tt>
+array. Table `<tt>updatestat</tt> indices' lists
+all possible indices and their real name. The value of an <tt>items</tt>
+entry (<tt>index</tt>=15) is a bit difficult and will be explained in the 
+table `<tt>items</tt> bits'.
+
+<table loc="htbp">
+<tabular ca="rl">
+index <colsep>variable<rowsep>
+0 <colsep><tt>health</tt><rowsep>
+1 <colsep>??? (not used)<rowsep>
+2 <colsep><tt>weaponmodel</tt><rowsep>
+3 <colsep><tt>currentammo</tt><rowsep>
+4 <colsep><tt>armorvalue</tt><rowsep>
+5 <colsep><tt>weaponframe</tt><rowsep>
+6 <colsep><tt>ammo_shells</tt><rowsep>
+7 <colsep><tt>ammo_nails</tt><rowsep>
+8 <colsep><tt>ammo_rockets</tt><rowsep>
+9 <colsep><tt>ammo_cells</tt><rowsep>
+10 <colsep><tt>weapon</tt><rowsep>
+11 <colsep><tt>total_secrets</tt><rowsep>
+12 <colsep><tt>total_monsters</tt><rowsep>
+13 <colsep><tt>found_secrets</tt><rowsep>
+14 <colsep><tt>killed_monsters</tt><rowsep>
+15 <colsep><tt>items</tt><rowsep>
+. <colsep><rowsep>
+. <colsep><rowsep>
+. <colsep><rowsep>
+23 <colsep>???<rowsep>
+. <colsep><rowsep>
+. <colsep><rowsep>
+. <colsep><rowsep>
+31 <colsep>???
+</tabular>
+<caption><tt>updatestat</tt> indices</caption>
+</table>
+
+<table loc="htbp">
+<tabular ca="rlll">
+bit <colsep>value <colsep>QuakeC <colsep>purpose<rowsep>
+ 0 <colsep><tt>0x00000001</tt> <colsep>IT&lowbar;SHOTGUN <colsep>
+Shotgun (should be always 1)<rowsep>
+ 1 <colsep><tt>0x00000002</tt> <colsep>IT&lowbar;SUPER&lowbar;SHOTGUN
+<colsep>
+Double-barrelled Shotgun<rowsep>
+ 2 <colsep><tt>0x00000004</tt> <colsep>IT&lowbar;NAILGUN <colsep>
+Nailgun<rowsep>
+ 3 <colsep><tt>0x00000008</tt> <colsep>IT&lowbar;SUPER&lowbar;NAILGUN
+<colsep>
+Perforator<rowsep>
+ 4 <colsep><tt>0x00000010</tt> <colsep>IT&lowbar;GRENADE&lowbar;LAUNCHER
+<colsep>
+Grenade Launcher<rowsep>
+ 5 <colsep><tt>0x00000020</tt> <colsep>IT&lowbar;ROCKET&lowbar;LAUNCHER
+<colsep>
+Rocket Launcher<rowsep>
+ 6 <colsep><tt>0x00000040</tt> <colsep>IT&lowbar;LIGHTNING <colsep>
+Thunderbolt<rowsep>
+ 7 <colsep><tt>0x00000080</tt> <colsep>IT&lowbar;EXTRA&lowbar;WEAPON
+<colsep>
+extra weapon (there is no extra weapon)<rowsep>
+ 8 <colsep><tt>0x00000100</tt> <colsep>IT&lowbar;SHELLS <colsep>
+Shells are active<rowsep>
+ 9 <colsep><tt>0x00000200</tt> <colsep>IT&lowbar;NAILS <colsep>
+Nails are active<rowsep>
+10 <colsep><tt>0x00000400</tt> <colsep>IT&lowbar;ROCKETS <colsep>
+Grenades are active<rowsep>
+11 <colsep><tt>0x00000800</tt> <colsep>IT&lowbar;CELLS <colsep>
+Cells are active<rowsep>
+12 <colsep><tt>0x00001000</tt> <colsep>IT&lowbar;AXE <colsep>
+Axe (should be always 1)<rowsep>
+13 <colsep><tt>0x00002000</tt> <colsep>IT&lowbar;ARMOR1 <colsep>
+green Armor<rowsep>
+14 <colsep><tt>0x00004000</tt> <colsep>IT&lowbar;ARMOR2 <colsep>
+yellow Armor<rowsep>
+15 <colsep><tt>0x00008000</tt> <colsep>IT&lowbar;ARMOR3 <colsep>
+red Armor<rowsep>
+16 <colsep><tt>0x00010000</tt> <colsep>IT&lowbar;SUPERHEALTH <colsep>
+Megahealth<rowsep>
+17 <colsep><tt>0x00020000</tt> <colsep>IT&lowbar;KEY1 <colsep>
+silver keycard (or runekey or key)<rowsep>
+18 <colsep><tt>0x00040000</tt> <colsep>IT&lowbar;KEY2 <colsep>
+gold keycard (or runekey or key)<rowsep>
+19 <colsep><tt>0x00080000</tt> <colsep>IT&lowbar;INVISIBILITY <colsep>
+Ring of Shadows<rowsep>
+20 <colsep><tt>0x00100000</tt> <colsep>IT&lowbar;INVULNERABILITY <colsep>
+Pentagram of Protection<rowsep>
+21 <colsep><tt>0x00200000</tt> <colsep>IT&lowbar;SUIT <colsep>
+Biosuit<rowsep>
+22 <colsep><tt>0x00400000</tt> <colsep>IT&lowbar;QUAD <colsep>
+Quad Damage<rowsep>
+23 <colsep><tt>0x00800000</tt> <colsep>unknown <colsep>
+unknown (is 0)<rowsep>
+24 <colsep><tt>0x01000000</tt> <colsep>unknown <colsep>
+unknown (is 0)<rowsep>
+25 <colsep><tt>0x02000000</tt> <colsep>unknown <colsep>
+unknown (is 0)<rowsep>
+26 <colsep><tt>0x04000000</tt> <colsep>unknown <colsep>
+unknown (is 0)<rowsep>
+27 <colsep><tt>0x08000000</tt> <colsep>unknown <colsep>
+unknown (is 0)<rowsep>
+28 <colsep><tt>0x10000000</tt> <colsep>unknown <colsep>
+Rune 1<rowsep>
+29 <colsep><tt>0x20000000</tt> <colsep>unknown <colsep>
+Rune 2<rowsep>
+30 <colsep><tt>0x40000000</tt> <colsep>unknown <colsep>
+Rune 3<rowsep>
+31 <colsep><tt>0x80000000</tt> <colsep>unknown <colsep>
+Rune 4
+</tabular>
+<caption><tt>items</tt> bits</caption>
+</table>
+
+<tag><tt>long value;</tt></tag> is the new (<tt>byte</tt>) value.
+
+<tag><tt>long playerstate[32];</tt></tag> is the array to describe the
+player state.
+
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>index = ReadByte;
+if (index > 31) 
+  error("CL_SetStat: %i is invalid", index);
+value = ReadByte;
+playerstate[index] = value;
+</verb></tscreen>
+
+</descrip>
+
+<sect1>version<p><descrip><tag><tt>ID</tt></tag><tt>0x04</tt>
+<tag>purpose</tag>Not used any more. Calls the <bf>bad</bf>-routine.</descrip>
+
+<sect1>setview<p><descrip><tag><tt>ID</tt></tag><tt>0x05</tt>
+<tag>purpose</tag>Not used any more. Calls the <bf>bad</bf>-routine.</descrip>
+
+<sect1>sound<p><label id="sound"><descrip><tag><tt>ID</tt></tag><tt>0x06</tt>
+
+<tag>purpose</tag>
+This message starts the play of a sound at a specific point.
+
+<tag>variables</tag>
+<descrip>
+
+<tag><tt>float vol;</tt></tag> is the volume of the sound (0.0 off, 
+1.0 max).
+
+<tag><tt>float attenuation;</tt></tag> is the attenuation of the sound.
+<table loc="ht">
+<tabular ca="lll">
+value <colsep>QuakeC <colsep>purpose<rowsep>
+0 <colsep>ATTN&lowbar;NONE <colsep>
+i. e. player's death sound doesn't get an attenuation<rowsep>
+1 <colsep>ATTN&lowbar;NORM <colsep>the normal attenuation<rowsep>
+2 <colsep>ATTN&lowbar;IDLE <colsep>for idle monsters<rowsep>
+3 <colsep>ATTN&lowbar;STATIC <colsep>for spawnstaticsound messages
+</tabular>
+<caption>Sound attenuations</caption>
+</table>
+
+<tag><tt>long channel;</tt></tag> is the sound channel. There are 8 possible
+sound channels for each entity in QuakeWorld but it uses 5 only. 
+<table loc="ht">
+<tabular ca="lll">
+value <colsep>QuakeC <colsep>purpose<rowsep>
+0 <colsep>CHAN&lowbar;AUTO <colsep>selects a channel automatically<rowsep>
+1 <colsep>CHAN&lowbar;WEAPON <colsep>weapon use sounds<rowsep>
+2 <colsep>CHAN&lowbar;VOICE <colsep>pain calls<rowsep>
+3 <colsep>CHAN&lowbar;ITEM <colsep>item get sounds<rowsep>
+4 <colsep>CHAN&lowbar;BODY <colsep>jump and fall sounds
+</tabular>
+<caption>Sound channels</caption>
+</table>
+
+Channel 0 never willingly overrides. Other channels (1-4) always override a 
+playing sound on that channel.
+
+<tag><tt>long entity;</tt></tag> is the entity which caused the sound.
+
+<tag><tt>long soundnum;</tt></tag> is the index in the precache sound table.
+
+<tag><tt>vec3_t origin;</tt></tag> is the origin of the sound.
+
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>long entity_channel; // combined variable
+
+entity_channel = ReadShort;
+vol = entity_channel & 0x8000 ? (float) ReadByte / 255.0 : 1.0;
+attenuation = entity_channel & 0x4000 ? (float) ReadByte / 64.0 : 1.0;
+channel = entity_channel & 0x07;
+entity = (entity_channel >> 3) & 0x03FF;
+if (entity >= 0x0300) 
+  error("CL_ParseStartSoundPacket: ent = %i", entity);
+soundnum = ReadByte;
+for (i=0 ; i<3 ; i++) origin[i] = ReadCoord;</verb></tscreen>
+
+</descrip>
+
+<sect1>time<p><descrip><tag><tt>ID</tt></tag><tt>0x07</tt>
+<tag>purpose</tag>Not used any more. Calls the <bf>bad</bf>-routine.</descrip>
+
+<sect1>print<p><descrip><tag><tt>ID</tt></tag><tt>0x08</tt>
+
+<tag>purpose</tag>
+The client prints the text in the top left corner of the screen. There is space
+for 4 lines. They scroll up and the text disappears.
+The text will be printed on the console as well. 
+
+<tag>variables</tag>
+<descrip>
+<tag><tt>long level;</tt></tag> is the priority level of the text. 
+<table loc="ht">
+<tabular ca="lll">
+value <colsep>QuakeC <colsep>purpose<rowsep>
+0 <colsep>PRINT&lowbar;LOW <colsep>pickup messages (white)<rowsep>
+1 <colsep>PRINT&lowbar;MEDIUM <colsep>death messages<rowsep>
+2 <colsep>PRINT&lowbar;HIGH <colsep>critical messages (red)<rowsep>
+3 <colsep>PRINT&lowbar;CHAT <colsep>also goes to chat console
+</tabular>
+<caption>Print priority levels</caption>
+</table>
+<tag><tt>char* text;</tt></tag> is the text to be displayed.
+All font specials are explained in section <ref id="font" name="Quake font">.
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>level = ReadByte;
+text = ReadString;</verb></tscreen>
+
+</descrip>
+
+<sect1>stufftext<p><descrip><tag><tt>ID</tt></tag><tt>0x09</tt>
+
+<tag>purpose</tag>
+The client transfers the text to the console and runs it.
+
+<tag>variables</tag>
+<descrip>
+<tag><tt>char* text;</tt></tag> is the command, which the client has to 
+execute. 
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>text = ReadString;</verb</tscreen>
+
+</descrip>
+
+<sect1>setangle<p><descrip><tag><tt>ID</tt></tag><tt>0x0A</tt>
+
+<tag>purpose</tag>
+This message set the camera orientation.
+
+<tag>variables</tag>
+<descrip>
+<tag><tt>vec3_t angles;</tt></tag> is the new camera orientation.
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>for (i=0 ; i<3 ; i++) angles[i] = ReadAngle;</verb></tscreen>
+
+</descrip>
+
+<sect1>serverdata<p><descrip><tag><tt>ID</tt></tag><tt>0x0B</tt>
+
+<tag>purpose</tag>
+This message initialises a new level.
+
+<tag>variables</tag>
+<descrip>
+
+<tag><tt>long serverversion;</tt></tag> is the protocol version coming from
+the server.
+<table loc="htbp">
+<tabular ca="ll">
+game <colsep>protocol<rowsep>
+1.64 <colsep>24<rowsep>
+2.00 <colsep>25<rowsep>
+2.10 <colsep>25<rowsep>
+2.20 <colsep>26<rowsep>
+2.21 <colsep>26<rowsep>
+2.29BETA <colsep>27<rowsep>
+2.30 <colsep>28
+</tabular>
+<caption>QuakeWorld values for <tt>PROTOCOL&lowbar;VERSION</tt></caption>
+</table>
+
+<tag><tt>long age;</tt></tag> is the number of levels analysed since the
+existence of the server process. Starts with 1.
+
+<tag><tt>char* game;</tt></tag> is the QuakeWorld game directory. It has
+usually the value "qw";
+
+<tag><tt>long client;</tt></tag> is the client id.
+
+<tag><tt>char* mapname;</tt></tag> is the name of the level.
+
+<tag><tt>float maxspeed;</tt></tag> is the maximum running speed. It may be
+changed during the game with the <bf>maxspeed</bf> message.
+
+<tag><tt>float entgravity;</tt></tag> is the gravity in the level.
+It may be changed during the game with the <bf>entgravity</bf> message.
+
+<tag><tt>float var0, var1, var3, var4, var4, var5, var6, var7,
+var8</tt></tag> are other global definition variables. ?FIXME?
+
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>serverversion = ReadLong;
+if (serverversion != PROTOCOL_VERSION)
+  error("Server returned version %i, not %i", version, PROTOCOL_VERSION);
+age = ReadLong;
+game = ReadString;
+client = ReadByte;
+mapname = ReadString;
+if (serverversion >= 25) { // from 2.00 on
+  var0 = ReadFloat;
+  var1 = ReadFloat;
+  maxspeed = ReadFloat;
+  var3 = ReadFloat;
+  var4 = ReadFloat;
+  var5 = ReadFloat;
+  var6 = ReadFloat;
+  var7 = ReadFloat;
+  var8 = ReadFloat;
+  entgravity = ReadFloat;
+}</verb></tscreen>
+
+</descrip>
+
+<sect1>lightstyle<p><descrip><tag><tt>ID</tt></tag><tt>0x0C</tt>
+
+<tag>purpose</tag>
+This message defines a light animation style.
+
+<tag>variables</tag>
+<descrip>
+
+<tag><tt>long style;</tt></tag>
+is the light style number.
+
+<tag><tt>char* string;</tt></tag>
+is a string of letters `a' .. `z', where `a' means black and `z' white.
+All effects from nervous flashing (``az'') to slow dimming 
+(``zyxwvu ... edcba'') can so be described.
+
+<tag><tt>#define MAX_LIGHTSTYLES 63</tt></tag> is the last number number of
+a light style.
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>style = ReadByte;
+if (style>MAX_LIGHTSTYLES)
+  error("svc_lightstyle > MAX_LIGHTSTYLES");
+string = ReadString;</verb></tscreen>
+
+</descrip>
+
+
+<sect1>updatename<p><descrip><tag><tt>ID</tt></tag><tt>0x0D</tt>
+<tag>purpose</tag>Not used any more. Calls the <bf>bad</bf>-routine.</descrip>
+
+
+<sect1>updatefrags<p><descrip><tag><tt>ID</tt></tag><tt>0x0E</tt>
+
+<tag>purpose</tag>
+This message updates the frag count of a specific player.
+
+<tag>variables</tag>
+<descrip>
+<tag><tt>long player;</tt></tag> is the player number (0 .. MAX_SCOREBOARD).
+<tag><tt>long frags;</tt></tag> is the new frag count for this player.
+<tag><tt>#define MAX_SCOREBOARD 31</tt></tag> is the last possible number of a
+player.
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>player = ReadByte;
+if (player>MAX_SCOREBOARD) 
+  error("CL_ParseServerMessage: svc_updatefrags > MAX_SCOREBOARD");
+frags = ReadShort;</verb></tscreen>
+
+</descrip>
+
+
+<sect1>clientdata<p><descrip><tag><tt>ID</tt></tag><tt>0x0F</tt>
+<tag>purpose</tag>Not used any more. Calls the <bf>bad</bf>-routine.</descrip>
+
+
+<sect1>stopsound<p><descrip><tag><tt>ID</tt></tag><tt>0x10</tt>
+
+<tag>purpose</tag>
+Stops a sound. It looks for a sound started with a <bf>sound</bf> message
+with the same <tt>channel</tt> and <tt>entity</tt>.
+
+<tag>variables</tag>
+<descrip>
+
+<tag><tt>long channel;</tt></tag> is the sound channel.
+
+<tag><tt>long entity;</tt></tag> is the entity which caused the sound.
+
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>long channel_entity; // combined variable
+
+channel_entity = ReadShort;
+channel = channel_entity & 0x07;
+entity = (channel_entity >> 3) & 0x03FF;</verb></tscreen>
+
+</descrip>
+
+
+<sect1>updatecolors<p><descrip><tag><tt>ID</tt></tag><tt>0x11</tt>
+<tag>purpose</tag>Not used any more. Calls the <bf>bad</bf>-routine.</descrip>
+
+
+<sect1>particle<p><descrip><tag><tt>ID</tt></tag><tt>0x12</tt>
+<tag>purpose</tag>Not used any more. Calls the <bf>bad</bf>-routine.</descrip>
+
+
+<sect1>damage<p><descrip><tag><tt>ID</tt></tag><tt>0x13</tt>
+
+<tag>purpose</tag>
+Tells how severe was a hit and from which point it came.
+
+<tag>variables</tag>
+<descrip>
+<tag><tt>long save;</tt></tag> will be subtracted from the current armor.
+<tag><tt>long take;</tt></tag> will be subtracted from the current
+health.
+<tag><tt>vec3_t origin;</tt></tag> is the origin of the
+hit. It points to the weapon (not the origin) of the attacking entity 
+or it is (0,0,0) if the damage was caused by drowning or burning.
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>save = ReadByte;
+take = ReadByte;
+for (i=0 ; i<3 ; i++) origin[i] = ReadCoord;</verb></tscreen>
+
+</descrip>
+
+<sect1>spawnstatic<label id="spawnstatic"><p><descrip><tag><tt>ID</tt></tag><tt>0x14</tt>
+
+<tag>purpose</tag>
+This message creates a static entity and sets the internal values.
+
+<tag>variables</tag>
+<descrip>
+
+<tag><tt>long StaticEntityCount;</tt></tag> is the number of already started
+static entities. The maximum number is 127.
+
+<tag><tt>entity_t* staticentities;</tt></tag> is the array filled up with
+the data of the static entities.
+
+<tag><tt>long default_modelindex;</tt></tag> is the model index in the 
+precache model table for the entity.
+
+<tag><tt>long default_frame;</tt></tag> is the frame number of the model.
+
+<tag><tt>long default_colormap;</tt></tag> is the colormap number to display 
+the model.
+
+<tag><tt>long default_skin;</tt></tag> is the skin number of the model. 
+
+<tag><tt>vec3_t default_origin;</tt></tag> is the origin of the entity.
+
+<tag><tt>vec3_t default_angles;</tt></tag> is the orientation of the entity.
+
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>if (StaticEntityCount > 127) 
+  error("Too many static entities");
+staticentities[StaticEntityCount].default_modelindex = ReadByte;
+staticentities[StaticEntityCount].default_frame = ReadByte;
+staticentities[StaticEntityCount].default_colormap = ReadByte;
+staticentities[StaticEntityCount].default_skin = ReadByte;
+for (i=0 ; i<3 ; i++) {
+  staticentities[StaticEntityCount].default_origin[i] = ReadCoord;
+  staticentities[StaticEntityCount].default_angles[i] = ReadAngle;
+}
+StaticEntityCount++;
+</verb></tscreen>
+
+</descrip>
+
+
+<sect1>spawnbinary<p><descrip><tag><tt>ID</tt></tag><tt>0x15</tt>
+<tag>purpose</tag>Not used any more. Calls the <bf>bad</bf>-routine.</descrip>
+
+
+<sect1>spawnbaseline<label id="spawnbaseline"><p><descrip><tag><tt>ID</tt></tag><tt>0x16</tt>
+
+<tag>purpose</tag>
+Creates a dynamic entity and sets the internal default values.
+
+<tag>variables</tag>
+<descrip>
+
+<tag><tt>long entity;</tt></tag> is the number of the entity. In Quake
+there was a test if this number is too big. There is no such test in 
+QuakeWorld.
+
+<tag><tt>entity_t* entities;</tt></tag> is the array filled up with
+the data of the dynamic entities.
+
+<tag><tt>long default_modelindex;</tt></tag> is the model index in the 
+precache model table for the entity.
+
+<tag><tt>long default_frame;</tt></tag> is the frame number of the model.
+
+<tag><tt>long default_colormap;</tt></tag> is the colormap number to display 
+the model.
+
+<tag><tt>long default_skin;</tt></tag> is the skin number of the model.
+
+<tag><tt>vec3_t default_origin;</tt></tag> is the origin of the entity.
+
+<tag><tt>vec3_t default_angles;</tt></tag> is the orientation of the entity.
+
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>entity = ReadShort;
+entities[entity].default_modelindex = ReadByte;
+entities[entity].default_frame = ReadByte;
+entities[entity].default_colormap = ReadByte;
+entities[entity].default_skin = ReadByte;
+for (i=0 ; i<3 ; i++) {
+  entities[entity].default_origin[i] = ReadCoord;
+  entities[entity].default_angles[i] = ReadAngle;
+}</verb></tscreen>
+
+</descrip>
+
+<sect1>temp&lowbar;entity<label id="temp_entity"><p><descrip><tag><tt>ID</tt></tag><tt>0x17</tt>
+
+<tag>purpose</tag>
+Creates a temporary entity.
+
+<tag>variables</tag>
+<descrip>
+
+<tag><tt>long entitytype;</tt></tag> is the type of the temporary entity.
+There are three kinds of temporary entities:
+<descrip>
+<tag>point entity</tag> is a small point like entity.
+<table loc="htb">
+<tabular ca="rll">
+value <colsep>QuakeC <colsep>purpose<rowsep>
+0 <colsep>TE&lowbar;SPIKE <colsep>unknown<rowsep>
+1 <colsep>TE&lowbar;SUPERSPIKE <colsep>superspike hits (spike traps)<rowsep>
+3 <colsep>TE&lowbar;EXPLOSION <colsep>grenade/missile explosion<rowsep>
+4 <colsep>TE&lowbar;TAREXPLOSION <colsep>explosion of a tarbaby<rowsep>
+7 <colsep>TE&lowbar;WIZSPIKE <colsep>wizard's hit<rowsep>
+8 <colsep>TE&lowbar;KNIGHTSPIKE <colsep>hell knight's shot hit<rowsep>
+10 <colsep>TE&lowbar;LAVASPLASH <colsep>Chthon awakes and falls dead<rowsep>
+11 <colsep>TE&lowbar;TELEPORT <colsep>teleport end<rowsep>
+13 <colsep>TE&lowbar;LIGHTNINGBLOOD <colsep>hit by Thunderbolt
+</tabular>
+<caption>point entities</caption>
+</table>
+<tag>line entity</tag> is a two-dimensional entity.
+<table loc="htb">
+<tabular ca="rll">
+value <colsep>QuakeC <colsep>purpose<rowsep>
+5 <colsep>TE&lowbar;LIGHTNING1 <colsep>flash of the Shambler<rowsep>
+6 <colsep>TE&lowbar;LIGHTNING2 <colsep>flash of the Thunderbolt<rowsep>
+9 <colsep>TE&lowbar;LIGHTNING3 <colsep>flash in e1m7 to kill Chthon
+</tabular>
+<caption>line entities</caption>
+</table>
+
+<tag>multi entity</tag> is a cluster of point entities.
+<table loc="htb">
+<tabular ca="rll">
+value <colsep>QuakeC <colsep>purpose<rowsep>
+2 <colsep>TE&lowbar;GUNSHOT <colsep>shot multiple pellets<rowsep>
+12 <colsep>TE&lowbar;BLOOD <colsep>hit something that can bleed
+</tabular>
+<caption>multi entities</caption>
+</table>
+
+</descrip>
+
+<tag><tt>long entity;</tt></tag>
+is the entity which created the temporary entity.
+
+<tag><tt>vec3_t origin;</tt></tag>
+is the origin of the entity.
+
+<tag><tt>vec3_t trace_endpos;</tt></tag>
+is the destination of the line entity.
+
+<tag><tt>long count;</tt></tag>
+is the number of particles in a multi entity.
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>entitytype = ReadByte;
+switch (entitytype) {
+  case 0,1,3,4,7,8,10,11,13:
+       for (i=0 ; i<3 ; i++) origin[i] = ReadCoord;
+  break;
+  case 5,6,9:
+       entity = ReadShort;
+       for (i=0 ; i<3 ; i++) origin[i] = ReadCoord;
+       for (i=0 ; i<3 ; i++) trace_endpos[i] = ReadCoord;
+  break;
+  case 2,12:
+       count = ReadByte;
+       for (i=0 ; i<3 ; i++) origin[i] = ReadCoord;
+  break;
+  default:
+    error("CL_ParseTEnt: bad type");
+  break;
+}</verb></tscreen>
+
+</descrip>
+
+
+<sect1>setpause<p><descrip><tag><tt>ID</tt></tag><tt>0x18</tt>
+
+<tag>purpose</tag>
+Set the pause state. This message was not implemented up to game version 2.10
+(protocol version 25) but appears from game version 2.20 (protocol version
+26) on.
+
+<tag>variables</tag>
+<descrip>
+<tag><tt>long pausestate;</tt></tag> is non-zero to start the pause and 
+zero to stop it.
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>pausestate = ReadByte;
+if (pausestate) {
+  // pause is on
+}
+else {
+  // pause is off
+}</verb></tscreen>
+
+</descrip> 
+
+
+<sect1>signonum<p><descrip><tag><tt>ID</tt></tag><tt>0x19</tt>
+<tag>purpose</tag>Not used any more. Calls the <bf>bad</bf>-routine.</descrip>
+
+
+<sect1>centerprint<p><descrip><tag><tt>ID</tt></tag><tt>0x1A</tt>
+
+<tag>purpose</tag>
+Prints the specified text at the centre of the screen. There is only one text
+line with a maximum of 40 characters. To print more than this one line, use
+`&bsol;n' in a single <bf>centerprint</bf> message for a new line. Every text 
+line (the first 40 characters) will be centred horizontally.
+<p>
+All font specials are explained in section <ref id="font" name="Quake font">.
+
+<tag>variables</tag>
+<descrip>
+<tag><tt>char* text;</tt></tag> is the text to be displayed.
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>text = ReadString;</verb></tscreen>
+
+</descrip>
+
+<sect1>killedmonster<p><descrip><tag><tt>ID</tt></tag><tt>0x1B</tt>
+
+<tag>purpose</tag>
+Indicates the death of a monster.
+
+<tag>variables</tag>
+<descrip>
+<tag><tt>long killed_monsters;</tt></tag> is the number of killed monsters. 
+It may be displayed with the console command <it>showscores</it>.
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>killed_monsters++;</verb></tscreen>
+
+</descrip>
+
+<sect1>foundsecret<p><descrip><tag><tt>ID</tt></tag><tt>0x1C</tt>
+
+<tag>purpose</tag>
+Indicates, that the player just entered a secret area.
+It comes usually with a <tt>centerprint</tt> message.
+
+<tag>variables</tag>
+<descrip>
+<tag><tt>long found_secrets;</tt></tag> is the number of found secrets. It may
+be displayed with the console command <it>showscores</it>.
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>found_secrets++;</verb></tscreen>
+
+</descrip>
+
+<sect1>spawnstaticsound<p><descrip><tag><tt>ID</tt></tag><tt>0x1D</tt>
+
+<tag>purpose</tag>
+This message starts a static (ambient) sound not connected to an entity but to
+a position.
+
+<tag>variables</tag>
+<descrip>
+
+<tag><tt>vec3_t origin;</tt></tag> is the origin of 
+the sound.
+
+<tag><tt>long soundnum;</tt></tag> is the sound index in the precache sound
+table.
+
+<tag><tt>float vol;</tt></tag> is the volume (0.0 off, 1.0 max)
+
+<tag><tt>float attenuation;</tt></tag> is the attenuation of the sound. 
+Possible attenuations can be found in the table `Sound attenuations'
+of section <ref id="sound" name="sound">.
+
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>for (i=0 ; i<3 ; i++) origin[i] = ReadCoord;
+soundnum = ReadByte; 
+vol = (float) ReadByte / 255.0; 
+attenuation = (float) ReadByte / 64.0;</verb></tscreen>
+  
+</descrip>
+
+<sect1>intermission<p><descrip><tag><tt>ID</tt></tag><tt>0x1E</tt>
+
+<tag>purpose</tag>
+Displays the level end screen. 
+
+<tag>variables</tag>
+<descrip>
+<tag><tt>vec3_t origin;</tt></tag> is the origin of the intermission waiting place. 
+<tag><tt>vec3_t angles;</tt></tag> is the viewing direction from the intermission
+waiting place.
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>for ( i=0 ; i<3 ; i++) origin[i] = ReadCoord;
+for ( i=0 ; i<3 ; i++) angles[i] = ReadAngle;</verb></tscreen>
+
+</descrip>
+
+<sect1>finale<p><descrip><tag><tt>ID</tt></tag><tt>0x1F</tt>
+
+<tag>purpose</tag>
+Displays the episode end screen and some text. The text will be printed
+like <tt>centerprint</tt> but slower.
+
+<tag>variables</tag>
+<descrip>
+<tag><tt>char* text;</tt></tag>is the episode end text.
+</descrip>
+<tag>parse routine</tag>
+<tscreen><verb>text = ReadString;</verb></tscreen>
+
+</descrip>
+
+<sect1>cdtrack<p><descrip><tag><tt>ID</tt></tag><tt>0x20</tt>
+
+<tag>purpose</tag>
+Selects the audio CD track number.
+
+<tag>variables</tag>
+<descrip>
+
+<tag><tt>long track;</tt></tag> is the audio CD track to play.
+
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>track = ReadByte;</verb></tscreen>
+
+</descrip>
+
+<sect1>sellscreen<p><descrip><tag><tt>ID</tt></tag><tt>0x21</tt>
+
+<tag>purpose</tag>
+Displays the help and sell screen.
+
+<tag>parse routine</tag>
+none
+
+</descrip>
+
+<sect1>smallkick<p><descrip><tag><tt>ID</tt></tag><tt>0x22</tt>
+
+<tag>purpose</tag>
+The recoil of the Shotgun, Nailgun, Perforator, Grenade Launcher,
+Rocket Launcher and Thunderbolt kicks the shooter soft.
+
+<tag>parse routine</tag>
+none
+
+</descrip>
+
+<sect1>bigkick<p><descrip><tag><tt>ID</tt></tag><tt>0x23</tt>
+                                                          
+<tag>purpose</tag>
+The recoil of the Double-barrelled Shotgun kicks the shooter hard.
+
+<tag>parse routine</tag>
+none
+
+</descrip>
+
+<sect1>updateping<p><descrip><tag><tt>ID</tt></tag><tt>0x24</tt>
+
+<tag>purpose</tag>
+Updates the ping time. ?FIXME?
+
+<tag>variables</tag>
+<descrip>
+<tag><tt>long player;</tt></tag>is the number of the player (0 .. MAX_SCOREBOARD).
+
+<tag><tt>long ping;</tt></tag>is the ping time in milliseconds.
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>player = ReadByte;
+if (player>MAX_SCOREBOARD) 
+  error("CL_ParseServerMessage: svc_updateping > MAX_SCOREBOARD");
+ping = ReadShort;</verb></tscreen>
+
+</descrip>
+
+<sect1>updateentertime<p><descrip><tag><tt>ID</tt></tag><tt>0x25</tt>
+
+<tag>purpose</tag>
+Defines the start time, when the client enters the server. ?FIXME?
+
+<tag>variables</tag>
+<descrip>
+
+<tag><tt>long player;</tt></tag>
+is the number of the player (0 .. MAX_SCOREBOARD).
+
+<tag><tt>float entertime;</tt></tag>
+is the time stamp, as the client enters a server.
+
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>player = ReadByte;
+if (player>MAX_SCOREBOARD) 
+  error("CL_ParseServerMessage: svc_updateentertime > MAX_SCOREBOARD");
+entertime = ReadFloat;</verb></tscreen>
+
+</descrip>
+
+<sect1>updatestatlong<label id="updatestatlong"><p><descrip><tag><tt>ID</tt></tag><tt>0x26</tt>
+
+<tag>purpose</tag>
+Updates directly a <tt>long</tt> value in the player state array 
+of <tt>long</tt> numbers. To update a <tt>byte</tt>
+value, look in section <ref id="updatestat" name="updatestat">.
+
+<tag>variables</tag>
+<descrip>
+
+<tag><tt>long index;</tt></tag>
+is the index in the <tt>playerstate</tt> array.
+Look in table `<tt>updatestat</tt> indices' in section 
+<ref id="updatestat" name="updatestat"> for a list of possible indices.
+
+<tag><tt>long value;</tt></tag>
+is the new (<tt>long</tt>) value.
+
+<tag><tt>long playerstate[32];</tt></tag>
+is the array to describe the player state. 
+
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>index = ReadByte;
+if (index > 31)
+  error("CL_SetStat: %i is invalid", index);
+value = ReadLong;
+playerstate[index] = value;</verb></tscreen>
+
+</descrip>
+
+
+<sect1>muzzleflash<p><descrip><tag><tt>ID</tt></tag><tt>0x27</tt>
+
+<tag>purpose</tag>
+The entity lights up a bit when it shoots.
+
+<tag>variables</tag>
+<descrip>
+<tag>long entity;</tag> is the entity number.
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>entity = ReadShort;</verb></tscreen>
+
+</descrip>
+
+<sect1>updateuserinfo<p><descrip><tag><tt>ID</tt></tag><tt>0x28</tt>
+
+<tag>purpose</tag>
+Updates some user information from the master server.
+
+<tag>variables</tag>
+<descrip>
+<tag>long player;</tag>
+is the player number (0 .. MAX_SCOREBOARD).
+
+<tag>long user;</tag>
+is 0, if there is no such player connected. Some kind of user
+identification. ?FIXME?
+
+<tag>char* text</tag>
+is a string with variable definitions, separated by `&bsol;'. These
+variables define the color, the name etc.
+
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>player = ReadByte;
+user = ReadLong;
+if (player>MAX_SCOREBOARD)
+  error("CL_ParseServerMessage: svc_updateuserinfo > MAX_SCOREBOARD");
+text = ReadString;</verb></tscreen>
+</descrip>
+
+<sect1>download<p><descrip><tag><tt>ID</tt></tag><tt>0x29</tt>
+
+<tag>purpose</tag>
+Download a file from the server.
+
+<tag>variables</tag>
+<descrip>
+<tag><tt>long size;</tt></tag> is the length of the data block. 
+A typical value is 1024.
+
+<tag><tt>long percent;</tt></tag> is the transferred amount of data in percent.
+
+<tag><tt>char* downloadbuffer;</tt></tag> is the buffer for downloaded files.
+</descrip>
+
+<tag>parse routine</tag>
+
+<tscreen><verb>size = ReadShort;
+percent = ReadByte;
+if (size == -1)
+  error("File not found.\n");
+}
+if (percent == 0) 
+  fp = fopen(filename, "wb");
+}
+for ( i=0 ; i<size ; i++ ) {
+  downloadbuffer[i] = ReadByte;
+}
+fwrite(fp, size, 1, downloadbuffer);
+if (percent != 100) {
+  servercommand("nextdl"); /* ask for the next part */
+}
+else {
+  fclose(fp);
+}</verb></tscreen>
+
+</descrip>           
+
+<sect1>playerinfo<p><descrip><tag><tt>ID</tt></tag><tt>0x2A</tt>
+
+<tag>purpose</tag>
+Updates player information. 
+
+<tag>variables</tag>
+<descrip>
+
+<tag><tt>long player;</tt></tag>                     
+is the number of the player (0 .. MAX_SCOREBOARD).
+
+<tag><tt>long mask;</tt></tag>                       
+is a bit mask to reduce the network traffic.
+
+<tag><tt>vec3_t origin;</tt></tag>               
+is the origin of the player.
+
+<tag><tt>long frame;</tt></tag>                    
+is the frame number of the player model.
+
+<tag><tt>float ping;</tt></tag>                
+has something to do with the ping time. ?FIXME?
+
+<tag><tt>long mask2;</tt></tag>                    
+is another bit mask to reduce the network traffic.
+
+<tag><tt> unsigned char load;</tt></tag> 
+is connected somehow to the workload of the client. ?FIXME?
+
+<tag><tt>vec3_t angles;</tt></tag>
+point in the viewing direction (in degree) of the client.
+
+<tag><tt>vec3_t speed;</tt></tag>
+is the translation of the client (forward, right, up).
+
+<tag><tt>long flag;</tt></tag>
+is a collection of flags and must be splitted.
+
+<tag><tt>int fire;</tt></tag>
+indicates an <it>attack</it> console command.
+
+<tag><tt>int jump;</tt></tag>
+indicates a <it>jump</it> console command.
+
+<tag><tt>long impulse;</tt></tag>
+is the value of a currently activated <it>impulse</it> console command.
+
+<tag><tt>vec3_t cspeed;</tt></tag>               
+is the current speed in the x,y, and z direction. Used to predict the 
+future.
+
+<tag><tt>long model;</tt></tag>                      
+is the model index in the precache model table of the player.
+
+<tag><tt>long playermodel;</tt></tag>
+is the model index in the precache model table for the standard value 
+<tt>"progs/player.mdl"</tt>.
+
+<tag><tt>long uk_byte6;</tt></tag>                   
+is an unknown byte. ?FIXME?
+
+<tag><tt>long weapon;</tt></tag>                   
+contains a bit mask for the current weapon.
+<table loc="htbp">
+<tabular ca="llll">
+bit <colsep>value <colsep>QuakeC <colsep>weapon<rowsep>
+? <colsep><tt>0x00</tt> <colsep>not available <colsep>Axe<rowsep>
+0 <colsep><tt>0x01</tt> <colsep>IT&lowbar;SHOTGUN <colsep>
+Shotgun<rowsep>
+1 <colsep><tt>0x02</tt> <colsep>IT&lowbar;SUPER&lowbar;SHOTGUN <colsep>
+Double-barrelled Shotgun<rowsep>
+2 <colsep><tt>0x04</tt> <colsep>IT&lowbar;NAILGUN <colsep>
+Nailgun<rowsep>
+3 <colsep><tt>0x08</tt> <colsep>IT&lowbar;SUPER&lowbar;NAILGUN<colsep>
+Perforator<rowsep>
+4 <colsep><tt>0x10</tt> <colsep>IT&lowbar;GRENADE&lowbar;LAUNCHER<colsep>
+Grenade Launcher<rowsep>
+5 <colsep><tt>0x20</tt> <colsep>IT&lowbar;ROCKET&lowbar;LAUNCHER<colsep>
+Rocket Launcher<rowsep>
+6 <colsep><tt>0x40</tt> <colsep>IT&lowbar;LIGHTNING<colsep>
+Thunderbolt<rowsep>
+7 <colsep><tt>0x80</tt> <colsep>IT&lowbar;EXTRA&lowbar;WEAPON<colsep>
+extra weapon (there is no extra weapon)
+</tabular>
+<caption><tt>weapon</tt> bits</caption>
+</table>
+
+<tag><tt>long weaponframe;</tt></tag>                   
+is the frame of the current weapon model.
+
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>player = ReadByte;                                         
+mask = ReadShort;
+for (i=0;i<3;i++) origin[i] = ReadCoord;
+frame = ReadByte;
+if (mask & 0x0001) ping = ReadByte * 0.001;        // bit 0
+if (mask & 0x0002) {                               // bit 1
+  mask2 = ReadByte;
+  if (serverdata.serverversion >= 27) { // from game version 2.29BETA on
+    if (mask2 & 0x01) angles[0] = ReadAngle16;       // bit 0            
+    if (mask2 & 0x80) angles[1] = ReadAngle16;       // bit 7
+    if (mask2 & 0x02) angles[2] = ReadAngle16;       // bit 1
+    if (mask2 & 0x04) speed[0] = ReadShort;          // bit 2
+    if (mask2 & 0x08) speed[1] = ReadShort;          // bit 3
+    if (mask2 & 0x10) speed[2] = ReadShort;          // bit 4
+    if (mask2 & 0x20) flag = ReadByte;               // bit 5
+    fire = (flag & 0x01) ? 1 : 0;
+    jump = (flag & 0x02) ? 1 : 0;
+    if (mask2 & 0x40) impulse = ReadByte;            // bit 6
+    load = ReadByte);
+  }
+  else { // serverdata.serverversion <= 26, game version up to 2.21
+    if (mask2 & 0x01) angles[0] = ReadAngle16;       // bit 0
+    angles[1] = ReadAngle16;
+    if (mask2 & 0x02) angles[2] = ReadAngle16;       // bit 1
+    if (mask2 & 0x04) speed[0] = ReadByte;           // bit 2
+    if (mask2 & 0x08) speed[1] = ReadByte;           // bit 3
+    if (mask2 & 0x10) speed[2] = ReadByte;           // bit 4
+    if (mask2 & 0x20) flag = ReadByte;               // bit 5
+    fire = (flag & 0x01) ? 1 : 0;
+    jump = (flag & 0x02) ? 1 : 0;
+    if (mask2 & 0x40) impulse = ReadByte;            // bit 6
+    if (mask2 & 0x80) load = ReadByte;               // bit 7
+  }
+}
+if (mask & 0x0004) cspeed[0] = ReadCoord;          // bit 2
+if (mask & 0x0008) cspeed[1] = ReadCoord;          // bit 3
+if (mask & 0x0010) cspeed[2] = ReadCoord;          // bit 4
+model = (mask & 0x0020) ? ReadByte : playermodel;  // bit 5             
+uk_byte6 = (mask & 0x0040) ? ReadByte : 0;         // bit 6
+if (mask & 0x0080) weapon = ReadByte;              // bit 7
+if (mask & 0x0100) weaponframe = ReadByte;         // bit 8
+</verb></tscreen>
+
+</descrip>
+
+<sect1>nails<p><descrip><tag><tt>ID</tt></tag><tt>0x2B</tt>
+
+<tag>purpose</tag>
+Describes the position and orientation of all currently flying nails.
+
+<tag>types</tag>
+<tscreen><verb>struct {
+  vec3_t origin;
+  float angle_1;
+  float angle_2;
+} nail_t;</verb></tscreen>
+
+<tag>variables</tag>
+<descrip>
+
+<tag><tt>long nailcount;</tt></tag>
+is the number of nails.
+
+<tag><tt>nail_t* nails;</tt></tag>
+is the internal array with all nail coordinates.
+
+<tag><tt>vec3_t origin;</tt></tag>
+is the origin of the nail.
+
+<tag><tt>float angle_1;</tt></tag>
+is the tilt angle of the nail.
+
+<tag><tt>float angle_2;</tt></tag>
+is the yaw angle of the nail.
+
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>unsigned char b[5];
+int j;
+nail_t* n;
+
+nailcount = ReadByte;
+for (j=0,n=nails;j<nailcount;j++,n++) {
+  for (i=0;i<5;i++) b[i] = ReadByte;
+  // 3 12 bit values 
+  n->origin[0] = (b[0] & 0xFF) | ((b[1] & 0x0F) << 8);
+  n->origin[1] = ((b[1] & 0xF0) >> 4) | (b[2] << 4);
+  n->origin[2] = (b[3] & 0xFF) | ((b[4] & 0x0F) << 8);
+  // shift and scale to standard (even) coordinates 
+  for (i=0;i<3;i++) n->origin[i] = (n->origin[i] - 2048) * 2;
+  // signed value in 4 bits  
+  n->angle_1 = (b[4] & 0xF0) >> 4;
+  // respect the sign
+  if (n->angle_1>=8) n->angle_1 = n->angle_1 - 16;
+  // scale it
+  n->angle_1 *= 360.0 / 16.0;
+  n->angle_2 = ReadAngle;
+}</verb></tscreen>
+
+<tag>exact structure</tag>
+
+The structure of the nail message is so strange, that I can't suppress
+some general remarks.
+
+<table loc="htbp">
+<tabular ca="rll">
+byte <colsep>bit 7 ... 4 <colsep>bit 3 ... 0<rowsep>
+0 <colsep>origin&lsqb;0&rsqb; b7 ... b4 <colsep>origin&lsqb;0&rsqb; b3 ... b0<rowsep>
+1 <colsep>origin&lsqb;1&rsqb; b3 ... b0 <colsep>origin&lsqb;0&rsqb; b11 ... b8<rowsep>
+2 <colsep>origin&lsqb;1&rsqb; b11 ... b8 <colsep>origin&lsqb;1&rsqb; b7 ... b4<rowsep>
+3 <colsep>origin&lsqb;2&rsqb; b7 ... b4 <colsep>origin&lsqb;2&rsqb; b3 ... b0<rowsep>
+4 <colsep>angle&lowbar;1 b3 ... b0 <colsep>origin&lsqb;2&rsqb; b11 ... b8<rowsep>
+5 <colsep>angle&lowbar;2 b7 ... b4 <colsep>angle&lowbar;2 b3 ... b0
+</tabular>
+<caption>the 6 nails bytes</caption>
+</table>
+
+<descrip>
+
+<tag><tt>origin[i]</tt></tag>
+A standard coordinate is a signed 16 bit number with 1 sign bit, 12 integer
+bits and 3 fraction bits. Nail coordinates have only 12 bits in total.
+The lowest 4 bits of the 16 bit coordinate (the 3 fraction bits and the 
+odd/even bit) are set to zero. Therefore a nail can only exist on
+an even integer coordinate. The sign transformation is not the usual one.
+The half nail coordinate is shifted in the positive range by 2048 before the
+network transmission.
+
+<tag><tt>angle_1</tt></tag>
+The tilt angle of a fast flying nail is not very important. 
+There are only 4 bits
+to describe the tilt angle and only 3 of them are used at all. The 4 bits
+form a normal (but very short) signed integer. To compute an angle in
+degree back from this short value, it must be multiplied by 360/16=22.5.
+The range of values of a tilt angle of a nail is [-90,90] and not [-180,180].
+Therefore bit 2 of <tt>angle_1</tt> is always equal to bit 3 (the sign bit).
+So the eight possible values for the tilt angle are -90.0, -67.5, -45.0, 
+-22.5, 0.0, 22.5, 45.0, 67.5.
+
+<tag><tt>angle_2</tt></tag>
+The yaw angle is a standard 1 byte signed integer angle. It must be 
+multiplied by the usual 360/256.
+
+</descrip>
+
+</descrip>
+
+
+<sect1>choke<p><descrip><tag><tt>ID</tt></tag><tt>0x2C</tt>
+
+<tag>purpose</tag>
+There is an internal list with 64 entries. Each entry describes a full 
+state (with all 32 players and such). This message defines how many
+entries in this list can be canceled, because they now contain irrelevant
+information.
+
+<tag>variables</tag>
+<descrip>
+<tag><tt>long choke;</tt></tag>
+is the number of entries to cancel.
+
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>choke = ReadByte;</verb></tscreen>
+
+</descrip>
+
+<sect1>modellist<p><descrip><tag><tt>ID</tt></tag><tt>0x2D</tt>
+
+<tag>purpose</tag>
+Reads (a part of) the precache model table.
+
+<tag>variables</tag>
+<descrip>
+<tag><tt>char* precache_models[256];</tt></tag>
+is the precache model table. It will be filled
+up with model file names. Many other messages contain an index in this array.
+The first used index is 1.
+Beginning with protocol version 26 (game version 2.20) QuakeWorld
+uses a new parse method and sends an unused index first.
+
+<tag><tt>long nummodels;</tt></tag>
+is the number of models in the precache model table.
+
+<tag><tt>long first;</tt></tag>is the index of the first model.
+
+<tag><tt>long next;</tt></tag>is the index for the next group of models.
+It is 0 to end the precache model table.
+
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>if (serverdata.serverversion) >= 26) { // 2.20 and higher
+  char *text;
+
+  first = ReadByte(m);
+  for ( i=first ; i<256 ; i++ ) {
+    text = ReadString;
+    if (strlen(text) == 0) break;
+    precache_models[i+1] = strdup(text);  // store model one position later
+  }
+  next = ReadByte(m);
+}
+else { // up to 2.10
+  nummodels = 0;
+  do {
+    if (++nummodels > 255) 
+      error("Server sent too many model_precache");
+    precache_models[nummodels] = ReadString;
+  } while (*precache_models[nummodels]);
+}</verb></tscreen>
+
+</descrip>   
+
+<sect1>soundlist<p><descrip><tag><tt>ID</tt></tag><tt>0x2E</tt>
+                                                      
+<tag>purpose</tag>                                    
+Reads (a part of) the precache sound table.
+
+<tag>variables</tag>
+<descrip>
+
+<tag><tt>char* precache_sounds[256];</tt></tag> 
+is the precache sound table. It will be filled
+up with sound file names. Many other messages contain an index in this array.
+The first used index is 1.
+Beginning with protocol version 26 (game version 2.20) QuakeWorld
+uses a new parse method and sends an unused index first.
+
+<tag><tt>long numsounds;</tt></tag>
+is the number of sounds in the precache sound table.
+
+<tag><tt>long first;</tt></tag>is the index of the first sound.
+
+<tag><tt>long next;</tt></tag>is the index of the next group of sounds.
+It is 0 to end the precache sound table.
+
+</descrip>
+                                                      
+<tag>parse routine</tag>                              
+<tscreen><verb>if (serverdata.serverversion) >= 26) { // 2.20 and higher
+  char *text;
+
+  first = ReadByte(m);
+  for ( i=index ; i<256 ; i++ ) {
+    text = ReadString;
+    if (strlen(text) == 0) break;
+    precache_sounds[i+1] = strdup(text);  // store sound one position later
+  }
+  next = ReadByte(m);
+}
+else { // up to 2.10
+  numsounds = 0;
+  do {
+    if (++numsounds > 255) 
+      error("Server sent too many sound_precache");
+    precache_sounds[numsounds] = ReadString;
+  } while (*precache_sounds[numsounds]);
+}</verb></tscreen>
+                                                      
+</descrip>  
+
+<sect1>packetentities<p><descrip><tag><tt>ID</tt></tag><tt>0x2F</tt>
+                                                      
+<tag>purpose</tag>
+This message contains the entity numbers in sight and all the changed 
+properties of these entities. The list ends with a <tt>0x0000</tt> for 
+<tt>mask</tt>.
+
+<tag>variables</tag>
+<descrip>
+
+<tag><tt>long mask;</tt></tag> is a bit mask to reduce the network traffic.
+
+<tag><tt>long entity;</tt></tag> is the entity number. 
+
+<tag><tt>long remove;</tt></tag>indicates a disappearing entity.
+
+<tag><tt>entity_t* entities;</tt></tag>
+is the array filled up with all dynamic entities.
+
+<tag><tt>long modelindex;</tt></tag> is the model index in the 
+precache model table. 
+
+<tag><tt>long frame;</tt></tag> is the frame number of the model.
+
+<tag><tt>long colormap;</tt></tag> is the colormap number to display the
+model.
+
+<tag><tt>long skin;</tt></tag> is the skin number of the model.
+
+<tag><tt>long effects;</tt></tag> contains a bit mask for special entity
+effects.
+<table loc="htbp">
+<tabular ca="lll">
+bit <colsep>value <colsep>QuakeC <rowsep>
+0 <colsep><tt>0x01</tt> <colsep>EF&lowbar;ROCKET<rowsep>
+1 <colsep><tt>0x02</tt> <colsep>EF&lowbar;GRENADE<rowsep>
+2 <colsep><tt>0x04</tt> <colsep>EF&lowbar;GIB<rowsep>
+3 <colsep><tt>0x08</tt> <colsep>EF&lowbar;ROTATE<rowsep>
+4 <colsep><tt>0x10</tt> <colsep>EF&lowbar;TRACER<rowsep>
+5 <colsep><tt>0x20</tt> <colsep>EF&lowbar;ZOMGIB<rowsep>
+6 <colsep><tt>0x40</tt> <colsep>EF&lowbar;TRACER2<rowsep>
+7 <colsep><tt>0x80</tt> <colsep>EF&lowbar;TRACER3
+</tabular>
+<caption><tt>effects</tt> values</caption>
+</table>
+                       
+<tag><tt>vec3_t origin;</tt></tag> is the origin of the entity.
+
+<tag><tt>vec3_t angles;</tt></tag> is the orientation of the entity.
+
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>while (mask = ReadShort) {
+  entity = mask & 0x01FF;                                    
+  mask &= 0xFE00;                                            
+  entities[entity].remove = (mask & 0x4000) ? 1 : 0;
+  if (mask & 0x8000) mask |= ReadByte;     
+  if (mask & 0x0004) entities[entity].modelindex = ReadByte;
+  if (mask & 0x2000) entities[entity].frame = ReadByte;
+  if (mask & 0x0008) entities[entity].colormap = ReadByte;
+  if (mask & 0x0010) entities[entity].skin = ReadByte;
+  if (mask & 0x0020) entities[entity].effects = ReadByte;
+  if (mask & 0x0200) entities[entity].origin[0] = ReadCoord;
+  if (mask & 0x0001) entities[entity].angles[0] = ReadAngle;
+  if (mask & 0x0400) entities[entity].origin[1] = ReadCoord;
+  if (mask & 0x1000) entities[entity].angles[1] = ReadAngle;
+  if (mask & 0x0800) entities[entity].origin[2] = ReadCoord;
+  if (mask & 0x0002) entities[entity].angles[2] = ReadAngle;
+}</verb></tscreen>
+
+</descrip>
+
+<sect1>deltapacketentities<p><descrip><tag><tt>ID</tt></tag><tt>0x30</tt>
+
+<tag>purpose</tag>
+This message contains the changed properties of some entities in sight
+relative to a specified former frame number.
+The list ends with a <tt>0x0000</tt> 
+<tt>mask</tt>.
+
+<tag>variables</tag>
+<descrip>
+
+<tag><tt>long frame;</tt></tag> is the lowest byte of the frame number with
+the full state, to which this message is the delta.
+
+<tag><tt>long mask;</tt></tag> is a bit mask to reduce the network traffic.
+
+<tag><tt>entity_t* entities;</tt></tag>
+is the array filled up with all dynamic entities.
+
+<tag><tt>long entity;</tt></tag> is the entity number. 
+
+<tag><tt>long remove;</tt></tag>indicates a disappearing entity.
+
+<tag><tt>long modelindex;</tt></tag> is the model index in the 
+precache model table. 
+
+<tag><tt>long frame;</tt></tag> is the frame number of the model.
+
+<tag><tt>long colormap;</tt></tag> is the colormap number to display the
+model.
+
+<tag><tt>long skin;</tt></tag> is the skin number of the model.
+
+<tag><tt>long effects;</tt></tag> contains a bit mask for special entity
+effects.
+
+<tag><tt>vec3_t origin;</tt></tag> is the origin of the entity.
+
+<tag><tt>vec3_t angles;</tt></tag> is the orientation of the entity.
+
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>frame = ReadByte;
+while (mask = ReadShort) {
+  entity = mask & 0x01FF;                                    
+  mask &= 0xFE00;
+  entities[entity].remove = (mask & 0x4000) ? 1 : 0;
+  if (mask & 0x8000) mask |= ReadByte;                    
+  if (mask & 0x0004) entities[entity].modelindex = ReadByte;
+  if (mask & 0x2000) entities[entity].frame = ReadByte;
+  if (mask & 0x0008) entities[entity].colormap = ReadByte;
+  if (mask & 0x0010) entities[entity].skin = ReadByte;
+  if (mask & 0x0020) entities[entity].effects = ReadByte;
+  if (mask & 0x0200) entities[entity].origin[0] = ReadCoord;
+  if (mask & 0x0001) entities[entity].angles[0] = ReadAngle;
+  if (mask & 0x0400) entities[entity].origin[1] = ReadCoord;
+  if (mask & 0x1000) entities[entity].angles[1] = ReadAngle;
+  if (mask & 0x0800) entities[entity].origin[2] = ReadCoord;
+  if (mask & 0x0002) entities[entity].angles[2] = ReadAngle;
+}</verb></tscreen>
+
+</descrip>
+
+
+<sect1>maxspeed<p><descrip><tag><tt>ID</tt></tag><tt>0x31</tt>
+                                                      
+<tag>purpose</tag>
+This message contains the maximum players speed.
+
+<tag>variables</tag>
+<descrip>
+
+<tag><tt>float maxspeed;</tt></tag> is the maximum speed. It appears 
+first in protocol version 25 (game version 2.00).
+
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>maxspeed = ReadFloat;</verb></tscreen>
+
+</descrip>
+
+
+<sect1>entgravity<p><descrip><tag><tt>ID</tt></tag><tt>0x32</tt>
+                                                      
+<tag>purpose</tag>
+This message defines the current gravity. It appears first in protocol
+version 25 (game version 2.00).
+
+<tag>variables</tag>
+<descrip>
+
+<tag><tt>float gravity;</tt></tag>is the gravity.
+
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>gravity = ReadFloat;</verb></tscreen>
+
+</descrip>
+
+
+<sect1>setinfo<p><descrip><tag><tt>ID</tt></tag><tt>0x33</tt>
+                                                      
+<tag>purpose</tag>
+This message set a variable for a specific player. It appears first in
+protocol version 26 (game version 2.20).
+
+<tag>variables</tag>
+<descrip>
+
+<tag><tt>long player;</tt></tag>is the player number.
+
+<tag><tt>char* name;</tt></tag>is the name of the variable.
+
+<tag><tt>char* string;</tt></tag>is the value of the variable.
+
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>player = ReadByte;
+name = ReadString;
+string = ReadString;</verb></tscreen>
+
+</descrip>
+
+
+<sect1>serverinfo<p><descrip><tag><tt>ID</tt></tag><tt>0x34</tt>
+                                                      
+<tag>purpose</tag>
+This message set a global variable. It appears first in protocol version 26
+(game version 2.20).
+
+<tag>variables</tag>
+<descrip>
+
+<tag><tt>char* name;</tt></tag>is the name of the variable.
+
+<tag><tt>char* string;</tt></tag>is the value of the variable.
+
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>name = ReadString;
+string = ReadString;</verb></tscreen>
+
+</descrip>
+
+
+<sect1>updatepl<p><descrip><tag><tt>ID</tt></tag><tt>0x35</tt>
+                                                      
+<tag>purpose</tag>
+This message updates the player specific packet loss information. It will
+be displayed in the score-board.
+It appears first in protocol version 28 (game version 2.30).
+
+<tag>variables</tag>
+<descrip>
+
+<tag><tt>long player;</tt></tag> is the player number (0 .. MAX_SCOREBOARD).
+
+<tag><tt>long loss;</tt></tag> is the packet loss in percent.
+
+</descrip>
+
+<tag>parse routine</tag>
+<tscreen><verb>player = ReadByte;
+if (player>MAX_SCOREBOARD)
+  error("CL_ParseServerMessage: svc_updatepl > MAX_SCOREBOARD");
+loss = ReadByte;</verb></tscreen>
+
+</descrip>
+
+
+
+
+<sect>Version History and Acknowledgements
+<p>
+<descrip>
+<tag>0.0.1, 6 July, 1997</tag>
+<itemize>
+<item>First version (working paper) completed.
+<item>Many thanks to Olivier Montanuy
+(<htmlurl url="mailto:Olivier.Montanuy@wanadoo.fr"
+name="Olivier.Montanuy@wanadoo.fr">) for his 
+<url url="http://www.ens.fr/~cridlig/bot/qwspec11.html" 
+name="QuakeWorld Network Protocol Specs">. 
+<item>Many thanks to Steffen Winterfeldt
+(<htmlurl url="mailto:Steffen.Winterfeldt@itp.uni-leipzig.de"
+name="Steffen.Winterfeldt@itp.uni-leipzig.de">)
+for his reverse engineering work. He worked out many of the 
+general structure information.
+</itemize>
+
+<tag>0.0.2, 12 July, 1997</tag>
+<itemize>
+<item>Many new structure information. <bf>sound</bf> and <bf>nails</bf>
+messages are now correct.
+</itemize>
+
+<tag>0.0.3, 28 July, 1997</tag>
+<itemize>
+<item><bf>packetentities</bf> and <bf>deltapacketentities</bf> are better 
+now.
+<item>Table references.
+</itemize>
+
+<tag>0.0.4, 30 July, 1997</tag>
+<itemize>
+<item>General clean-up: some variables renamed.
+<item>Table references don't work: removed.
+</itemize>
+
+<tag>0.0.5, 16 August, 1997</tag>
+<itemize>
+<item>QuakeWorld 2.00 info included.
+<item>Back again to SGML-Tools 0.99.0.
+<item>General clean-up.
+</itemize>
+
+<tag>0.0.6, 12 March, 1998</tag>
+<itemize>
+<item>PlanetQuake is the new home.
+<item>QuakeWorld version table restructured.
+<item>SGML-Tools 1.0.5 used.
+</itemize> 
+
+<tag>1.0.0, 14 July, 1998</tag>
+<itemize>
+<item>QuakeWorld version 2.20, 2.21 and 2.29BETA included.
+<item><bf>stopsound</bf> is OK now.
+<item>SGML-Tools 1.0.7 used.
+</itemize> 
+
+<tag>1.0.1, 16 August, 1998</tag>
+<itemize>
+<item>Corrected info on <tt>blocksize</tt>.
+<item>Some small correction with respect to the new LMPC, which can
+compile QWD files beginning with version 3.1.9.
+<item>Removed the senseless ReadEntity function.
+</itemize> 
+
+<tag>1.0.2, 6 September, 1998</tag>
+<itemize>
+<item>QuakeWorld version 2.30 included.
+</itemize>
+
+<tag>1.0.3, 8 January, 1999</tag>
+<itemize>
+<item>QuakeWorld version 2.30 corrected.
+<item><bf>updatepl</bf> better. 
+<item>Many thanks to Tim Holliefield
+(<htmlurl url="mailto:holliefiel@bad-durkheim.netsurf.de"
+name="holliefiel@bad-durkheim.netsurf.de">)
+for some hints on the frame block.
+<item>SGML-Tools 1.0.9 used.
+</itemize>
+
+<tag>1.0.4, 7 April, 1999</tag>
+<itemize>
+<item><bf>setpause</bf> corrected. 
+Many thanks to Christer Sandin 
+(<htmlurl url="mailto:czsuch@ocag.ch"
+name="czsuch@ocag.ch">)
+for his bug report.
+</itemize>
+
+<tag>1.0.5, 3 June, 1999</tag>
+<itemize>
+<item><bf>modellist</bf> and <bf>soundlist</bf> corrected. 
+Many thanks to Hoffy 
+(<htmlurl url="mailto:ripple@powerup.com.au"
+name="ripple@powerup.com.au">)
+for his bug report. The old token <tt>last</tt> is called
+<tt>next</tt> now, so better recreate all your QWD text files. I know, it is
+bad to change the text format but <tt>last</tt> is simply totally wrong.
+</itemize>
+
+</descrip>
+
+</article>

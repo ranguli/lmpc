@@ -1,0 +1,8 @@
+.cvsignore
+index.html
+index-qwd-*.html
+qwd.html
+qwd.pdf
+qwd.sgml
+qwd.sgml.in
+

@@ -1,0 +1,4798 @@
+<!ENTITY lowbar "_">
+	<!ENTITY lsqb "[">
+	<!ENTITY rsqb "]">
+	<!ENTITY num "#">
+	<!ENTITY bsol "\">
+	]><article>
+<articleinfo>
+<title>@TITLE@</title>
+<author>
+<firstname>@MYFIRSTNAME@</firstname><surname>@MYSURNAME@</surname>
+<affiliation><address><email>@MYEMAIL@</email></address></affiliation>
+</author>
+<pubdate>v@VERSION@, @DATE@</pubdate>
+<abstract>
+<para>This document describes the QWD file format, which is the result
+of ``recording'' a game in QuakeWorld.</para>
+</abstract>
+</articleinfo>
+<sect1>
+<title>Introduction</title>
+<sect2>
+<title>Recording and Playback</title>
+<para>To create a recording of your network play use up to QuakeWorld 2.10 the 
+console command <emphasis>record name server</emphasis>. This connects you to the 
+server <LITERAL REMAP="tt">server</literal> and records the game play from your point of view 
+into the file <LITERAL REMAP="tt">name.qwd</literal>.</para>
+<para>From version 2.20 on you have first to connect to the server and start the
+recording with the console command <emphasis>record name</emphasis> later.</para>
+<para>The recording stops when you disconnect from the server or you use the
+console command <emphasis>stop</emphasis>. To play it back,
+use the commands <emphasis>playdemo name</emphasis> or <emphasis>timedemo name</emphasis>.</para>
+</sect2>
+<sect2>
+<title>Versions</title>
+<para>
+
+<table>
+<title>Covered QuakeWorld versions</title>
+<TGROUP COLS="3">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry><LITERAL REMAP="tt">Exe:</literal></entry>
+<entry>version</entry>
+<entry>platform</entry>
+</row>
+<row>
+<entry>12:43:52 Jun 13 1997</entry>
+<entry>Linux QuakeWorld (0.94) 1.64</entry>
+<entry>Linux, SVGA</entry>
+</row>
+<row>
+<entry>19:51:52 Aug 7 1997</entry>
+<entry>Linux QuakeWorld 2.00</entry>
+<entry>Linux, SVGA</entry>
+</row>
+<row>
+<entry>23:46:07 Oct 13 1997</entry>
+<entry>Linux QuakeWorld (0.94) 2.10</entry>
+<entry>Linux, SVGA</entry>
+</row>
+<row>
+<entry>00:03:05 Oct 14 1997</entry>
+<entry>Linux QuakeWorld (0.94) 2.10</entry>
+<entry>Linux, X11, 8bpp</entry>
+</row>
+<row>
+<entry>23:46:22 Oct 23 1997</entry>
+<entry>QuakeWorld Server 2.10</entry>
+<entry>Linux</entry>
+</row>
+<row>
+<entry>18:32:34 Nov 2 1997</entry>
+<entry>Linux QuakeWorld (0.94) 2.10</entry>
+<entry>Linux, OpenGL</entry>
+</row>
+<row>
+<entry>14:47:43 May 16 1998</entry>
+<entry>QuakeWorld Server 2.20</entry>
+<entry>Linux</entry>
+</row>
+<row>
+<entry>14:48:28 May 16 1998</entry>
+<entry>Linux (0.96) QuakeWorld 2.20</entry>
+<entry>Linux, SVGA</entry>
+</row>
+<row>
+<entry>14:48:28 May 16 1998</entry>
+<entry>Linux (0.96) QuakeWorld 2.20</entry>
+<entry>Linux, X11</entry>
+</row>
+<row>
+<entry>14:50:20 May 16 1998</entry>
+<entry>Linux (0.96) QuakeWorld 2.20</entry>
+<entry>Linux, OpenGL</entry>
+</row>
+<row>
+<entry>14:37:00 May 20 1998</entry>
+<entry>QuakeWorld Server 2.21</entry>
+<entry>Linux</entry>
+</row>
+<row>
+<entry>14:37:46 May 20 1998</entry>
+<entry>Linux (0.97) QuakeWorld 2.21</entry>
+<entry>Linux, SVGA, 8bpp</entry>
+</row>
+<row>
+<entry>14:39:38 May 20 1998</entry>
+<entry>Linux (0.97) QuakeWorld 2.21</entry>
+<entry>Linux, OpenGL</entry>
+</row>
+<row>
+<entry>17:27:37 Jul 13 1998</entry>
+<entry>QuakeWorld Server 2.29BETA</entry>
+<entry>Linux</entry>
+</row>
+<row>
+<entry>17:27:56 Jul 13 1998</entry>
+<entry>Linux (0.98) QuakeWorld 2.29</entry>
+<entry>Linux, SVGA</entry>
+</row>
+<row>
+<entry>17:27:56 Jul 13 1998</entry>
+<entry>Linux (0.98) QuakeWorld 2.29</entry>
+<entry>Linux, X11</entry>
+</row>
+<row>
+<entry>17:28:42 Jul 13 1998</entry>
+<entry>Linux (0.98) QuakeWorld 2.29</entry>
+<entry>Linux, OpenGL</entry>
+</row>
+<row>
+<entry>17:05:37 Aug 26 1998</entry>
+<entry>QuakeWorld Server 2.30</entry>
+<entry>Linux</entry>
+</row>
+<row>
+<entry>17:06:04 Aug 26 1998</entry>
+<entry>Linux (0.98) QuakeWorld 2.30</entry>
+<entry>Linux, SVGA</entry>
+</row>
+<row>
+<entry>17:06:04 Aug 26 1998</entry>
+<entry>Linux (0.98) QuakeWorld 2.30</entry>
+<entry>Linux, X11</entry>
+</row>
+<row>
+<entry>17:07:08 Aug 26 1998</entry>
+<entry>Linux (0.98) QuakeWorld 2.30</entry>
+<entry>Linux, OpenGL (Mesa)</entry>
+</row>
+<row>
+<entry>17:07:08 Aug 26 1998</entry>
+<entry>Linux (0.98) QuakeWorld 2.30</entry>
+<entry>Linux, OpenGL (any)</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+</para>
+<para>I actually write and check my documentation with Linux 
+<LITERAL REMAP="tt">qwcl</literal> and <LITERAL REMAP="tt">qwsv</literal> 2.30 on the same machine.</para>
+<para>The older versions of QuakeWorld couldn't record a QWD file but playback
+seemed to work. I checked QuakeWorld 1.54c and 1.55 with a QWD file recorded 
+with 1.64 but both old versions crashed on playback.</para>
+<para>If you find that this documentation covers even more versions 
+(other operating systems) please drop me a note.</para>
+</sect2>
+<sect2>
+<title>Advertising</title>
+<para>As the clever reader may know I'm the author of LMPC, the Little Movie 
+Processing Centre. With this tool you may
+
+<itemizedlist>
+<listitem>
+<para>``decompile'' an existing QWD file to a simple text file and</para>
+</listitem>
+<listitem>
+<para>``compile'' such a (modified) text file back to a binary QWD file.</para>
+</listitem>
+</itemizedlist>
+
+With LMPC it is very easy to analyse a QWD file but you may change it
+as well and so create a QWD file of a network game you 
+never played. The current version of LMPC can be found at my 
+<ULINK URL="@HOMEURL@">@HOMENAME@</ulink>.</para>
+</sect2>
+<sect2>
+<title>General remarks</title>
+<para>The QWD format is very different from the original Quake DEM format. 
+That applies as well to the internal message format as to the general
+game scene representation. Many things are now described totally
+different, which makes an accurate converter (particles, nails etc.) very 
+difficult.</para>
+<para>I know for sure that I'll never write a DEM &lt;-&gt; QWD converter.</para>
+</sect2>
+</sect1>
+<SECT1 ID="FONT">
+<title>Game font</title>
+<para>A string may contain any 8 bit characters except `&bsol;377' and it ends with
+`&bsol;000'. The special characters `&bsol;n' and `&bsol;r' have their normal
+meaning.</para>
+<para>The QuakeWorld font is an extended ASCII font (7 bit) which contains in the upper
+half a similar font but with a different colour.</para>
+<para>I used a simple Quake <ULINK URL="@HOMEURL@/misc/qfont.html">DEM file</ulink>
+to print all 252 ASCII characters.  </para>
+</sect1>
+<sect1>
+<title>File structure</title>
+<para>To describe the file structure, which is very complicated, I use 
+C like program fragments and <LITERAL REMAP="tt">struct</literal> definitions. This 
+simplifies my task a lot. </para>
+<para>I invented all used names (messages, variables etc.) for myself, took them 
+from the QuakeWorld binary, QuakeEd but almost all from the QuakeC source. </para>
+<para>All multi-byte structures in QWD files are ``little endian'' (VAX or Intel,
+lowest byte first).</para>
+<para>At first some QuakeEd compliant coordinate <LITERAL REMAP="tt">typedef</literal>'s:
+
+<screen>typedef float vec_t;
+
+typedef vec_t vec3_t[3];</screen>
+
+</para>
+<para>A QWD file is the recording of the network traffic between the client and
+the server in both directions. Each network packet and its time stamp will
+be stored in a `block' of the QWD file.</para>
+<para>Every block has the structure
+
+<screen>typedef struct {
+  float time;                 
+  char  code;
+  char  data[???];
+} block_t;</screen>
+
+<variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">float time;</literal></term>
+<listitem>
+<para>is the time stamp of the block.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">char code;</literal></term>
+<listitem>
+<para>is the sign to indicate the block type. Each block type will be parsed
+totally different.
+
+<table>
+<title>Block types</title>
+<TGROUP COLS="2">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry><LITERAL REMAP="tt">code</literal> </entry>
+<entry>block type</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x00</literal> </entry>
+<entry>client block</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x01</literal> </entry>
+<entry>server block</entry>
+</row>
+<row>
+<entry><LITERAL REMAP="tt">0x02</literal> </entry>
+<entry>frame block</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">char data[???];</literal></term>
+<listitem>
+<para>is actual data of the block.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+<sect2>
+<title>Client block</title>
+<para>A client block is 41 bytes long and contains an expanded version of a 
+network packet from the client to the server. The actual network packet is 
+packed.</para>
+<para>The client block has the following structure:
+
+<screen>typedef struct {
+  float         time;                 
+  char          code;       // == 0
+  long          load;
+  vec3_t        angles;
+  short         speed[3];
+  unsigned char flag;
+  unsigned char impulse;
+  vec3_t        uk_angles;
+} client_block_t;</screen>
+
+</para>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long load;</literal></term>
+<listitem>
+<para>is connected somehow with the workload on the client. ?FIXME?</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t angles;</literal></term>
+<listitem>
+<para>point in the viewing direction (in degree) of the client.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">short speed[3];</literal></term>
+<listitem>
+<para>is the intended translation of the client (forward, right, up).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">flag;</literal></term>
+<listitem>
+<para>is a collection of flags and must be splitted:
+
+<screen>fire = (flag &amp; 0x01) ? 1 : 0;
+jump = (flag &amp; 0x02) ? 1 : 0;</screen>
+
+Other bits may contain additional information.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">int fire;</literal></term>
+<listitem>
+<para>indicates an <EMPHASIS REMAP="it">attack</emphasis> console command.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">int jump;</literal></term>
+<listitem>
+<para>indicates a <EMPHASIS REMAP="it">jump</emphasis> console command.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long impulse;</literal></term>
+<listitem>
+<para>is the value of a currently activated <EMPHASIS REMAP="it">impulse</emphasis> console command.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>Server block</title>
+<para>A server block has a variable length and contains a copy of a network packet 
+from the server to the client. It has the following structure:
+
+<screen>typedef struct {
+  float         time;                 
+  char          code;        // == 1
+  long          blocksize;
+  unsigned long seq_rel_1;
+  char          messages[blocksize-4];
+} server_block_t;</screen>
+
+</para>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long blocksize;</literal></term>
+<listitem>
+<para>is the number of bytes in the block following the <LITERAL REMAP="tt">blocksize</literal>
+variable itself (but including <LITERAL REMAP="tt">seq&lowbar;rel&lowbar;1</literal>).
+The full server block has <LITERAL REMAP="tt">blocksize+9</literal> bytes. 
+The maximim value for <LITERAL REMAP="tt">blocksize</literal> (<LITERAL REMAP="tt">MAX&lowbar;MSGLEN</literal>) used to be 
+7500 but changed from protocol 25 to 26 (game version 2.10 to 2.20) to 1450.
+The new value avoids fragmentation of the UDP packets on an Ethernet.
+The MTU in PPP is much smaller but the reduced packet size is for LAN play
+definitely a great improvement.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">unsigned long seq&lowbar;rel&lowbar;1;</literal></term>
+<listitem>
+<para>is a sign to distinguish between a connectionless block 
+(<LITERAL REMAP="tt">==0xFFFFFFFF</literal>) or a game block (<LITERAL REMAP="tt">!=0xFFFFFFFF</literal>).</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+<sect3>
+<title>Connectionless block</title>
+<para>Each connectionless block or packet contains one server command to 
+control the server-client network connection and has the structure
+
+<screen>typedef struct {
+  float          time;                 
+  char           code;       // == 1
+  long           blocksize;
+  unsigned long  seq_rel_1;  // == 0xFFFFFFFF
+  char           connless_id;                
+  char           connless_data[blocksize-5];
+} connless_block_t;</screen>
+
+</para>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">char connless&lowbar;id;</literal></term>
+<listitem>
+<para>is a code to explain the following <LITERAL REMAP="tt">connless&lowbar;data</literal>.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">char connless&lowbar;data[blocksize-5];</literal></term>
+<listitem>
+<para>is the rest of the block and depends on the value of <LITERAL REMAP="tt">connless&lowbar;id</literal>.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect3>
+<sect3>
+<title>Game block</title>
+<para>A game block has the structure
+
+<screen>typedef struct {
+  float          time;                 
+  char           code;       // == 1
+  long           blocksize;
+  unsigned long  seq_rel_1;  // != 0xFFFFFFFF
+  unsigned long  seq_rel_2;                 
+  char           messages[blocksize-8];
+} game_blocks_t;</screen>
+
+</para>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">unsigned long seq&lowbar;rel&lowbar;1;</literal></term>
+<listitem>
+<para>is a compound variable and must be splitted:
+
+<screen>seq1 = seq_rel_1 &amp; 0x7FFFFFFF;
+reliable1 = ( seq_rel_1 &gt;&gt; 31 ) &amp; 0x01;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">unsigned long seq1;</literal></term>
+<listitem>
+<para>is the sequence code of the sent network packet
+(from the server to the client).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">int reliable1;</literal></term>
+<listitem>
+<para>Indicates, that this packet is a reliable one. In the actual network 
+protocol, the server retransmit it until the client send the acknowledge.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">unsigned long seq&lowbar;rel&lowbar;2;</literal></term>
+<listitem>
+<para>is a compound variable and must be splitted:
+
+<screen>seq2 = seq_rel_2 &amp; 0x7FFFFFFF;
+reliable2 = ( seq_rel_2 &gt;&gt; 31 ) &amp; 0x01;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">unsigned long seq2;</literal></term>
+<listitem>
+<para>is the sequence code of the last received network packet (from the client to 
+the server).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">int reliable2;</literal></term>
+<listitem>
+<para>Indicates, that this packet was a reliable one. In the actual network
+protocol, the server acknowledge so a reliable packet from the client.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">char messages[blocksize-8];</literal></term>
+<listitem>
+<para>contain several game messages with the main game data. The structure is 
+similar to the messages in Quake DEM files. </para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect3>
+</sect2>
+<sect2>
+<title>Frame block</title>
+<para>A frame block is 13 bytes long and contains 2 sequence numbers.
+It is a server to client block and the first sequence number goes up in the
+same sequence as in all the surrounding game blocks.
+The exact meaning of these sequence numbers is unknown to me. ?FIXME? 
+A frame block appears first in protocol version 26 (game version 2.20).</para>
+<para>The frame block has the following structure:
+
+<screen>typedef struct {
+  float         time;                 
+  char          code;       // == 2
+  unsigned long seq1;
+  unsigned long seq2;
+} frame_block_t;</screen>
+
+</para>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">unsigned long seq1;</literal></term>
+<listitem>
+<para>is the current sequence number (from the server to the client).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">unsigned long seq2;</literal></term>
+<listitem>
+<para>is certainly some kind of an already received sequence number.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>Auxiliary routines</title>
+<para>Here comes the definition of some small auxiliary routines to 
+simplify
+the main message description. <LITERAL REMAP="tt">get&lowbar;next&lowbar;unsigned&lowbar;char</literal>,
+<LITERAL REMAP="tt">get&lowbar;next&lowbar;signed&lowbar;char</literal>, <LITERAL REMAP="tt">get&lowbar;next&lowbar;short</literal>,
+<LITERAL REMAP="tt">get&lowbar;next&lowbar;long</literal> and <LITERAL REMAP="tt">get&lowbar;next&lowbar;float</literal> are basic functions and 
+they do exactly what they are 
+called. Please note: <LITERAL REMAP="tt">byte</literal>, <LITERAL REMAP="tt">char</literal> or <LITERAL REMAP="tt">short</literal> will be 
+converted to <LITERAL REMAP="tt">long</literal>.
+Second note: Don't look at the variable types for size calculations. 
+Look at the routine names.</para>
+<para>In the following I often use a count variable 
+
+<screen>int i;</screen>
+
+without declaration. I hope this does not confuses you. </para>
+<para>
+
+<screen>long ReadByte
+{
+  return (long) get_next_unsigned_char;
+}</screen>
+
+</para>
+<para>
+
+<screen>long ReadChar
+{
+  return (long) get_next_signed_char;
+}</screen>
+
+</para>
+<para>
+
+<screen>long ReadShort
+{
+  return (long) get_next_short;
+}</screen>
+
+</para>
+<para>
+
+<screen>long ReadLong
+{
+  return get_next_long;
+}</screen>
+
+</para>
+<para>Note: A signed angle in a single byte. There are only 256 possible 
+direction to look into.</para>
+<para>
+
+<screen>vec_t ReadAngle
+{
+  return (vec_t) ReadChar / 256.0 * 360.0;
+}</screen>
+
+</para>
+<para>This angle can point in 65536 directions.</para>
+<para>
+
+<screen>vec_t ReadAngle16
+{
+  return (vec_t) ReadShort / 65536.0 * 360.0;
+}</screen>
+
+</para>
+<para>A coordinate is stored in 16 bits: 1 sign bit, 12 integer bits and 3
+fraction bits.</para>
+<para>
+
+<screen>vec_t ReadCoord
+{
+  return (vec_t) ReadShort * 0.125;
+}</screen>
+
+</para>
+<para>The string reading stops at '&bsol;0' or after 0x7FF bytes. The internal
+buffer has only 0x800 bytes available.</para>
+<para>
+
+<screen>char* ReadString
+{
+  char* string_pointer;
+  char string_buffer[0x800];
+
+  string_pointer=string_buffer;
+  for (i=0 ; i&lt;0x7FF ; i++, string_pointer++) {
+    if (! (*string_pointer = ReadChar) ) break;
+  }
+  *string_pointer = '\0';
+  return strdup(string_buffer);
+}</screen>
+
+</para>
+<para>
+
+<screen>long ReadFloat
+{
+  return get_next_float;
+}</screen>
+
+</para>
+</sect2>
+</sect1>
+<sect1>
+<title>List of all message types in connectionless blocks</title>
+<para>This is the general message structure:
+
+<screen>typedef struct {
+  char connless_id;
+  char connless_data[???];
+} connless_message_t;</screen>
+
+The length of a message depends on its type.</para>
+<para>The easiest way to explain a message in a connectionless block is to give a 
+short C like program fragment to parse such a message. It is not really the 
+same code base as in LMPC but it should be <emphasis>very</emphasis> similar. Each message
+can be described by its <LITERAL REMAP="tt">connless&lowbar;id</literal> or its name. </para>
+<sect2>
+<title>disconnect</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">connless&lowbar;id</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x02</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Stop the playback. It is usually the last block of a QWD file.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">char* text;</literal></term>
+<listitem>
+<para>is an unused and (by QuakeWorld) unparsed text. Its value is "EndOfDemo".</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>text=ReadString;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>client&lowbar;command</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">connless&lowbar;id</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x42</literal> = 'B'</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>The client transfers the text to the console and runs it. The command can 
+only come from a local server.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">char* text;</literal></term>
+<listitem>
+<para>is the console command, to be executed.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>text=ReadString;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>challenge</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">connless&lowbar;id</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x63</literal> = 'c'</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This special message appears first with protocol version 26 (game version
+2.20).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>challenge = ReadString;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>connect</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">connless&lowbar;id</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x6A</literal> = 'j'</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>The server tells the client to start the game initialisation procedure.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>none</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>ping</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">connless&lowbar;id</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x6B</literal> = 'k'</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>The server tells the client that it is still alive.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>none</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>console</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">connless&lowbar;id</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x6E</literal> = 'n'</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>The client transfers the text to the console and prints it.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">char* text;</literal></term>
+<listitem>
+<para>is the text to be printed.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>text=ReadString;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+</sect1>
+<sect1>
+<title>List of all game message types</title>
+<para>This is the general game message structure:
+
+<screen>typedef struct {
+                 unsigned char ID;
+                 char          messagecontent[????];
+               } game_message_t;</screen>
+
+The length of a message depends on its type (or <LITERAL REMAP="tt">ID</literal>).</para>
+<para>Each message can be described by its <LITERAL REMAP="tt">ID</literal> or its name. </para>
+<sect2>
+<title>bad</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x00</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Something is bad. This message should never appear.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>error("CL_ParseServerMessage: Bad server message");</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>nop</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x01</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>No operation.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>none</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>disconnect</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x02</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Disconnect from the server. Stops the game.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>none</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<SECT2 ID="UPDATESTAT">
+<title>updatestat</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x03</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Updates directly a <LITERAL REMAP="tt">byte</literal> value in the player state array of 
+<LITERAL REMAP="tt">long</literal> numbers. To update a <LITERAL REMAP="tt">long</literal>
+value, look in section <XREF LINKEND="UPDATESTATLONG">.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long index;</literal></term>
+<listitem>
+<para>is the index in the <LITERAL REMAP="tt">playerstate</literal>
+array. Table `<LITERAL REMAP="tt">updatestat</literal> indices' lists
+all possible indices and their real name. The value of an <LITERAL REMAP="tt">items</literal>
+entry (<LITERAL REMAP="tt">index</literal>=15) is a bit difficult and will be explained in the 
+table `<LITERAL REMAP="tt">items</literal> bits'.</para>
+<para>
+
+<table>
+<title><LITERAL REMAP="tt">updatestat</literal> indices</title>
+<TGROUP COLS="2">
+<COLSPEC COLSEP="0" ALIGN="RIGHT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry>index </entry>
+<entry>variable</entry>
+</row>
+<row>
+<entry>0 </entry>
+<entry><LITERAL REMAP="tt">health</literal></entry>
+</row>
+<row>
+<entry>1 </entry>
+<entry>??? (not used)</entry>
+</row>
+<row>
+<entry>2 </entry>
+<entry><LITERAL REMAP="tt">weaponmodel</literal></entry>
+</row>
+<row>
+<entry>3 </entry>
+<entry><LITERAL REMAP="tt">currentammo</literal></entry>
+</row>
+<row>
+<entry>4 </entry>
+<entry><LITERAL REMAP="tt">armorvalue</literal></entry>
+</row>
+<row>
+<entry>5 </entry>
+<entry><LITERAL REMAP="tt">weaponframe</literal></entry>
+</row>
+<row>
+<entry>6 </entry>
+<entry><LITERAL REMAP="tt">ammo&lowbar;shells</literal></entry>
+</row>
+<row>
+<entry>7 </entry>
+<entry><LITERAL REMAP="tt">ammo&lowbar;nails</literal></entry>
+</row>
+<row>
+<entry>8 </entry>
+<entry><LITERAL REMAP="tt">ammo&lowbar;rockets</literal></entry>
+</row>
+<row>
+<entry>9 </entry>
+<entry><LITERAL REMAP="tt">ammo&lowbar;cells</literal></entry>
+</row>
+<row>
+<entry>10 </entry>
+<entry><LITERAL REMAP="tt">weapon</literal></entry>
+</row>
+<row>
+<entry>11 </entry>
+<entry><LITERAL REMAP="tt">total&lowbar;secrets</literal></entry>
+</row>
+<row>
+<entry>12 </entry>
+<entry><LITERAL REMAP="tt">total&lowbar;monsters</literal></entry>
+</row>
+<row>
+<entry>13 </entry>
+<entry><LITERAL REMAP="tt">found&lowbar;secrets</literal></entry>
+</row>
+<row>
+<entry>14 </entry>
+<entry><LITERAL REMAP="tt">killed&lowbar;monsters</literal></entry>
+</row>
+<row>
+<entry>15 </entry>
+<entry><LITERAL REMAP="tt">items</literal></entry>
+</row>
+<row>
+<entry>. </entry>
+<entry></entry>
+</row>
+<row>
+<entry>. </entry>
+<entry></entry>
+</row>
+<row>
+<entry>. </entry>
+<entry></entry>
+</row>
+<row>
+<entry>23 </entry>
+<entry>???</entry>
+</row>
+<row>
+<entry>. </entry>
+<entry></entry>
+</row>
+<row>
+<entry>. </entry>
+<entry></entry>
+</row>
+<row>
+<entry>. </entry>
+<entry></entry>
+</row>
+<row>
+<entry>31 </entry>
+<entry>???</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+</para>
+<para>
+
+<table>
+<title><LITERAL REMAP="tt">items</literal> bits</title>
+<TGROUP COLS="4">
+<COLSPEC COLSEP="0" ALIGN="RIGHT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry>bit </entry>
+<entry>value </entry>
+<entry>QuakeC </entry>
+<entry>purpose</entry>
+</row>
+<row>
+<entry>0 </entry>
+<entry><LITERAL REMAP="tt">0x00000001</literal> </entry>
+<entry>IT&lowbar;SHOTGUN </entry>
+<entry>Shotgun (should be always 1)</entry>
+</row>
+<row>
+<entry>1 </entry>
+<entry><LITERAL REMAP="tt">0x00000002</literal> </entry>
+<entry>IT&lowbar;SUPER&lowbar;SHOTGUN</entry>
+<entry>Double-barrelled Shotgun</entry>
+</row>
+<row>
+<entry>2 </entry>
+<entry><LITERAL REMAP="tt">0x00000004</literal> </entry>
+<entry>IT&lowbar;NAILGUN </entry>
+<entry>Nailgun</entry>
+</row>
+<row>
+<entry>3 </entry>
+<entry><LITERAL REMAP="tt">0x00000008</literal> </entry>
+<entry>IT&lowbar;SUPER&lowbar;NAILGUN</entry>
+<entry>Perforator</entry>
+</row>
+<row>
+<entry>4 </entry>
+<entry><LITERAL REMAP="tt">0x00000010</literal> </entry>
+<entry>IT&lowbar;GRENADE&lowbar;LAUNCHER</entry>
+<entry>Grenade Launcher</entry>
+</row>
+<row>
+<entry>5 </entry>
+<entry><LITERAL REMAP="tt">0x00000020</literal> </entry>
+<entry>IT&lowbar;ROCKET&lowbar;LAUNCHER</entry>
+<entry>Rocket Launcher</entry>
+</row>
+<row>
+<entry>6 </entry>
+<entry><LITERAL REMAP="tt">0x00000040</literal> </entry>
+<entry>IT&lowbar;LIGHTNING </entry>
+<entry>Thunderbolt</entry>
+</row>
+<row>
+<entry>7 </entry>
+<entry><LITERAL REMAP="tt">0x00000080</literal> </entry>
+<entry>IT&lowbar;EXTRA&lowbar;WEAPON</entry>
+<entry>extra weapon (there is no extra weapon)</entry>
+</row>
+<row>
+<entry>8 </entry>
+<entry><LITERAL REMAP="tt">0x00000100</literal> </entry>
+<entry>IT&lowbar;SHELLS </entry>
+<entry>Shells are active</entry>
+</row>
+<row>
+<entry>9 </entry>
+<entry><LITERAL REMAP="tt">0x00000200</literal> </entry>
+<entry>IT&lowbar;NAILS </entry>
+<entry>Nails are active</entry>
+</row>
+<row>
+<entry>10 </entry>
+<entry><LITERAL REMAP="tt">0x00000400</literal> </entry>
+<entry>IT&lowbar;ROCKETS </entry>
+<entry>Grenades are active</entry>
+</row>
+<row>
+<entry>11 </entry>
+<entry><LITERAL REMAP="tt">0x00000800</literal> </entry>
+<entry>IT&lowbar;CELLS </entry>
+<entry>Cells are active</entry>
+</row>
+<row>
+<entry>12 </entry>
+<entry><LITERAL REMAP="tt">0x00001000</literal> </entry>
+<entry>IT&lowbar;AXE </entry>
+<entry>Axe (should be always 1)</entry>
+</row>
+<row>
+<entry>13 </entry>
+<entry><LITERAL REMAP="tt">0x00002000</literal> </entry>
+<entry>IT&lowbar;ARMOR1 </entry>
+<entry>green Armor</entry>
+</row>
+<row>
+<entry>14 </entry>
+<entry><LITERAL REMAP="tt">0x00004000</literal> </entry>
+<entry>IT&lowbar;ARMOR2 </entry>
+<entry>yellow Armor</entry>
+</row>
+<row>
+<entry>15 </entry>
+<entry><LITERAL REMAP="tt">0x00008000</literal> </entry>
+<entry>IT&lowbar;ARMOR3 </entry>
+<entry>red Armor</entry>
+</row>
+<row>
+<entry>16 </entry>
+<entry><LITERAL REMAP="tt">0x00010000</literal> </entry>
+<entry>IT&lowbar;SUPERHEALTH </entry>
+<entry>Megahealth</entry>
+</row>
+<row>
+<entry>17 </entry>
+<entry><LITERAL REMAP="tt">0x00020000</literal> </entry>
+<entry>IT&lowbar;KEY1 </entry>
+<entry>silver keycard (or runekey or key)</entry>
+</row>
+<row>
+<entry>18 </entry>
+<entry><LITERAL REMAP="tt">0x00040000</literal> </entry>
+<entry>IT&lowbar;KEY2 </entry>
+<entry>gold keycard (or runekey or key)</entry>
+</row>
+<row>
+<entry>19 </entry>
+<entry><LITERAL REMAP="tt">0x00080000</literal> </entry>
+<entry>IT&lowbar;INVISIBILITY </entry>
+<entry>Ring of Shadows</entry>
+</row>
+<row>
+<entry>20 </entry>
+<entry><LITERAL REMAP="tt">0x00100000</literal> </entry>
+<entry>IT&lowbar;INVULNERABILITY </entry>
+<entry>Pentagram of Protection</entry>
+</row>
+<row>
+<entry>21 </entry>
+<entry><LITERAL REMAP="tt">0x00200000</literal> </entry>
+<entry>IT&lowbar;SUIT </entry>
+<entry>Biosuit</entry>
+</row>
+<row>
+<entry>22 </entry>
+<entry><LITERAL REMAP="tt">0x00400000</literal> </entry>
+<entry>IT&lowbar;QUAD </entry>
+<entry>Quad Damage</entry>
+</row>
+<row>
+<entry>23 </entry>
+<entry><LITERAL REMAP="tt">0x00800000</literal> </entry>
+<entry>unknown </entry>
+<entry>unknown (is 0)</entry>
+</row>
+<row>
+<entry>24 </entry>
+<entry><LITERAL REMAP="tt">0x01000000</literal> </entry>
+<entry>unknown </entry>
+<entry>unknown (is 0)</entry>
+</row>
+<row>
+<entry>25 </entry>
+<entry><LITERAL REMAP="tt">0x02000000</literal> </entry>
+<entry>unknown </entry>
+<entry>unknown (is 0)</entry>
+</row>
+<row>
+<entry>26 </entry>
+<entry><LITERAL REMAP="tt">0x04000000</literal> </entry>
+<entry>unknown </entry>
+<entry>unknown (is 0)</entry>
+</row>
+<row>
+<entry>27 </entry>
+<entry><LITERAL REMAP="tt">0x08000000</literal> </entry>
+<entry>unknown </entry>
+<entry>unknown (is 0)</entry>
+</row>
+<row>
+<entry>28 </entry>
+<entry><LITERAL REMAP="tt">0x10000000</literal> </entry>
+<entry>unknown </entry>
+<entry>Rune 1</entry>
+</row>
+<row>
+<entry>29 </entry>
+<entry><LITERAL REMAP="tt">0x20000000</literal> </entry>
+<entry>unknown </entry>
+<entry>Rune 2</entry>
+</row>
+<row>
+<entry>30 </entry>
+<entry><LITERAL REMAP="tt">0x40000000</literal> </entry>
+<entry>unknown </entry>
+<entry>Rune 3</entry>
+</row>
+<row>
+<entry>31 </entry>
+<entry><LITERAL REMAP="tt">0x80000000</literal> </entry>
+<entry>unknown </entry>
+<entry>Rune 4</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long value;</literal></term>
+<listitem>
+<para>is the new (<LITERAL REMAP="tt">byte</literal>) value.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long playerstate[32];</literal></term>
+<listitem>
+<para>is the array to describe the
+player state.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>index = ReadByte;
+if (index &gt; 31) 
+  error("CL_SetStat: %i is invalid", index);
+value = ReadByte;
+playerstate[index] = value;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>version</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x04</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Not used any more. Calls the <EMPHASIS REMAP="bf">bad</emphasis>-routine.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>setview</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x05</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Not used any more. Calls the <EMPHASIS REMAP="bf">bad</emphasis>-routine.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<SECT2 ID="SOUND">
+<title>sound</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x06</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This message starts the play of a sound at a specific point.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">float vol;</literal></term>
+<listitem>
+<para>is the volume of the sound (0.0 off, 
+1.0 max).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">float attenuation;</literal></term>
+<listitem>
+<para>is the attenuation of the sound.
+
+<table>
+<title>Sound attenuations</title>
+<TGROUP COLS="3">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry>value </entry>
+<entry>QuakeC </entry>
+<entry>purpose</entry>
+</row>
+<row>
+<entry>0 </entry>
+<entry>ATTN&lowbar;NONE </entry>
+<entry>i. e. player's death sound doesn't get an attenuation</entry>
+</row>
+<row>
+<entry>1 </entry>
+<entry>ATTN&lowbar;NORM </entry>
+<entry>the normal attenuation</entry>
+</row>
+<row>
+<entry>2 </entry>
+<entry>ATTN&lowbar;IDLE </entry>
+<entry>for idle monsters</entry>
+</row>
+<row>
+<entry>3 </entry>
+<entry>ATTN&lowbar;STATIC </entry>
+<entry>for spawnstaticsound messages</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long channel;</literal></term>
+<listitem>
+<para>is the sound channel. There are 8 possible
+sound channels for each entity in QuakeWorld but it uses 5 only. 
+
+<table>
+<title>Sound channels</title>
+<TGROUP COLS="3">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry>value </entry>
+<entry>QuakeC </entry>
+<entry>purpose</entry>
+</row>
+<row>
+<entry>0 </entry>
+<entry>CHAN&lowbar;AUTO </entry>
+<entry>selects a channel automatically</entry>
+</row>
+<row>
+<entry>1 </entry>
+<entry>CHAN&lowbar;WEAPON </entry>
+<entry>weapon use sounds</entry>
+</row>
+<row>
+<entry>2 </entry>
+<entry>CHAN&lowbar;VOICE </entry>
+<entry>pain calls</entry>
+</row>
+<row>
+<entry>3 </entry>
+<entry>CHAN&lowbar;ITEM </entry>
+<entry>item get sounds</entry>
+</row>
+<row>
+<entry>4 </entry>
+<entry>CHAN&lowbar;BODY </entry>
+<entry>jump and fall sounds</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+</para>
+<para>Channel 0 never willingly overrides. Other channels (1-4) always override a 
+playing sound on that channel.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long entity;</literal></term>
+<listitem>
+<para>is the entity which caused the sound.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long soundnum;</literal></term>
+<listitem>
+<para>is the index in the precache sound table.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<listitem>
+<para>is the origin of the sound.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>long entity_channel; // combined variable
+
+entity_channel = ReadShort;
+vol = entity_channel &amp; 0x8000 ? (float) ReadByte / 255.0 : 1.0;
+attenuation = entity_channel &amp; 0x4000 ? (float) ReadByte / 64.0 : 1.0;
+channel = entity_channel &amp; 0x07;
+entity = (entity_channel &gt;&gt; 3) &amp; 0x03FF;
+if (entity &gt;= 0x0300) 
+  error("CL_ParseStartSoundPacket: ent = %i", entity);
+soundnum = ReadByte;
+for (i=0 ; i&lt;3 ; i++) origin[i] = ReadCoord;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>time</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x07</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Not used any more. Calls the <EMPHASIS REMAP="bf">bad</emphasis>-routine.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>print</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x08</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>The client prints the text in the top left corner of the screen. There is space
+for 4 lines. They scroll up and the text disappears.
+The text will be printed on the console as well. </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long level;</literal></term>
+<listitem>
+<para>is the priority level of the text. 
+
+<table>
+<title>Print priority levels</title>
+<TGROUP COLS="3">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry>value </entry>
+<entry>QuakeC </entry>
+<entry>purpose</entry>
+</row>
+<row>
+<entry>0 </entry>
+<entry>PRINT&lowbar;LOW </entry>
+<entry>pickup messages (white)</entry>
+</row>
+<row>
+<entry>1 </entry>
+<entry>PRINT&lowbar;MEDIUM </entry>
+<entry>death messages</entry>
+</row>
+<row>
+<entry>2 </entry>
+<entry>PRINT&lowbar;HIGH </entry>
+<entry>critical messages (red)</entry>
+</row>
+<row>
+<entry>3 </entry>
+<entry>PRINT&lowbar;CHAT </entry>
+<entry>also goes to chat console</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">char* text;</literal></term>
+<listitem>
+<para>is the text to be displayed.
+All font specials are explained in section <XREF LINKEND="FONT">.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>level = ReadByte;
+text = ReadString;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>stufftext</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x09</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>The client transfers the text to the console and runs it.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">char* text;</literal></term>
+<listitem>
+<para>is the command, which the client has to 
+execute. </para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>text = ReadString;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>setangle</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x0A</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This message set the camera orientation.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t angles;</literal></term>
+<listitem>
+<para>is the new camera orientation.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>for (i=0 ; i&lt;3 ; i++) angles[i] = ReadAngle;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>serverdata</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x0B</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This message initialises a new level.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long serverversion;</literal></term>
+<listitem>
+<para>is the protocol version coming from
+the server.
+
+<table>
+<title>QuakeWorld values for <LITERAL REMAP="tt">PROTOCOL&lowbar;VERSION</literal></title>
+<TGROUP COLS="2">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry>game </entry>
+<entry>protocol</entry>
+</row>
+<row>
+<entry>1.64 </entry>
+<entry>24</entry>
+</row>
+<row>
+<entry>2.00 </entry>
+<entry>25</entry>
+</row>
+<row>
+<entry>2.10 </entry>
+<entry>25</entry>
+</row>
+<row>
+<entry>2.20 </entry>
+<entry>26</entry>
+</row>
+<row>
+<entry>2.21 </entry>
+<entry>26</entry>
+</row>
+<row>
+<entry>2.29BETA </entry>
+<entry>27</entry>
+</row>
+<row>
+<entry>2.30 </entry>
+<entry>28</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long age;</literal></term>
+<listitem>
+<para>is the number of levels analysed since the
+existence of the server process. Starts with 1.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">char* game;</literal></term>
+<listitem>
+<para>is the QuakeWorld game directory. It has
+usually the value "qw";</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long client;</literal></term>
+<listitem>
+<para>is the client id.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">char* mapname;</literal></term>
+<listitem>
+<para>is the name of the level.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">float maxspeed;</literal></term>
+<listitem>
+<para>is the maximum running speed. It may be
+changed during the game with the <EMPHASIS REMAP="bf">maxspeed</emphasis> message.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">float entgravity;</literal></term>
+<listitem>
+<para>is the gravity in the level.
+It may be changed during the game with the <EMPHASIS REMAP="bf">entgravity</emphasis> message.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">float var0, var1, var3, var4, var4, var5, var6, var7,
+var8</literal></term>
+<listitem>
+<para>are other global definition variables. ?FIXME?</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>serverversion = ReadLong;
+if (serverversion != PROTOCOL_VERSION)
+  error("Server returned version %i, not %i", version, PROTOCOL_VERSION);
+age = ReadLong;
+game = ReadString;
+client = ReadByte;
+mapname = ReadString;
+if (serverversion &gt;= 25) { // from 2.00 on
+  var0 = ReadFloat;
+  var1 = ReadFloat;
+  maxspeed = ReadFloat;
+  var3 = ReadFloat;
+  var4 = ReadFloat;
+  var5 = ReadFloat;
+  var6 = ReadFloat;
+  var7 = ReadFloat;
+  var8 = ReadFloat;
+  entgravity = ReadFloat;
+}</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>lightstyle</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x0C</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This message defines a light animation style.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long style;</literal></term>
+<listitem>
+<para>is the light style number.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">char* string;</literal></term>
+<listitem>
+<para>is a string of letters `a' .. `z', where `a' means black and `z' white.
+All effects from nervous flashing (``az'') to slow dimming 
+(``zyxwvu ... edcba'') can so be described.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define MAX&lowbar;LIGHTSTYLES 63</literal></term>
+<listitem>
+<para>is the last number number of
+a light style.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>style = ReadByte;
+if (style&gt;MAX_LIGHTSTYLES)
+  error("svc_lightstyle &gt; MAX_LIGHTSTYLES");
+string = ReadString;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>updatename</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x0D</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Not used any more. Calls the <EMPHASIS REMAP="bf">bad</emphasis>-routine.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>updatefrags</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x0E</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This message updates the frag count of a specific player.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long player;</literal></term>
+<listitem>
+<para>is the player number (0 .. MAX&lowbar;SCOREBOARD).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long frags;</literal></term>
+<listitem>
+<para>is the new frag count for this player.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define MAX&lowbar;SCOREBOARD 31</literal></term>
+<listitem>
+<para>is the last possible number of a
+player.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>player = ReadByte;
+if (player&gt;MAX_SCOREBOARD) 
+  error("CL_ParseServerMessage: svc_updatefrags &gt; MAX_SCOREBOARD");
+frags = ReadShort;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>clientdata</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x0F</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Not used any more. Calls the <EMPHASIS REMAP="bf">bad</emphasis>-routine.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>stopsound</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x10</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Stops a sound. It looks for a sound started with a <EMPHASIS REMAP="bf">sound</emphasis> message
+with the same <LITERAL REMAP="tt">channel</literal> and <LITERAL REMAP="tt">entity</literal>.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long channel;</literal></term>
+<listitem>
+<para>is the sound channel.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long entity;</literal></term>
+<listitem>
+<para>is the entity which caused the sound.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>long channel_entity; // combined variable
+
+channel_entity = ReadShort;
+channel = channel_entity &amp; 0x07;
+entity = (channel_entity &gt;&gt; 3) &amp; 0x03FF;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>updatecolors</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x11</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Not used any more. Calls the <EMPHASIS REMAP="bf">bad</emphasis>-routine.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>particle</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x12</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Not used any more. Calls the <EMPHASIS REMAP="bf">bad</emphasis>-routine.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>damage</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x13</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Tells how severe was a hit and from which point it came.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long save;</literal></term>
+<listitem>
+<para>will be subtracted from the current armor.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long take;</literal></term>
+<listitem>
+<para>will be subtracted from the current
+health.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<listitem>
+<para>is the origin of the
+hit. It points to the weapon (not the origin) of the attacking entity 
+or it is (0,0,0) if the damage was caused by drowning or burning.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>save = ReadByte;
+take = ReadByte;
+for (i=0 ; i&lt;3 ; i++) origin[i] = ReadCoord;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<SECT2 ID="SPAWNSTATIC">
+<title>spawnstatic</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x14</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This message creates a static entity and sets the internal values.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long StaticEntityCount;</literal></term>
+<listitem>
+<para>is the number of already started
+static entities. The maximum number is 127.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">entity&lowbar;t* staticentities;</literal></term>
+<listitem>
+<para>is the array filled up with
+the data of the static entities.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long default&lowbar;modelindex;</literal></term>
+<listitem>
+<para>is the model index in the 
+precache model table for the entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long default&lowbar;frame;</literal></term>
+<listitem>
+<para>is the frame number of the model.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long default&lowbar;colormap;</literal></term>
+<listitem>
+<para>is the colormap number to display 
+the model.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long default&lowbar;skin;</literal></term>
+<listitem>
+<para>is the skin number of the model. </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t default&lowbar;origin;</literal></term>
+<listitem>
+<para>is the origin of the entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t default&lowbar;angles;</literal></term>
+<listitem>
+<para>is the orientation of the entity.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>if (StaticEntityCount &gt; 127) 
+  error("Too many static entities");
+staticentities[StaticEntityCount].default_modelindex = ReadByte;
+staticentities[StaticEntityCount].default_frame = ReadByte;
+staticentities[StaticEntityCount].default_colormap = ReadByte;
+staticentities[StaticEntityCount].default_skin = ReadByte;
+for (i=0 ; i&lt;3 ; i++) {
+  staticentities[StaticEntityCount].default_origin[i] = ReadCoord;
+  staticentities[StaticEntityCount].default_angles[i] = ReadAngle;
+}
+StaticEntityCount++;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>spawnbinary</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x15</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Not used any more. Calls the <EMPHASIS REMAP="bf">bad</emphasis>-routine.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<SECT2 ID="SPAWNBASELINE">
+<title>spawnbaseline</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x16</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Creates a dynamic entity and sets the internal default values.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long entity;</literal></term>
+<listitem>
+<para>is the number of the entity. In Quake
+there was a test if this number is too big. There is no such test in 
+QuakeWorld.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">entity&lowbar;t* entities;</literal></term>
+<listitem>
+<para>is the array filled up with
+the data of the dynamic entities.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long default&lowbar;modelindex;</literal></term>
+<listitem>
+<para>is the model index in the 
+precache model table for the entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long default&lowbar;frame;</literal></term>
+<listitem>
+<para>is the frame number of the model.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long default&lowbar;colormap;</literal></term>
+<listitem>
+<para>is the colormap number to display 
+the model.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long default&lowbar;skin;</literal></term>
+<listitem>
+<para>is the skin number of the model.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t default&lowbar;origin;</literal></term>
+<listitem>
+<para>is the origin of the entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t default&lowbar;angles;</literal></term>
+<listitem>
+<para>is the orientation of the entity.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>entity = ReadShort;
+entities[entity].default_modelindex = ReadByte;
+entities[entity].default_frame = ReadByte;
+entities[entity].default_colormap = ReadByte;
+entities[entity].default_skin = ReadByte;
+for (i=0 ; i&lt;3 ; i++) {
+  entities[entity].default_origin[i] = ReadCoord;
+  entities[entity].default_angles[i] = ReadAngle;
+}</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<SECT2 ID="TEMP-ENTITY">
+<title>temp&lowbar;entity</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x17</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Creates a temporary entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long entitytype;</literal></term>
+<listitem>
+<para>is the type of the temporary entity.
+There are three kinds of temporary entities:
+<variablelist>
+<varlistentry>
+<term>point entity</term>
+<listitem>
+<para>is a small point like entity.
+
+<table>
+<title>point entities</title>
+<TGROUP COLS="3">
+<COLSPEC COLSEP="0" ALIGN="RIGHT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry>value </entry>
+<entry>QuakeC </entry>
+<entry>purpose</entry>
+</row>
+<row>
+<entry>0 </entry>
+<entry>TE&lowbar;SPIKE </entry>
+<entry>unknown</entry>
+</row>
+<row>
+<entry>1 </entry>
+<entry>TE&lowbar;SUPERSPIKE </entry>
+<entry>superspike hits (spike traps)</entry>
+</row>
+<row>
+<entry>3 </entry>
+<entry>TE&lowbar;EXPLOSION </entry>
+<entry>grenade/missile explosion</entry>
+</row>
+<row>
+<entry>4 </entry>
+<entry>TE&lowbar;TAREXPLOSION </entry>
+<entry>explosion of a tarbaby</entry>
+</row>
+<row>
+<entry>7 </entry>
+<entry>TE&lowbar;WIZSPIKE </entry>
+<entry>wizard's hit</entry>
+</row>
+<row>
+<entry>8 </entry>
+<entry>TE&lowbar;KNIGHTSPIKE </entry>
+<entry>hell knight's shot hit</entry>
+</row>
+<row>
+<entry>10 </entry>
+<entry>TE&lowbar;LAVASPLASH </entry>
+<entry>Chthon awakes and falls dead</entry>
+</row>
+<row>
+<entry>11 </entry>
+<entry>TE&lowbar;TELEPORT </entry>
+<entry>teleport end</entry>
+</row>
+<row>
+<entry>13 </entry>
+<entry>TE&lowbar;LIGHTNINGBLOOD </entry>
+<entry>hit by Thunderbolt</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>line entity</term>
+<listitem>
+<para>is a two-dimensional entity.
+
+<table>
+<title>line entities</title>
+<TGROUP COLS="3">
+<COLSPEC COLSEP="0" ALIGN="RIGHT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry>value </entry>
+<entry>QuakeC </entry>
+<entry>purpose</entry>
+</row>
+<row>
+<entry>5 </entry>
+<entry>TE&lowbar;LIGHTNING1 </entry>
+<entry>flash of the Shambler</entry>
+</row>
+<row>
+<entry>6 </entry>
+<entry>TE&lowbar;LIGHTNING2 </entry>
+<entry>flash of the Thunderbolt</entry>
+</row>
+<row>
+<entry>9 </entry>
+<entry>TE&lowbar;LIGHTNING3 </entry>
+<entry>flash in e1m7 to kill Chthon</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>multi entity</term>
+<listitem>
+<para>is a cluster of point entities.
+
+<table>
+<title>multi entities</title>
+<TGROUP COLS="3">
+<COLSPEC COLSEP="0" ALIGN="RIGHT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry>value </entry>
+<entry>QuakeC </entry>
+<entry>purpose</entry>
+</row>
+<row>
+<entry>2 </entry>
+<entry>TE&lowbar;GUNSHOT </entry>
+<entry>shot multiple pellets</entry>
+</row>
+<row>
+<entry>12 </entry>
+<entry>TE&lowbar;BLOOD </entry>
+<entry>hit something that can bleed</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long entity;</literal></term>
+<listitem>
+<para>is the entity which created the temporary entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<listitem>
+<para>is the origin of the entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t trace&lowbar;endpos;</literal></term>
+<listitem>
+<para>is the destination of the line entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long count;</literal></term>
+<listitem>
+<para>is the number of particles in a multi entity.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>entitytype = ReadByte;
+switch (entitytype) {
+  case 0,1,3,4,7,8,10,11,13:
+       for (i=0 ; i&lt;3 ; i++) origin[i] = ReadCoord;
+  break;
+  case 5,6,9:
+       entity = ReadShort;
+       for (i=0 ; i&lt;3 ; i++) origin[i] = ReadCoord;
+       for (i=0 ; i&lt;3 ; i++) trace_endpos[i] = ReadCoord;
+  break;
+  case 2,12:
+       count = ReadByte;
+       for (i=0 ; i&lt;3 ; i++) origin[i] = ReadCoord;
+  break;
+  default:
+    error("CL_ParseTEnt: bad type");
+  break;
+}</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>setpause</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x18</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Set the pause state. This message was not implemented up to game version 2.10
+(protocol version 25) but appears from game version 2.20 (protocol version
+26) on.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long pausestate;</literal></term>
+<listitem>
+<para>is non-zero to start the pause and 
+zero to stop it.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>pausestate = ReadByte;
+if (pausestate) {
+  // pause is on
+}
+else {
+  // pause is off
+}</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist> </para>
+</sect2>
+<sect2>
+<title>signonum</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x19</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Not used any more. Calls the <EMPHASIS REMAP="bf">bad</emphasis>-routine.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>centerprint</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x1A</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Prints the specified text at the centre of the screen. There is only one text
+line with a maximum of 40 characters. To print more than this one line, use
+`&bsol;n' in a single <EMPHASIS REMAP="bf">centerprint</emphasis> message for a new line. Every text 
+line (the first 40 characters) will be centred horizontally.</para>
+<para>All font specials are explained in section <XREF LINKEND="FONT">.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">char* text;</literal></term>
+<listitem>
+<para>is the text to be displayed.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>text = ReadString;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>killedmonster</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x1B</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Indicates the death of a monster.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long killed&lowbar;monsters;</literal></term>
+<listitem>
+<para>is the number of killed monsters. 
+It may be displayed with the console command <EMPHASIS REMAP="it">showscores</emphasis>.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>killed_monsters++;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>foundsecret</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x1C</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Indicates, that the player just entered a secret area.
+It comes usually with a <LITERAL REMAP="tt">centerprint</literal> message.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long found&lowbar;secrets;</literal></term>
+<listitem>
+<para>is the number of found secrets. It may
+be displayed with the console command <EMPHASIS REMAP="it">showscores</emphasis>.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>found_secrets++;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>spawnstaticsound</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x1D</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This message starts a static (ambient) sound not connected to an entity but to
+a position.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<listitem>
+<para>is the origin of 
+the sound.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long soundnum;</literal></term>
+<listitem>
+<para>is the sound index in the precache sound
+table.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">float vol;</literal></term>
+<listitem>
+<para>is the volume (0.0 off, 1.0 max)</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">float attenuation;</literal></term>
+<listitem>
+<para>is the attenuation of the sound. 
+Possible attenuations can be found in the table `Sound attenuations'
+of section <XREF LINKEND="SOUND">.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>for (i=0 ; i&lt;3 ; i++) origin[i] = ReadCoord;
+soundnum = ReadByte; 
+vol = (float) ReadByte / 255.0; 
+attenuation = (float) ReadByte / 64.0;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>intermission</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x1E</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Displays the level end screen. </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<listitem>
+<para>is the origin of the intermission waiting place. </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t angles;</literal></term>
+<listitem>
+<para>is the viewing direction from the intermission
+waiting place.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>for ( i=0 ; i&lt;3 ; i++) origin[i] = ReadCoord;
+for ( i=0 ; i&lt;3 ; i++) angles[i] = ReadAngle;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>finale</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x1F</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Displays the episode end screen and some text. The text will be printed
+like <LITERAL REMAP="tt">centerprint</literal> but slower.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">char* text;</literal></term>
+<listitem>
+<para>is the episode end text.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>text = ReadString;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>cdtrack</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x20</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Selects the audio CD track number.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long track;</literal></term>
+<listitem>
+<para>is the audio CD track to play.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>track = ReadByte;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>sellscreen</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x21</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Displays the help and sell screen.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>none</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>smallkick</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x22</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>The recoil of the Shotgun, Nailgun, Perforator, Grenade Launcher,
+Rocket Launcher and Thunderbolt kicks the shooter soft.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>none</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>bigkick</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x23</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>The recoil of the Double-barrelled Shotgun kicks the shooter hard.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>none</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>updateping</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x24</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Updates the ping time. ?FIXME?</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long player;</literal></term>
+<listitem>
+<para>is the number of the player (0 .. MAX&lowbar;SCOREBOARD).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long ping;</literal></term>
+<listitem>
+<para>is the ping time in milliseconds.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>player = ReadByte;
+if (player&gt;MAX_SCOREBOARD) 
+  error("CL_ParseServerMessage: svc_updateping &gt; MAX_SCOREBOARD");
+ping = ReadShort;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>updateentertime</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x25</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Defines the start time, when the client enters the server. ?FIXME?</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long player;</literal></term>
+<listitem>
+<para>is the number of the player (0 .. MAX&lowbar;SCOREBOARD).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">float entertime;</literal></term>
+<listitem>
+<para>is the time stamp, as the client enters a server.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>player = ReadByte;
+if (player&gt;MAX_SCOREBOARD) 
+  error("CL_ParseServerMessage: svc_updateentertime &gt; MAX_SCOREBOARD");
+entertime = ReadFloat;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<SECT2 ID="UPDATESTATLONG">
+<title>updatestatlong</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x26</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Updates directly a <LITERAL REMAP="tt">long</literal> value in the player state array 
+of <LITERAL REMAP="tt">long</literal> numbers. To update a <LITERAL REMAP="tt">byte</literal>
+value, look in section <XREF LINKEND="UPDATESTAT">.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long index;</literal></term>
+<listitem>
+<para>is the index in the <LITERAL REMAP="tt">playerstate</literal> array.
+Look in table `<LITERAL REMAP="tt">updatestat</literal> indices' in section 
+<XREF LINKEND="UPDATESTAT"> for a list of possible indices.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long value;</literal></term>
+<listitem>
+<para>is the new (<LITERAL REMAP="tt">long</literal>) value.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long playerstate[32];</literal></term>
+<listitem>
+<para>is the array to describe the player state. </para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>index = ReadByte;
+if (index &gt; 31)
+  error("CL_SetStat: %i is invalid", index);
+value = ReadLong;
+playerstate[index] = value;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>muzzleflash</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x27</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>The entity lights up a bit when it shoots.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term>long entity;</term>
+<listitem>
+<para>is the entity number.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>entity = ReadShort;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>updateuserinfo</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x28</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Updates some user information from the master server.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term>long player;</term>
+<listitem>
+<para>is the player number (0 .. MAX&lowbar;SCOREBOARD).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>long user;</term>
+<listitem>
+<para>is 0, if there is no such player connected. Some kind of user
+identification. ?FIXME?</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>char* text</term>
+<listitem>
+<para>is a string with variable definitions, separated by `&bsol;'. These
+variables define the color, the name etc.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>player = ReadByte;
+user = ReadLong;
+if (player&gt;MAX_SCOREBOARD)
+  error("CL_ParseServerMessage: svc_updateuserinfo &gt; MAX_SCOREBOARD");
+text = ReadString;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>download</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x29</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Download a file from the server.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long size;</literal></term>
+<listitem>
+<para>is the length of the data block. 
+A typical value is 1024.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long percent;</literal></term>
+<listitem>
+<para>is the transferred amount of data in percent.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">char* downloadbuffer;</literal></term>
+<listitem>
+<para>is the buffer for downloaded files.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>size = ReadShort;
+percent = ReadByte;
+if (size == -1)
+  error("File not found.\n");
+}
+if (percent == 0) 
+  fp = fopen(filename, "wb");
+}
+for ( i=0 ; i&lt;size ; i++ ) {
+  downloadbuffer[i] = ReadByte;
+}
+fwrite(fp, size, 1, downloadbuffer);
+if (percent != 100) {
+  servercommand("nextdl"); /* ask for the next part */
+}
+else {
+  fclose(fp);
+}</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist>           </para>
+</sect2>
+<sect2>
+<title>playerinfo</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x2A</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Updates player information. </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long player;</literal></term>
+<listitem>
+<para>is the number of the player (0 .. MAX&lowbar;SCOREBOARD).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long mask;</literal></term>
+<listitem>
+<para>is a bit mask to reduce the network traffic.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<listitem>
+<para>is the origin of the player.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long frame;</literal></term>
+<listitem>
+<para>is the frame number of the player model.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">float ping;</literal></term>
+<listitem>
+<para>has something to do with the ping time. ?FIXME?</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long mask2;</literal></term>
+<listitem>
+<para>is another bit mask to reduce the network traffic.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt"> unsigned char load;</literal></term>
+<listitem>
+<para>is connected somehow to the workload of the client. ?FIXME?</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t angles;</literal></term>
+<listitem>
+<para>point in the viewing direction (in degree) of the client.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t speed;</literal></term>
+<listitem>
+<para>is the translation of the client (forward, right, up).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long flag;</literal></term>
+<listitem>
+<para>is a collection of flags and must be splitted.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">int fire;</literal></term>
+<listitem>
+<para>indicates an <EMPHASIS REMAP="it">attack</emphasis> console command.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">int jump;</literal></term>
+<listitem>
+<para>indicates a <EMPHASIS REMAP="it">jump</emphasis> console command.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long impulse;</literal></term>
+<listitem>
+<para>is the value of a currently activated <EMPHASIS REMAP="it">impulse</emphasis> console command.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t cspeed;</literal></term>
+<listitem>
+<para>is the current speed in the x,y, and z direction. Used to predict the 
+future.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long model;</literal></term>
+<listitem>
+<para>is the model index in the precache model table of the player.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long playermodel;</literal></term>
+<listitem>
+<para>is the model index in the precache model table for the standard value 
+<LITERAL REMAP="tt">"progs/player.mdl"</literal>.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long uk&lowbar;byte6;</literal></term>
+<listitem>
+<para>is an unknown byte. ?FIXME?</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long weapon;</literal></term>
+<listitem>
+<para>contains a bit mask for the current weapon.
+
+<table>
+<title><LITERAL REMAP="tt">weapon</literal> bits</title>
+<TGROUP COLS="4">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry>bit </entry>
+<entry>value </entry>
+<entry>QuakeC </entry>
+<entry>weapon</entry>
+</row>
+<row>
+<entry>? </entry>
+<entry><LITERAL REMAP="tt">0x00</literal> </entry>
+<entry>not available </entry>
+<entry>Axe</entry>
+</row>
+<row>
+<entry>0 </entry>
+<entry><LITERAL REMAP="tt">0x01</literal> </entry>
+<entry>IT&lowbar;SHOTGUN </entry>
+<entry>Shotgun</entry>
+</row>
+<row>
+<entry>1 </entry>
+<entry><LITERAL REMAP="tt">0x02</literal> </entry>
+<entry>IT&lowbar;SUPER&lowbar;SHOTGUN </entry>
+<entry>Double-barrelled Shotgun</entry>
+</row>
+<row>
+<entry>2 </entry>
+<entry><LITERAL REMAP="tt">0x04</literal> </entry>
+<entry>IT&lowbar;NAILGUN </entry>
+<entry>Nailgun</entry>
+</row>
+<row>
+<entry>3 </entry>
+<entry><LITERAL REMAP="tt">0x08</literal> </entry>
+<entry>IT&lowbar;SUPER&lowbar;NAILGUN</entry>
+<entry>Perforator</entry>
+</row>
+<row>
+<entry>4 </entry>
+<entry><LITERAL REMAP="tt">0x10</literal> </entry>
+<entry>IT&lowbar;GRENADE&lowbar;LAUNCHER</entry>
+<entry>Grenade Launcher</entry>
+</row>
+<row>
+<entry>5 </entry>
+<entry><LITERAL REMAP="tt">0x20</literal> </entry>
+<entry>IT&lowbar;ROCKET&lowbar;LAUNCHER</entry>
+<entry>Rocket Launcher</entry>
+</row>
+<row>
+<entry>6 </entry>
+<entry><LITERAL REMAP="tt">0x40</literal> </entry>
+<entry>IT&lowbar;LIGHTNING</entry>
+<entry>Thunderbolt</entry>
+</row>
+<row>
+<entry>7 </entry>
+<entry><LITERAL REMAP="tt">0x80</literal> </entry>
+<entry>IT&lowbar;EXTRA&lowbar;WEAPON</entry>
+<entry>extra weapon (there is no extra weapon)</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long weaponframe;</literal></term>
+<listitem>
+<para>is the frame of the current weapon model.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>player = ReadByte;                                         
+mask = ReadShort;
+for (i=0;i&lt;3;i++) origin[i] = ReadCoord;
+frame = ReadByte;
+if (mask &amp; 0x0001) ping = ReadByte * 0.001;        // bit 0
+if (mask &amp; 0x0002) {                               // bit 1
+  mask2 = ReadByte;
+  if (serverdata.serverversion &gt;= 27) { // from game version 2.29BETA on
+    if (mask2 &amp; 0x01) angles[0] = ReadAngle16;       // bit 0            
+    if (mask2 &amp; 0x80) angles[1] = ReadAngle16;       // bit 7
+    if (mask2 &amp; 0x02) angles[2] = ReadAngle16;       // bit 1
+    if (mask2 &amp; 0x04) speed[0] = ReadShort;          // bit 2
+    if (mask2 &amp; 0x08) speed[1] = ReadShort;          // bit 3
+    if (mask2 &amp; 0x10) speed[2] = ReadShort;          // bit 4
+    if (mask2 &amp; 0x20) flag = ReadByte;               // bit 5
+    fire = (flag &amp; 0x01) ? 1 : 0;
+    jump = (flag &amp; 0x02) ? 1 : 0;
+    if (mask2 &amp; 0x40) impulse = ReadByte;            // bit 6
+    load = ReadByte);
+  }
+  else { // serverdata.serverversion &lt;= 26, game version up to 2.21
+    if (mask2 &amp; 0x01) angles[0] = ReadAngle16;       // bit 0
+    angles[1] = ReadAngle16;
+    if (mask2 &amp; 0x02) angles[2] = ReadAngle16;       // bit 1
+    if (mask2 &amp; 0x04) speed[0] = ReadByte;           // bit 2
+    if (mask2 &amp; 0x08) speed[1] = ReadByte;           // bit 3
+    if (mask2 &amp; 0x10) speed[2] = ReadByte;           // bit 4
+    if (mask2 &amp; 0x20) flag = ReadByte;               // bit 5
+    fire = (flag &amp; 0x01) ? 1 : 0;
+    jump = (flag &amp; 0x02) ? 1 : 0;
+    if (mask2 &amp; 0x40) impulse = ReadByte;            // bit 6
+    if (mask2 &amp; 0x80) load = ReadByte;               // bit 7
+  }
+}
+if (mask &amp; 0x0004) cspeed[0] = ReadCoord;          // bit 2
+if (mask &amp; 0x0008) cspeed[1] = ReadCoord;          // bit 3
+if (mask &amp; 0x0010) cspeed[2] = ReadCoord;          // bit 4
+model = (mask &amp; 0x0020) ? ReadByte : playermodel;  // bit 5             
+uk_byte6 = (mask &amp; 0x0040) ? ReadByte : 0;         // bit 6
+if (mask &amp; 0x0080) weapon = ReadByte;              // bit 7
+if (mask &amp; 0x0100) weaponframe = ReadByte;         // bit 8</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>nails</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x2B</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Describes the position and orientation of all currently flying nails.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>types</term>
+<listitem>
+<para>
+
+<screen>struct {
+  vec3_t origin;
+  float angle_1;
+  float angle_2;
+} nail_t;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long nailcount;</literal></term>
+<listitem>
+<para>is the number of nails.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">nail&lowbar;t* nails;</literal></term>
+<listitem>
+<para>is the internal array with all nail coordinates.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<listitem>
+<para>is the origin of the nail.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">float angle&lowbar;1;</literal></term>
+<listitem>
+<para>is the tilt angle of the nail.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">float angle&lowbar;2;</literal></term>
+<listitem>
+<para>is the yaw angle of the nail.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>unsigned char b[5];
+int j;
+nail_t* n;
+
+nailcount = ReadByte;
+for (j=0,n=nails;j&lt;nailcount;j++,n++) {
+  for (i=0;i&lt;5;i++) b[i] = ReadByte;
+  // 3 12 bit values 
+  n-&gt;origin[0] = (b[0] &amp; 0xFF) | ((b[1] &amp; 0x0F) &lt;&lt; 8);
+  n-&gt;origin[1] = ((b[1] &amp; 0xF0) &gt;&gt; 4) | (b[2] &lt;&lt; 4);
+  n-&gt;origin[2] = (b[3] &amp; 0xFF) | ((b[4] &amp; 0x0F) &lt;&lt; 8);
+  // shift and scale to standard (even) coordinates 
+  for (i=0;i&lt;3;i++) n-&gt;origin[i] = (n-&gt;origin[i] - 2048) * 2;
+  // signed value in 4 bits  
+  n-&gt;angle_1 = (b[4] &amp; 0xF0) &gt;&gt; 4;
+  // respect the sign
+  if (n-&gt;angle_1&gt;=8) n-&gt;angle_1 = n-&gt;angle_1 - 16;
+  // scale it
+  n-&gt;angle_1 *= 360.0 / 16.0;
+  n-&gt;angle_2 = ReadAngle;
+}</screen>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>exact structure</term>
+<listitem>
+<para>The structure of the nail message is so strange, that I can't suppress
+some general remarks.</para>
+<para>
+
+<table>
+<title>the 6 nails bytes</title>
+<TGROUP COLS="3">
+<COLSPEC COLSEP="0" ALIGN="RIGHT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry>byte </entry>
+<entry>bit 7 ... 4 </entry>
+<entry>bit 3 ... 0</entry>
+</row>
+<row>
+<entry>0 </entry>
+<entry>origin&lsqb;0&rsqb; b7 ... b4 </entry>
+<entry>origin&lsqb;0&rsqb; b3 ... b0</entry>
+</row>
+<row>
+<entry>1 </entry>
+<entry>origin&lsqb;1&rsqb; b3 ... b0 </entry>
+<entry>origin&lsqb;0&rsqb; b11 ... b8</entry>
+</row>
+<row>
+<entry>2 </entry>
+<entry>origin&lsqb;1&rsqb; b11 ... b8 </entry>
+<entry>origin&lsqb;1&rsqb; b7 ... b4</entry>
+</row>
+<row>
+<entry>3 </entry>
+<entry>origin&lsqb;2&rsqb; b7 ... b4 </entry>
+<entry>origin&lsqb;2&rsqb; b3 ... b0</entry>
+</row>
+<row>
+<entry>4 </entry>
+<entry>angle&lowbar;1 b3 ... b0 </entry>
+<entry>origin&lsqb;2&rsqb; b11 ... b8</entry>
+</row>
+<row>
+<entry>5 </entry>
+<entry>angle&lowbar;2 b7 ... b4 </entry>
+<entry>angle&lowbar;2 b3 ... b0</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+</para>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">origin[i]</literal></term>
+<listitem>
+<para>A standard coordinate is a signed 16 bit number with 1 sign bit, 12 integer
+bits and 3 fraction bits. Nail coordinates have only 12 bits in total.
+The lowest 4 bits of the 16 bit coordinate (the 3 fraction bits and the 
+odd/even bit) are set to zero. Therefore a nail can only exist on
+an even integer coordinate. The sign transformation is not the usual one.
+The half nail coordinate is shifted in the positive range by 2048 before the
+network transmission.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">angle&lowbar;1</literal></term>
+<listitem>
+<para>The tilt angle of a fast flying nail is not very important. 
+There are only 4 bits
+to describe the tilt angle and only 3 of them are used at all. The 4 bits
+form a normal (but very short) signed integer. To compute an angle in
+degree back from this short value, it must be multiplied by 360/16=22.5.
+The range of values of a tilt angle of a nail is &lsqb;-90,90] and not &lsqb;-180,180].
+Therefore bit 2 of <LITERAL REMAP="tt">angle&lowbar;1</literal> is always equal to bit 3 (the sign bit).
+So the eight possible values for the tilt angle are -90.0, -67.5, -45.0, 
+-22.5, 0.0, 22.5, 45.0, 67.5.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">angle&lowbar;2</literal></term>
+<listitem>
+<para>The yaw angle is a standard 1 byte signed integer angle. It must be 
+multiplied by the usual 360/256.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>choke</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x2C</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>There is an internal list with 64 entries. Each entry describes a full 
+state (with all 32 players and such). This message defines how many
+entries in this list can be canceled, because they now contain irrelevant
+information.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long choke;</literal></term>
+<listitem>
+<para>is the number of entries to cancel.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>choke = ReadByte;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>modellist</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x2D</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Reads (a part of) the precache model table.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">char* precache&lowbar;models[256];</literal></term>
+<listitem>
+<para>is the precache model table. It will be filled
+up with model file names. Many other messages contain an index in this array.
+The first used index is 1.
+Beginning with protocol version 26 (game version 2.20) QuakeWorld
+uses a new parse method and sends an unused index first.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long nummodels;</literal></term>
+<listitem>
+<para>is the number of models in the precache model table.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long first;</literal></term>
+<listitem>
+<para>is the index of the first model.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long next;</literal></term>
+<listitem>
+<para>is the index for the next group of models.
+It is 0 to end the precache model table.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>if (serverdata.serverversion) &gt;= 26) { // 2.20 and higher
+  char *text;
+
+  first = ReadByte(m);
+  for ( i=first ; i&lt;256 ; i++ ) {
+    text = ReadString;
+    if (strlen(text) == 0) break;
+    precache_models[i+1] = strdup(text);  // store model one position later
+  }
+  next = ReadByte(m);
+}
+else { // up to 2.10
+  nummodels = 0;
+  do {
+    if (++nummodels &gt; 255) 
+      error("Server sent too many model_precache");
+    precache_models[nummodels] = ReadString;
+  } while (*precache_models[nummodels]);
+}</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist>   </para>
+</sect2>
+<sect2>
+<title>soundlist</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x2E</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Reads (a part of) the precache sound table.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">char* precache&lowbar;sounds[256];</literal></term>
+<listitem>
+<para>is the precache sound table. It will be filled
+up with sound file names. Many other messages contain an index in this array.
+The first used index is 1.
+Beginning with protocol version 26 (game version 2.20) QuakeWorld
+uses a new parse method and sends an unused index first.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long numsounds;</literal></term>
+<listitem>
+<para>is the number of sounds in the precache sound table.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long first;</literal></term>
+<listitem>
+<para>is the index of the first sound.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long next;</literal></term>
+<listitem>
+<para>is the index of the next group of sounds.
+It is 0 to end the precache sound table.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>if (serverdata.serverversion) &gt;= 26) { // 2.20 and higher
+  char *text;
+
+  first = ReadByte(m);
+  for ( i=index ; i&lt;256 ; i++ ) {
+    text = ReadString;
+    if (strlen(text) == 0) break;
+    precache_sounds[i+1] = strdup(text);  // store sound one position later
+  }
+  next = ReadByte(m);
+}
+else { // up to 2.10
+  numsounds = 0;
+  do {
+    if (++numsounds &gt; 255) 
+      error("Server sent too many sound_precache");
+    precache_sounds[numsounds] = ReadString;
+  } while (*precache_sounds[numsounds]);
+}</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist>  </para>
+</sect2>
+<sect2>
+<title>packetentities</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x2F</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This message contains the entity numbers in sight and all the changed 
+properties of these entities. The list ends with a <LITERAL REMAP="tt">0x0000</literal> for 
+<LITERAL REMAP="tt">mask</literal>.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long mask;</literal></term>
+<listitem>
+<para>is a bit mask to reduce the network traffic.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long entity;</literal></term>
+<listitem>
+<para>is the entity number. </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long remove;</literal></term>
+<listitem>
+<para>indicates a disappearing entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">entity&lowbar;t* entities;</literal></term>
+<listitem>
+<para>is the array filled up with all dynamic entities.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long modelindex;</literal></term>
+<listitem>
+<para>is the model index in the 
+precache model table. </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long frame;</literal></term>
+<listitem>
+<para>is the frame number of the model.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long colormap;</literal></term>
+<listitem>
+<para>is the colormap number to display the
+model.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long skin;</literal></term>
+<listitem>
+<para>is the skin number of the model.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long effects;</literal></term>
+<listitem>
+<para>contains a bit mask for special entity
+effects.
+
+<table>
+<title><LITERAL REMAP="tt">effects</literal> values</title>
+<TGROUP COLS="3">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry>bit </entry>
+<entry>value </entry>
+<entry>QuakeC </entry>
+</row>
+<row>
+<entry>0 </entry>
+<entry><LITERAL REMAP="tt">0x01</literal> </entry>
+<entry>EF&lowbar;ROCKET</entry>
+</row>
+<row>
+<entry>1 </entry>
+<entry><LITERAL REMAP="tt">0x02</literal> </entry>
+<entry>EF&lowbar;GRENADE</entry>
+</row>
+<row>
+<entry>2 </entry>
+<entry><LITERAL REMAP="tt">0x04</literal> </entry>
+<entry>EF&lowbar;GIB</entry>
+</row>
+<row>
+<entry>3 </entry>
+<entry><LITERAL REMAP="tt">0x08</literal> </entry>
+<entry>EF&lowbar;ROTATE</entry>
+</row>
+<row>
+<entry>4 </entry>
+<entry><LITERAL REMAP="tt">0x10</literal> </entry>
+<entry>EF&lowbar;TRACER</entry>
+</row>
+<row>
+<entry>5 </entry>
+<entry><LITERAL REMAP="tt">0x20</literal> </entry>
+<entry>EF&lowbar;ZOMGIB</entry>
+</row>
+<row>
+<entry>6 </entry>
+<entry><LITERAL REMAP="tt">0x40</literal> </entry>
+<entry>EF&lowbar;TRACER2</entry>
+</row>
+<row>
+<entry>7 </entry>
+<entry><LITERAL REMAP="tt">0x80</literal> </entry>
+<entry>EF&lowbar;TRACER3</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<listitem>
+<para>is the origin of the entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t angles;</literal></term>
+<listitem>
+<para>is the orientation of the entity.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>while (mask = ReadShort) {
+  entity = mask &amp; 0x01FF;                                    
+  mask &amp;= 0xFE00;                                            
+  entities[entity].remove = (mask &amp; 0x4000) ? 1 : 0;
+  if (mask &amp; 0x8000) mask |= ReadByte;     
+  if (mask &amp; 0x0004) entities[entity].modelindex = ReadByte;
+  if (mask &amp; 0x2000) entities[entity].frame = ReadByte;
+  if (mask &amp; 0x0008) entities[entity].colormap = ReadByte;
+  if (mask &amp; 0x0010) entities[entity].skin = ReadByte;
+  if (mask &amp; 0x0020) entities[entity].effects = ReadByte;
+  if (mask &amp; 0x0200) entities[entity].origin[0] = ReadCoord;
+  if (mask &amp; 0x0001) entities[entity].angles[0] = ReadAngle;
+  if (mask &amp; 0x0400) entities[entity].origin[1] = ReadCoord;
+  if (mask &amp; 0x1000) entities[entity].angles[1] = ReadAngle;
+  if (mask &amp; 0x0800) entities[entity].origin[2] = ReadCoord;
+  if (mask &amp; 0x0002) entities[entity].angles[2] = ReadAngle;
+}</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>deltapacketentities</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x30</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This message contains the changed properties of some entities in sight
+relative to a specified former frame number.
+The list ends with a <LITERAL REMAP="tt">0x0000</literal> 
+<LITERAL REMAP="tt">mask</literal>.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long frame;</literal></term>
+<listitem>
+<para>is the lowest byte of the frame number with
+the full state, to which this message is the delta.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long mask;</literal></term>
+<listitem>
+<para>is a bit mask to reduce the network traffic.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">entity&lowbar;t* entities;</literal></term>
+<listitem>
+<para>is the array filled up with all dynamic entities.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long entity;</literal></term>
+<listitem>
+<para>is the entity number. </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long remove;</literal></term>
+<listitem>
+<para>indicates a disappearing entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long modelindex;</literal></term>
+<listitem>
+<para>is the model index in the 
+precache model table. </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long frame;</literal></term>
+<listitem>
+<para>is the frame number of the model.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long colormap;</literal></term>
+<listitem>
+<para>is the colormap number to display the
+model.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long skin;</literal></term>
+<listitem>
+<para>is the skin number of the model.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long effects;</literal></term>
+<listitem>
+<para>contains a bit mask for special entity
+effects.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<listitem>
+<para>is the origin of the entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t angles;</literal></term>
+<listitem>
+<para>is the orientation of the entity.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>frame = ReadByte;
+while (mask = ReadShort) {
+  entity = mask &amp; 0x01FF;                                    
+  mask &amp;= 0xFE00;
+  entities[entity].remove = (mask &amp; 0x4000) ? 1 : 0;
+  if (mask &amp; 0x8000) mask |= ReadByte;                    
+  if (mask &amp; 0x0004) entities[entity].modelindex = ReadByte;
+  if (mask &amp; 0x2000) entities[entity].frame = ReadByte;
+  if (mask &amp; 0x0008) entities[entity].colormap = ReadByte;
+  if (mask &amp; 0x0010) entities[entity].skin = ReadByte;
+  if (mask &amp; 0x0020) entities[entity].effects = ReadByte;
+  if (mask &amp; 0x0200) entities[entity].origin[0] = ReadCoord;
+  if (mask &amp; 0x0001) entities[entity].angles[0] = ReadAngle;
+  if (mask &amp; 0x0400) entities[entity].origin[1] = ReadCoord;
+  if (mask &amp; 0x1000) entities[entity].angles[1] = ReadAngle;
+  if (mask &amp; 0x0800) entities[entity].origin[2] = ReadCoord;
+  if (mask &amp; 0x0002) entities[entity].angles[2] = ReadAngle;
+}</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>maxspeed</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x31</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This message contains the maximum players speed.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">float maxspeed;</literal></term>
+<listitem>
+<para>is the maximum speed. It appears 
+first in protocol version 25 (game version 2.00).</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>maxspeed = ReadFloat;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>entgravity</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x32</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This message defines the current gravity. It appears first in protocol
+version 25 (game version 2.00).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">float gravity;</literal></term>
+<listitem>
+<para>is the gravity.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>gravity = ReadFloat;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>setinfo</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x33</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This message set a variable for a specific player. It appears first in
+protocol version 26 (game version 2.20).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long player;</literal></term>
+<listitem>
+<para>is the player number.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">char* name;</literal></term>
+<listitem>
+<para>is the name of the variable.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">char* string;</literal></term>
+<listitem>
+<para>is the value of the variable.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>player = ReadByte;
+name = ReadString;
+string = ReadString;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>serverinfo</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x34</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This message set a global variable. It appears first in protocol version 26
+(game version 2.20).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">char* name;</literal></term>
+<listitem>
+<para>is the name of the variable.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">char* string;</literal></term>
+<listitem>
+<para>is the value of the variable.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>name = ReadString;
+string = ReadString;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>updatepl</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x35</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This message updates the player specific packet loss information. It will
+be displayed in the score-board.
+It appears first in protocol version 28 (game version 2.30).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long player;</literal></term>
+<listitem>
+<para>is the player number (0 .. MAX&lowbar;SCOREBOARD).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long loss;</literal></term>
+<listitem>
+<para>is the packet loss in percent.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>player = ReadByte;
+if (player&gt;MAX_SCOREBOARD)
+  error("CL_ParseServerMessage: svc_updatepl &gt; MAX_SCOREBOARD");
+loss = ReadByte;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+</sect1>
+<sect1>
+<title>Version History and Acknowledgements</title>
+<para><variablelist>
+<varlistentry>
+<term>0.0.1, 6 July, 1997</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>First version (working paper) completed.</para>
+</listitem>
+<listitem>
+<para>Many thanks to Olivier Montanuy
+(<ULINK URL="mailto:Olivier.Montanuy@wanadoo.fr">Olivier.Montanuy@wanadoo.fr</ulink>) for his 
+<ULINK URL="http://www.ens.fr/~cridlig/bot/qwspec11.html">QuakeWorld Network Protocol Specs</ulink>. </para>
+</listitem>
+<listitem>
+<para>Many thanks to Steffen Winterfeldt
+(<ULINK URL="mailto:Steffen.Winterfeldt@itp.uni-leipzig.de">Steffen.Winterfeldt@itp.uni-leipzig.de</ulink>)
+for his reverse engineering work. He worked out many of the 
+general structure information.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>0.0.2, 12 July, 1997</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>Many new structure information. <EMPHASIS REMAP="bf">sound</emphasis> and <EMPHASIS REMAP="bf">nails</emphasis>
+messages are now correct.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>0.0.3, 28 July, 1997</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para><EMPHASIS REMAP="bf">packetentities</emphasis> and <EMPHASIS REMAP="bf">deltapacketentities</emphasis> are better 
+now.</para>
+</listitem>
+<listitem>
+<para>Table references.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>0.0.4, 30 July, 1997</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>General clean-up: some variables renamed.</para>
+</listitem>
+<listitem>
+<para>Table references don't work: removed.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>0.0.5, 16 August, 1997</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>QuakeWorld 2.00 info included.</para>
+</listitem>
+<listitem>
+<para>Back again to SGML-Tools 0.99.0.</para>
+</listitem>
+<listitem>
+<para>General clean-up.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>0.0.6, 12 March, 1998</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>PlanetQuake is the new home.</para>
+</listitem>
+<listitem>
+<para>QuakeWorld version table restructured.</para>
+</listitem>
+<listitem>
+<para>SGML-Tools 1.0.5 used.</para>
+</listitem>
+</itemizedlist>
+ </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>1.0.0, 14 July, 1998</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>QuakeWorld version 2.20, 2.21 and 2.29BETA included.</para>
+</listitem>
+<listitem>
+<para><EMPHASIS REMAP="bf">stopsound</emphasis> is OK now.</para>
+</listitem>
+<listitem>
+<para>SGML-Tools 1.0.7 used.</para>
+</listitem>
+</itemizedlist>
+ </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>1.0.1, 16 August, 1998</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>Corrected info on <LITERAL REMAP="tt">blocksize</literal>.</para>
+</listitem>
+<listitem>
+<para>Some small correction with respect to the new LMPC, which can
+compile QWD files beginning with version 3.1.9.</para>
+</listitem>
+<listitem>
+<para>Removed the senseless ReadEntity function.</para>
+</listitem>
+</itemizedlist>
+ </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>1.0.2, 6 September, 1998</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>QuakeWorld version 2.30 included.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>1.0.3, 8 January, 1999</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>QuakeWorld version 2.30 corrected.</para>
+</listitem>
+<listitem>
+<para><EMPHASIS REMAP="bf">updatepl</emphasis> better. </para>
+</listitem>
+<listitem>
+<para>Many thanks to Tim Holliefield
+(<ULINK URL="mailto:holliefiel@bad-durkheim.netsurf.de">holliefiel@bad-durkheim.netsurf.de</ulink>)
+for some hints on the frame block.</para>
+</listitem>
+<listitem>
+<para>SGML-Tools 1.0.9 used.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>1.0.4, 7 April, 1999</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para><EMPHASIS REMAP="bf">setpause</emphasis> corrected. 
+Many thanks to Christer Sandin 
+(<ULINK URL="mailto:czsuch@ocag.ch">czsuch@ocag.ch</ulink>)
+for his bug report.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>1.0.5, 3 June, 1999</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para><EMPHASIS REMAP="bf">modellist</emphasis> and <EMPHASIS REMAP="bf">soundlist</emphasis> corrected. 
+Many thanks to Hoffy 
+(<ULINK URL="mailto:ripple@powerup.com.au">ripple@powerup.com.au</ulink>)
+for his bug report. The old token <LITERAL REMAP="tt">last</literal> is called
+<LITERAL REMAP="tt">next</literal> now, so better recreate all your QWD text files. I know, it is
+bad to change the text format but <LITERAL REMAP="tt">last</literal> is simply totally wrong.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect1>
+</article>
