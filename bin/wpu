@@ -38,6 +38,7 @@ sub upload;
 sub readme;
 sub packaging;
 sub readmepackaging;
+sub execsubst;
 sub WriteStringToFile;
 sub ReadFileToString;
 sub FormatDate;
@@ -899,6 +900,21 @@ sub readmepackaging {
       system $command;
     }
   }
+}
+
+
+sub execsubst
+{
+	if (@ARGV < 1) {
+		print "README syntax: $script commands\n";
+		exit(1);
+	}
+	my @args = ();
+	foreach (@ARGV) {
+		push @args, substvariables($_);
+	}
+	print join (" ", @args), "\n";
+	system @args;
 }
 
 
