@@ -24,11 +24,11 @@ BUILT_SOURCES = udeml.l udemy.y
 
 dbs_SOURCES = dbs.c node.c udem.c
 dbs_LDADD = $(NETLIBS) libutil.a
-dbs_DEPENDENCIES = udemy.h
+dbs_DEPENDENCIES = libutil.a udemy.h
 
 demcut_SOURCES = demcut.c udem.c
 demcut_LDADD = libutil.a
-demcut_DEPENDENCIES = udemy.h
+demcut_DEPENDENCIES = libutil.a udemy.h
 
 lmpc_SOURCES = lmpc.c ulmp.c lzw.c unlzw.c udmo.c udem.c udemy.y udeml.l \
 uqwd.c udm2.c
