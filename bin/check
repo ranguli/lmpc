@@ -13,22 +13,35 @@ if ($#ARGV<1) { die "usage: $script lmpc demofile ...\n"; }
 
 my $lmpc = shift;
 
-# if (! -x $lmpc) { die "can't execute $lmpc\n"; }
+if (! -x $lmpc) { die "can't execute $lmpc\n"; }
 
 foreach (@ARGV) {
-  my $demofile = $_;
-  (my $filename=$demofile) =~ s,.*/,,g;
-  (my $basename=$filename) =~ s,\..*,,g;
+	my $demofile = $_;
+	if (!-f $demofile) {
+		die "no original file $demofile\n";
+	}
+	(my $filename=$demofile) =~ s,.*/,,g;
+	(my $basename=$filename) =~ s,\..*,,g;
 
-  my $basedir = "~/games/democheck/$basename-$$";
-  mkdir $basedir , 0777;
-  my $d_b = "$basedir/b";
-  if ($filename=~/\.bz2/) {
-    system "bzip2 -dc $demofile > $d_b";
-  }
-  else {
-    system "cp $demofile $d_b";
-  }
+	my $basedir = $ENV{"HOME"} . "/games/democheck/$basename-$$";
+	if (!mkdir $basedir, 0777) {
+		die "can't create directory '$basedir': $!\n";
+	}
+	my $d_b = "$basedir/b";
+	my $command;
+	if ($filename=~/\.bz2/) {
+		$command = "bzip2 -dc $demofile > $d_b";
+	}
+	else {
+		$command = "cp $demofile $d_b";
+	}
+	my $error = system $command;
+	if ($error != 0) {
+		die "Command '$command' exit with $error\n";
+	}
+	if (!-f $d_b) {
+		die "no base file $d_b\n";
+	}
   my $d_bt="$basedir/bt";
   system "$lmpc --to-txt -m 1 $opt $d_b $d_bt";
   my $d_btt="$basedir/btt";
