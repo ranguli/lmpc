@@ -1,0 +1,812 @@
+<!doctype linuxdoc system>
+<article>
+<title>The unofficial LMP format description
+<author>@MYNAME@, 
+<htmlurl url="mailto:@MYEMAIL@" name="@MYEMAIL@">
+<date>v@VERSION@, @DATE@
+<abstract>
+This document describes the LMP file format. It is the result of ``recording''
+a game in DOOM, DOOM ][, HERETIC, HEXEN and STRIFE.
+This documentation covers all these games in all known versions.
+</abstract>
+
+<sect>Introduction<label id="Intro">
+<p>
+The LMP file format appears first with the game DOOM on December 10th, 1993 
+and remains relatively unchanged in all its successors.
+<p>
+I explain in this document the different flavors of LMP files from:
+<descrip>
+<tag>DOOM</tag>
+ <itemize>
+ <item>DOOM 0.99, 1.1, 1.2
+ <item>DOOM 1.4beta
+ <item>DOOM 1.5beta
+ <item>DOOM 1.6beta, DOOM 1.666 
+ <item>DOOM 1.7a
+ <item>DOOM 1.8
+ <item>DOOM 1.9
+ <item>DOOM 1.10
+ </itemize>
+<tag>Ultimate DOOM</tag>
+ <itemize>
+ <item>Ultimate DOOM 1.9
+ </itemize>
+<tag>DOOM II</tag>
+ <itemize>
+ <item>DOOM &rsqb;&lsqb; 1.666
+ <item>DOOM &rsqb;&lsqb; 1.7, 1.7a
+ <item>DOOM &rsqb;&lsqb; 1.8
+ <item>DOOM &rsqb;&lsqb; 1.9
+ </itemize>
+<tag>HERETIC</tag>
+ <itemize>
+ <item>HERETIC 1.0, 1.2, 1.3
+ </itemize>
+<tag>HEXEN</tag>
+ <itemize>
+ <item>HEXEN beta
+ <item>HEXEN 1.0
+ <item>HEXEN 1.1
+ </itemize>
+<tag>STRIFE</tag>
+ <itemize>
+ <item>STRIFE 1.0, 1.1
+ </itemize>
+</descrip>
+<p>
+The LMP files created with games which appear on one line are not
+distinguishable.
+<p>
+To create a LMP file start the game with the command line switch
+<tt>-record foo</tt> (and <tt>-warp</tt>, <tt>-skill</tt> etc.) and play as
+usual. If you press <tt>q</tt> the record (and the game) stops. In old DOOM 
+(&lt; 1.4), HERETIC and HEXEN this happens at the end of a level too.
+You will find a file <tt>foo.lmp</tt> in the current directory. To play it back
+start the game with the command line switch <tt>-playdemo foo</tt>.
+<p>
+A LMP file records all player actions. The monster movements, respawn
+positions etc. are totally deterministic. The messages during a multiplayer
+game (chat mode) do not appear in the LMP.
+<p>
+It's a pity but the conversations in STRIFE, which form an important 
+part of the game aren't recorded. You can only record sequences 
+<em>without</em> these talks. In fact only the conversation start action
+will be recorded. If you play a LMP back, you can now choose the answers for
+yourself (and hope that the original player used the same answers).
+<p>
+A LMP file consists of a header, a data area and a quit byte.
+<itemize>
+<item>The header contains the skill, episode, start map, number of players etc.
+<item>The data area is divided in game tics. For each player there are
+   <itemize>
+   <item>4 (DOOM and DOOM &rsqb;&lsqb;) or
+   <item>6 (HERETIC, HEXEN and STRIFE) 
+   </itemize>
+   movement bytes per game tic.
+<item>Each LMP should end with a quit byte (0x80).
+</itemize>
+The duration of a gametic is round 1/35s. With time measurements with
+4dos:
+<tscreen><verb>timer ^ doom -playdemo name ^ timer</verb></tscreen>
+of many different LMP's and linear curve fitting I found the slightly different
+frequency 35.003Hz.
+So it is not wrong to speak of 35Hz but it is not totally correct.
+
+<sect>Header
+<p>
+The easiest way to check the length of the header is to start the games with 
+the <tt>-record</tt> option. Then you have to press ``<tt>q</tt>'' during the
+startup sequence. 
+In the moment, when the screen switches from text mode to graphics mode,
+the game stops and you receive the shortest LMP file. It consists only of 
+the header and the quit game byte.
+<p>
+The LMP header format is a subject of change.
+
+<sect1>Old DOOM, HERETIC
+<p>
+<table loc="ht">
+<tabular ca="llll">
+address <colsep>type <colsep>contents <colsep>range<rowsep>
+<tt>0x0000</tt> <colsep><tt>byte</tt> <colsep>skill <colsep>0-4<rowsep>
+<tt>0x0001</tt> <colsep><tt>byte</tt> <colsep>episode <colsep>1-3/4<rowsep>
+<tt>0x0002</tt> <colsep><tt>byte</tt> <colsep>map <colsep>1-9<rowsep>
+<tt>0x0003</tt> <colsep><tt>byte</tt> <colsep>green/green player <colsep>0: inactive, 1: active<rowsep>
+<tt>0x0004</tt> <colsep><tt>byte</tt> <colsep>indigo/yellow player <colsep>0: inactive, 1: active<rowsep>
+<tt>0x0005</tt> <colsep><tt>byte</tt> <colsep>brown/red player <colsep>0: inactive, 1: active<rowsep>
+<tt>0x0006</tt> <colsep><tt>byte</tt> <colsep>red/blue player <colsep>0: inactive, 1: active
+</tabular>
+<caption>7 byte Header of old DOOM up to 1.2 and HERETIC.</caption>
+</table>
+
+<sect1>New DOOM, DOOM &rsqb;&lsqb;
+<p>
+<table loc="ht">
+<tabular ca="llll">
+address <colsep>type <colsep>contents <colsep> range<rowsep>
+<tt>0x0000</tt> <colsep><tt>byte</tt> <colsep>version <colsep>look in the table below<rowsep> 
+<tt>0x0001</tt> <colsep><tt>byte</tt> <colsep>skill <colsep>0-4<rowsep>
+<tt>0x0002</tt> <colsep><tt>byte</tt> <colsep>episode <colsep>1-4<rowsep>
+<tt>0x0003</tt> <colsep><tt>byte</tt> <colsep>map <colsep>1-32<rowsep>
+<tt>0x0004</tt> <colsep><tt>byte</tt> <colsep>multiplayer rule <colsep>0: Cooperative, 1: DeathMatch, 2: AltDeath<rowsep>
+<tt>0x0005</tt> <colsep><tt>byte</tt> <colsep>respawn <colsep>0: off, !=0: on, <tt>argv</tt> - number of <tt>-respawn</tt><rowsep>
+<tt>0x0006</tt> <colsep><tt>byte</tt> <colsep>fast <colsep>0: off, !=0: on, <tt>argv</tt> - number of <tt>-fast</tt><rowsep>
+<tt>0x0007</tt> <colsep><tt>byte</tt> <colsep>nomonsters <colsep>0: off, !=0: on, <tt>argv</tt> - number of <tt>-nomonsters</tt><rowsep>
+<tt>0x0008</tt> <colsep><tt>byte</tt> <colsep>recording player <colsep>0-3<rowsep>
+<tt>0x0009</tt> <colsep><tt>byte</tt> <colsep>green player <colsep>0: inactive, 1: active<rowsep>
+<tt>0x000A</tt> <colsep><tt>byte</tt> <colsep>indigo player <colsep>0: inactive, 1: active<rowsep>
+<tt>0x000B</tt> <colsep><tt>byte</tt> <colsep>brown player <colsep>0: inactive, 1: active<rowsep>
+<tt>0x000C</tt> <colsep><tt>byte</tt> <colsep>red player <colsep>0: inactive, 1: active
+</tabular>
+<caption>From DOOM 1.4 on and in DOOM &rsqb;&lsqb; the header consists of 13
+bytes.</caption>
+</table>
+<p>
+<table loc="ht">
+<tabular ca="lll">
+dec <colsep>hex <colsep> game(s)<rowsep>
+104 <colsep>0x68 <colsep>DOOM 1.4beta<rowsep>
+105 <colsep>0x69 <colsep>DOOM 1.5beta<rowsep>
+106 <colsep>0x6A <colsep>DOOM 1.6beta, DOOM 1.666 and DOOM &rsqb;&lsqb; 1.666<rowsep>
+107 <colsep>0x6B <colsep>DOOM &rsqb;&lsqb; 1.7 and DOOM &rsqb;&lsqb; 1.7a<rowsep>
+108 <colsep>0x6C <colsep>DOOM 1.8 and DOOM &rsqb;&lsqb; 1.8<rowsep>
+109 <colsep>0x6D <colsep>(Ultimate) DOOM 1.9 and DOOM &rsqb;&lsqb; 1.9<rowsep>
+110 <colsep>0x6E <colsep>Published DOOM source
+</tabular>
+<caption>Known version bytes.</caption>
+</table>
+<p>
+Now it is very easy to change an existing LMP from one format to the other.
+The movement algorithm didn't changed from DOOM 1.2 to DOOM 1.666.
+This is only true if the map also didn't changed. So you can't recycle LMP's
+of E1M4. It is very interesting, that DOOM 1.666 LMP's, recorded even with 
+the <tt>-turbo</tt> option work with DOOM 1.2.
+
+<sect1>HEXEN demo, HEXEN 1.0
+<p>
+<table loc="ht">
+<tabular ca="llll">
+address <colsep>type <colsep>contents <colsep>range<rowsep>
+<tt>0x0000</tt> <colsep><tt>byte</tt> <colsep>skill <colsep>0-4<rowsep>
+<tt>0x0001</tt> <colsep><tt>byte</tt> <colsep>episode <colsep>1<rowsep>
+<tt>0x0002</tt> <colsep><tt>byte</tt> <colsep>map <colsep>1-40<rowsep>
+<tt>0x0003</tt> <colsep><tt>byte</tt> <colsep>blue player <colsep>0: inactive, 1: active<rowsep>
+<tt>0x0004</tt> <colsep><tt>byte</tt> <colsep>blue player's class <colsep>0-2<rowsep>
+<tt>0x0005</tt> <colsep><tt>byte</tt> <colsep>red player <colsep>0: inactive, 1: active<rowsep>
+<tt>0x0006</tt> <colsep><tt>byte</tt> <colsep>red player's class <colsep>0-2<rowsep>
+<tt>0x0007</tt> <colsep><tt>byte</tt> <colsep>yellow player <colsep>0: inactive, 1: active<rowsep>
+<tt>0x0008</tt> <colsep><tt>byte</tt> <colsep>yellow player's class<colsep>0-2<rowsep>
+<tt>0x0009</tt> <colsep><tt>byte</tt> <colsep>green player <colsep>0: inactive, 1: active<rowsep>
+<tt>0x000A</tt> <colsep><tt>byte</tt> <colsep>green player's class <colsep>0-2
+</tabular>
+<caption>11 byte header of HEXEN 1.0</caption>
+</table>
+
+<sect1>HEXEN 1.1
+<p>
+<table loc="ht">
+<tabular ca="llll">
+address <colsep>type <colsep>contents <colsep>range<rowsep>
+<tt>0x0000</tt> <colsep><tt>byte</tt> <colsep>skill <colsep>0-4<rowsep>
+<tt>0x0001</tt> <colsep><tt>byte</tt> <colsep>episode <colsep>1<rowsep>
+<tt>0x0002</tt> <colsep><tt>byte</tt> <colsep>map <colsep>1-40<rowsep>
+<tt>0x0003</tt> <colsep><tt>byte</tt> <colsep>blue player <colsep>0: inactive, 1: active<rowsep>
+<tt>0x0004</tt> <colsep><tt>byte</tt> <colsep>blue player's class <colsep>0-2<rowsep>
+<tt>0x0005</tt> <colsep><tt>byte</tt> <colsep>red player <colsep>0: inactive, 1: active<rowsep>
+<tt>0x0006</tt> <colsep><tt>byte</tt> <colsep>red player's class <colsep>0-2<rowsep>
+<tt>0x0007</tt> <colsep><tt>byte</tt> <colsep>yellow player <colsep>0: inactive, 1: active<rowsep>
+<tt>0x0008</tt> <colsep><tt>byte</tt> <colsep>yellow player's class<colsep>0-2<rowsep>
+<tt>0x0009</tt> <colsep><tt>byte</tt> <colsep>green player <colsep>0: inactive, 1: active<rowsep>
+<tt>0x000A</tt> <colsep><tt>byte</tt> <colsep>green player's class <colsep>0-2<rowsep>
+<tt>0x000B</tt> <colsep><tt>byte</tt> <colsep>jade player <colsep>0: inactive, 1: active<rowsep>
+<tt>0x000C</tt> <colsep><tt>byte</tt> <colsep>jade player's class <colsep>0-2<rowsep>
+<tt>0x000D</tt> <colsep><tt>byte</tt> <colsep>white player <colsep>0: inactive, 1: active<rowsep>
+<tt>0x000E</tt> <colsep><tt>byte</tt> <colsep>white player's class <colsep>0-2<rowsep>
+<tt>0x000F</tt> <colsep><tt>byte</tt> <colsep>hazel player <colsep>0: inactive, 1: active<rowsep>
+<tt>0x0010</tt> <colsep><tt>byte</tt> <colsep>hazel player's class <colsep>0-2<rowsep>
+<tt>0x0011</tt> <colsep><tt>byte</tt> <colsep>purple player <colsep>0: inactive, 1: active<rowsep>
+<tt>0x0012</tt> <colsep><tt>byte</tt> <colsep>purple player's class <colsep>0-2
+</tabular>
+<caption>19 byte header for HEXEN 1.1 (with up to 8 players).</caption>
+</table>
+
+<sect1>STRIFE
+<p>
+<table loc="ht">
+<tabular ca="llll">
+address <colsep>type <colsep>contents <colsep>range<rowsep>
+<tt>0x0000</tt> <colsep><tt>byte</tt> <colsep>version <colsep>101 (version 1.0)<rowsep>
+<tt>0x0001</tt> <colsep><tt>byte</tt> <colsep>skill <colsep>0-4<rowsep>
+<tt>0x0002</tt> <colsep><tt>byte</tt> <colsep>map <colsep>32-??<rowsep>
+<tt>0x0003</tt> <colsep><tt>byte</tt> <colsep>multiplayer rule <colsep>0: Cooperative, 1: DeathMatch, 2: AltDeath<rowsep>
+<tt>0x0004</tt> <colsep><tt>byte</tt> <colsep>respawn <colsep>0: off, !=0: on, <tt>argv</tt> - number of <tt>-respawn</tt><rowsep>
+<tt>0x0005</tt> <colsep><tt>byte</tt> <colsep>fast <colsep>0: off, !=0: on, <tt>argv</tt> - number of <tt>-fast</tt><rowsep>
+<tt>0x0006</tt> <colsep><tt>byte</tt> <colsep>nomonsters <colsep>0: off, !=0: on, <tt>argv</tt> - number of <tt>-nomonsters</tt><rowsep>
+<tt>0x0007</tt> <colsep><tt>byte</tt> <colsep>recording player <colsep>0-7<rowsep>
+<tt>0x0008</tt> <colsep><tt>byte</tt> <colsep>brown player <colsep>0: inactive, 1: active<rowsep>
+<tt>0x0009</tt> <colsep><tt>byte</tt> <colsep>red player <colsep>0: inactive, 1: active<rowsep>
+<tt>0x000A</tt> <colsep><tt>byte</tt> <colsep>redbrown player <colsep>0: inactive, 1: active<rowsep>
+<tt>0x000B</tt> <colsep><tt>byte</tt> <colsep>grey player <colsep>0: inactive, 1: active<rowsep>
+<tt>0x000C</tt> <colsep><tt>byte</tt> <colsep>dark green player <colsep>0: inactive, 1: active<rowsep>
+<tt>0x000D</tt> <colsep><tt>byte</tt> <colsep>gold player <colsep>0: inactive, 1: active<rowsep>
+<tt>0x000E</tt> <colsep><tt>byte</tt> <colsep>bright green player <colsep>0: inactive, 1: active<rowsep>
+<tt>0x000F</tt> <colsep><tt>byte</tt> <colsep>super-hero blue player <colsep>0: inactive, 1: active
+</tabular>
+<caption>16 byte header of STRIFE with an improved (8 players) 
+DOOM &rsqb;&lsqb; engine.</caption>
+</table>
+
+<sect>Data
+<sect1>Number of game tics<label id="Number">
+<p>
+This formula for the number of game tics (NGT) follows from the section 
+<ref id="Intro" name="Introduction">. 
+section:
+<tscreen><verb>
+                     filelength-headerlength-1
+        NGT = ---------------------------------------
+               bytes per gametic * number of players
+</verb></tscreen>
+The NGT stored in a LMP can also be found out with the <tt>-timedemo</tt>
+option.
+At the replay end, the game shows the number of game tics and time tics.
+This game tic number corresponds with NGT only in newer versions of 
+DOOM (&gt;=1.4), in DOOM &rsqb;&lsqb; and STRIFE. Older versions of DOOM
+report the wrong number
+(NGT+1). In HERETIC and HEXEN the <tt>-timedemo</tt> option doesn't work at all.
+<p>
+With <tt>-timedemo</tt> the game plays <em>all</em> scenes in the LMP file back 
+but without any synchronizing. So you can calculate the frames per second 
+also with:
+<tscreen><verb>
+                           NGT
+                  fps = --------- * 35
+                        time tics
+</verb></tscreen>
+This has nothing to do with your frame rate during the game.
+This frame rate can be computed with the formula (from the DOOM FAQ v6.666
+&lsqb;9-2-1&rsqb;,
+thanks to Hank Leukart 
+(<htmlurl url="mailto:ap641@cleveland.freenet.edu" 
+name="ap641@cleveland.freenet.edu">))
+<tscreen><verb>
+                           70
+                  fps = --------
+                        dots + 1
+</verb></tscreen>
+The dots are displayed in DOOM and DOOM &rsqb;&lsqb; with the <tt>-devparm</tt>
+option in the lower left edge and in HEXEN with the <tt>TICKER</tt> 
+cheat code (4 level demo: <tt>RRETTENMUND</tt>) in the upper left edge of the screen. 
+In STRIFE the <tt>TIC</tt> cheat code toggles these dots.
+There are only 35 screens per second 
+(each game tic), so one dot is always displayed. With every additional dot, 
+the game shows how many vertical sync impulses (1/70s) were necessary 
+to compute a whole screen. The game is not slower but you don't see each
+screen: the game becomes jerky.
+
+<sect1>Multiplayer LMP
+<p>
+In a 2, 3 or 4 player game the game tics are stored alternately, ie for a
+2 player game:
+<tscreen><verb>
+game tic 1 of player 0
+game tic 1 of player 1
+game tic 2 of player 0
+game tic 2 of player 1
+game tic 3 of player 0
+game tic 3 of player 1
+           .
+           .
+           .  
+</verb></tscreen>
+The problem with multiplayer records is the last game tic. It is indeed
+possible, to end a LMP file not with the actions of the last player. 
+So the formula with the filelength in the section 
+<ref id="Number" name="Number of game tics"> is sometimes not correct.
+
+<sect1>The <tt>-turbo</tt> parameter (new DOOM, DOOM &rsqb;&lsqb; and STRIFE only)
+<p>
+This parameter speeds up all moves (forward, backward, strafe sideways) but
+not the turn. Due to the value sets described in the section 
+<ref id="Data" name="Data description"> all move bytes
+can be multiplied by 2.55 (or 255&percnt;) until they don't fit in a short int.
+This is exactly what can happen. 
+<p>
+All normal move bytes are multiplied by the turbo value in percent.
+So you can play with <tt>-turbo 200</tt> a normal game but your speed is
+the same as the shift key is always pressed. If you now press the shift key,
+you are running like hell.
+<p>
+The <tt>-turbo</tt> parameter isn't stored in the LMP but the game shows in the
+message line, if a player plays with <tt>-turbo</tt> (ie ``green is turbo'').
+The game concludes this from very large move bytes.
+
+<sect1>Data description<label id="Data">
+<p>
+There are 3 different kinds of game tics in all the described games:
+<descrip>
+<tag>DOOM, DOOM II</tag> 
+<quote><verb>
+-----------------------------------------
+|    0    |    1    |    2    |    3    |
+|   go    | strafe  |  turn   |   use   |
+-----------------------------------------
+</verb></quote>
+
+<tag>HERETIC, HEXEN</tag>
+<quote><verb>
+-------------------------------------------------------------
+|    0    |    1    |    2    |    3    |    4    |    5    |
+|   go    | strafe  |  turn   |   use   | vertical|artifacts|
+-------------------------------------------------------------
+</verb></quote>
+
+<tag>STRIFE</tag>
+<quote><verb>
+-------------------------------------------------------------
+|    0    |    1    |    2    |    3    |    4    |    5    |
+|   go    | strafe  |  turn   |   use   | special |artifacts|
+-------------------------------------------------------------
+</verb></quote>
+</descrip>
+
+<sect2>Byte 0x00: Go Forward and Backward
+<p>
+The go byte contains a signed number (-127 ... 127), where 
+positive numbers describe a forward and negative numbers a backward move. 
+<p>
+The possible range of the values in the go byte varies a lot:
+<tscreen><verb>
+                   keyboard/gamepad/joystick      mouse
+                      speed off  speed on    
+old DOOM (<1.4)        -25 +25   -50 +50       -50 .. +50 
+new DOOM (>=1.4)       -25 +25   -50 +50       -50 .. +50  *turbo/100
+DOOM &rsqb;&lsqb;                -25 +25   -50 +50       -50 .. +50  *turbo/100
+HERETIC                -25 +25   -50 +50       -50 .. +50 
+HEXEN fighter          -29 +29   -60 +60       -60 .. +60 
+HEXEN fighter (boots)  -44 +43   -90 +90       -90 .. +90
+HEXEN cleric           -25 +25   -50 +50       -50 .. +50
+HEXEN cleric (boots)   -38 +37   -75 +75       -75 .. +75
+HEXEN mage             -21 +21   -45 +45       -45 .. +45 
+HEXEN mage (boots)     -32 +31   -68 +67       -68 .. +67
+STRIFE                 -25 +25   -50 +50       -50 .. +50  *turbo/100
+</verb></tscreen>
+
+<sect2>Byte 0x01: Strafe Sideways
+<p>
+The strafe byte contains a signed number (-127 ... 127), where 
+positive numbers describe a right and negative numbers a left move. 
+<p>
+The possible range of the values in the strafe byte varies a lot:
+<tscreen><verb>
+                   keyboard/gamepad/joystick      mouse
+                      speed off  speed on   (strafe on + turn) 
+old DOOM (<1.4)        -24 +24   -40 +40       -50 .. +50 
+new DOOM (>=1.4)       -24 +24   -40 +40       -50 .. +50  *turbo/100
+DOOM &rsqb;&lsqb;                -24 +24   -40 +40       -50 .. +50  *turbo/100
+HERETIC                -24 +24   -40 +40       -50 .. +50 
+HEXEN fighter          -27 +27   -59 +59       -60 .. +60 
+HEXEN fighter (boots)  -41 +40   -89 +88       -90 .. +90
+HEXEN cleric           -24 +24   -40 +40       -50 .. +50
+HEXEN cleric (boots)   -36 +36   -60 +60       -75 .. +75
+HEXEN mage             -21 +21   -37 +37       -45 .. +45 
+HEXEN mage (boots)     -32 +31   -56 +55       -68 .. +67
+STRIFE                 -24 +24   -40 +40       -50 .. +50  *turbo/100
+</verb></tscreen>
+
+<sect2>Byte 0x02: Turn
+<p>
+The turn byte contains a signed number (-127 ... 127), where 
+positive numbers describe a left and negative numbers a right turn. 
+The possible range of the values in the turn byte varies a lot:
+<tscreen><verb>
+                   keyboard/gamepad/joystick        mouse     DOOM mouse spinner
+                    speed off      speed on 
+                  start   turn    start turn 
+old DOOM (<1.4)   -2 +1  -3 +2   -2 +1 -5 +5    -127 .. +127     +128
+HERETIC           -2 +1  -3 +2   -2 +1 -5 +5    -127 .. +127     +128
+HEXEN             -2 +1  -3 +2   -2 +1 -5 +5    -127 .. +127     +128
+new DOOM (>=1.4)  -1 +1  -2 +3   -1 +1 -5 +5    -127 .. +127     +128
+DOOM &rsqb;&lsqb;           -1 +1  -2 +3   -1 +1 -5 +5    -127 .. +127     +128
+STRIFE            -1 +1  -2 +3   -1 +1 -5 +5    -127 .. +127     +128
+</verb></tscreen>
+Therefore a right turn is in old DOOM, HERETIC and HEXEN faster and in 
+new DOOM, DOOM &rsqb;&lsqb; and STRIFE slower than a left turn.
+<p>
+The turn angle is
+<tscreen><verb>
+          360
+          --- * turn_byte degree
+          256   
+</verb></tscreen>
+With the DOOM cheat code <tt>IDMYPOS</tt> you can check your current viewing
+direction. During 
+recording the games use only one byte out of a long for the viewing angle:
+<tscreen><verb>
+        (0x40)
+          N
+
+(0x80) W   +   E (0x00)
+
+          S 
+        (0xC0)
+</verb></tscreen>
+The turn byte is the increment of the viewing angle.
+
+<sect2>Byte 0x03: Use
+<p>
+In the use byte are coded the fire weapon, the press button/open door and the
+change weapon actions:
+<tscreen><verb>
+--------------------------------------------
+| 7     | 6  | 5  | 4  | 3  | 2  | 1  | 0  |
+| SA=0  | 0  |    Weapon    | WB | UB | FB |
+--------------------------------------------
+</verb></tscreen>
+The Fire Bit (FB) is 1 during a shot. The Use Bit (UB) indicates the use 
+of anything (press a button, open a door etc.). The Weapon Bit (WB) is 1 if 
+the player changes manually his weapon. The weapon number is stored in the 
+following bits.
+<p>
+The internal weapon numbers are beginning with 0; not with 1 as is the status
+bar:
+<p>
+Code := 4 + 8* (Weapon-1)
+<p>
+The codes for the different games are in the tables.
+<table loc="ht">
+<tabular ca="lll">
+no <colsep> hex <colsep> name<rowsep>
+1 <colsep><tt>0x04</tt> <colsep>Fist/Chainsaw<rowsep>
+2 <colsep><tt>0x0C</tt> <colsep>Pistol<rowsep>
+3 <colsep><tt>0x14</tt> <colsep>Shotgun<rowsep>
+4 <colsep><tt>0x1C</tt> <colsep>Chaingun<rowsep>
+5 <colsep><tt>0x24</tt> <colsep>Rocket Launcher<rowsep>
+6 <colsep><tt>0x2C</tt> <colsep>Plasma Rifle<rowsep>
+7 <colsep><tt>0x34</tt> <colsep>BFG 9000<rowsep>
+8 <colsep><tt>0x3C</tt> <colsep>Chainsaw
+</tabular>
+<caption>DOOM</caption>
+</table>
+
+<table loc="ht">
+<tabular ca="lll">
+no <colsep> hex <colsep> name<rowsep>
+1 <colsep><tt>0x04</tt> <colsep>Fist/Chainsaw<rowsep>
+2 <colsep><tt>0x0C</tt> <colsep>Pistol<rowsep>
+3 <colsep><tt>0x14</tt> <colsep>Shotgun/Super Shotgun<rowsep>
+4 <colsep><tt>0x1C</tt> <colsep>Chaingun<rowsep>
+5 <colsep><tt>0x24</tt> <colsep>Rocket Launcher<rowsep>
+6 <colsep><tt>0x2C</tt> <colsep>Plasma Rifle<rowsep>
+7 <colsep><tt>0x34</tt> <colsep>BFG 9000<rowsep>
+8 <colsep><tt>0x3C</tt> <colsep>Chainsaw
+</tabular>
+<caption>DOOM II</caption>
+</table>
+
+<table>
+<tabular ca="lll">
+no <colsep> hex <colsep> name<rowsep>
+1 <colsep><tt>0x04</tt> <colsep>Staff/Gauntlets<rowsep>
+2 <colsep><tt>0x0C</tt> <colsep>Elvenwand<rowsep>
+3 <colsep><tt>0x14</tt> <colsep>Ethereal Crossbow<rowsep>
+4 <colsep><tt>0x1C</tt> <colsep>Dragon Claw<rowsep>
+5 <colsep><tt>0x24</tt> <colsep>Hellstaff<rowsep>
+6 <colsep><tt>0x2C</tt> <colsep>Phoenix Rod<rowsep>
+7 <colsep><tt>0x34</tt> <colsep>Mace<rowsep>
+8 <colsep><tt>0x3C</tt> <colsep>Gauntlets
+</tabular>
+<caption>HERETIC</caption>
+</table>
+
+<table>
+<tabular ca="lll">
+no <colsep> hex <colsep> name<rowsep>
+1 <colsep><tt>0x04</tt> <colsep>Spiked Gauntlets<rowsep>
+2 <colsep><tt>0x0C</tt> <colsep>Timon's Axe<rowsep>
+3 <colsep><tt>0x14</tt> <colsep>Hammer of Retribution<rowsep>
+4 <colsep><tt>0x1C</tt> <colsep>Quietus
+</tabular>
+<caption>HEXEN: fighter</caption>
+</table>
+
+<table loc="ht">
+<tabular ca="lll">
+no <colsep> hex <colsep> name<rowsep>
+1 <colsep><tt>0x04</tt> <colsep>Mace of Contrition<rowsep>
+2 <colsep><tt>0x0C</tt> <colsep>Serpent<rowsep>
+3 <colsep><tt>0x14</tt> <colsep>Firestorm<rowsep>
+4 <colsep><tt>0x1C</tt> <colsep>Justifier
+</tabular>
+<caption>HEXEN: cleric</caption>
+</table>
+
+<table loc="ht"> 
+<tabular ca="lll">
+no <colsep> hex <colsep> name<rowsep>
+1 <colsep><tt>0x04</tt> <colsep>Sapphire Wand<rowsep>
+2 <colsep><tt>0x0C</tt> <colsep>Frost Shards<rowsep>
+3 <colsep><tt>0x14</tt> <colsep>Arc of Death<rowsep>
+4 <colsep><tt>0x1C</tt> <colsep>Bloodscourge
+</tabular>
+<caption>HEXEN: mage</caption>
+</table>
+
+<table loc="ht">
+<tabular ca="lll">
+no <colsep> hex <colsep> name<rowsep>
+1 <colsep><tt>0x04</tt> <colsep>Punch Dagger<rowsep>
+2 <colsep><tt>0x0C</tt> <colsep>Crossbow<rowsep>
+3 <colsep><tt>0x14</tt> <colsep>Pulse Rifle<rowsep>
+4 <colsep><tt>0x1C</tt> <colsep>Missile Launcher<rowsep>
+5 <colsep><tt>0x24</tt> <colsep>Grenade Launcher<rowsep>
+6 <colsep><tt>0x2C</tt> <colsep>Flame Thrower<rowsep>
+7 <colsep><tt>0x34</tt> <colsep>Blaster<rowsep>
+8 <colsep><tt>0x3C</tt> <colsep>Sigil<rowsep>
+9 <colsep><tt>0x44</tt> <colsep>Punch Dagger
+</tabular>
+<caption>STRIFE</caption>
+</table>
+
+The bits can be composed. So you can with a use byte of 0x03 fire and use
+at the same time.
+<p>
+If the Special Actions (SA) bit is 1, the meaning of the other bits
+changes totally:
+<p>
+In the bits 0 and 1 is now coded the Special Action itself.
+<tscreen><verb>
+-----------------
+|1|x|x|x|x|x|0|1|       stands for pause/unpause
+-----------------
+</verb></tscreen>
+and
+<tscreen><verb>
+-----------------
+|1|x|x| SLN |1|0|       stands for save game in slot SLN (0<=SLN<=7).
+----------------- 
+</verb></tscreen>
+The x-bits aren't important at all. The games themselves let them 0 but do not
+analyze them afterwards. 
+
+The games save a game state even during the replay of a LMP. So make sure you
+have no important game states in your directory if you plan to play back a
+unknown LMP file. You can remove the ``Save Game'' commands with <tt>LMPC</tt>,
+the Little Movie Processing Centre. Get the current version from my  
+<url url="@HOMEURL@" name="@HOMENAME@">.
+
+<sect2>Byte 0x04: Look and Fly
+<p>
+This byte appears in HERETIC and HEXEN LMP files <em>only</em>.
+<p>
+The Look an Fly byte is divided in 2 parts: 
+<tscreen><verb>
+-----------------
+|7|6|5|4|3|2|1|0|
+|  fly  | look  |
+-----------------
+</verb></tscreen>
+Both parts contain a signed 4-bit number, where positive numbers describe a
+upwards and negative numbers a downwards move.
+<table>
+<tabular ca="llll">
+game <colsep>speed off <colsep>speed on <colsep>center/drop<rowsep>
+HERETIC <colsep>-3, +3 <colsep>-5, +5 <colsep>+8<rowsep>
+HEXEN <colsep>-1, +1 <colsep>-2, +2 <colsep>+8
+</tabular>
+<caption>Look- and Fly-values.</caption>
+</table>
+ 
+The pure ``drop'' (landing) code (0x80) could be ambiguous (the quit 
+byte is 0x80). Moreover it is always good to look forward after landing.
+Therefore creates a ``drop'' always a ``look forward''. This
+results in the code 0x88.
+
+<sect2>Byte 0x05: Use artifacts
+<p>
+This byte appears in HERETIC and HEXEN LMP files <em>only</em>.
+<p>
+The cursor movements in the inventory isn't recorded. Only the use of an
+artifact is recorded. The ``Use artifacts'' byte contains simply the number of
+the artifact equivalent to the HERETIC ``<tt>gimme</tt>''-cheat.
+<table loc="ht">
+<tabular ca="llll">
+no <colsep>code <colsep>letter <colsep>name<rowsep>
+1 <colsep><tt>0x01</tt> <colsep>a <colsep>ring of invincibility<rowsep>
+2 <colsep><tt>0x02</tt> <colsep>b <colsep>shadowsphere<rowsep>
+3 <colsep><tt>0x03</tt> <colsep>c <colsep>quartz flask<rowsep>
+4 <colsep><tt>0x04</tt> <colsep>d <colsep>chaos device<rowsep>
+5 <colsep><tt>0x05</tt> <colsep>e <colsep>tome of power<rowsep>
+6 <colsep><tt>0x06</tt> <colsep>f <colsep>torch<rowsep>
+7 <colsep><tt>0x07</tt> <colsep>g <colsep>time bomb of the ancients<rowsep>
+8 <colsep><tt>0x08</tt> <colsep>h <colsep>morph ovum<rowsep>
+9 <colsep><tt>0x09</tt> <colsep>i <colsep>wings of wrath<rowsep>
+10 <colsep><tt>0x0A</tt> <colsep>j <colsep>mystic urn
+</tabular>
+<caption>HERETIC artifacts.</caption>
+</table>
+<p>
+A similar cheat code for HEXEN isn't known.
+<table loc="ht">
+<tabular ca="llll">
+no <colsep>code <colsep>letter <colsep>name<rowsep>
+1 <colsep><tt>0x01</tt> <colsep>a <colsep>icon of the defender<rowsep>
+2 <colsep><tt>0x02</tt> <colsep>b <colsep>quartz flask<rowsep>
+3 <colsep><tt>0x03</tt> <colsep>c <colsep>mystic urn<rowsep>
+4 <colsep><tt>0x04</tt> <colsep>d <colsep>clerical healing<rowsep>
+5 <colsep><tt>0x05</tt> <colsep>e <colsep>dark servant<rowsep>
+6 <colsep><tt>0x06</tt> <colsep>f <colsep>torch<rowsep>
+7 <colsep><tt>0x07</tt> <colsep>g <colsep>porkalator<rowsep>
+8 <colsep><tt>0x08</tt> <colsep>h <colsep>wings of wrath<rowsep>
+9 <colsep><tt>0x09</tt> <colsep>i <colsep>chaos device<rowsep>
+10 <colsep><tt>0x0A</tt> <colsep>j <colsep>flechette<rowsep>
+11 <colsep><tt>0x0B</tt> <colsep>k <colsep>banishment device<rowsep>
+12 <colsep><tt>0x0C</tt> <colsep>l <colsep>boots of speed<rowsep>
+13 <colsep><tt>0x0D</tt> <colsep>m <colsep>krater of might<rowsep>
+14 <colsep><tt>0x0E</tt> <colsep>n <colsep>dragonskin bracers<rowsep>
+15 <colsep><tt>0x0F</tt> <colsep>o <colsep>disc of repulsion<rowsep>
+- <colsep><tt>0x21</tt> <colsep> <colsep>panic button (use all you have)
+</tabular>
+<caption>HEXEN artifacts.</caption>
+</table>
+
+The HEXEN-specific ``Jump'' is coded in the Use artifact byte.
+<table loc="ht">
+<tabular ca="lll">
+dec <colsep>hex <colsep>name<rowsep>
+128 <colsep>0x80 <colsep>jump
+</tabular>
+<caption>HEXEN jump.</caption>
+</table>
+A jump can be combined (with ``binary or'') with the
+use of an artifact.
+
+<sect2>Byte 0x04: Special Use
+<p>
+This byte appears in STRIFE LMP files <em>only</em>.
+<p>
+<table loc="ht">
+<tabular ca="lll">
+bit no <colsep>hex <colsep>meaning<rowsep>
+0 <colsep><tt>0x01</tt> <colsep>look up<rowsep>
+1 <colsep><tt>0x02</tt> <colsep>look down<rowsep>
+2 <colsep><tt>0x04</tt> <colsep>run<rowsep>
+3 <colsep><tt>0x08</tt> <colsep>use inventory (see section <ref id="STRIFEARTIFACTS" name="STRIFE Artifacts">)<rowsep>
+4 <colsep><tt>0x10</tt> <colsep>drop inventory (see section <ref id="STRIFEARTIFACTS" name="STRIFE Artifacts">)<rowsep>
+5 <colsep><tt>0x20</tt> <colsep>jump<rowsep>
+6 <colsep><tt>0x40</tt> <colsep>unknown<rowsep>
+7 <colsep><tt>0x80</tt> <colsep>use health
+</tabular>
+<caption>The 8 toggle actions of STRIFE.</caption>
+</table>
+
+Note bit 2. STRIFE is the only game with a special run code. It seems senseless,
+because the go/strafe/turn-values are already ``run-changed''.
+<p>
+The cursor movements in the inventory isn't recorded. Only the use of an
+artifact is recorded.
+If bit 3 or 4 is 1 the next byte in the STRIFE game tic byte becomes important.
+
+<sect2>Byte 0x05: STRIFE Artifacts<label id="STRIFEARTIFACTS">
+<p>
+This byte appears in STRIFE LMP files <em>only</em>.
+<p>
+This byte describes the artifact to use or to drop. 1 byte can hold up to
+255 artifacts.
+<table loc="ht">
+<tabular ca="ll">
+code <colsep>name<rowsep>
+<tt>0x74</tt> <colsep>toughness<rowsep>
+<tt>0x75</tt> <colsep>accuracy<rowsep>
+<tt>0x76</tt> <colsep>full health<rowsep>
+<tt>0x7B</tt> <colsep>teleportor beacon<rowsep>
+<tt>0x7C</tt> <colsep>metal armor<rowsep>
+<tt>0x7D</tt> <colsep>leather armor<rowsep>
+<tt>0xA1</tt> <colsep>med patch<rowsep>
+<tt>0xA2</tt> <colsep>medical kit<rowsep>
+<tt>0xA3</tt> <colsep>coin<rowsep>
+<tt>0xA7</tt> <colsep>shadow armor<rowsep>
+<tt>0xA8</tt> <colsep>environmental suit<rowsep>
+<tt>0xB7</tt> <colsep>offering chalice
+</tabular>
+<caption>12 known STRFE artifacts.</caption>
+</table>
+
+<sect2>Special entries
+<p>
+If there are no actions at all, all 4 (or 6) bytes contain 0x00. This is a 
+wait tic.
+<p>
+The end of the LMP is coded in the go byte of an incomplete game tic.
+Because there is no go value of -128 (0x80), the game can't make a mistake.
+
+<sect>Version History and Acknowledgments
+<p>
+<descrip>
+<tag>1.0, 30 August, 1994</tag>
+<itemize>
+<item>first public release
+<item>many thanks to Steffen Winterfeldt 
+(<htmlurl url="mailto:wfeldt@itp.uni-leipzig.de"
+name="wfeldt@itp.uni-leipzig.de">)
+for his reverse engineering work
+</itemize>
+<tag>1.10, 24 October, 1994</tag>
+<itemize>
+<item>general release for DOOM
+<item>corresponds now to the LMP compiler <tt>lmpc</tt> 2.1
+</itemize>
+<tag>1.20, 16 January, 1995</tag>
+<itemize>
+<item>included information about DOOM &rsqb;&lsqb; and HERETIC
+<item>first HTML version
+<item>thanks to Frans P. de Vries 
+(<htmlurl url="mailto:fpv@xymph.iaf.nl" name="fpv@xymph.iaf.nl">), 
+who corrected some orthographical bugs
+</itemize>
+<tag>1.21, 22 February, 1995</tag>
+<itemize>
+<item>weapon names for HERETIC
+<item>artifact names for registered HERETIC
+</itemize>
+<tag>1.22, 8 October, 1995</tag>
+<itemize>
+<item>correct multiplayer colors
+<item>included first information about HEXEN (taken from the 4-level-beta)
+</itemize>
+<tag>1.23, 9 October, 1995</tag>
+<itemize>
+<item>artifact names for HEXEN
+</itemize>
+<tag>1.24, 10 October, 1995</tag>
+<itemize>
+<item>go/strafe ranges reorganized (``boots of speed'' included)
+</itemize>
+<tag>1.25, 25 October, 1995</tag>
+<itemize>
+<item>first Linuxdoc-SGML version, text and ps-versions are available too
+</itemize>
+<tag>1.26, 20 November, 1995</tag>
+<itemize>
+<item>some small mistakes in the movement byte table corrected,
+thanks to Rob McCartney 
+(<htmlurl url="mailto:argon@netcom.com" name="argon@netcom.com">)
+for his bug report
+</itemize>
+<tag>2.0.0, 21 November, 1995,  uploaded to 
+<htmlurl url="ftp://ftp.cdrom.com/" name="ftp.cdrom.com"> 
+and announced in
+<htmlurl url="news:rec.games.comp.doom.announce" name="rec.games.comp.doom.announce">
+</tag>
+<itemize>
+<item>new 3 part version number
+<item>rearrangements of the tables
+</itemize>
+<tag>2.1.0, 10 March, 1996, uploaded to 
+<htmlurl url="ftp://ftp.cdrom.com/" name="ftp.cdrom.com">
+and announced in
+<htmlurl url="news:rec.games.comp.doom.announce" name="rec.games.comp.doom.announce">
+<itemize>
+<item>STRIFE information included
+<item>rearrangements of the tables
+<item>strafe table corrected
+</itemize>
+<tag>2.1.1, 7 April, 1996 
+<itemize>
+<item>HEXEN 1.1 information included
+<item>HEXEN panic button described
+</itemize>
+<tag>2.1.2, 20 April, 1996 
+<itemize>
+<item>STRIFE 1.1 information included (player colors)
+<item>table of all covered game versions
+</itemize>
+<tag>2.1.3, 12 March, 1998
+<itemize>
+<item>PlanetQuake is the new home.
+<item>SGML-Tools 1.0.5 used.
+</itemize>
+</descrip>
+
+</article>

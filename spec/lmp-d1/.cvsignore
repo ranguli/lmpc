@@ -1,0 +1,8 @@
+.cvsignore
+index.html
+index-lmp-*.html
+lmp.html
+lmp.pdf
+lmp.sgml
+lmp.sgml.in
+
