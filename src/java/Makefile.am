@@ -15,7 +15,7 @@ LMPC_JARLIST=\
 		com/machinima/lmpc/io/text/LsLex.class \
 		com/machinima/lmpc/io/text/TextOut.class
 
-lmpc.jar:
+lmpc.jar: $(LMPC_JARLIST) lmpc.jar.manifest
 	cp $@.manifest manifest.in
 	$(JAR) cvfm $@ manifest.in $(LMPC_JARLIST)
 	$(RM) manifest.in
