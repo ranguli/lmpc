@@ -68,7 +68,7 @@ go32-strip: go32
 
 
 cygwin_TARGET=i386-pc-cygwin32
-cygwin_PREFIX=/usr/self/cygnus
+cygwin_PREFIX=/usr/self/cygwin
 
 cygwin: clean
 	mv config.status config.status.orig
@@ -89,7 +89,7 @@ cygwin-strip: cygwin
 
 
 mingw32_TARGET=i386-pc-mingw32
-mingw32_PREFIX=/usr/self/cygnus
+mingw32_PREFIX=/usr/self/cygwin
 
 mingw32: clean
 	mv config.status config.status.orig
