@@ -30,7 +30,7 @@ index.html indexpart.html:
 
 # LINUX target
 linux:
-	$(MAKE) compile TARGET=linux
+	$(MAKE) compile-bin TARGET=linux
 
 TARGET_linux=i686-suse-linux
 PREFIX_linux=/usr
@@ -44,7 +44,7 @@ CHANGE_linux="\#"
 
 # GO32 target
 go32:
-	$(MAKE) compile TARGET=go32
+	$(MAKE) compile-bin TARGET=go32
 
 TARGET_go32=i386-pc-msdosdjgpp
 PREFIX_go32=/usr/self/go32
@@ -58,7 +58,7 @@ CHANGE_go32=s/.exe/.exe/
 
 # CYGWIN target
 cygwin:
-	$(MAKE) compile TARGET=cygwin
+	$(MAKE) compile-bin TARGET=cygwin
 
 TARGET_cygwin=i386-pc-cygwin
 PREFIX_cygwin=/usr/self/gcc3
@@ -72,7 +72,7 @@ CHANGE_cygwin=s/.exe/32.exe/
 
 # MINGW target
 mingw:
-	$(MAKE) compile TARGET=mingw
+	$(MAKE) compile-bin TARGET=mingw
 
 TARGET_mingw=i386-pc-mingw32
 PREFIX_mingw=/usr/self/gcc3
@@ -100,7 +100,7 @@ CHANGE_GEN=$(CHANGE_$(TARGET))
 
 
 # generic compile rules
-compile: clean
+compile-bin:
 	mv config.status config.status.orig
 	-mkdir -p systems/$(TARGET_GEN)
 	cd systems/$(TARGET_GEN) && \
