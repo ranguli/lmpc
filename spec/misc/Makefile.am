@@ -20,24 +20,19 @@
 # Uwe Girlich (uwe@planetquake.com)
 
 #****************************************************************************#
-# Makefile  -  makefile                                                      #
+# Makefile.am  -  automake file                                              #
 #****************************************************************************#
 
-# wpu parse start /^([^=]+)=(.+)\s*$/
-PACKAGE=misc
-TITLE=Miscellaneous demo related stuff
-VERSION=1.0.8
-DATE=7/10/2004
-TYPE=misc
-INCLUDE=index.template
-# wpu parse end
+include $(srcdir)/wpurc
+include $(top_srcdir)/spec/Make.spec.rules
 
 
 ######################################################################
 # main targets
 
-all: cd.txt cd.html ers ers.html mulder mulder.html procdm2.html \
-		procdm2.pl qfont.txt qfont.html \
+DEFAULT_TARGET_misc=cd.txt cd.html ers ers.html mulder mulder.html \
+		procdm2.html procdm2.pl \
+		qfont.txt qfont.html \
 		win32.html index.html indexpart.html
 
 
@@ -88,14 +83,9 @@ UPLOAD_FILES_dyn=index.html cd.txt cd.html ers ers.html mulder mulder.html \
 		procdm2.html procdm2.pl qfont.txt qfont.html win32.html
 UPLOAD_FILES_stat=cd.dem cygwin.dll cygwinb19.dll cygwin1.dll \
 		qfont.dem qfont.pcx
-UPLOAD_FILES_1=$(UPLOAD_FILES_dyn) $(UPLOAD_FILES_stat)
+UPLOAD_FILES_misc=$(UPLOAD_FILES_dyn) $(UPLOAD_FILES_stat)
+UPLOAD_DIR_misc=$(PACKAGE)
 
 clean::
 	$(RM_F) $(UPLOAD_FILES_dyn)
-
-
-######################################################################
-# include generic rules
-
-include ../Make.spec.rules
 

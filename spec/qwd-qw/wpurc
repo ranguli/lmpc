@@ -1,0 +1,10 @@
+# $Id$
+
+## wpu parse start /^([^=]+)=(.+)\s*$/
+PACKAGE=qwd
+TITLE=The unofficial QWD format description
+VERSION=1.0.5
+DATE=6/3/1999
+TYPE=document
+## wpu parse end
+

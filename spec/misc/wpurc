@@ -1,0 +1,11 @@
+# $Id$
+
+## wpu parse start /^([^=]+)=(.+)\s*$/
+PACKAGE=misc
+TITLE=Miscellaneous demo related stuff
+VERSION=1.0.8
+DATE=7/10/2004
+TYPE=misc
+INCLUDE=index.template
+## wpu parse end
+

@@ -20,15 +20,9 @@
 # Uwe Girlich (uwe@planetquake.com)
 
 #****************************************************************************#
-# Makefile  -  makefile                                                      #
+# Makefile.am  -  automake file                                              #
 #****************************************************************************#
 
-# wpu parse start /^([^=]+)=(.+)\s*$/
-PACKAGE=qwd
-TITLE=The unofficial QWD format description
-VERSION=1.0.5
-DATE=6/3/1999
-# wpu parse end
-
-include ../Make.spec.rules
+include $(srcdir)/wpurc
+include $(top_srcdir)/spec/Make.spec.rules
 
