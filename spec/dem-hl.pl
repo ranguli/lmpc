@@ -140,14 +140,32 @@ for (@directory) {
 		(
 			$macro{"type"},
 			$macro{"time"},
-			$macro{"uk3"}
+			$macro{"frame"}
 		) = unpack "C f V", $macro_d;
 		$macro{"time"} = LittleFloat($macro{"time"});
 
 		printf $file_out "  macro { // offset=0x%08x\n", $macro{"file_offset"};
 		printf $file_out "   type %i;\n", $macro{"type"};
 		printf $file_out "   time %fs;\n", $macro{"time"};
-		printf $file_out "   uk3 %i;\n", $macro{"uk3"};
+		printf $file_out "   frame %i;\n", $macro{"frame"};
+		# macro block 1 ###############################################
+		if ($macro{"type"} == 1) {
+			printf $file_out "   ukdata // offset=0x%08x, len=%d\n",
+				$file_in->tell(), 560;
+			my $data_1h_d = read_with_check($file_in,560);
+			# leave it for later
+
+			my $data_1_len_d = read_with_check($file_in,4);
+			(
+				$macro{"length"}
+			) = unpack "V", $data_1_len_d;
+			printf $file_out "   length %i;\n", $macro{"length"};
+			printf $file_out "   gamedata";
+			my $data_1_d = read_with_check($file_in,$macro{"length"});
+			my @data = unpack "C" . $macro{"length"} , $data_1_d;
+			for (@data) { printf $file_out " %02x", $_; }
+			printf $file_out ";\n";
+		}
 		# macro block 3 ###############################################
 		if ($macro{"type"} == 3) {
 			my $data_3_d = read_with_check($file_in,64);
@@ -180,6 +198,7 @@ for (@directory) {
 		#
 		printf $file_out "  }\n";
 		last if (
+			$macro{"type"} != 1 &&
 			$macro{"type"} != 2 &&
 			$macro{"type"} != 3 &&
 			$macro{"type"} != 4 &&
