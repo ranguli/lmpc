@@ -210,7 +210,24 @@ fi
 
 
 dnl output
-AC_OUTPUT([Makefile bin/Makefile src/Makefile doc/Makefile bin/dema bin/dm2cat bin/extract src/java/Makefile src/java/lmpcj src/java/com/Makefile src/java/com/machinima/Makefile src/java/com/machinima/lmpc/Makefile src/java/com/machinima/lmpc/io/Makefile src/java/com/machinima/lmpc/io/base/Makefile src/java/com/machinima/lmpc/io/node/Makefile src/java/com/machinima/lmpc/io/text/Makefile],
+AC_OUTPUT([ \
+	Makefile bin/Makefile \
+	src/Makefile \
+	doc/Makefile \
+	bin/dema \
+	bin/dm2cat \
+	bin/extract \
+	src/java/Makefile \
+	src/java/lmpcj \
+	src/java/com/Makefile \
+	src/java/com/machinima/Makefile \
+	src/java/com/machinima/lmpc/Makefile \
+	src/java/com/machinima/lmpc/io/Makefile \
+	src/java/com/machinima/lmpc/io/base/Makefile \
+	src/java/com/machinima/lmpc/io/node/Makefile \
+	src/java/com/machinima/lmpc/io/text/Makefile \
+	src/java/com/machinima/lmpc/io/bin/Makefile\
+	],
 [echo timestamp > stamp-h ; chmod +x bin/dema bin/dm2cat bin/extract src/java/lmpcj])
 
 dnl check warnings
