@@ -76,11 +76,13 @@ win32.html: win32.html.in Makefile
 ######################################################################
 # clean rule
 
-UPLOAD_FILES_$(TYPE)=cd.txt cd.html ers ers.html mulder mulder.html qfont.txt \
-	qfont.html win32.html index.html
+UPLOAD_FILES_1=index.html cd.txt cd.html ers ers.html mulder mulder.html qfont.txt \
+		qfont.html win32.html
+UPLOAD_FILES_2=cd.dem cygwin.dll cygwinb19.dll cygwin1.dll qfont.dem qfont.pcx
+UPLOAD_FILES_$(TYPE)=$(UPLOAD_FILES_1) $(UPLOAD_FILES_2)
 
 clean::
-	$(RM_F) $(UPLOAD_FILES)
+	$(RM_F) $(UPLOAD_FILES_1)
 
 
 ######################################################################
