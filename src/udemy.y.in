@@ -105,7 +105,7 @@ qwd_sgameblock: TOKEN_SBLOCK '{' qwd_t12r qwd_sgamemessages '}' {
 			node_add_down($1,$3);
 			do_block($1);
 			node_delete($1);
-		}
+		};
 
 qwd_sconnlessblock: TOKEN_SBLOCK '{' qwd_sconnlessmessages '}' {
 			node_add_down($1,$3);
@@ -167,7 +167,7 @@ dem_messages: m_camera {
 		| dem_o_messages m_camera dem_o_messages {
 			$$=node_add_next($2,$1);
 			node_add_next($$,$3);
-		}
+		};
 
 dem_o_messages: dem_message {
 			$$=$1;
@@ -205,7 +205,7 @@ qwd_t12r: qwd_mcs_t12r {
 		};
 
 qwd_mcs_t12r: qwd_mc_t12r { $$=$1; }
-		| qwd_mcs_t12r qwd_mc_t12r { $$=node_add_next($1,$2); }
+		| qwd_mcs_t12r qwd_mc_t12r { $$=node_add_next($1,$2); };
 
 qwd_mc_t12r: m_time
 		| m_seq1
@@ -353,7 +353,7 @@ dm2_message: m_unknown  { $$=$1; }
 		| dm2_m_playerinfo { $$=$1; }
 		| dm2_m_packetentities { $$=$1; }
 		| dm2_m_deltapacketentities { $$=$1; }
-		| m_frame { $$=$1; }
+		| m_frame { $$=$1; };
 
 
 m_camera: TOKEN_CAMERA floatvector ';' {
@@ -1433,7 +1433,7 @@ m_cutscene: TOKEN_CUTSCENE v_string ';' {
 			$$=$1;
 			node_add_down($$,$2);
 			$$->hint = H_SIMPLE;
-		}
+		};
 
 m_updateentity: TOKEN_UPDATEENTITY '{' mcs_updateentity '}' {
 			CO_t updateentity_cs[] = {
@@ -1487,7 +1487,7 @@ dm2_m_deltapacketentities: TOKEN_DELTAPACKETENTITIES '{' c_data '}' {
 		| TOKEN_DELTAPACKETENTITIES ';' {
 			$$=$1;
 			$$->hint = H_SIMPLE;
-		}
+		};
 
 qwd_m_muzzleflash: TOKEN_MUZZLEFLASH v_int ';' {
 			$2->hint = H_SHORT;
@@ -1587,7 +1587,7 @@ m_frame_server: TOKEN_FRAME v_int ';' {
 			$2->hint = H_LONG;
 			node_add_down($$,$2);
 			$$->hint = H_SIMPLE;
-		}
+		};
 
 m_frame_relay: TOKEN_FRAME '{' mcs_frame_relay '}' {
 			CO_t frame_client_cs[] = {
@@ -2493,7 +2493,7 @@ c_areas: TOKEN_AREAS intlist ';' {
 		| 
 	TOKEN_AREAS ';' {
 			$$=$1;
-		}
+		};
 
 c_connected: TOKEN_CONNECTED intlist ';' {
 			node_add_type_next($2,V_BYTEHEX);
@@ -2502,7 +2502,7 @@ c_connected: TOKEN_CONNECTED intlist ';' {
 		| 
 	TOKEN_CONNECTED ';' {
 			$$=$1;
-		}
+		};
 
 c_uk_b1: TOKEN_UK_B1 v_int ';' {
 			$2->hint = H_BYTE;
