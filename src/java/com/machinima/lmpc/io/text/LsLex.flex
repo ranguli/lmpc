@@ -100,7 +100,9 @@ StringCharacter = [^\r\n\"\\]
 	}
  
 	-?{FloatLiteral} {
-		yyparser.yylval = new FloatNode(Float.parseFloat(yytext().substring(0,yylength()-1)));
+		// yyparser.yylval = new FloatNode(Float.parseFloat(yytext().substring(0,yylength()-1)));
+		// yyparser.yylval = new FloatNode((Float.valueOf(yytext().substring(0,yylength()-1))).floatValue());
+		yyparser.yylval = new FloatNode((Float.valueOf(yytext())).floatValue());
 		return yyparser.v_float;
 	}
 
