@@ -46,18 +46,18 @@ public class TimeNode extends Node {
 			result.append(':');
 			result.append(Integer.toString(min));
 			result.append(':');
-			result.append(Util.toString(10, sec));
+			result.append(Util.toString(8, 'f', sec));
 			result.append('h');
 		}
 		else {
 			if (min != 0) {
 				result.append(Integer.toString(min));
 				result.append(':');
-				result.append(Util.toString(10, sec));
+				result.append(Util.toString(8, 'f', sec));
 				result.append('m');
 			}
 			else {
-				result.append(Util.toString(10, sec));
+				result.append(Util.toString(8, 'f', sec));
 				result.append('s');
 			}
 		}
