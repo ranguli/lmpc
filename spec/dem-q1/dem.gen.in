@@ -1,0 +1,3759 @@
+<!ENTITY lowbar "_">
+	<!ENTITY lsqb "[">
+	<!ENTITY rsqb "]">
+	<!ENTITY num "#">
+	<!ENTITY bsol "\">
+	]><article>
+<articleinfo>
+<title>@TITLE@</title>
+<author>
+<firstname>@MYFIRSTNAME@</firstname><surname>@MYSURNAME@</surname>
+<affiliation><address><email>@MYEMAIL@</email></address></affiliation>
+</author>
+<pubdate>v@VERSION@, @DATE@</pubdate>
+<abstract>
+<para>This document describes the DEM file format. This file format is the result of
+``recording'' a game in Quake.
+This documentation covers the Quake versions 0.91 through 1.09.</para>
+</abstract>
+</articleinfo>
+<sect1>
+<title>Introduction</title>
+<sect2>
+<title>Recording and Playback</title>
+<para>Recording a game in Quake is as easy as playing it: you need some console
+commands to do it well. </para>
+<para>To create a single player DEM file start the game as usual and use the console
+command <emphasis>record name level &lsqb;cdtrack]</emphasis>. This starts <LITERAL REMAP="tt">level</literal> with
+the currently selected skill and writes a record in <LITERAL REMAP="tt">name.dem</literal>.
+The recording will be written during all the play and this record file may 
+grow unpredictable. Make sure that you have some MBytes free disk space.
+To stop this recording use <emphasis>stop</emphasis> or even quit the whole game 
+(<emphasis>quit</emphasis>). To play it back, use the commands <emphasis>playdemo name</emphasis>
+or <emphasis>timedemo name</emphasis>. </para>
+<para>To create a multi player DEM file start a ``listen'' server 
+(recording from a dedicated server doesn't work) and use again the 
+<emphasis>record</emphasis> command. This starts the selected level and the player at the
+server is alone in this level. Now all the other clients can connect to the 
+server as usual and play what they like (deathmatch or team). The recording 
+lasts until the player at the listen server uses the <emphasis>disconnect</emphasis>, 
+<emphasis>stop</emphasis> or <emphasis>quit</emphasis> command. The recording is from the point of
+view of the player at the listen server (client 1). The playback 
+works as in the single player case.</para>
+</sect2>
+<sect2>
+<title>Versions</title>
+<para>In this document I'll discuss the DEM format used by the various versions
+of Quake.</para>
+<para>
+
+<table>
+<title>Covered Quake versions</title>
+<TGROUP COLS="4">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry><LITERAL REMAP="tt">Exe:</literal></entry>
+<entry>version</entry>
+<entry>platform</entry>
+<entry>note</entry>
+</row>
+<row>
+<entry>?</entry>
+<entry>0.91</entry>
+<entry>MS-DOS, SVGA, 8bpp</entry>
+<entry></entry>
+</row>
+<row>
+<entry>?</entry>
+<entry>0.92</entry>
+<entry>MS-DOS, SVGA, 8bpp</entry>
+<entry></entry>
+</row>
+<row>
+<entry>?</entry>
+<entry>0.92</entry>
+<entry>Linux, X11, 8bpp</entry>
+<entry></entry>
+</row>
+<row>
+<entry>?</entry>
+<entry>1.00</entry>
+<entry>MS-DOS, SVGA, 8bpp</entry>
+<entry>Shareware version</entry>
+</row>
+<row>
+<entry>17:38:28 Jul 12 1996</entry>
+<entry>1.01</entry>
+<entry>MS-DOS, SVGA, 8bpp</entry>
+<entry>CD retail version</entry>
+</row>
+<row>
+<entry>22:32:43 Aug 4 1996</entry>
+<entry>1.01</entry>
+<entry>Linux, X11, 8bpp</entry>
+<entry></entry>
+</row>
+<row>
+<entry>22:32:43 Aug 4 1996</entry>
+<entry>1.01</entry>
+<entry>Linux, X11, DGA, 8bpp</entry>
+<entry></entry>
+</row>
+<row>
+<entry>15:21:16 Sep 13 1996</entry>
+<entry>1.05beta</entry>
+<entry>MS-DOS, SVGA, 8bpp</entry>
+<entry></entry>
+</row>
+<row>
+<entry>02:59:04 Sep 30 1996</entry>
+<entry>1.06</entry>
+<entry>MS-DOS, SVGA, 8bpp</entry>
+<entry></entry>
+</row>
+<row>
+<entry>16:49:53 Nov 22 1996</entry>
+<entry>1.06</entry>
+<entry>Linux, X11, 8bpp</entry>
+<entry></entry>
+</row>
+<row>
+<entry>22:44:36 Jan 17 1997</entry>
+<entry>1.01</entry>
+<entry>Linux, X11, 16bpp</entry>
+<entry>leaked source, patched</entry>
+</row>
+<row>
+<entry>?</entry>
+<entry>1.07</entry>
+<entry>MS-DOS, SVGA, 8bpp</entry>
+<entry>Mission Pack &num;1</entry>
+</row>
+<row>
+<entry>?</entry>
+<entry>1.07</entry>
+<entry>Linux, SVGA, 8bpp</entry>
+<entry></entry>
+</row>
+<row>
+<entry>18:28:16 Mar 11 1997</entry>
+<entry>1.08</entry>
+<entry>MS-DOS, SVGA, 8bpp</entry>
+<entry>Mission Pack &num;2</entry>
+</row>
+<row>
+<entry>? Mar 21 1997</entry>
+<entry>1.09</entry>
+<entry>Win32, DirectX, 8bpp</entry>
+<entry></entry>
+</row>
+<row>
+<entry>15:28:15 Aug 7 1997</entry>
+<entry>1.09</entry>
+<entry>Linux, SVGA, 8bpp</entry>
+<entry></entry>
+</row>
+<row>
+<entry>00:36:23 Oct 14 1997</entry>
+<entry>(X11 Quake 1.00) 1.09</entry>
+<entry>Linux, X11, 8bpp, 16bpp</entry>
+<entry></entry>
+</row>
+<row>
+<entry>? Nov 7 1997</entry>
+<entry>1.09</entry>
+<entry>Win32, Glide</entry>
+<entry></entry>
+</row>
+<row>
+<entry>14:37:37 Nov 13 1997</entry>
+<entry>(Linux GL 0.97) 1.09</entry>
+<entry>Linux, SVGA, Glide, 16bpp</entry>
+<entry></entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+</para>
+<para>There is a small change in the Quake DEM format from 1.06 to 1.07. It will be
+discussed in the section <XREF LINKEND="CLIENTDATA">. A new
+message was introduced in 1.07 too (see section <XREF LINKEND="CUTSCENE">. In version 1.08 the <EMPHASIS REMAP="bf">temp&lowbar;entity</emphasis>
+message changed a bit (see section <XREF LINKEND="TEMP-ENTITY">). In version 1.09 the CD track reading changed totally
+(see section <XREF LINKEND="TRACK">).</para>
+<para>I actually check my documentation with Linux Registered Quake 
+1.09 (x/squake) and compare it rarely with MS-DOS Registered Quake 1.06. </para>
+</sect2>
+</sect1>
+<sect1>
+<title>Basics on the used client/server architecture</title>
+<para>Unlike DOOM and similar games Quake uses a ``server'' process (or even
+computer) which ``does'' all the game play. The ``clients'' (at least one)
+send to the server all input events (keys, mouse etc.) and receive
+all necessary information to draw the current picture. This prevents Quake
+from inconsistencies and the network load increases linear with the clients
+and not quadratic.</para>
+<para>The communication between server and clients is an asynchronous one. 
+If you don't
+press any key, your computer won't send any packets to the server. But you 
+receive from time to time (the network is unpredictable) a packet to describe
+the state of your client. It is obvious, that these packets must contain some
+time stamp information, the positions of all monsters in sight and some
+player state information like the current weapon, ammo etc.</para>
+<para> 
+And exactly this is the DEM file format: the recording of all packets from the 
+server to that client, who recorded the game (the first client). 
+I call these packets 
+``blocks of messages'' and the
+single information (time, position, ammo etc.) ``message''.
+In the original QuakeC code are some comments referring to ``commands'' instead
+of ``messages'' but I won't change all my documentation after all.</para>
+<para>The (listen) server process does the actual recording (file write access).
+Since every client gets all information to write the demo himself it was a
+matter of time until someone wrote a client proxy to record demos at the
+client side. I know two of them:
+<variablelist>
+<varlistentry>
+<term>dproxy</term>
+<listitem>
+<para>written by Kekoa Proudfoot <ULINK URL="mailto:kekoa@graphics.stanford.edu">kekoa@graphics.stanford.edu</ulink>.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>FAQ-Proxy</term>
+<listitem>
+<para>written by Juha Kujala <ULINK URL="mailto:jmkujala@cc.jyu.fi">jmkujala@cc.jyu.fi</ulink> and Ilkka Rajala <ULINK URL="mailto:r151925@proffa.cc.tut.fi">r151925@proffa.cc.tut.fi</ulink>. 
+For more information visit FAQ homepage at 
+<ULINK URL="http://www.modeemi.cs.tut.fi/quake/"></ulink>.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect1>
+<sect1>
+<title>Some remarks on the used demo format</title>
+<sect2>
+<title>Advertising</title>
+<para>As the clever reader may know I'm the author of LMPC, the LMP/DMO/DEM/QWD
+Control Centre. With this tool you may
+
+<itemizedlist>
+<listitem>
+<para>``decompile'' an existing DEM file to a simple text file and</para>
+</listitem>
+<listitem>
+<para>``compile'' such a (modified) text file back to a binary DEM file.</para>
+</listitem>
+</itemizedlist>
+
+With LMPC it is very easy to analyse a DEM file but you can change it
+as well and so create a DEM file of a Quake game you never played.
+The current version of LMPC can be found at my  
+<ULINK URL="@HOMEURL@">@HOMENAME@</ulink>.</para>
+</sect2>
+<sect2>
+<title>Difference to DOOM</title>
+<para>The recording of a DOOM game consists only of the player input. All the
+rest is random-number dependent but totally deterministic and will be 
+recalculated during the playback.</para>
+<para>If you change a single action in a LMP file all the
+rest is garbage because all monsters now behave totally different and sooner or
+later (sooner) you run into a wall. This can't happen in a DEM file. The full
+movement of all objects is stored in it.</para>
+<para>This confronts us with new opportunities but also new problems.</para>
+</sect2>
+<sect2>
+<title>Opportunities of the DEM format</title>
+<para>With the <EMPHASIS REMAP="bf">centerprint</emphasis> message it is possible to include some
+<emphasis>sub-titles</emphasis> in a recording file to inform the watchers what will
+happen next.</para>
+<para>The player coordinates and the camera positions may be different. This makes it
+possible to simulate the Duke Nukem 3D feature of stationary cameras.
+The client doesn't draw the entity with the ``viewpoint''. This is in general
+the player entity itself but this entity can be
+changed to anything else with the setview message. 
+Another problem is the entity selection of the server,
+which sends to the client only the entities in sight (of the client). Therefore
+it is impossible to enlarge the distance between the camera and the 
+recording player too much. They both have to be on the same side of a wall.</para>
+<para>For people with too much spare-time Quake can replace a full 3D modelling
+system for cartoons or the like.</para>
+<para>The demo file can contain console commands, which the client runs during
+replay. With this feature it is possible to write a screen shot after
+every time stamp in the demo file. This makes it very easy to create a 
+MPEG movie out of a DEM file.</para>
+</sect2>
+<sect2>
+<title>Problems of the DEM format</title>
+<para>It is trivial to remove the ``godmode ON'' and other cheat messages from a
+recording. All the action doesn't change at all. These messages are only 
+text print commands and the client behaviour doesn't depend on them.</para>
+<para>Fortunately I found a redundancy in the DEM format, which allows to detect a
+``godmode'' cheater: Every damage message contains the
+health and armor decrease value. The next status line description (it contains
+the health and armor values to be displayed) can so be checked.  </para>
+</sect2>
+</sect1>
+<sect1>
+<title>Some general remarks on the recording structure</title>
+<sect2>
+<title>Entity</title>
+<para>An entity is an object. This may be the whole level (described by a BSP file),
+the player (described by a MDL file), an explosion (described by a SPR file) or
+the like.</para>
+<para>There are different kind of entities.</para>
+<sect3>
+<title>Static Entity</title>
+<para>A static entity doesn't interact with the rest of the game. These are flames
+(<LITERAL REMAP="tt">progs/flame.mdl</literal>) and the like. It will be
+created by the spawnstatic message. 
+It will never be necessary to reference such an entity. They don't get an
+entity number. The maximum number of static entities is 127.</para>
+</sect3>
+<sect3>
+<title>Dynamic Entity</title>
+<para>A dynamic entity is anything which changes its behaviour or its appearance.
+These are ammunition boxes, spinning armours, player models and the like.
+A dynamic entity will be created by the spawnbaseline
+message. The maximum number of dynamic entities is 449.</para>
+</sect3>
+<sect3>
+<title>Temporary Entity</title>
+<para>A temporary entity will be created by the temp&lowbar;entity
+message.
+A temporary entity is a (as the name indicates) short time entity.</para>
+<para>Quake uses these entities for hits on the wall (point-like entities) or for the
+Thunderbolt flash (line-like entities).</para>
+<para>For more information on temporary entities look in section 
+<XREF LINKEND="TEMP-ENTITY">.</para>
+</sect3>
+</sect2>
+<sect2>
+<title>Life-cycles</title>
+<para>The Quake objects pass different life phases. The following information is not
+DEM specific but it may be of general interest to understand the 
+cooperation of all the messages.</para>
+<sect3>
+<title>Armor</title>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>To enable the client to display an armor the serverinfo message asks 
+for the 
+``progs/armor.mdl'' model file and the ``items/armor1.wav'' sound file.</para>
+</listitem>
+<listitem>
+<para>The armor starts its life with a spawnbaseline message during the
+initialise phase. The armor is now a dynamic entity and spins around. </para>
+</listitem>
+<listitem>
+<para>The corresponding updateentity message appears only, if the camera is 
+near enough to see the armor.</para>
+</listitem>
+<listitem>
+<para>The player gets it in the play. This results in the sound message
+``items/armor1.wav''
+and a print message ``you got armor'' and the stufftext message 
+``bf&bsol;n'' to make a short flash. </para>
+</listitem>
+<listitem>
+<para>The updateentity message for the armor
+doesn't appear ever again: the player got it.</para>
+</listitem>
+<listitem>
+<para>From this moment the 
+corresponding bit in the <LITERAL REMAP="tt">items</literal> variable in the clientdata message
+will be 1 and the <LITERAL REMAP="tt">armorvalue</literal> variable get its maximum (100/150/200).
+From the <LITERAL REMAP="tt">items</literal> bit follows the colour of the picture to be drawn in 
+the lower left corner of the status line.</para>
+</listitem>
+<listitem>
+<para>Now the player may be hit by a grenade. The total damage value
+(damage=take+save) will be 
+split in take (<LITERAL REMAP="tt">health-=take</literal>) and save (<LITERAL REMAP="tt">armorvalue-=save</literal>). 
+The save amount depends on the armor type (none/green/yellow/red):
+<LITERAL REMAP="tt">save=0.0/0.3/0.6/0.8*damage</literal>. 
+The damage message in the DEM file tells the 
+reduction of the current armor. With the old clientdata value and the 
+reduction it is easy to recompute the new clientdata <LITERAL REMAP="tt">armor</literal> value.
+Any difference betrays the cheating player. </para>
+</listitem>
+<listitem>
+<para>After some severe hits the 
+<LITERAL REMAP="tt">armorvalue</literal> variable is 0 and the <LITERAL REMAP="tt">items</literal> bit falls back to 0 as
+well. There is no armor anymore.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</sect3>
+<sect3>
+<title>(Multi) Player</title>
+<para>The following describes the deathmatch DEM messages of the two players Alice
+and Bob. Alice records the game from her <LITERAL REMAP="tt">-listen 3</literal> server. </para>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>The serverinfo message contains the ``maxclients 3'' command to show
+how many clients are (at most) in this recording.</para>
+</listitem>
+<listitem>
+<para>During the 1st initialisation phase there are 3 spawnbaseline messages to 
+create the player models. In the 2nd initialisation phase player 0 gets its name
+(Alice), colour and frag count (0) . The other 2 players get an empty name
+string. In the 3rd phase Alice gets again her name and colour. 
+All these phases are controlled by signonnum messages.</para>
+</listitem>
+<listitem>
+<para>The game starts. Alice (entity 1) is alone in the game and looks around.</para>
+</listitem>
+<listitem>
+<para>Bob connects to Alice's server and it appears entity 2 (Bob's player
+model) a transport end temporary entity and a print message 
+(``Bob entered the game'') to inform everyone. Then the player 1 (Bob) gets his
+updatename and updatecolors message. </para>
+</listitem>
+<listitem>
+<para>Alice doesn't hesitate and runs for him and shoots him with the Shotgun. 
+During every shot the clientdata message reduces the ammo count,
+the angles&lsqb;0&rsqb; command shows the wobble of Alice's screen and 
+the weaponframe
+command selects the corresponding weapon frames. There is a sound message
+to start the <LITERAL REMAP="tt">weapons/guncock.wav</literal> file. Entity 1 gets
+its attack&lowbar;state command. Alice hits Bob and so appear many particle messages
+(blood). 
+Every Shotgun shot contains 6 parts. This means the shot can create anything 
+from 6 particles (full hit) and 0 temporary entities (type 2: wall hits) to 
+0 particles and 6
+temporary entities. If there was at least one particle
+Bob creates a sound message to start <LITERAL REMAP="tt">player/pain?.wav</literal>.</para>
+</listitem>
+<listitem>
+<para>Alice kills Bob. This creates the sound message to start 
+<LITERAL REMAP="tt">player/death1.wav</literal>. Then comes the updatefrags message to give Alice
+1 frag and a print message to inform everyone ``Bob chewed on Alice's 
+boomstick''. A new entity will be created on the fly with an updateentity
+message to display Bob's backpack. </para>
+</listitem>
+<listitem>
+<para>Bob is dead, his entity 2 model remains in the death frame.</para>
+</listitem>
+<listitem>
+<para>After some
+seconds he starts again by pressing <LITERAL REMAP="tt">SPACE</literal>. He reappears in a 
+totally different part of the level. The dead body transforms from entity 2
+to entity 4 (maxclients+1) and a temporary entity (transport end) informs
+about his return. He is out of sight from the point of Alice's view. This 
+means there is no entity 2 updateentity message.</para>
+</listitem>
+<listitem>
+<para>Bob runs to Alice's room. He goes through a slipgate and appears with
+4 temporary entities (type 11: transport end) and the entity 2 in her room.</para>
+</listitem>
+<listitem>
+<para>Bob shoots and kills Alice. The scenario is the same as above. Only
+the damage messages appear now too, because Alice was hit.</para>
+</listitem>
+<listitem>
+<para>Bob uses the say console command (<EMPHASIS REMAP="it">say this sucks</emphasis>) and in the 
+DEM file appears a print message ``&bsol;001Bob: this sucks''. </para>
+</listitem>
+<listitem>
+<para>Bob disconnects from Alice's server. This results in a print message
+``Bob left the game with 1 frags'' and updatename and updatecolor messages
+to remove client 2 (or player 1). It is a bit strange but there are 2 
+updatefrags messages: player 1 gets first 0 frags (this I understand) and then
+again 1 frag (this I don't understand at all).</para>
+</listitem>
+<listitem>
+<para>Entity 2 represents now the dead player 1.</para>
+</listitem>
+<listitem>
+<para>Alice spins around (it is possible even if you are dead) and the two
+dead bodies from Bob are totally white
+because they represent player 1 and he got (as he left) the updatecolor message
+with the standard colours 0 and 0. She is alone, restarts again her play,
+goes to the level end slipgate and get the ranking screen (intermission
+message) with only one player
+(Alice). Then she stops the recording. The DEM file ends with a disconnect 
+message.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</sect3>
+<sect3>
+<title>Medikits, Chthon, etc.</title>
+<para>May be included later, if someone volunteers. Reading the QuakeC source is
+much easier.</para>
+</sect3>
+</sect2>
+</sect1>
+<SECT1 ID="FONT">
+<title>Quake font</title>
+<para>A string may contain any 8 bit characters except `&bsol;377' and it ends with
+`&bsol;000'. The special characters `&bsol;n' and `&bsol;r' have their normal
+meaning.</para>
+<para>The Quake font is an extended ASCII font (7 bit) which contains in the upper
+half a similar font but with a different colour.</para>
+<para>If the first character of a string for the print message is `&bsol;001', the 
+Quake client plays the intercom sound <LITERAL REMAP="tt">misc/talk.wav</literal> and 
+prints all following characters of the string with the highest bit set.
+Bit 7 bit will be set with `&bsol;002' at the first position of the string
+as well but this does not play the intercom sound. The special characters 
+`&bsol;n' and `&bsol;r' are not affected by the meta characters `&bsol;001' and 
+`&bsol;002'.</para>
+<para>I used a simple <ULINK URL="@HOMEURL@/misc/qfont.html">DEM file</ulink>
+to print all 252 ASCII characters.</para>
+</sect1>
+<sect1>
+<title>File structure</title>
+<para>To describe the file structure, which is very complicated, I use 
+C like program fragments and <LITERAL REMAP="tt">struct</literal> definitions. This 
+simplifies my task a lot. </para>
+<para>I invented all used names (messages, variables etc.) for myself, took them 
+from the Quake binary, QuakeEd but almost all from the QuakeC source. </para>
+<SECT2 ID="TRACK">
+<title>CD track</title>
+<para>Beside all the beauty in DEM files, there is a real mess called CD track
+at the very beginning of a DEM file.</para>
+<para>All DEM files should start with an ASCII string of the CD track number which 
+was given
+to the <LITERAL REMAP="tt">record</literal> console command. The string should be terminated by 
+`&bsol;n'.</para>
+<para>There are two totally different variants, how Quake reads this first bit in:
+the old <LITERAL REMAP="tt">fscanf</literal>-variant and the new step-by-step variant introduced
+with version 1.09.</para>
+<sect3>
+<title><LITERAL REMAP="tt">fscanf</literal></title>
+<para>Quake reads the CD track bit with something like 
+
+<screen>FILE *fp;
+ 
+int cdtrack;
+
+fscanf(fp,"&percnt;i&bsol;n",&amp;cdtrack);</screen>
+
+This makes it possible (read the fscanf(3) man page!) to terminate the CD 
+track string with any (positive) number of any whitespaces (`&nbsp;',
+&bsol;t,&bsol;r,&bsol;n). You shouldn't come across anything more
+complicated than "4" or "-1" (default CD track of the level).</para>
+<para>Because of the possibility of multiple whitespaces at the end, Quake can't
+playback DEM files, where the first byte of the <LITERAL REMAP="tt">blocksize</literal> of 
+the first block (see next section) can be interpreted as a whitespace.
+Quake wont playback such a file at all! This often happens with recordings
+of the levels <LITERAL REMAP="tt">start</literal> and <LITERAL REMAP="tt">hip1m3</literal>.</para>
+<para>The <LITERAL REMAP="tt">fscanf</literal> approach made it possible to create DEM files without
+any CD track at all at the beginning. The <LITERAL REMAP="tt">fscanf</literal> call return 0
+instead of 1 but who cares? The only thing to take into account is that
+the first byte of this DEM file have to be no ASCII number or whitespace
+or minus sign. So <LITERAL REMAP="tt">fscanf</literal> can't find the integer number and reads
+nothing. The track value is undefined.</para>
+</sect3>
+<sect3>
+<title>step-by-step</title>
+<para>Newer Quake versions try to overcome the multiple whitespace problem
+of the <LITERAL REMAP="tt">fscanf</literal> variant and read the track ``by hand''.</para>
+<para>The CD track parsing code goes as follows:
+
+<screen>FILE *fp;
+int cdtrack=0;
+int sign=0; 
+unsigned char number;
+
+while((number = ReadByte(fp)) != '\n') {
+  if (number == '-') 
+    sign=1;
+  else
+    track = track*10 + number - '0';
+}
+if (sign)
+  track=-track;</screen>
+
+This code is much better but it can't detect files without any CD track header
+(like <LITERAL REMAP="tt">finesc5.dem</literal> from the Eschaton movie).
+The other thing is that it interprets ``1-&bsol;n'' as -1 but the old 
+<LITERAL REMAP="tt">fscanf</literal> variant will be totally confused.</para>
+</sect3>
+<sect3>
+<title>General hints</title>
+<para>My LMPC program tries to read any kind of DEM file, so you have the 
+possibility to 
+change and even remove a CD track. To be most compatibe, use only numbers
+and a minus sign at the beginning.</para>
+<para>To find out the method, which your copy of Quake uses for CD track parsing
+use the <ULINK URL="@HOMEURL@/misc/cd.html">Quake CD track parsing analyser</ulink>. This is a multi-variant DEM file, which 
+can be parsed by both variants but with different results.</para>
+<para>If you didn't give a CD track number to the <LITERAL REMAP="tt">record</literal> console command 
+the CD track string is ``-1&bsol;n''.
+This means almost all DEM files start with ``-1&bsol;n''. 
+If you gave a CD track but it is not a number at all the string is
+``0&bsol;n''.</para>
+<para>All the rest of the DEM file consists of ``blocks'' of ``messages''.</para>
+</sect3>
+</sect2>
+<sect2>
+<title>Block of Messages</title>
+<para>At first some QuakeEd-like coordinate <LITERAL REMAP="tt">typedef</literal>'s:
+
+<screen>typedef float vec_t;
+
+typedef vec_t vec3_t[3];</screen>
+
+</para>
+<para>This is the block structure:
+
+<screen>typedef struct {
+                 long            blocksize;
+                 vec3_t          angles;
+                 char            messages[blocksize];
+               } block_t;</screen>
+
+A block of messages starts with a size. Then 3 angles follow which describe
+the camera viewing direction. All the rest of a block are bytes which 
+form one or more messages.</para>
+<para>The messages in a block are the same messages as in the server to client
+network protocol. The block header is different and the camera angles are 
+missing in the network protocol. For more information on the network protocol
+look in The Unofficial Quake Specs at the official Quake-editing support site,
+<LITERAL REMAP="tt"><ULINK URL="http://www.gamers.org/dEngine/quake/spec/"></ulink></literal>.</para>
+<para>Please note the missing camera angles in the network protocol. In an
+actual game every Quake client ``knows'' its viewing direction for
+itself and gets from the server only the position.</para>
+</sect2>
+<sect2>
+<title>Message</title>
+<para>This is the message structure:
+
+<screen>typedef struct {
+                 unsigned char ID;
+                 char          messagecontent[???];
+               } message_t;</screen>
+
+The length of a message depends on its type (or <LITERAL REMAP="tt">ID</literal>).</para>
+</sect2>
+<sect2>
+<title>Auxiliary routines</title>
+<para>Here comes the definition of some small auxiliary routines to 
+simplify
+the main message description. <LITERAL REMAP="tt">get&lowbar;next&lowbar;unsigned&lowbar;char</literal>,
+<LITERAL REMAP="tt">get&lowbar;next&lowbar;signed&lowbar;char</literal>, <LITERAL REMAP="tt">get&lowbar;next&lowbar;short</literal> and
+<LITERAL REMAP="tt">get&lowbar;next&lowbar;long</literal> are basic functions and they do exactly what they are 
+called. Please note: <LITERAL REMAP="tt">byte</literal>, <LITERAL REMAP="tt">char</literal> or <LITERAL REMAP="tt">short</literal> will be 
+converted to <LITERAL REMAP="tt">long</literal>.
+Second note: all multi-byte structures in the DEM file are Intel ordered.</para>
+<para>In the following I often use a count variable 
+
+<screen>int i;</screen>
+
+without declaration. I hope this does not confuses you. </para>
+<para>
+
+<screen>long ReadByte
+{
+  return (long) get_next_unsigned_char;
+}</screen>
+
+</para>
+<para>
+
+<screen>long ReadChar
+{
+  return (long) get_next_signed_char;
+}</screen>
+
+</para>
+<para>
+
+<screen>long ReadShort
+{
+  return (long) get_next_short;
+}</screen>
+
+</para>
+<para>
+
+<screen>long ReadLong
+{
+  return get_next_long;
+}</screen>
+
+</para>
+<para>Note: A signed angle in a single byte. There are only 256 possible 
+direction to look into.</para>
+<para>
+
+<screen>vec_t ReadAngle
+{
+  return (vec_t) ReadChar / 256.0 * 360.0;
+}</screen>
+
+</para>
+<para>
+
+<screen>vec_t ReadCoord
+{
+  return (vec_t) ReadShort * 0.125;
+}</screen>
+
+</para>
+<para>The string reading stops at '&bsol;0' or after 0x7FF bytes. The internal
+buffer has only 0x800 bytes available.</para>
+<para>
+
+<screen>char* ReadString
+{
+  char* string_pointer;
+  char string_buffer[0x800];
+
+  string_pointer=string_buffer;
+  for (i=0 ; i&lt;0x7FF ; i++, string_pointer++) {
+    if (! (*string_pointer = ReadChar) ) break;
+  }
+  *string_pointer = '\0';
+  return strdup(string_buffer);
+}</screen>
+
+</para>
+</sect2>
+</sect1>
+<sect1>
+<title>List of all message types</title>
+<para>The easiest way to explain a message is to give a short
+C like program fragment to parse such a message. It is not really the same code
+base as in LMPC but it should be <emphasis>very</emphasis> similar. Each message can be
+described by its <LITERAL REMAP="tt">ID</literal> or its name. </para>
+<sect2>
+<title>bad</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x00</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Something is bad. This message should never appear.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>none</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>nop</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x01</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>No operation.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>none</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>disconnect</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x02</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Disconnect from the server. Stops the game.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>none</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>updatestat</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x03</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Updates directly any values in the player state.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long index;</literal></term>
+<listitem>
+<para>is the index in the <LITERAL REMAP="tt">playerstate</literal>
+array.
+
+<table>
+<title><LITERAL REMAP="tt">updatestat</literal> indices</title>
+<TGROUP COLS="2">
+<COLSPEC COLSEP="0" ALIGN="RIGHT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry>index </entry>
+<entry>variable</entry>
+</row>
+<row>
+<entry>0 </entry>
+<entry><LITERAL REMAP="tt">health</literal></entry>
+</row>
+<row>
+<entry>1 </entry>
+<entry>??? (not used)</entry>
+</row>
+<row>
+<entry>2 </entry>
+<entry><LITERAL REMAP="tt">weaponmodel</literal></entry>
+</row>
+<row>
+<entry>3 </entry>
+<entry><LITERAL REMAP="tt">currentammo</literal></entry>
+</row>
+<row>
+<entry>4 </entry>
+<entry><LITERAL REMAP="tt">armorvalue</literal></entry>
+</row>
+<row>
+<entry>5 </entry>
+<entry><LITERAL REMAP="tt">weaponframe</literal></entry>
+</row>
+<row>
+<entry>6 </entry>
+<entry><LITERAL REMAP="tt">ammo&lowbar;shells</literal></entry>
+</row>
+<row>
+<entry>7 </entry>
+<entry><LITERAL REMAP="tt">ammo&lowbar;nails</literal></entry>
+</row>
+<row>
+<entry>8 </entry>
+<entry><LITERAL REMAP="tt">ammo&lowbar;rockets</literal></entry>
+</row>
+<row>
+<entry>9 </entry>
+<entry><LITERAL REMAP="tt">ammo&lowbar;cells</literal></entry>
+</row>
+<row>
+<entry>10 </entry>
+<entry><LITERAL REMAP="tt">weapon</literal></entry>
+</row>
+<row>
+<entry>11 </entry>
+<entry><LITERAL REMAP="tt">total&lowbar;secrets</literal></entry>
+</row>
+<row>
+<entry>12 </entry>
+<entry><LITERAL REMAP="tt">total&lowbar;monsters</literal></entry>
+</row>
+<row>
+<entry>13 </entry>
+<entry><LITERAL REMAP="tt">found&lowbar;secrets</literal></entry>
+</row>
+<row>
+<entry>14 </entry>
+<entry><LITERAL REMAP="tt">killed&lowbar;monsters</literal></entry>
+</row>
+<row>
+<entry>15 </entry>
+<entry>???</entry>
+</row>
+<row>
+<entry>. </entry>
+<entry></entry>
+</row>
+<row>
+<entry>. </entry>
+<entry></entry>
+</row>
+<row>
+<entry>. </entry>
+<entry></entry>
+</row>
+<row>
+<entry>31 </entry>
+<entry>???</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+Normal DEM files use index 11 to 14 only.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long value;</literal></term>
+<listitem>
+<para>is the new value.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long playerstate[32];</literal></term>
+<listitem>
+<para>is the internal array to describe 
+the player state. Many other messages change (indirectly) some values in it. </para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>index = ReadByte;
+if (index &gt; 0x1F) {
+  error("svc_updatestat: %i is invalid", index);
+}
+value = ReadLong;
+playerstate[index] = value;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>version</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x04</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This message defines the version of the server. I never found such a message in
+a DEM file. It may be absorbed by the <LITERAL REMAP="tt">serverinfo</literal> message.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long serverprotocol;</literal></term>
+<listitem>
+<para>is the version number of the
+server. It should be <LITERAL REMAP="tt">0x0F</literal> in Quake.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>serverprotocol = ReadLong;
+if (serverprotocol != 0x0F) {
+  error("CL_ParseServerMessage: Server is protocol %i instead of %i\n", 
+                                                 serverprotocol, 0x0F);
+}</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>setview</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x05</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Sets the camera position to the origin of this entity.  </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long entity;</literal></term>
+<listitem>
+<para>is the entity with the camera.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>entity = ReadShort;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>sound</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x06</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This message starts the play of a sound at a specific point.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long mask;</literal></term>
+<listitem>
+<para>is a bitmask to reduce the amount of data.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">float vol;</literal></term>
+<listitem>
+<para>is the volume of the sound (0.0 off, 1.0 max)</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">float attenuation;</literal></term>
+<listitem>
+<para>is the attenuation of the sound.
+
+<table>
+<title>Sound attenuations</title>
+<TGROUP COLS="3">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry>value </entry>
+<entry>QuakeC </entry>
+<entry>purpose</entry>
+</row>
+<row>
+<entry>0 </entry>
+<entry>ATTN&lowbar;NONE </entry>
+<entry>i. e. player's death sound doesn't get an attenuation</entry>
+</row>
+<row>
+<entry>1 </entry>
+<entry>ATTN&lowbar;NORM </entry>
+<entry>the normal attenuation</entry>
+</row>
+<row>
+<entry>2 </entry>
+<entry>ATTN&lowbar;IDLE </entry>
+<entry>for idle monsters</entry>
+</row>
+<row>
+<entry>3 </entry>
+<entry>ATTN&lowbar;STATIC </entry>
+<entry>for spawnstaticsound messages</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long channel;</literal></term>
+<listitem>
+<para>is the sound channel. There are 8 possible
+sound channels for each entity in Quake but the game uses 5 only. 
+
+<table>
+<title>Sound channels</title>
+<TGROUP COLS="3">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry>value </entry>
+<entry>QuakeC </entry>
+<entry>purpose</entry>
+</row>
+<row>
+<entry>0 </entry>
+<entry>CHAN&lowbar;AUTO </entry>
+<entry>selects a channel automatically</entry>
+</row>
+<row>
+<entry>1 </entry>
+<entry>CHAN&lowbar;WEAPON </entry>
+<entry>weapon use sounds</entry>
+</row>
+<row>
+<entry>2 </entry>
+<entry>CHAN&lowbar;VOICE </entry>
+<entry>pain calls</entry>
+</row>
+<row>
+<entry>3 </entry>
+<entry>CHAN&lowbar;ITEM </entry>
+<entry>item get sounds</entry>
+</row>
+<row>
+<entry>4 </entry>
+<entry>CHAN&lowbar;BODY </entry>
+<entry>jump and fall sounds</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long entity;</literal></term>
+<listitem>
+<para>is the entity which caused the sound.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long soundnum;</literal></term>
+<listitem>
+<para>is the sound number in the sound-table.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<listitem>
+<para>is the origin of the sound.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>long entity_channel; // combined variable
+
+mask = ReadByte;
+vol = mask &amp; 0x01 ? (float) ReadByte / 255.0 : 1.0;
+attenuation = mask &amp; 0x02 ? (float) ReadByte / 64.0 : 1.0;
+entity_channel = ReadShort;
+channel = entity_channel &amp; 0x07;
+entity = (entity_channel &gt;&gt; 3) &amp; 0x1FFF;
+soundnum = ReadByte;
+for (i=0 ; i&lt;3 ; i++) origin[i] = ReadCoord;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>time</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x07</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This is the time stamp of a block of messages. A time message should appear 
+in every game block.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">float time;</literal></term>
+<listitem>
+<para>is the time in seconds from the beginning of 
+the current level (not of the recording).</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>time = ReadFloat;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>print</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x08</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>The client prints the text in the top left corner of the screen. There is space
+for 4 lines. They scroll up and the text disappears.
+The text will be printed on the console as well. </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">char* text;</literal></term>
+<listitem>
+<para>is the text to be displayed.
+The text contains something like ``You get 5 shells''. </para>
+<para>All font specials are explained in section <XREF LINKEND="FONT">.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>text = ReadString;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>stufftext</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x09</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>The client transfers the text to the console and runs it.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">char* text;</literal></term>
+<listitem>
+<para>is the command, which the client has to 
+execute. These are commands like ``bf&bsol;n'' to make a flash after you took
+something.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>text = ReadString;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>setangle</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x0A</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This message set the camera orientation.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t angles;</literal></term>
+<listitem>
+<para>is the new camera orientation.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>for (i=0 ; i&lt;3 ; i++) angles[i] = ReadAngle;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>serverinfo</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x0B</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This message is usually the first messages in a DEM file and 
+after a level change. It loads model and sound files.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long serverversion;</literal></term>
+<listitem>
+<para>is the protocol version of the server.
+Quake uses the version value 15 and it is not likely, that this will
+change.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long maxclients;</literal></term>
+<listitem>
+<para>is the maximum number of clients in this
+recording. It is 1 in single player recordings or the number after the
+<LITERAL REMAP="tt">-listen</literal> command line parameter.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long multi;</literal></term>
+<listitem>
+<para>is 0 in single player recordings and 1 in
+multi player recordings. It actually toggles the ranking screen at the end of
+a level.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">char* mapname;</literal></term>
+<listitem>
+<para>is the name of the level.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">char* precache&lowbar;models[MAX&lowbar;MODELS+1];</literal></term>
+<listitem>
+<para>is the model-table. 
+It will be filled
+up with model names. Many other messages contain an index in this array.
+The first used index is 1.
+<LITERAL REMAP="tt">MAX&lowbar;MODELS</literal> has the value 255.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long nummodels;</literal></term>
+<listitem>
+<para>is the number of models in the 
+model-table.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">char* precache&lowbar;sounds[MAX&lowbar;MODELS+1];</literal></term>
+<listitem>
+<para>is the sound-table. 
+It will be filled
+up with sound names. Many other messages contain an index in this array.
+The first used index is 1.
+<LITERAL REMAP="tt">MAX&lowbar;SOUNDS</literal> has the value 255.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long numsounds;</literal></term>
+<listitem>
+<para>is the number of sounds in the 
+sound-table.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>serverversion = ReadLong;
+if (serverversion != PROTOCOL_VERSION) { 
+  error("Server returned version %i, not %i", serverversion, PROTOCOL_VERSION);
+}
+maxclients = ReadByte;
+multi = ReadByte;
+mapname = ReadString;
+nummodels = 0;
+do {
+  if (++nummodels &gt; MAX_MODELS) error("Server sent too many model_precache");
+  precache_models[nummodels] = ReadString;
+} while (*precache_models[nummodels]);
+numsounds = 0;
+do {
+  if (++numsounds &gt; MAX_SOUNDS) error("Server sent too many sound_precache");
+  precache_sounds[numsounds] = ReadString;
+} while (*precache_sounds[numsounds]);</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>lightstyle</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x0C</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This message defines a light style.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long style;</literal></term>
+<listitem>
+<para>is the light style number.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">char* string;</literal></term>
+<listitem>
+<para>is a string of letters ``a'' .. ``z'',
+where ``a'' means black and ``z'' white.
+All effects from nervous flashing: ``az'' to slow dimming: 
+``zyxwvu ... edcba'' can so be described.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>style = ReadByte;
+string = ReadString;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>updatename</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x0D</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This message sets the player name.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">variables</literal></term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long player;</literal></term>
+<listitem>
+<para>is the internal player number (client 1
+has the player entity 0).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">char* netname;</literal></term>
+<listitem>
+<para>is the new player name.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>player = ReadByte;
+netname = ReadString;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>updatefrags</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x0E</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This message updates the frag count of a specific player.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long player;</literal></term>
+<listitem>
+<para>is the internal player number (client 1 
+has the player entity 0).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long frags;</literal></term>
+<listitem>
+<para>is the new frag count for this player.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>player = ReadByte;
+frags = ReadShort;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<SECT2 ID="CLIENTDATA">
+<title>clientdata</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x0F</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This message updates the status line and the camera coordinates.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long mask;</literal></term>
+<listitem>
+<para>is a bitmask to show which values are coming.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">float view&lowbar;ofs&lowbar;z;</literal></term>
+<listitem>
+<para>is an additional viewing offset because
+the camera is at the origin of the entity and not at the eyes 
+(is -8 if the player is death). </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">float punchangle&lowbar;x;</literal></term>
+<listitem>
+<para>is an additional offset of the first
+angle.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t angles;</literal></term>
+<listitem>
+<para>indicates the camera direction change.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t vel;</literal></term>
+<listitem>
+<para>indicates the camera velocity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long items;</literal></term>
+<listitem>
+<para>contains a bit mask for the inventory.
+
+<table>
+<title><LITERAL REMAP="tt">items</literal> bits</title>
+<TGROUP COLS="4">
+<COLSPEC COLSEP="0" ALIGN="RIGHT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry>bit </entry>
+<entry>value </entry>
+<entry>QuakeC </entry>
+<entry>purpose</entry>
+</row>
+<row>
+<entry>0 </entry>
+<entry><LITERAL REMAP="tt">0x00000001</literal> </entry>
+<entry>IT&lowbar;SHOTGUN </entry>
+<entry>Shotgun (should be always 1)</entry>
+</row>
+<row>
+<entry>1 </entry>
+<entry><LITERAL REMAP="tt">0x00000002</literal> </entry>
+<entry>IT&lowbar;SUPER&lowbar;SHOTGUN </entry>
+<entry>Double-barrelled Shotgun</entry>
+</row>
+<row>
+<entry>2 </entry>
+<entry><LITERAL REMAP="tt">0x00000004</literal> </entry>
+<entry>IT&lowbar;NAILGUN </entry>
+<entry>Nailgun</entry>
+</row>
+<row>
+<entry>3 </entry>
+<entry><LITERAL REMAP="tt">0x00000008</literal> </entry>
+<entry>IT&lowbar;SUPER&lowbar;NAILGUN </entry>
+<entry>Perforator</entry>
+</row>
+<row>
+<entry>4 </entry>
+<entry><LITERAL REMAP="tt">0x00000010</literal> </entry>
+<entry>IT&lowbar;GRENADE&lowbar;LAUNCHER </entry>
+<entry>Grenade Launcher</entry>
+</row>
+<row>
+<entry>5 </entry>
+<entry><LITERAL REMAP="tt">0x00000020</literal> </entry>
+<entry>IT&lowbar;ROCKET&lowbar;LAUNCHER </entry>
+<entry>Rocket Launcher</entry>
+</row>
+<row>
+<entry>6 </entry>
+<entry><LITERAL REMAP="tt">0x00000040</literal> </entry>
+<entry>IT&lowbar;LIGHTNING </entry>
+<entry>Thunderbolt</entry>
+</row>
+<row>
+<entry>7 </entry>
+<entry><LITERAL REMAP="tt">0x00000080</literal> </entry>
+<entry>IT&lowbar;EXTRA&lowbar;WEAPON </entry>
+<entry>extra weapon (there is no extra weapon)</entry>
+</row>
+<row>
+<entry>8 </entry>
+<entry><LITERAL REMAP="tt">0x00000100</literal> </entry>
+<entry>IT&lowbar;SHELLS </entry>
+<entry>Shells are active</entry>
+</row>
+<row>
+<entry>9 </entry>
+<entry><LITERAL REMAP="tt">0x00000200</literal> </entry>
+<entry>IT&lowbar;NAILS </entry>
+<entry>Nails are active</entry>
+</row>
+<row>
+<entry>10 </entry>
+<entry><LITERAL REMAP="tt">0x00000400</literal> </entry>
+<entry>IT&lowbar;ROCKETS </entry>
+<entry>Grenades are active</entry>
+</row>
+<row>
+<entry>11 </entry>
+<entry><LITERAL REMAP="tt">0x00000800</literal> </entry>
+<entry>IT&lowbar;CELLS </entry>
+<entry>Cells are active</entry>
+</row>
+<row>
+<entry>12 </entry>
+<entry><LITERAL REMAP="tt">0x00001000</literal> </entry>
+<entry>IT&lowbar;AXE </entry>
+<entry>Axe (should be always 1)</entry>
+</row>
+<row>
+<entry>13 </entry>
+<entry><LITERAL REMAP="tt">0x00002000</literal> </entry>
+<entry>IT&lowbar;ARMOR1 </entry>
+<entry>green Armor</entry>
+</row>
+<row>
+<entry>14 </entry>
+<entry><LITERAL REMAP="tt">0x00004000</literal> </entry>
+<entry>IT&lowbar;ARMOR2 </entry>
+<entry>yellow Armor</entry>
+</row>
+<row>
+<entry>15 </entry>
+<entry><LITERAL REMAP="tt">0x00008000</literal> </entry>
+<entry>IT&lowbar;ARMOR3 </entry>
+<entry>red Armor</entry>
+</row>
+<row>
+<entry>16 </entry>
+<entry><LITERAL REMAP="tt">0x00010000</literal> </entry>
+<entry>IT&lowbar;SUPERHEALTH </entry>
+<entry>Megahealth</entry>
+</row>
+<row>
+<entry>17 </entry>
+<entry><LITERAL REMAP="tt">0x00020000</literal> </entry>
+<entry>IT&lowbar;KEY1 </entry>
+<entry>silver keycard (or runekey or key)</entry>
+</row>
+<row>
+<entry>18 </entry>
+<entry><LITERAL REMAP="tt">0x00040000</literal> </entry>
+<entry>IT&lowbar;KEY2 </entry>
+<entry>gold keycard (or runekey or key)</entry>
+</row>
+<row>
+<entry>19 </entry>
+<entry><LITERAL REMAP="tt">0x00080000</literal> </entry>
+<entry>IT&lowbar;INVISIBILITY </entry>
+<entry>Ring of Shadows</entry>
+</row>
+<row>
+<entry>20 </entry>
+<entry><LITERAL REMAP="tt">0x00100000</literal> </entry>
+<entry>IT&lowbar;INVULNERABILITY </entry>
+<entry>Pentagram of Protection</entry>
+</row>
+<row>
+<entry>21 </entry>
+<entry><LITERAL REMAP="tt">0x00200000</literal> </entry>
+<entry>IT&lowbar;SUIT </entry>
+<entry>Biosuit</entry>
+</row>
+<row>
+<entry>22 </entry>
+<entry><LITERAL REMAP="tt">0x00400000</literal> </entry>
+<entry>IT&lowbar;QUAD </entry>
+<entry>Quad Damage</entry>
+</row>
+<row>
+<entry>23 </entry>
+<entry><LITERAL REMAP="tt">0x00800000</literal> </entry>
+<entry>unknown </entry>
+<entry>unknown (is 0)</entry>
+</row>
+<row>
+<entry>24 </entry>
+<entry><LITERAL REMAP="tt">0x01000000</literal> </entry>
+<entry>unknown </entry>
+<entry>unknown (is 0)</entry>
+</row>
+<row>
+<entry>25 </entry>
+<entry><LITERAL REMAP="tt">0x02000000</literal> </entry>
+<entry>unknown </entry>
+<entry>unknown (is 0)</entry>
+</row>
+<row>
+<entry>26 </entry>
+<entry><LITERAL REMAP="tt">0x04000000</literal> </entry>
+<entry>unknown </entry>
+<entry>unknown (is 0)</entry>
+</row>
+<row>
+<entry>27 </entry>
+<entry><LITERAL REMAP="tt">0x08000000</literal> </entry>
+<entry>unknown </entry>
+<entry>unknown (is 0)</entry>
+</row>
+<row>
+<entry>28 </entry>
+<entry><LITERAL REMAP="tt">0x10000000</literal> </entry>
+<entry>unknown </entry>
+<entry>Rune 1</entry>
+</row>
+<row>
+<entry>29 </entry>
+<entry><LITERAL REMAP="tt">0x20000000</literal> </entry>
+<entry>unknown </entry>
+<entry>Rune 2</entry>
+</row>
+<row>
+<entry>30 </entry>
+<entry><LITERAL REMAP="tt">0x40000000</literal> </entry>
+<entry>unknown </entry>
+<entry>Rune 3</entry>
+</row>
+<row>
+<entry>31 </entry>
+<entry><LITERAL REMAP="tt">0x80000000</literal> </entry>
+<entry>unknown </entry>
+<entry>Rune 4</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+You can find the default value for <LITERAL REMAP="tt">items</literal> in the parse routine: 
+<LITERAL REMAP="tt">0x4001</literal>. It looks like a programmer's mistake because this means
+Shotgun any yellow Armor. It should be <LITERAL REMAP="tt">0x1001</literal>: Shotgun and Axe.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long weaponframe;</literal></term>
+<listitem>
+<para>is the frame of the weapon model.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long armorvalue;</literal></term>
+<listitem>
+<para>is the current armor.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long weaponmodel;</literal></term>
+<listitem>
+<para>is the model number of the weapon in 
+the model-table.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long health;</literal></term>
+<listitem>
+<para>is the current health.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long currentammo;</literal></term>
+<listitem>
+<para>is the current number of the current 
+ammunition.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long ammo&lowbar;shells;</literal></term>
+<listitem>
+<para>is the current number of shells.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long ammo&lowbar;nails;</literal></term>
+<listitem>
+<para>is the current number of nails.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long ammo&lowbar;rockets;</literal></term>
+<listitem>
+<para>is the current number of rockets.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long ammo&lowbar;cells;</literal></term>
+<listitem>
+<para>is the current number of cells.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long weapon;</literal></term>
+<listitem>
+<para>contains a bit mask for the current weapon.
+
+<table>
+<title><LITERAL REMAP="tt">weapon</literal> bits</title>
+<TGROUP COLS="4">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry>bit </entry>
+<entry>value </entry>
+<entry>QuakeC </entry>
+<entry>weapon</entry>
+</row>
+<row>
+<entry>? </entry>
+<entry><LITERAL REMAP="tt">0x00</literal> </entry>
+<entry>not available </entry>
+<entry>Axe</entry>
+</row>
+<row>
+<entry>0 </entry>
+<entry><LITERAL REMAP="tt">0x01</literal> </entry>
+<entry>IT&lowbar;SHOTGUN </entry>
+<entry>Shotgun</entry>
+</row>
+<row>
+<entry>1 </entry>
+<entry><LITERAL REMAP="tt">0x02</literal> </entry>
+<entry>IT&lowbar;SUPER&lowbar;SHOTGUN </entry>
+<entry>Double-barrelled Shotgun</entry>
+</row>
+<row>
+<entry>2 </entry>
+<entry><LITERAL REMAP="tt">0x04</literal> </entry>
+<entry>IT&lowbar;NAILGUN </entry>
+<entry>Nailgun</entry>
+</row>
+<row>
+<entry>3 </entry>
+<entry><LITERAL REMAP="tt">0x08</literal> </entry>
+<entry>IT&lowbar;SUPER&lowbar;NAILGUN</entry>
+<entry>Perforator</entry>
+</row>
+<row>
+<entry>4 </entry>
+<entry><LITERAL REMAP="tt">0x10</literal> </entry>
+<entry>IT&lowbar;GRENADE&lowbar;LAUNCHER</entry>
+<entry>Grenade Launcher</entry>
+</row>
+<row>
+<entry>5 </entry>
+<entry><LITERAL REMAP="tt">0x20</literal> </entry>
+<entry>IT&lowbar;ROCKET&lowbar;LAUNCHER</entry>
+<entry>Rocket Launcher</entry>
+</row>
+<row>
+<entry>6 </entry>
+<entry><LITERAL REMAP="tt">0x40</literal> </entry>
+<entry>IT&lowbar;LIGHTNING</entry>
+<entry>Thunderbolt</entry>
+</row>
+<row>
+<entry>7 </entry>
+<entry><LITERAL REMAP="tt">0x80</literal> </entry>
+<entry>IT&lowbar;EXTRA&lowbar;WEAPON</entry>
+<entry>extra weapon (there is no extra weapon)</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">float version;</literal></term>
+<listitem>
+<para>is the Quake version. Up to Quake
+1.06 the bit <LITERAL REMAP="tt">0x0200</literal> in the <LITERAL REMAP="tt">mask</literal> variable indicated an
+used <LITERAL REMAP="tt">items</literal> entry. From 1.07 on the bit will be ignored and the 
+<LITERAL REMAP="tt">items</literal> entry is compulsory. An old Quake client (&lt;=1.06) can
+not play back the recording of a new Quake (&gt;=1.07) because the unused bit 
+is from 1.07 on always 0. The most compatible variant is to set the bit
+<LITERAL REMAP="tt">0x0200</literal> and include an items entry. This is the standard behaviour
+of LMPC. Even newer version of Quake (only checked with Linux Quake 1.09) 
+set always the bit <LITERAL REMAP="tt">0x0200</literal> in the <LITERAL REMAP="tt">mask</literal> variable and 
+send always the <LITERAL REMAP="tt">items</literal> entry.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>long uk_bit_b10, uk_bit_b11; // unknown
+
+mask = ReadShort;
+view_ofs_z = mask &amp; 0x0001 ? (float) ReadChar : 22.0;
+punchangle_x = mask &amp; 0x0002 ? (float) ReadChar : 0.0; 
+angles[0] = mask &amp; 0x0004 ? (vec_t) ReadChar : 0.0; 
+vel[0] = mask &amp; 0x0020 ? (vec_t) ReadChar : 0.0;
+angles[1] = mask &amp; 0x0008 ? (vec_t) ReadChar : 0.0; 
+vel[1] = mask &amp; 0x0040 ? (vec_t) ReadChar : 0.0;
+angles[2] = mask &amp; 0x0010 ? (vec_t) ReadChar : 0.0; 
+vel[2] = mask &amp; 0x0080 ? (vec_t) ReadChar : 0.0;
+if (version&lt;=1.06)
+  items = mask &amp; 0x0200 ? ReadLong : 0x4001;
+else 
+  items = ReadLong;
+uk_bit_b10 = mask &amp; 0x0400 ? 1 : 0; // bit 10 
+uk_bit_b11 = mask &amp; 0x0800 ? 1 : 0; // bit 11 
+weaponframe = mask &amp; 0x1000 ? ReadByte : 0;
+armorvalue = mask &amp; 0x2000 ? ReadByte : 0;
+weaponmodel = mask &amp; 0x4000 ? ReadByte : 0; 
+health = ReadShort;  
+currentammo = ReadByte;
+ammo_shells = ReadByte;
+ammo_nails = ReadByte;
+ammo_rockets = ReadByte;
+ammo_cells = ReadByte;
+weapon = ReadByte;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>stopsound</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x10</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Stops a sound. It looks for a sound started with a <EMPHASIS REMAP="bf">sound</emphasis> message
+with the same <LITERAL REMAP="tt">channel</literal> and <LITERAL REMAP="tt">entity</literal>.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long channel;</literal></term>
+<listitem>
+<para>is the sound channel.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long entity;</literal></term>
+<listitem>
+<para>is the entity which caused the sound.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>long entity_channel; // combined variable
+
+entity_channel = ReadShort;
+channel = entity_channel &amp; 0x07;
+entity = (entity_channel &gt;&gt; 3) &amp; 0x1FFF;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>updatecolors</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x11</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Updates the colours of the specified player.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long player;</literal></term>
+<listitem>
+<para>is the internal player number
+(client 1 has player entity 0).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long colors;</literal></term>
+<listitem>
+<para>is the combined colour of this player.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long shirtcolor;</literal></term>
+<listitem>
+<para>is the colour of the shirt
+(0 &lt;= <LITERAL REMAP="tt">shirtcolor</literal> &lt;= 15).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long pantscolor;</literal></term>
+<listitem>
+<para>is the colour of the pants
+(0 &lt;= <LITERAL REMAP="tt">pantscolor</literal> &lt;= 15).</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>player = ReadByte;
+colors = ReadByte;
+shirtcolor = (colors&gt;&gt;4) &amp; 0x0F;
+pantscolor = colors &amp; 0x0F;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>particle</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x12</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This starts particles flying around. This happens, if a barrel explodes or
+blood particles fly after being hit by an axe, shells or nails.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<listitem>
+<para>is the origin of the particles.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t vel;</literal></term>
+<listitem>
+<para>is the velocity of the particles.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long color;</literal></term>
+<listitem>
+<para>is the colour of the particles (chunk 0,
+blood 73, barrel 75 and thunderbolt 225).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long count;</literal></term>
+<listitem>
+<para>is the number of the particles.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>for (i=0 ; i&lt;3 ; i++) origin[i] = ReadCoord;
+for (i=0 ; i&lt;3 ; i++) vel[i] = (vec_t) ReadChar * 0.0625;
+count = ReadByte;
+color = ReadByte;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>damage</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x13</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Tells how severe was a hit and from which point it came.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long save;</literal></term>
+<listitem>
+<para>will be subtracted from the current armor.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long take;</literal></term>
+<listitem>
+<para>will be subtracted from the current
+health.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<listitem>
+<para>is the origin of the
+hit. It points to the weapon of a monster or player (not the origin of the
+monster entity) or it is (0,0,0) if the damage was caused by drowning or
+burning.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>save = ReadByte;
+take = ReadByte;
+for (i=0 ; i&lt;3 ; i++) origin[i] = ReadCoord;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<SECT2 ID="SPAWNSTATIC">
+<title>spawnstatic</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x14</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This message creates a static entity and sets the internal default values.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long StaticEntityCount;</literal></term>
+<listitem>
+<para>is the number of already started
+static entities. The maximum number is 127.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long default&lowbar;modelindex;</literal></term>
+<listitem>
+<para>is the model number in the 
+model-table.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long default&lowbar;frame;</literal></term>
+<listitem>
+<para>is the frame number of the model.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long default&lowbar;colormap;</literal></term>
+<listitem>
+<para>is the colormap number to display 
+the model.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long default&lowbar;skin;</literal></term>
+<listitem>
+<para>is the skin number of the model. 
+This is used for things with different skins (like players or armors). </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t default&lowbar;origin;</literal></term>
+<listitem>
+<para>is the origin of the entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t default&lowbar;angles;</literal></term>
+<listitem>
+<para>is the orientation of the entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define MAX&lowbar;STATIC&lowbar;ENTITIES 127</literal></term>
+<listitem>
+<para>is the
+maximum number of static entities in a given level.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>int data1, data2, data3;
+
+if (StaticEntityCount &gt; MAX_STATIC_ENTITIES) error("Too many static entities");
+StaticEntityCount++;
+default_modelindex = ReadByte;
+default_frame = ReadByte;
+default_colormap = ReadByte;
+default_skin = ReadByte;
+for (i=0 ; i&lt;3 ; i++) {
+  default_origin[i] = ReadCoord;
+  default_angles[i] = ReadAngle;
+}</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>spawnbinary</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x15</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This is OBSOLETE. It should never occur in DEM files.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>error ("CL_ParseServerMessage: Illegible server message\n");</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<SECT2 ID="SPAWNBASELINE">
+<title>spawnbaseline</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x16</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This message creates a dynamic entity and sets the internal default values.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long entity;</literal></term>
+<listitem>
+<para>is the number of the entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long default&lowbar;modelindex;</literal></term>
+<listitem>
+<para>is the model number in the 
+model-table.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long default&lowbar;frame;</literal></term>
+<listitem>
+<para>is the frame number of the model.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long default&lowbar;colormap;</literal></term>
+<listitem>
+<para>is the colormap number to display 
+the model.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long default&lowbar;skin;</literal></term>
+<listitem>
+<para>is the skin number of the model. This is
+used for things with different skins (like players or armors).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t default&lowbar;origin;</literal></term>
+<listitem>
+<para>is the origin of the entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t default&lowbar;angles;</literal></term>
+<listitem>
+<para>is the orientation of the entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">&num;define MAX&lowbar;ENTITIES 449</literal></term>
+<listitem>
+<para>is the maximum number of
+entities in a given level.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>entity = ReadShort;
+if (entity &gt; MAX_ENTITIES) error("CL_EntityNum: %i is an invalid number", entity);
+default_modelindex = ReadByte;
+default_frame = ReadByte;
+default_colormap = ReadByte;
+default_skin = ReadByte;
+for (i=0 ; i&lt;3 ; i++) {
+  default_origin[i] = ReadCoord;
+  default_angles[i] = ReadAngle;
+}</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<SECT2 ID="TEMP-ENTITY">
+<title>temp&lowbar;entity</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x17</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This message creates a temporary entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long entitytype;</literal></term>
+<listitem>
+<para>is the type of the temporary entity.
+There are two kinds of temporary entities in Quake.
+<LITERAL REMAP="tt">TE&lowbar;EXPLOSION2</literal> and <LITERAL REMAP="tt">TE&lowbar;BEAM</literal> was introduced
+with the Mission Pack &num; 2 (Quake version 1.08).
+<variablelist>
+<varlistentry>
+<term>point entity</term>
+<listitem>
+<para>is a small point like entity.
+
+<table>
+<title>point entities</title>
+<TGROUP COLS="3">
+<COLSPEC COLSEP="0" ALIGN="RIGHT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry>value </entry>
+<entry>QuakeC </entry>
+<entry>purpose </entry>
+</row>
+<row>
+<entry>0 </entry>
+<entry>TE&lowbar;SPIKE </entry>
+<entry>unknown</entry>
+</row>
+<row>
+<entry>1 </entry>
+<entry>TE&lowbar;SUPERSPIKE </entry>
+<entry>superspike hits (spiketraps)</entry>
+</row>
+<row>
+<entry>2 </entry>
+<entry>TE&lowbar;GUNSHOT </entry>
+<entry>hit on the wall (Axe, Shotgun)</entry>
+</row>
+<row>
+<entry>3 </entry>
+<entry>TE&lowbar;EXPLOSION </entry>
+<entry>grenade/missile explosion</entry>
+</row>
+<row>
+<entry>4 </entry>
+<entry>TE&lowbar;TAREXPLOSION </entry>
+<entry>explosion of atarbaby</entry>
+</row>
+<row>
+<entry>7 </entry>
+<entry>TE&lowbar;WIZSPIKE </entry>
+<entry>wizard's hit</entry>
+</row>
+<row>
+<entry>8 </entry>
+<entry>TE&lowbar;KNIGHTSPIKE </entry>
+<entry>hell knight's shothit</entry>
+</row>
+<row>
+<entry>10 </entry>
+<entry>TE&lowbar;LAVASPLASH </entry>
+<entry>Chthon awakes and fallsdead</entry>
+</row>
+<row>
+<entry>11 </entry>
+<entry>TE&lowbar;TELEPORT </entry>
+<entry>teleport end</entry>
+</row>
+<row>
+<entry>12 </entry>
+<entry>TE&lowbar;EXPLOSION2 </entry>
+<entry>other explosion</entry>
+</row>
+<row>
+<entry></entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>large entity</term>
+<listitem>
+<para>is a 2 dimensional entity.
+
+<table>
+<title>line entities</title>
+<TGROUP COLS="3">
+<COLSPEC COLSEP="0" ALIGN="RIGHT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry>value </entry>
+<entry>QuakeC </entry>
+<entry>purpose</entry>
+</row>
+<row>
+<entry>5 </entry>
+<entry>TE&lowbar;LIGHTNING1 </entry>
+<entry>flash of theShambler</entry>
+</row>
+<row>
+<entry>6 </entry>
+<entry>TE&lowbar;LIGHTNING2 </entry>
+<entry>flash of theThunderbolt</entry>
+</row>
+<row>
+<entry>9 </entry>
+<entry>TE&lowbar;LIGHTNING3 </entry>
+<entry>flash in e1m7 to killChthon</entry>
+</row>
+<row>
+<entry>13 </entry>
+<entry>TE&lowbar;BEAM </entry>
+<entry>grappling hook</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long entity;</literal></term>
+<listitem>
+<para>is the entity which created the temporary
+entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<listitem>
+<para>is the origin of the entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t trace&lowbar;endpos;</literal></term>
+<listitem>
+<para>is the destination of the large
+temporary entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long color;</literal></term>
+<listitem>
+<para>is the colour of the temporary entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long range;</literal></term>
+<listitem>
+<para>is the range for a
+<LITERAL REMAP="tt">TE&lowbar;EXPLOSION2</literal> explosion.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>entitytype = ReadByte;
+switch (entitytype) {
+  case TE_SPIKE:
+  case TE_SUPERSPIKE:
+  case TE_GUNSHOT:
+  case TE_EXPLOSION:
+  case TE_TAREXPLOSION:
+  case TE_WIZSPIKE:
+  case TE_KNIGHT_SPIKE:
+  case TE_LAVASPLASH:
+  case TE_TELEPORT:
+         for (i=0 ; i&lt;3 ; i++) origin[i] = ReadCoord;
+  break;
+  case TE_LIGHTNING1:
+  case TE_LIGHTNING2:
+  case TE_LIGHTNING3:
+  case TE_BEAM:
+         entity = ReadShort;
+         for (i=0 ; i&lt;3 ; i++) origin[i] = ReadCoord;
+         for (i=0 ; i&lt;3 ; i++) trace_endpos[i] = ReadCoord;
+  break;
+  case TE_EXPLOSION2:
+         for (i=0 ; i&lt;3 ; i++) origin[i] = ReadCoord;
+         color = ReadByte;
+         range = ReadByte;
+  break;
+  default:
+    error("CL_ParseTEnt: bad type");
+  break;
+}</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>setpause</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x18</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Set the pause state. The time stands still but all entities get their update
+messages.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long pausestate;</literal></term>
+<listitem>
+<para>is 1 to start the pause and 0 to stop it.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>pausestate = ReadByte;
+if (pausestate) {
+  // pause is on
+}
+else {
+  // pause is off
+}</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>signonum</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x19</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This message selects the client state.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term>long signon;</term>
+<listitem>
+<para>is the client state. 
+
+<table>
+<title><LITERAL REMAP="tt">signon</literal> values</title>
+<TGROUP COLS="2">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry>value </entry>
+<entry>purpose</entry>
+</row>
+<row>
+<entry>1 </entry>
+<entry>after model/sound precache, start spawning entities (``prespawn'')</entry>
+</row>
+<row>
+<entry>2 </entry>
+<entry>start initialising light effects</entry>
+</row>
+<row>
+<entry>3 </entry>
+<entry>start 3D rendering</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>signon = ReadByte;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>centerprint</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x1A</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Prints the specified text at the centre of the screen. There is only one text
+line with a maximum of 40 characters. To print more than this one line, use
+`&bsol;n' for a new line. Every text line (the first 40 characters) will be 
+centred horizontally.</para>
+<para>All font specials are explained in section <XREF LINKEND="FONT">.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">char* text;</literal></term>
+<listitem>
+<para>is the text to be displayed.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>text = ReadString;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>killedmonster</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x1B</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This message indicates the death of a monster.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long killed&lowbar;monsters;</literal></term>
+<listitem>
+<para>is the number of killed monsters. 
+It may be displayed with the console command <EMPHASIS REMAP="it">showscores</emphasis>.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>killed_monsters++;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>foundsecret</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x1C</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This message receives a client, if the player enters a secret area.
+It comes usually with a <LITERAL REMAP="tt">print</literal> message.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long found&lowbar;secrets;</literal></term>
+<listitem>
+<para>is the number of found secrets. It may
+be displayed with the console command <EMPHASIS REMAP="it">showscores</emphasis>.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>found_secrets++;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>spawnstaticsound</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x1D</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This message starts a static (ambient) sound not connected to an entity but to
+a position.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<listitem>
+<para>is the origin of 
+the sound.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long soundnum;</literal></term>
+<listitem>
+<para>is the sound number in the sound-table.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">float vol;</literal></term>
+<listitem>
+<para>is the volume (0.0 off, 1.0 max)</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">float attenuation;</literal></term>
+<listitem>
+<para>is the attenuation of the sound. 
+
+<table>
+<title>Sound attenuation</title>
+<TGROUP COLS="3">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry>value </entry>
+<entry>QuakeC </entry>
+<entry>purpose</entry>
+</row>
+<row>
+<entry>0 </entry>
+<entry>ATTN&lowbar;NONE </entry>
+<entry>i. e. player's death sound doesn't get an attenuation</entry>
+</row>
+<row>
+<entry>1 </entry>
+<entry>ATTN&lowbar;NORM </entry>
+<entry>the normal attenuation</entry>
+</row>
+<row>
+<entry>2 </entry>
+<entry>ATTN&lowbar;IDLE </entry>
+<entry>attenuation for idle monsters</entry>
+</row>
+<row>
+<entry>3 </entry>
+<entry>ATTN&lowbar;STATIC </entry>
+<entry>attenuation for spawnstaticsound messages</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>for (i=0 ; i&lt;3 ; i++) origin[i] = ReadCoord;
+soundnum = ReadByte;
+vol = (float) ReadByte / 255.0; 
+attenuation = (float) ReadByte / 64.0;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>intermission</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x1E</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Displays the level end screen. Depending on the <LITERAL REMAP="tt">multi</literal> command in
+the serverinfo message this is either the single player summary screen or the
+multi player ranking screen.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>none</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>finale</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x1F</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Displays the episode end screen and some text.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">char* text;</literal></term>
+<listitem>
+<para>is the episode end text.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>text = ReadString;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>cdtrack</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x20</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This message selects the audio CD track numbers.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long fromtrack;</literal></term>
+<listitem>
+<para>is the start track.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long totrack;</literal></term>
+<listitem>
+<para>is the last track. Both values are
+equal at the start of a game but become 2 and 3 at the end of an episode.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>fromtrack = ReadByte;
+totrack = ReadByte;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>sellscreen</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x21</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>Displays the help and sell screen.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>none</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<SECT2 ID="CUTSCENE">
+<title>cutscene</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">0x22</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This message appeared firstly with the Mission Pack &num;1 (Quake version
+1.07). It is similar to <EMPHASIS REMAP="bf">finale</emphasis> as it displays an end screen and 
+some text.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">char* text;</literal></term>
+<listitem>
+<para>is the text.</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>text = ReadString;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+<sect2>
+<title>updateentity</title>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">ID</literal></term>
+<listitem>
+<para><LITERAL REMAP="tt">&gt;=0x80</literal></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>purpose</term>
+<listitem>
+<para>This is the general entity update message. For every entity 
+(potentially) in sight the server sends such a message. The message contains
+only the values, which changed since the creation (or spawning) of the 
+entity (with spawnstatic, spawnbaseline).</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>variables</term>
+<listitem>
+<para><variablelist>
+<varlistentry>
+<term><LITERAL REMAP="tt">long mask;</literal></term>
+<listitem>
+<para>is a bit mask to reduce the amount of data to be
+sent. Only the changed parts (with respect to the initial state) get their 
+bit and their values.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long entity;</literal></term>
+<listitem>
+<para>is the entity number. </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long modelindex;</literal></term>
+<listitem>
+<para>is the model number in the model-table. </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long frame;</literal></term>
+<listitem>
+<para>is the frame number of the model.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long colormap;</literal></term>
+<listitem>
+<para>is the colormap number to display the model.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long skin;</literal></term>
+<listitem>
+<para>is the skin number of the model. This is used 
+for things with different skins (like players or armors). </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long effects;</literal></term>
+<listitem>
+<para>contains a bit mask for special entity
+effects.
+
+<table>
+<title>Possible <LITERAL REMAP="tt">effects</literal> values</title>
+<TGROUP COLS="4">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<COLSPEC COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry>bit </entry>
+<entry>value </entry>
+<entry>QuakeC </entry>
+<entry>purpose</entry>
+</row>
+<row>
+<entry>0 </entry>
+<entry><LITERAL REMAP="tt">0x01</literal> </entry>
+<entry>EF&lowbar;BRIGHTFIELD </entry>
+<entry>not used</entry>
+</row>
+<row>
+<entry>1 </entry>
+<entry><LITERAL REMAP="tt">0x02</literal> </entry>
+<entry>EF&lowbar;MUZZLEFLASH </entry>
+<entry>attack state of most entities</entry>
+</row>
+<row>
+<entry>2 </entry>
+<entry><LITERAL REMAP="tt">0x04</literal> </entry>
+<entry>EF&lowbar;BRIGHTLIGHT </entry>
+<entry>not used</entry>
+</row>
+<row>
+<entry>3 </entry>
+<entry><LITERAL REMAP="tt">0x08</literal> </entry>
+<entry>EF&lowbar;DIMLIGHT </entry>
+<entry>Quad Damage, Pentagram of Protection, Enforcer's laser</entry>
+</row>
+</tbody>
+</tgroup>
+</table>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t origin;</literal></term>
+<listitem>
+<para>is the origin of the entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">vec3&lowbar;t angles;</literal></term>
+<listitem>
+<para>is the orientation of the entity.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><LITERAL REMAP="tt">long new;</literal></term>
+<listitem>
+<para>is 1 if the entity gets some really new values
+(modelindex etc.)</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>parse routine</term>
+<listitem>
+<para>
+
+<screen>mask = ID &amp; 0x07F;
+if (mask &amp; 0x0001) mask |= (ReadByte) &lt;&lt; 8;
+entity = mask &amp; 0x4000 ? ReadShort : ReadByte;
+modelindex = mask &amp; 0x0400 ? ReadByte : default_modelindex;
+frame = mask &amp; 0x0040 ? ReadByte : default_frame; 
+colormap = mask &amp; 0x0800 ? ReadByte : default_colormap; 
+skin = mask &amp; 0x1000 ? ReadByte : default_skin;
+effects = mask &amp; 0x2000 ? ReadByte : default_effects;
+origin[0] = mask &amp; 0x0002 ? ReadCoord : default_origin[0];
+angles[0] = mask &amp; 0x0100 ? ReadAngle : default_angles[0];
+origin[1] = mask &amp; 0x0004 ? ReadCoord : default_origin[1];
+angles[1] = mask &amp; 0x0010 ? ReadAngle : default_angles[1];
+origin[2] = mask &amp; 0x0008 ? ReadCoord : default_origin[2];
+angles[2] = mask &amp; 0x0200 ? ReadAngle : default_angles[2];
+new = mask &amp; 0x0020 ? 1 : 0;</screen>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect2>
+</sect1>
+<sect1>
+<title>Version History and Acknowledgements</title>
+<para><variablelist>
+<varlistentry>
+<term>0.0.1, 7 July, 1996</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>First version (working paper) completed.</para>
+</listitem>
+<listitem>
+<para>Many thanks to Steffen Winterfeldt
+(<ULINK URL="mailto:Steffen.Winterfeldt@itp.uni-leipzig.de">Steffen.Winterfeldt@itp.uni-leipzig.de</ulink>)
+for his unbelievable reverse engineering work. He worked out all the structure 
+information.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>0.0.2, 8 July, 1996</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>Stupid spawnstatic error corrected.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>0.0.3, 9 July, 1996</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>I finally understood the multi player recordings.</para>
+</listitem>
+<listitem>
+<para>More info on sound, particle, spawnstaticsound.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>0.0.4, 14 July, 1996</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>Many new values decoded.</para>
+</listitem>
+<listitem>
+<para>Tables for weapons and status line.</para>
+</listitem>
+<listitem>
+<para>More general remarks.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>0.0.5, 16 July, 1996</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>Many new values decoded.</para>
+</listitem>
+<listitem>
+<para>Variables entry in the message description.</para>
+</listitem>
+<listitem>
+<para>Life-cycles.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>1.0.0, 28 July, 1996</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>QuakeC source is published. Many things get their right names now.</para>
+</listitem>
+<listitem>
+<para>Life-cycles for multi player.</para>
+</listitem>
+<listitem>
+<para>This version is the first reliable one.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>1.0.1, 29 July, 1996</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>Almost all identifier names match now the QuakeC names.</para>
+</listitem>
+<listitem>
+<para>Grammar check by SW.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>1.0.2, 30 July, 1996</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>Serious semantic mistake corrected (spawn/update).</para>
+</listitem>
+<listitem>
+<para>Some minor layout improvements.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>1.0.3, 17 November, 1996</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>I (finally) checked registered Quake: nothing special.</para>
+</listitem>
+<listitem>
+<para>effects and punchangle&lowbar;x get their proper names.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>1.0.4, 8 February, 1997</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>Info on Quake font included.</para>
+</listitem>
+<listitem>
+<para>CD track header format finally corrected.</para>
+</listitem>
+<listitem>
+<para>Info on dproxy and FAQ-Proxy included.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>1.0.5, 28 July, 1997</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>Info on 1.06/1.07 problem included.</para>
+</listitem>
+<listitem>
+<para>Source is SGML-Tools 0.99.10 based.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>1.0.6, 12 March, 1998</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>SGML-Tools 1.0.5 used.</para>
+</listitem>
+<listitem>
+<para>First few Hexen II infos.</para>
+</listitem>
+<listitem>
+<para>New home is PlanetQuake.</para>
+</listitem>
+<listitem>
+<para>CD track section rewritten.</para>
+</listitem>
+<listitem>
+<para>Thanks to Stefan Schwoon 
+(<ULINK URL="mailto:ssch0098@rz.uni-hildesheim.de">ssch0098@rz.uni-hildesheim.de</ulink>) for his hints on some 1.07 and 1.08
+changes.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>1.0.6, 12 March, 1998</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>CD track section again beautyfied.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>1.0.7, 15 July, 1998</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para><EMPHASIS REMAP="bf">stopsound</emphasis> is OK now.</para>
+</listitem>
+<listitem>
+<para>SGML-Tools 1.0.7 used.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>1.0.8, 6 September, 1998</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>All Hexen II infos removed. It was never totally correct and I was
+never really interested in making it right.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term>1.0.9, 8 January, 1999</term>
+<listitem>
+<para>
+
+<itemizedlist>
+<listitem>
+<para>typo corrected.</para>
+</listitem>
+</itemizedlist>
+
+</para>
+</listitem>
+</varlistentry>
+</variablelist></para>
+</sect1>
+</article>
