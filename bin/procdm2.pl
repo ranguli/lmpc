@@ -202,6 +202,16 @@ if ($prepost) {
 }
 
 
+if ($prepost) {
+	logging 20, "Remove temporary text files.\n";
+	unlink $text_in, $text_out;
+}
+
+
+# End of program.
+exit 0;
+
+
 sub command_parse($)
 {
 	my $command_filename = shift;
