@@ -1,0 +1,76 @@
+#!/bin/sh
+
+# $Id$
+
+# Install cross compilers for C and C++.
+# The target is Windows (Mingw) and the host is Linux.
+# You have to call COMPILE-cygwin first.
+# (C) Uwe Girlich, 2004
+
+
+set -e
+set -x
+
+
+# This is my private prefix.
+PREFIX=/usr/self/gcc3
+
+# I did it with these versions.
+MINGW_VERSION=20031020-1
+MINGW_RUNTIME_VERSION=3.2-1
+
+# Get all the necessary files (binutils,gcc,w32api,gdb)
+# and adapt the following lines accordingly.
+ARCHIVE_DIR=/usr/self/files2/linux/gcc
+MINGW_BASENAME=gcc-mingw-core-${MINGW_VERSION}
+MINGW_FILE=${ARCHIVE_DIR}/${MINGW_BASENAME}.tar.bz2
+MINGW_RUNTIME_BASENAME=mingw-runtime-${MINGW_RUNTIME_VERSION}
+MINGW_RUNTIME_FILE=${ARCHIVE_DIR}/${MINGW_RUNTIME_BASENAME}.tar.bz2
+
+BASE=`pwd`
+
+/bin/mkdir -p \
+	${PREFIX}/i686-pc-mingw32 \
+	${PREFIX}/include/mingw \
+	${PREFIX}/lib/mingw \
+	${PREFIX}/i386-pc-cygwin/bin
+
+cd ${PREFIX}/i686-pc-mingw32
+[ ! -e ${PREFIX}/i686-pc-mingw32/include -a -d "../include/mingw" ] && ln -s "../include/mingw" ${PREFIX}/i686-pc-mingw32/include
+[ ! -e ${PREFIX}/i686-pc-mingw32/lib -a -d "../lib/mingw" ] && ln -s "../lib/mingw" ${PREFIX}/i686-pc-mingw32/lib
+[ ! -e ${PREFIX}/i686-pc-mingw32/bin -a -d "../i386-pc-cygwin/bin" ] && ln -s "../i386-pc-cygwin/bin" ${PREFIX}/i686-pc-mingw32/bin
+
+cd ${BASE}
+mkdir -p ${MINGW_BASENAME}
+cd ${MINGW_BASENAME}
+tar -xjvf ${MINGW_FILE}
+tar -xzvf etc/postinstall/gcc-mingw-core-3.3.1-20030804-1.tgz -C ${PREFIX}
+
+cd ${PREFIX}/lib/gcc-lib
+rm -f i386-pc-mingw32
+ln -s i686-pc-mingw32 i386-pc-mingw32
+
+cd ${PREFIX}
+rm -f i386-pc-mingw32
+ln -s i686-pc-mingw32 i386-pc-mingw32
+
+cd ${PREFIX}/lib/gcc-lib/i686-pc-mingw32/3.3.1
+rm -f cc1 cc1.exe
+ln -s ../../i386-pc-cygwin/3.3.1/cc1 .
+
+cd ${PREFIX}/lib/gcc-lib/i686-pc-mingw32/3.3.1
+rm -f collect2 collect2.exe
+ln -s ../../i386-pc-cygwin/3.3.1/collect2 .
+
+cd ${PREFIX}/lib/gcc-lib/i686-pc-mingw32/3.3.1
+rm -f specs
+ln -s ../../i386-pc-cygwin/3.3.1/specs .
+
+cd ${BASE}
+tar xjvf ${MINGW_RUNTIME_FILE}
+cd usr
+find . | cpio -vampd ${PREFIX}
+
+cd ${BASE}
+rm -rf ${MINGW_BASENAME}
+
