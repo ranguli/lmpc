@@ -33,13 +33,19 @@ uploadlocalall:
 		$(MAKE) -C $$i uploadlocal ; \
 	done
 
-upload:
-	$(WPU) --set ACTION=subst sitecopyrc.in sitecopyrc
-		chmod 600 sitecopyrc
+sitecopyrc: sitecopyrc.in
+	$(WPU) --set ACTION=subst $< $@
+	chmod 600 $@
+
+upload: sitecopyrc
 	$(WPU) --set ACTION=execsubst -- \
 		mkdir -p -m 700 @STOREPATH@
 	$(WPU) --set ACTION=execsubst -- \
 		$(SITECOPY) -r sitecopyrc \
 		-p @STOREPATH@ \
 		--update planetquake
+	$(WPU) --set ACTION=execsubst -- \
+		$(SITECOPY) -r sitecopyrc \
+		-p @STOREPATH@ \
+		--update fileplanet
 
