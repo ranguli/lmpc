@@ -128,23 +128,28 @@ indexpart.html: $(PACKAGE).sgml $(WPU)
 
 UPLOAD_FILES_document=index.html $(PACKAGE).html $(PACKAGE).sgml $(PACKAGE).pdf
 UPLOAD_DIR_document=$(PACKAGE)
+UPLOAD_STAGE_document=@PQSTAGE@
+UPLOAD_STAGE_program=@PQSTAGE@
+UPLOAD_STAGE_main=@PQSTAGE@
 
 UPLOAD_FILES=$(UPLOAD_FILES_$(TYPE))
 UPLOAD_DIR=$(UPLOAD_DIR_$(TYPE))
+UPLOAD_STAGE=$(UPLOAD_STAGE_$(TYPE))
 
 uploadlocal:
 	if [ ! -z $(UPLOAD_DIR) ]; then \
 		echo copy the files $(UPLOAD_FILES) ; \
 		echo into $(UPLOAD_DIR) ; \
 		$(WPU) --set ACTION=execsubst -- \
-			mkdir -p @PQSTAGE@/$(UPLOAD_DIR) ; \
+			mkdir -p $(UPLOAD_STAGE)/$(UPLOAD_DIR) ; \
 		for f in $(UPLOAD_FILES) ; do \
+			ff=`basename $$f` ; \
 			if $(WPU) --set ACTION=execsubst -- \
-				cmp -s $$f @PQSTAGE@/$(UPLOAD_DIR)/$$f ; then \
+				cmp -s $$f $(UPLOAD_STAGE)/$(UPLOAD_DIR)/$$ff ; then \
 				echo $$f did not change. ; \
 			else \
 				$(WPU) --set ACTION=execsubst -- \
-					cp -a $$f @PQSTAGE@/$(UPLOAD_DIR) ; \
+					cp -a $$f $(UPLOAD_STAGE)/$(UPLOAD_DIR) ; \
 			fi ; \
 		done ; \
 	fi
