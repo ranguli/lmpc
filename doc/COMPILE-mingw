@@ -18,12 +18,15 @@ PREFIX=/usr/self/gcc3
 # I did it with these versions.
 MINGW_VERSION=20031020-1
 MINGW_RUNTIME_VERSION=3.2-1
+MINGW_CXX_VERSION=20031020-1
 
 # Get all the necessary files (binutils,gcc,w32api,gdb)
 # and adapt the following lines accordingly.
 ARCHIVE_DIR=/usr/self/files2/linux/gcc
 MINGW_BASENAME=gcc-mingw-core-${MINGW_VERSION}
 MINGW_FILE=${ARCHIVE_DIR}/${MINGW_BASENAME}.tar.bz2
+MINGW_CXX_BASENAME=gcc-mingw-g++-${MINGW_CXX_VERSION}
+MINGW_CXX_FILE=${ARCHIVE_DIR}/${MINGW_CXX_BASENAME}.tar.bz2
 MINGW_RUNTIME_BASENAME=mingw-runtime-${MINGW_RUNTIME_VERSION}
 MINGW_RUNTIME_FILE=${ARCHIVE_DIR}/${MINGW_RUNTIME_BASENAME}.tar.bz2
 
@@ -45,6 +48,8 @@ mkdir -p ${MINGW_BASENAME}
 cd ${MINGW_BASENAME}
 tar -xjvf ${MINGW_FILE}
 tar -xzvf etc/postinstall/gcc-mingw-core-3.3.1-20030804-1.tgz -C ${PREFIX}
+tar -xjvf ${MINGW_CXX_FILE}
+tar -xzvf etc/postinstall/gcc-mingw-g++-3.3.1-20030804-1.tgz -C ${PREFIX}
 
 cd ${PREFIX}/lib/gcc-lib
 rm -f i386-pc-mingw32
@@ -54,9 +59,17 @@ cd ${PREFIX}
 rm -f i386-pc-mingw32
 ln -s i686-pc-mingw32 i386-pc-mingw32
 
+cd ${PREFIX}/include/c++/3.3.1
+rm -f i386-pc-mingw32
+ln -s i686-pc-mingw32 i386-pc-mingw32
+
 cd ${PREFIX}/lib/gcc-lib/i686-pc-mingw32/3.3.1
 rm -f cc1 cc1.exe
 ln -s ../../i386-pc-cygwin/3.3.1/cc1 .
+
+cd ${PREFIX}/lib/gcc-lib/i686-pc-mingw32/3.3.1
+rm -f cc1plus cc1plus.exe
+ln -s ../../i386-pc-cygwin/3.3.1/cc1plus .
 
 cd ${PREFIX}/lib/gcc-lib/i686-pc-mingw32/3.3.1
 rm -f collect2 collect2.exe
