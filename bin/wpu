@@ -117,7 +117,8 @@ my @wpuconfigfiles = ("${script}rc",
                       ".${script}", 
                       "Makefile",
                       "Makefile.inc",
-                      "configure.in"
+                      "configure.ac",
+                      "configure.in",
                      );
 
 # general dirs
