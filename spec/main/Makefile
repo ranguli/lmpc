@@ -57,7 +57,7 @@ mainparts: mainbase
 
 
 ######################################################################
-# clean rule
+# define things to upload
 
 UPLOAD_FILES_dyn=index.html
 UPLOAD_FILES_stat=FreePower2.1.gif anybrowser3.gif
@@ -65,9 +65,6 @@ UPLOAD_FILES_1=$(UPLOAD_FILES_dyn)
 UPLOAD_DIR_1=.
 UPLOAD_FILES_2=$(UPLOAD_FILES_stat)
 UPLOAD_DIR_2=icons
-
-clean::
-	$(RM_F) $(UPLOAD_FILES_dyn)
 
 
 include ../Make.spec.rules
