@@ -40,6 +40,15 @@ if ($step == "0") {
 if ($step == "1") {
 	$text =~ s,-//Davenport//DTD DocBook V3.0//EN,-//OASIS//DTD DocBook V4.2//EN,;
 	$text =~ s,ArtHeader,ArticleInfo,g;
+
+	# correct informal tables
+	$text =~ s,(<para>[^<>]*)(<TGroup),$1<InformalTable>$2,gsi;
+	$text =~ s,(</TGroup>)(\s*</para>),$1</InformalTable>$2,gsi;
+
+	# correct superscript
+	$text =~ s:(</?)sup\s*>:$1Superscript>:gsi;
+	$text =~ s:</?f\s*>::gsi;
+
 }
 
 if ($step == "2") {
