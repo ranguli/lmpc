@@ -87,6 +87,7 @@ if ($step == "2") {
 	<!ENTITY rcub "}">
 	<!ENTITY num "#">
 	<!ENTITY bsol "\">
+	<!ENTITY verbar "|">
 	]>';
 
 }
