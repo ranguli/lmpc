@@ -44,12 +44,13 @@ all: html pdf
 # - SGMLNorm: normalize the SGML file.
 # - Perl script: add some unknown entities, improve email and author name.
 $(PACKAGE).gen.in: $(PACKAGE).base
+	perl ../postprocess.pl 0 < $< > temp0
 	$(JADE) \
 		-t sgml \
 		-c /usr/share/sgml/openjade/catalog \
 		-c /usr/lib/sgml-tools/dtd/catalog \
 		-d "/usr/share/sgml/docbook/dsssl-stylesheets/ld2db.dsl#db" \
-		$< > temp1
+		temp0 > temp1
 	perl ../postprocess.pl 1 < temp1 > temp2
 	$(SGMLNORM) temp2 >> temp3
 	perl ../postprocess.pl 2 < temp3 > $@
