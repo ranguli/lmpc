@@ -10,13 +10,17 @@
 # modules init
 use strict;
 use Getopt::Long qw(:config no_ignore_case);
+use IO::File;
 use Pod::Usage;
 use Pod::Text;
 
 
 # prototypes
+sub command_parse($);
 sub logging;
 sub warning;
+sub syntaxerror($$$);
+sub range_parse($);
 
 
 # release information
@@ -29,6 +33,7 @@ sub comment() { "alpha quality"; }
 my $opt_input = "input.dm2";	# default input file name
 my $opt_output = "output.dm2";	# default output file name
 my $opt_command = "command.proc";	# default processing command file
+my $opt_lmpc = "lmpc";		# default lmpc command
 my $opt_version = 0;		# version off
 my $opt_help = 0;		# help off
 my $opt_man = 0;		# manual off
@@ -39,6 +44,7 @@ GetOptions(
 	'input|i=s'	=>	\$opt_input,
 	'output|o=s'	=>	\$opt_output,
 	'command|c=s'	=>	\$opt_command,
+	'lmpc=s'	=>	\$opt_lmpc,
 	'version|V'	=>	\$opt_version,
 	'help|?'	=>	\$opt_help,
 	'man|m'		=>	\$opt_man,
@@ -55,21 +61,112 @@ if ($opt_version) {
 	exit(1);
 }
 
+my $command = command_parse($opt_command);
+if (not ref $command) {
+	warning 0, "Problem parsing command file $opt_command.\n";
+	exit(1);
+}
+
+
+
+sub command_parse($)
+{
+	my $command_filename = shift;
+	my %command = ();
+	logging 30, "Opening %s.\n", $command_filename;
+	my $command_fh=new IO::File("<".$command_filename);
+	if (!defined $command_fh) {
+		warning 0, "Could not open %s for reading: $!.\n", $command_filename;
+		return 0;
+	}
+	my $e=0;
+	while (<$command_fh>) {
+		my $line = $_;
+		$line =~ s/#.*//;		# remove comment
+		$line =~ s/^\s*//;		# remove leading whitespaces
+		$line =~ s/\s*$//;		# remove trailing whitespaces
+		$line =~ s/\s*-/-/g;		# remove whitespace before -
+		$line =~ s/-\s*/-/g;		# remove whitespace after -
+		next if $line =~ /^$/;		# ignore empty line
+		my $letter;
+		my $args;
+		if ($line =~ /^([a-zA-Z])\s*(.*)$/) {
+			$letter = lc $1;
+			$args = $2;
+		}
+		else {
+			syntaxerror $command_filename, $., "no command";
+			return 0;
+		}
+		if ($letter eq "e") {
+			if ($args =~ /^(\d+)$/) {
+				$e = $1;
+			}
+			else {
+				syntaxerror $command_filename, $., "$args is not a number";
+				return 0;
+			}
+			logging 40, "entity $e\n";
+		}
+		elsif ($letter eq "f") {
+			my $blocks;
+			my $frames;
+			if ($args =~ /^([^\s]+)\s+([^\s]+)$/) {
+				$blocks = $1;
+				$frames = $2;
+			}
+			else {
+				syntaxerror $command_filename, $., "command f: $args is not blockrange framerange";
+				return 0;
+			}
+			my ($bs,$be,$bi) = range_parse($blocks);
+			my ($fs,$fe,$fi) = range_parse($frames);
+			logging 50, "blocks $bs ... $be (inc $bi): frames $fs ... $fe (inc $fi)\n";
+		}
+		else {
+			syntaxerror $command_filename, $., "unknown command";
+			return 0;
+		}
+	}
+	$command_fh->close();
+	return $command;
+}
+
 
 # trace
 sub logging
 {
-	my $level = shift;
-	if ($level<=$opt_logging) {
-		printf STDERR @_;
-	}
+		my $level = shift;
+		if ($level<=$opt_logging) {
+			printf STDERR @_;
+		}
 }
+
 
 sub warning
 {
 	my $level = shift;
 	if ($level<=$opt_warning) {
 		printf STDERR @_;
+	}
+}
+
+
+sub syntaxerror($$$)
+{
+	my ($command, $line, $message) = @_;
+	warning 0, "Command file $command: syntax error in line $line.\n$message.\n";
+}
+
+
+sub range_parse($)
+{
+	my $text = shift;
+	if ($text =~ /^([^-]+)-([^-]+)$/) {
+		return $1, $2, $1<$2? 1 : -1;
+	}
+	else {
+		return $text, $text, 1;
 	}
 }
 
@@ -88,6 +185,7 @@ procdm2.pl [options]
   -i|--input file       input file name (default: input.dm2).
   -o|--output file      output file name (default: output.dm2).
   -c|--command file     command file name (default: command.proc).
+  --lmpc file		LMPC executable (default: lmpc)
   -V|--version          print version.
   -h|-?|--help          brief help message.
   -m|--man              full documentation.
@@ -109,6 +207,10 @@ Defines the output file name. Default: output.dm2.
 =item B<--command file>
 
 Defines the processing command file name. Default: command.proc.
+
+=item B<--lmpc file>
+
+Defines the name of the LMPC command. Default: lmpc.
 
 =item B<--version>
 
