@@ -7,6 +7,13 @@ use IO::File;
 sub read_with_check($$);
 sub LittleFloat($);
 
+my %macroname = (
+	"1" => "game data",
+	"3" => "client command",
+	"5" => "last in segment",
+	"8" => "play sound",
+);
+
 
 (my $release = q$Revision$) =~ s/^[^:]+:\s*(.*?)\s*$/$1/;
 (my $date = q$Date$) =~ s/^[^:]+:\s*(.*?)\s*$/$1/;
@@ -145,7 +152,10 @@ for (@directory) {
 		$macro{"time"} = LittleFloat($macro{"time"});
 
 		printf $file_out "  macro { // offset=0x%08x\n", $macro{"file_offset"};
-		printf $file_out "   type %i;\n", $macro{"type"};
+		printf $file_out "   type %i; // %s\n", $macro{"type"},
+			(exists $macroname{$macro{"type"}} ?
+				$macroname{$macro{"type"}} :
+				"unknown");
 		printf $file_out "   time %fs;\n", $macro{"time"};
 		printf $file_out "   frame %i;\n", $macro{"frame"};
 		my $cont = -1;
