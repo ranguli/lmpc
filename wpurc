@@ -71,22 +71,23 @@ sf	bin/Makefile.am	Automake template for bin/Makefile.in
 sf	bin/Makefile.in Autoconf template for bin/Makefile
 sf	bin/cprep	C to C++ conversion tool
 df	bin/cwsdpmi.exe	MS-DOS DPMI server for the MS-DOS binaries
-lf	bin/dbs	DBS Linux binary (egcs-2.91.66, glibc, x86, ELF)
+lf	bin/dbs	DBS Linux binary (gcc 3.3.3, glibc, x86, ELF)
+lf	bin/dbs32.exe	DBS Win32 binary (gcc 3.3.1, Cygwin)
 ldwmf	bin/dema	DEM Text File Analyser (Perl script)
 sf	bin/dema.in	template for DEM Text File Analyser (Perl script)
-lf	bin/demcut	DEMcut Linux binary (egcs-2.91.66, glibc, x86, ELF)
+lf	bin/demcut	DEMcut Linux binary (gcc 3.3.3, glibc, x86, ELF)
 df	bin/demcut.exe	DEMcut MS-DOS binary (egcs-2.91.66, djgpp V2.0)
-wf	bin/demcut32.exe	DEMcut Win32 binary (Cygwin B20.1)
-mf	bin/demcutm.exe	DEMcut Win32 binary (Cygwin B20.1 + Mingw32)
+wf	bin/demcut32.exe	DEMcut Win32 binary (gcc 3.3.1, Cygwin)
+mf	bin/demcutm.exe	DEMcut Win32 binary (gcc 3.3.1, Mingw32)
 ldwmf	bin/dm2cat	The DM2 file concatenator (Perl script)
 sf	bin/dm2cat.in	template for The DM2 file concatenator (Perl script)
 f	bin/extract	the specs to C extractor (Perl script)
 sf	bin/extract.in	template for the specs to C extractor (Perl script)
 sf	bin/gentok	includes tokens in yacc and lex files
-lf	bin/lmpc	LMPC Linux binary (egcs-2.91.66, glibc, x86, ELF)
+lf	bin/lmpc	LMPC Linux binary (gcc 3.3.3, glibc, x86, ELF)
 df	bin/lmpc.exe	LMPC MS-DOS binary (egcs-2.91.66, djgpp V2.0)
-wf	bin/lmpc32.exe	LMPC Win32 binary (Cygwin B20.1)
-mf	bin/lmpcm.exe	LMPC Win32 binary (Cygwin B20.1 + Mingw32 0.2)
+wf	bin/lmpc32.exe	LMPC Win32 binary (gcc 3.3.1, Cygwin)
+mf	bin/lmpcm.exe	LMPC Win32 binary (gcc 3.3.1, Mingw32)
 sf	bin/wpu	The Web Publishing Utility
 sf	config.guess	Autoconf host system guess
 sf	config.h.in	Autoconf template for config.h
@@ -168,7 +169,7 @@ src/strsep.c	The file strsep.c contains code of the GNU C library (see COPYING.L
 bin/cwsdpmi.exe	cwsdpmi.exe is a free (I hope so) DPMI server for djgpp V2.0 MS-DOS binaries.
 
 [Copyright]
-src/lzw.c	The files lzw.c and unlzw.c are hacked by Steffen Winterfeldt (Steffen.Winterfeldt@itp.uni-leipzig.de) and are based on the source of a public domain compress(1) program.
+src/lzw.c	The files lzw.c and unlzw.c are written by Steffen Winterfeldt (wfeldt@suse.com) and are based on the source of a public domain compress(1) program.
 
 [Note]
 bin/lmpc32.exe	The Win32 binaries lmpc32.exe and demcut32.exe (compiled with the Cygwin toolset) need cygwin1.dll. Get it from @HOMEURL@/misc/win32.html
