@@ -48,7 +48,6 @@ public class StringNode extends Node {
 						buffer.append((char)(((c & 0700)>>6) + '0'));
 						buffer.append((char)(((c & 0070)>>3) + '0'));
 						buffer.append((char)(((c & 0007)   ) + '0'));
-						Integer.toOctalString(c));
 					break;
 				}
 			}
