@@ -1,22 +1,33 @@
 #!/usr/bin/perl -w
 
+# $Id$
+
 use strict;
 use IO::Seekable;
 use IO::File;
 
 sub read_with_check($$);
 sub LittleFloat($);
+sub ReadString($);
 sub CL_ParseServerMessage($$);
 
 sub parse_message_01_nop($$$);
 sub parse_message_07_time($$$);
 sub parse_message_11_serverinfo($$$);
 sub parse_message_13_updateuserinfo($$$);
+sub parse_message_15_clientdata($$$);
 sub parse_message_29_spawnstaticsound($$$);
 sub parse_message_37_roomtype($$$);
 
-sub ReadString($);
-
+my %parse = (
+	 1 => \&parse_message_01_nop,
+	 7 => \&parse_message_07_time,
+	11 => \&parse_message_11_serverinfo,
+	13 => \&parse_message_13_updateuserinfo,
+	15 => \&parse_message_13_updateuserinfo,
+	29 => \&parse_message_29_spawnstaticsound,
+	37 => \&parse_message_37_roomtype,
+);
 
 my $indent_diff = 1;
 
@@ -26,16 +37,6 @@ my %macroname = (
 	"3" => "client command",
 	"5" => "last in segment",
 	"8" => "play sound",
-);
-
-
-my %parse = (
-	 1 => \&parse_message_01_nop,
-	 7 => \&parse_message_07_time,
-	11 => \&parse_message_11_serverinfo,
-	13 => \&parse_message_13_updateuserinfo,
-	29 => \&parse_message_29_spawnstaticsound,
-	37 => \&parse_message_37_roomtype,
 );
 
 
@@ -185,9 +186,20 @@ for (@directory) {
 		my $cont = -1;
 		# macro block 0, 1 ############################################
 		if ($macro{"type"} == 0 || $macro{"type"} == 1) {
+			my $uksize;
+
+			if ($network_version == 42) {
+				# 1.1.0.1
+				$uksize = 560;
+			}
+			if ($network_version >= 46) {
+				# 1.1.1.0
+				$uksize = 464;
+			}
+			
 			printf $file_out "   ukdata // offset=0x%08x, len=%d\n",
-				$file_in->tell(), 560;
-			my $data_1h_d = read_with_check($file_in,560);
+				$file_in->tell(), $uksize;
+			my $data_1h_d = read_with_check($file_in,$uksize);
 			# leave it for later
 
 			my $data_1_len_d = read_with_check($file_in,4);
@@ -202,7 +214,7 @@ for (@directory) {
 			for (@data) { printf $file_out " %02x", $_; }
 			printf $file_out ";\n";
 			printf $file_out "   gamedata_messages {\n";
-			CL_ParseServerMessage($file_out, $data_1_d);
+#			CL_ParseServerMessage($file_out, $data_1_d);
 			printf $file_out "   }\n";
 			$cont = 1;
 		}
@@ -348,6 +360,25 @@ sub LittleFloat($) {
 	unpack("f",pack("I",unpack("V",pack("f",$_[0]))));
 }
 
+
+sub ReadString($)
+{
+	my ($data) = @_;
+
+#	if ($mark == 1) {
+#		printf "length=%d data=\"%s\"\n", length($data), $data;
+#	}
+	$data =~ m|^([^\000]*?)\000(.*)$|s;
+	my ($string, $rest) = ($1, $2);
+#	if ($mark == 1) {
+#		printf "length=%d data=\"%s\"\n", length($data), $data;
+#		printf "length=%d rest=\"%s\"\n", length($rest), $rest;
+#		$mark = 0;
+#	}
+	return $string, $rest;
+}
+
+
 sub CL_ParseServerMessage($$) {
 	my ($file, $data) = @_;
 
@@ -374,11 +405,13 @@ sub CL_ParseServerMessage($$) {
 	}
 }
 
+
 sub parse_message_01_nop($$$) {
 	my ($file, $data, $indent) = @_;
 	printf $file "%snop;\n", " " x $indent;
 	return $data;
 }
+
 
 sub parse_message_07_time($$$) {
 	my ($file, $data, $indent) = @_;
@@ -386,6 +419,7 @@ sub parse_message_07_time($$$) {
 	printf $file "%stime %f;\n", " " x $indent, $time;
 	return $rest;
 }
+
 
 sub parse_message_11_serverinfo($$$) {
 	my ($file, $data, $indent) = @_;
@@ -449,7 +483,9 @@ sub parse_message_11_serverinfo($$$) {
 	return $rest;
 }
 
+
 #my $mark=0;
+
 
 sub parse_message_13_updateuserinfo($$$) {
 	my ($file, $data, $indent) = @_;
@@ -468,6 +504,26 @@ sub parse_message_13_updateuserinfo($$$) {
 	printf $file "%s}\n", " " x $indent;
 	return $rest;
 }
+
+
+sub parse_message_15_clientdata($$$) {
+	my ($file, $data, $indent) = @_;
+	(
+		my $slot,
+		my $userid,
+		my $rest,
+	) = unpack ("C V a*", $data);
+#	$mark = 1;	
+	(my $userinfo, $rest) = ReadString($rest);
+	printf $file "%sclientdata {\n", " " x $indent;
+	printf $file "%sslot %d;\n", " " x ($indent+$indent_diff), $slot;
+	printf $file "%suserid %d;\n", " " x ($indent+$indent_diff), $userid;
+	printf $file "%suserinfo \"%s\";\n", " " x ($indent+$indent_diff),
+			$userinfo;
+	printf $file "%s}\n", " " x $indent;
+	return $rest;
+}
+
 
 sub parse_message_29_spawnstaticsound($$$) {
 	my ($file, $data, $indent) = @_;
@@ -500,33 +556,18 @@ sub parse_message_29_spawnstaticsound($$$) {
 			$uk_s1;
 	printf $file "%suk_b2 %d;\n", " " x ($indent+$indent_diff), 
 			$uk_b2;
+flush $file;
 	printf $file "%suk_b3 %d;\n", " " x ($indent+$indent_diff), 
 			$uk_b3;
 	printf $file "%s}\n", " " x $indent;
 	return $rest;
 }
 
+
 sub parse_message_37_roomtype($$$) {
 	my ($file, $data, $indent) = @_;
 	my ($room_type, $rest) = unpack("s a*", $data);
 	printf $file "%sroomtype %d;\n", " " x $indent, $room_type;
 	return $rest;
-}
-
-sub ReadString($)
-{
-	my ($data) = @_;
-
-#	if ($mark == 1) {
-#		printf "length=%d data=\"%s\"\n", length($data), $data;
-#	}
-	$data =~ m|^([^\000]*?)\000(.*)$|s;
-	my ($string, $rest) = ($1, $2);
-#	if ($mark == 1) {
-#		printf "length=%d data=\"%s\"\n", length($data), $data;
-#		printf "length=%d rest=\"%s\"\n", length($rest), $rest;
-#		$mark = 0;
-#	}
-	return $string, $rest;
 }
 
