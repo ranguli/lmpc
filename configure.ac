@@ -275,7 +275,6 @@ AC_OUTPUT([ \
 	doc/Makefile \
 	bin/dema \
 	bin/dm2cat \
-	bin/extract \
 	src/java/Makefile \
 	src/java/lmpcj \
 	src/java/com/Makefile \
