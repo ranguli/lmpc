@@ -1,0 +1,11 @@
+#!/bin/sh
+
+JAVA=@JAVA@
+
+ADD_CLASSPATH=`dirname $0`
+
+CLASSPATH=$CLASSPATH:$ADD_CLASSPATH
+export CLASSPATH
+
+$JAVA com.machinima.lmpc.lmpc $@
+
