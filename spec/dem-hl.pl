@@ -148,8 +148,8 @@ for (@directory) {
 		printf $file_out "   type %i;\n", $macro{"type"};
 		printf $file_out "   time %fs;\n", $macro{"time"};
 		printf $file_out "   frame %i;\n", $macro{"frame"};
-		# macro block 1 ###############################################
-		if ($macro{"type"} == 1) {
+		# macro block 0, 1 ############################################
+		if ($macro{"type"} == 0 || $macro{"type"} == 1) {
 			printf $file_out "   ukdata // offset=0x%08x, len=%d\n",
 				$file_in->tell(), 560;
 			my $data_1h_d = read_with_check($file_in,560);
@@ -182,6 +182,34 @@ for (@directory) {
 			for (@data) { printf $file_out " %02x", $_; }
 			printf $file_out ";\n";
 		}
+		# macro block 8 ###############################################
+		if ($macro{"type"} == 8) {
+			my $data_8_1 = read_with_check($file_in,8);
+			(
+				$macro{"uk_i1"},
+				$macro{"sound_name_length"}
+			) = unpack "V V", $data_8_1;
+			printf $file_out "   uk_i1 %d;\n", $macro{"uk_i1"};
+			printf $file_out "   sound_name_length %d;\n", $macro{"sound_name_length"};
+			my $data_8_2 = read_with_check($file_in,$macro{"sound_name_length"});
+			(
+				$macro{"sound_name"}
+			) = unpack "Z" . $macro{"sound_name_length"}, $data_8_2;
+			printf $file_out "   sound_name \"%s\";\n", $macro{"sound_name"};
+			my $data_8_3 = read_with_check($file_in,16);
+			(
+				$macro{"uk_f1"},
+				$macro{"uk_f2"},
+				$macro{"uk_i2"},
+				$macro{"uk_i3"}
+			) = unpack "f f V V", $data_8_3;
+			$macro{"uk_f1"} = LittleFloat($macro{"uk_f1"});
+			$macro{"uk_f2"} = LittleFloat($macro{"uk_f2"});
+			printf $file_out "   uk_f1 %d;\n", $macro{"uk_f1"};
+			printf $file_out "   uk_f2 %d;\n", $macro{"uk_f2"};
+			printf $file_out "   uk_i2 0x%x;\n", $macro{"uk_i2"};
+			printf $file_out "   uk_i3 %d;\n", $macro{"uk_i3"};
+		}
 		# macro block 9 ###############################################
 		if ($macro{"type"} == 9) {
 			my $data_9_len_d = read_with_check($file_in,4);
@@ -198,10 +226,12 @@ for (@directory) {
 		#
 		printf $file_out "  }\n";
 		last if (
+			$macro{"type"} != 0 &&
 			$macro{"type"} != 1 &&
 			$macro{"type"} != 2 &&
 			$macro{"type"} != 3 &&
 			$macro{"type"} != 4 &&
+			$macro{"type"} != 8 &&
 			$macro{"type"} != 9);
 	}
 	printf $file_out " }\n";
