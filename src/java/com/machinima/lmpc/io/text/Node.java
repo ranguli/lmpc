@@ -5,7 +5,7 @@ class Node {
 	String comment;
 	int type;
 	int hint;
-	Object down;
+	Node down;
 
 	public Node add_next(Node node)
 	{
