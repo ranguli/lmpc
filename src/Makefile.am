@@ -14,7 +14,7 @@ bin_PROGRAMS = $(DBS) demcut lmpc
 EXTRA_PROGRAMS = dbs
 EXTRA_HEADERS = 
 noinst_LIBRARIES = libutil.a
-noinst_HEADERS = getopt.h alloca.h binblock.h lmpc.h node.h tools.h udem.h \
+noinst_HEADERS = getopt.h binblock.h lmpc.h node.h tools.h udem.h \
 	udm2.h $(UDM3_H) \
 udmo.h ulmp.h uqwd.h record.h
 EXTRA_DIST = udeml.l.in udemy.y.in tokenlist.in $(CALC_FROM_SPECS)
