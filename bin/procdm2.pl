@@ -78,7 +78,7 @@ if (not ref $command) {
 logging 10, "parsing command file $opt_command completed.\n";
 
 my $prepost = 0;
-if (-x $opt_lmpc) {
+if (-f $opt_lmpc && -x $opt_lmpc) {
 	logging 20, "The command $opt_lmpc is available.\n";
 	my $info = "$opt_lmpc --info $opt_input";
 	logging 30, "checking with '$info', if input is text or binary\n";
@@ -129,20 +129,28 @@ else {
 	$text_out = $opt_output;
 }
 
+my $error = 0;
+
 if ($prepost) {
 	my $preproc = "$opt_lmpc --to-txt $opt_input $text_in";
 	logging 20, "Calling '$preproc' to generate text file.\n";
 	system $preproc;
+	if (!-f $text_in) {
+		warning 0, "LMPC ($opt_lmpc) did not create $text_in.\n";
+		$error = 1;
+		goto out;
+	}
 }
 
 logging 0, "$text_in (DM2 txt) -> $text_out (DM2 txt)\n";
 
-my $error = 0;
-
 logging 30, "Reading $text_in.\n";
 my $in_fh = new IO::File "<$text_in";
 if (!defined $in_fh) {
-	warning 0, "Could not open $text_in for reading: $!\n";
+	warning 0, "Could not open $text_in for reading: $!.\n";
+	if (!$prepost) {
+		warning 0, "Please use '-i inputfile'.\n";
+	}
 	$error = 1;
 	goto out;
 }
@@ -150,7 +158,7 @@ if (!defined $in_fh) {
 logging 30, "Writing $text_out.\n";
 my $out_fh = new IO::File ">$text_out";
 if (!defined $out_fh) {
-	warning 0, "Could not open $text_out for writing: $!\n";
+	warning 0, "Could not open $text_out for writing: $!.\n";
 	$error = 1;
 	goto out;
 }
@@ -260,10 +268,11 @@ sub command_parse($)
 {
 	my $command_filename = shift;
 	my %command = ();
-	logging 30, "Reading %s.\n", $command_filename;
+	logging 0, "Reading command file %s.\n", $command_filename;
 	my $command_fh=new IO::File("<$command_filename");
 	if (!defined $command_fh) {
-		warning 0, "Could not open %s for reading: $!.\n", $command_filename;
+		warning 0, "Could not open %s for reading: $!.
+Please use '-c commandfile'.\n", $command_filename;
 		return 0;
 	}
 	my $e=0;
