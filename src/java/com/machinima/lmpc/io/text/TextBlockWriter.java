@@ -31,7 +31,7 @@ public class TextBlockWriter extends BlockWriter {
 	public void startnewline(int depth)
 	{
 		ts = new StringBuffer("");
-		// there must be a faster way to create depth spaces
+		// there must be a faster way to create depth spaces at once
 		for (int i = 0 ; i<depth ; i++) {
 			ts.append(" ");
 		}
@@ -63,7 +63,13 @@ public class TextBlockWriter extends BlockWriter {
 	public void node_write_text_recursive(int depth, Node n, boolean around)
 	{
 		for (Node i=n ; i!= null ; i=i.next) {
-			ts.append(i.toString());
+			String newPart = i.toString();
+			// wrap around check
+			if (ts.length() + newPart.length() > 79) {
+				output_text_and_comment();
+				startnewline(depth);
+			}
+			ts.append(newPart);
 			if (i instanceof TokenNode) { // token
 				if (i.down != null) {
 					if (i.down instanceof TokenNode) {
