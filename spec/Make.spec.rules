@@ -85,14 +85,22 @@ $(PACKAGE).html: $(PACKAGE).sgml ../spec.dsl
 $(PACKAGE).pdf: $(PACKAGE).sgml ../spec.dsl
 	$(DOCBOOK2PDF) -d "../spec.dsl#print" $<
 
+index: index.html index-$(PACKAGE)-$(VERSION).html
+
 index.html: $(PACKAGE).sgml $(WPU)
 	$(WPU) --set ACTION=packageindex \
 		--set TYPE=document \
 		--set DOWNCOUNT=0 \
 		$< $@
 
+index-$(PACKAGE)-$(VERSION).html: $(PACKAGE).sgml $(WPU)
+	$(WPU) --set ACTION=indexpart \
+		--set TYPE=document \
+		$< $@
+
 clean:
 	$(RM_F) temp1 temp2 temp3
+	$(RM_F) index.html
 	$(RM_F) $(PACKAGE).sgml.in
 	$(RM_F) $(PACKAGE).xml.in
 	$(RM_F) $(PACKAGE).sgml
