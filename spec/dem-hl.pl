@@ -11,6 +11,7 @@ sub CL_ParseServerMessage($$);
 sub parse_message_01_nop($$$);
 sub parse_message_07_time($$$);
 sub parse_message_11_serverinfo($$$);
+sub parse_message_13_updateuserinfo($$$);
 
 sub ReadString($);
 
@@ -30,6 +31,7 @@ my %parse = (
 	 1 => \&parse_message_01_nop,
 	 7 => \&parse_message_07_time,
 	11 => \&parse_message_11_serverinfo,
+	13 => \&parse_message_13_updateuserinfo,
 );
 
 
@@ -190,11 +192,11 @@ for (@directory) {
 			) = unpack "V", $data_1_len_d;
 			printf $file_out "   gamedata_length %i;\n", $macro{"length"};
 
-#			printf $file_out "   gamedata";
+			printf $file_out "   gamedata";
 			my $data_1_d = read_with_check($file_in,$macro{"length"});
-#			my @data = unpack "C" . $macro{"length"} , $data_1_d;
-#			for (@data) { printf $file_out " %02x", $_; }
-#			printf $file_out ";\n";
+			my @data = unpack "C" . $macro{"length"} , $data_1_d;
+			for (@data) { printf $file_out " %02x", $_; }
+			printf $file_out ";\n";
 			printf $file_out "   gamedata_messages {\n";
 			CL_ParseServerMessage($file_out, $data_1_d);
 			printf $file_out "   }\n";
@@ -352,7 +354,7 @@ sub CL_ParseServerMessage($$) {
 		(my $msgtype, $data) = unpack("C a*", $data);
 		if (exists $parse{$msgtype}) {
 			my $ref = $parse{$msgtype};
-			$data = &$ref($file, $data, $indent + $indent_diff);
+			$data = &$ref($file, $data, $indent);
 		}
 		else {
 			printf $file "%smessage {\n", " " x $indent; 
@@ -443,12 +445,40 @@ sub parse_message_11_serverinfo($$$) {
 	return $rest;
 }
 
+#my $mark=0;
+
+sub parse_message_13_updateuserinfo($$$) {
+	my ($file, $data, $indent) = @_;
+	(
+		my $player,
+		my $user,
+		my $rest,
+	) = unpack ("C V a*", $data);
+#	$mark = 1;	
+	(my $string, $rest) = ReadString($rest);
+	printf $file "%supdateuserinfo {\n", " " x $indent;
+	printf $file "%splayer %d;\n", " " x ($indent+$indent_diff), $player;
+	printf $file "%suser %d;\n", " " x ($indent+$indent_diff), $user;
+	printf $file "%sstring \"%s\";\n", " " x ($indent+$indent_diff),
+			$string;
+	printf $file "%s}\n", " " x $indent;
+	return $rest;
+}
+
 sub ReadString($)
 {
 	my ($data) = @_;
 
-	$data =~ /^([^\000]*?)\000(.+)$/s;
+#	if ($mark == 1) {
+#		printf "length=%d data=\"%s\"\n", length($data), $data;
+#	}
+	$data =~ m|^([^\000]*?)\000(.*)$|s;
 	my ($string, $rest) = ($1, $2);
+#	if ($mark == 1) {
+#		printf "length=%d data=\"%s\"\n", length($data), $data;
+#		printf "length=%d rest=\"%s\"\n", length($rest), $rest;
+#		$mark = 0;
+#	}
 	return $string, $rest;
 }
 
