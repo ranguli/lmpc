@@ -3,5 +3,5 @@
 
 JAVAROOT=$(top_builddir)/src/java
 
-java_JAVA=BlockReader.java BlockWriter.java
+java_JAVA=BlockReader.java BlockWriter.java Util.java
 
