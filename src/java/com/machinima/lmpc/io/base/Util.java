@@ -26,24 +26,40 @@ public class Util {
 
 		String intPartString = new Integer(intPart).toString();
 		int intPartDigits = intPartString.length();
+		int valuableIntDigits = 0;
+		if (format=='g' && intPart != 0) {
+			valuableIntDigits = intPartDigits;
+		}
 
 		text.append(intPartString);
-		if (value != 0.0 && intPart == 0) {
-			digits++;
-		}
 
 		text.append('.');
 
-		for (int i=(format=='f' ? 0 : intPartDigits) ;
-			i<digits ; i++) {
+		int addDigits=0;
+
+		for (int i=valuableIntDigits ;
+			i<digits + addDigits; i++) {
 			fracPart *= 10.0;
+			if (format=='g' && intPart==0 && fracPart < 1.0 &&
+				addDigits<4) {
+				addDigits++;
+			}
 		}
 
 		long fracPartLong = Math.round(fracPart);
+		if (fracPartLong != 0) {
+			digits += addDigits;
+		}
+		else {
+			if (intPart == 0) {
+				valuableIntDigits = 1;
+			}
+		}
+
 		String fracPartString = new Long(fracPartLong).toString();
 		int fracPartDigits = fracPartString.length();
 
-		for (	int i=(format=='f' ? 0 : intPartDigits) ;
+		for (	int i=valuableIntDigits ;
 			i < digits - fracPartDigits;
 			i++) {
 			text.append('0');
