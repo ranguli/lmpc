@@ -504,7 +504,7 @@ my $bb="</UL>
 ";
 
   my $HtmlSceleton = "<LI><A NAME=\"\@PACKAGE@\"><B>\@TITLE@</B>
-<A NAME=\"\@PACKAGE@-\@VERSION@\">
+<A NAME=\"\@PACKAGE\@-\@VERSION@\">
 <BLOCKQUOTE>
 <A HREF=\"\@PACKAGE@\@SUBPACKAGE@/\">v\@VERSION@</A>, \@DATE@\@WITHCOMMENT@
 </BLOCKQUOTE>
