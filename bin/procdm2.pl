@@ -53,9 +53,17 @@ GetOptions(
 	'warning|w=i'	=>	\$opt_warning,
 ) or pod2usage(-msg=>"Syntax error", -verbose=>0);
 
-pod2usage(-verbose=>0) if $opt_help;
+if ($opt_help) {
+	pod2usage(-verbose=>0);
+	warning 10, "podusage() for short help should not return.\n";
+	exit(1);
+}
 
-pod2usage(-verbose=>2) if $opt_man;
+if ($opt_man) {
+	pod2usage(-verbose=>2);
+	warning 10, "podusage() for long help should not return.\n";
+	exit(1);
+}
 
 if ($opt_version) {
 	printf "DM2 Processor %s, %s (%s)\n", release(), date(), comment();
@@ -67,57 +75,84 @@ if (not ref $command) {
 	warning 0, "Problem parsing command file $opt_command.\n";
 	exit(1);
 }
+logging 10, "parsing command file $opt_command completed.\n";
 
-my $info = "$opt_lmpc --info $opt_input";
-logging 30, "checking with '$info', if input is text or binary\n";
-my $info_fh;
-my $pid = open3("<&STDIN", $info_fh, $info_fh, $info);
-if (!defined $info_fh || $pid==0) {
-	warning 0, "Could not execute '$info': $!.\n";
-	exit(1);
-}
-my $prepost = 1;
-while (<$info_fh>) {
-	if (/$opt_input.*DM2 txt/) {
-		$prepost = 0;
-		last;
+my $prepost = 0;
+if (-x $opt_lmpc) {
+	logging 20, "The command $opt_lmpc is available.\n";
+	my $info = "$opt_lmpc --info $opt_input";
+	logging 30, "checking with '$info', if input is text or binary\n";
+	my $info_fh;
+	my $pid = open3("<&STDIN", $info_fh, $info_fh, $info);
+	if ($pid==0) {
+		warning 0, "Could not execute ´$info´: $!.\n";
+		exit(1);
 	}
+	logging 35, "started child with pid $pid.\n";
+	if (!defined $info_fh) {
+		warning 0, "Could not read output from  '$info': $!.\n";
+		waitpid $pid, 0;
+		exit(1);
+	}
+	logging 40, "reading output from '$info'\n";
+	while (<$info_fh>) {
+		if (/$opt_input.*DM2 txt/) {
+			$prepost = 0;
+			logging 35, "$opt_input is really text\n";
+			last;
+		}
+		if (/$opt_input.*DM2 bin/) {
+			logging 35, "$opt_input is really binary\n";
+			$prepost = 1;
+			last;
+		}
+	}
+	$info_fh->close();
+	logging 40, "output ended\n";
+	waitpid $pid, 0;
 }
-$info_fh->close();
-waitpid $pid, 0;
+else {
+	warning 20, "The command $opt_lmpc is not available.\n";
+	$prepost = 0;
+}
 
 my $text_in;
 my $text_out;
 if ($prepost) {
-	logging 35, "$opt_input is binary\n";
+	logging 35, "$opt_input is assumed to contained binary\n";
 	$text_in = "text_in_$$.txt";
 	$text_out = "text_out_$$.txt";
 }
 else {
-	logging 35, "$opt_input is text\n";
+	logging 35, "$opt_input is assumed to contain text\n";
 	$text_in = $opt_input;
 	$text_out = $opt_output;
 }
 
 if ($prepost) {
 	my $preproc = "$opt_lmpc --to-txt $opt_input $text_in";
+	logging 20, "Calling '$preproc' to generate text file.\n";
 	system $preproc;
 }
 
 logging 0, "$text_in (DM2 txt) -> $text_out (DM2 txt)\n";
 
+my $error = 0;
+
 logging 30, "Reading $text_in.\n";
 my $in_fh = new IO::File "<$text_in";
 if (!defined $in_fh) {
 	warning 0, "Could not open $text_in for reading: $!\n";
-	exit(1);
+	$error = 1;
+	goto out;
 }
 
 logging 30, "Writing $text_out.\n";
 my $out_fh = new IO::File ">$text_out";
 if (!defined $out_fh) {
 	warning 0, "Could not open $text_out for writing: $!\n";
-	exit(1);
+	$error = 1;
+	goto out;
 }
 
 my $state = 0;
@@ -205,9 +240,11 @@ $out_fh->close();
 
 if ($prepost) {
 	my $postproc = "$opt_lmpc --to-bin $text_out $opt_output";
+	logging 20, "Calling '$postproc' to generate binary file.\n";
 	system $postproc;
 }
 
+out:
 
 if ($prepost) {
 	logging 20, "Remove temporary text files $text_in and $text_out.\n";
@@ -216,7 +253,7 @@ if ($prepost) {
 
 
 # End of program.
-exit 0;
+exit $error;
 
 
 sub command_parse($)
