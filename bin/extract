@@ -1,4 +1,4 @@
-#! @PERL@ -w
+#!/usr/bin/perl -w
 
 use strict;
 
@@ -37,7 +37,7 @@ my $SpecsHint = "/*
 ";
 
 
-my $srcdir="/home/uwe/pq/demospecs/dm2-1.0.3";
+my $srcdir="../spec/dm2-q2";
 my $dstdir=".";
 my $file_type = ".c";
 extract_all("dm2","temp_entity","te");
