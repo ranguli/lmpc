@@ -17,7 +17,7 @@ public class FloatNode extends Node {
 
 	public String toString()
 	{
-		return Util.toString(10, value);
+		return Util.toString(9, 'g', value);
 	}
 
 }
