@@ -12,6 +12,7 @@ sub parse_message_01_nop($$$);
 sub parse_message_07_time($$$);
 sub parse_message_11_serverinfo($$$);
 sub parse_message_13_updateuserinfo($$$);
+sub parse_message_29_spawnstaticsound($$$);
 
 sub ReadString($);
 
@@ -32,6 +33,7 @@ my %parse = (
 	 7 => \&parse_message_07_time,
 	11 => \&parse_message_11_serverinfo,
 	13 => \&parse_message_13_updateuserinfo,
+	29 => \&parse_message_29_spawnstaticsound,
 );
 
 
@@ -461,6 +463,43 @@ sub parse_message_13_updateuserinfo($$$) {
 	printf $file "%suserid %d;\n", " " x ($indent+$indent_diff), $userid;
 	printf $file "%suserinfo \"%s\";\n", " " x ($indent+$indent_diff),
 			$userinfo;
+	printf $file "%s}\n", " " x $indent;
+	return $rest;
+}
+
+sub parse_message_29_spawnstaticsound($$$) {
+	my ($file, $data, $indent) = @_;
+	my @org;
+	(
+		$org[0],
+		$org[1],
+		$org[2],
+		my $sound_num,
+		my $vol,
+		my $atten,
+		my $uk_s1,
+		my $uk_b2,
+		my $uk_b3,
+		my $rest,
+	) = unpack ("v v v v C C v C C a*", $data);
+	$org[0] /= 8.0; $org[1] /= 8.0; $org[2] /= 8.0;
+	$vol /= 255.0;
+	$atten /= 64.0;
+	printf $file "%sspawnstaticsound {\n", " " x $indent;
+	printf $file "%sorg %f %f %f;\n", " " x ($indent+$indent_diff), 
+			$org[0], $org[1], $org[2];
+	printf $file "%ssound_num %d;\n", " " x ($indent+$indent_diff), 
+			$sound_num;
+	printf $file "%svol %f;\n", " " x ($indent+$indent_diff), 
+			$vol;
+	printf $file "%satten %f;\n", " " x ($indent+$indent_diff), 
+			$atten;
+	printf $file "%suk_s1 %d;\n", " " x ($indent+$indent_diff), 
+			$uk_s1;
+	printf $file "%suk_b2 %d;\n", " " x ($indent+$indent_diff), 
+			$uk_b2;
+	printf $file "%suk_b3 %d;\n", " " x ($indent+$indent_diff), 
+			$uk_b3;
 	printf $file "%s}\n", " " x $indent;
 	return $rest;
 }
