@@ -116,7 +116,7 @@ time: v_float 's' {
 
 
 	// lexer object
-	private LsLex lexer;
+	public LsLex lexer;
 
 	boolean end_of_top_block = false;
 
@@ -160,9 +160,37 @@ time: v_float 's' {
 
 	static boolean interactive;
 
-	static boolean parse_empty = false;
+	private static boolean parse_empty = false;
 
 	static TextOut textout;
+
+	public Node get_yyval() { return yyval; }
+
+	public boolean get_parse_empty()
+	{
+		return parse_empty;
+	}
+
+	public void set_parse_empty(boolean parse_empty)
+	{
+		this.parse_empty = parse_empty;
+	}
+
+	public boolean block_read()
+	{
+		boolean result;
+
+		yyparse();
+		if (parse_empty) {
+			parse_empty = false;
+			result = false;
+		}
+		else {
+			result = true;
+		}
+
+		return result;
+	}
 
 	public static void main(String args[]) throws IOException
 	{
