@@ -121,7 +121,7 @@ sub extract_bin_to_var
 {
   my ($sys, $message, $filesuffix, $number) = @_;
 
-  my $infile = sprintf "%s/%s.base", $srcdir, $sys;
+  my $infile = sprintf "%s/%s.gen.in", $srcdir, $sys;
   my $outfile = sprintf "%s/u%s-%s%d%s", $dstdir, $sys, $filesuffix, $number, $file_type;
 
   open INFILE, "<$infile" || die "can't read '$infile'\n";
@@ -129,13 +129,14 @@ sub extract_bin_to_var
   my $state = 0;
   while (<INFILE>) {
     chop;
+    s#\&lowbar;#_#g;
     if (!$state) {
-      if (m#<sect1>$message<p><descrip><tag><tt>#) {
+      if (m#<title>$message</title>#) {
         $state = 1;
       }
     }
     if ($state == 1) {
-      if (m#<tscreen><verb>#) {
+      if (m#<screen>#) {
         $state = 2;
         print OUTFILE $GPLHead;
         printf OUTFILE $SpecsHint, uc $sys;
@@ -144,11 +145,11 @@ sub extract_bin_to_var
       }
     }
     if ($state == 2) {
-      if (m#</verb></tscreen>#) {
+      if (m#</screen>#) {
         $state = 3;
       }
-      s#</?tscreen>##;
-      s#</?verb>##;
+      s#</?screen>##;
+      s#&gt;#>#g;
       s#//(.+)#/*$1 */#;
       s#(\W)TE_#$1DM2_TE_#g;
       s#error\(\"CL_ParseTEnt: bad type\"\);#syserror(WDM2, DM2TOP->filename);#;
