@@ -19,17 +19,20 @@
 
 %%
 
-input: top_blocks
+input: /* empty string */ {
+		parse_empty = true;
+	}
+	| top_blocks
+	;
 
-top_blocks: top_block {
-		top_blocks++;
+top_blocks: 
+	top_block {
 		// do something with $1
 		// and than stop
 		end_of_top_block = true;
 	}
 	|
 	top_blocks top_block {
-		top_blocks++;
 		// do something with $2
 		// and than stop
 		end_of_top_block = true;
@@ -97,9 +100,6 @@ time: v_float 's' {
 	// lexer object
 	private LsLex lexer;
 
-	// top block counter
-	int top_blocks = 0;
-
 	boolean end_of_top_block = false;
 
 	// method to get the next token
@@ -108,6 +108,9 @@ time: v_float 's' {
 		int yyl_return = -1;
 		if (end_of_top_block) {
 			end_of_top_block = false;
+			if (yydebug) {
+				System.out.print("self");
+			}
 		}
 		else {
 			try {
@@ -117,7 +120,9 @@ time: v_float 's' {
 				System.err.println("IO error :" + e);
 			}
 		}
-		System.out.print("yylex = " + yyl_return + ", ");
+		if (yydebug) {
+			System.out.print("yylex = " + yyl_return + ", ");
+		}
 		return yyl_return;
 	}
 
@@ -137,6 +142,8 @@ time: v_float 's' {
 
 	static boolean interactive;
 
+	static boolean parse_empty = false;
+
 	public static void main(String args[]) throws IOException
 	{
 		System.out.println("BYACC/Java & JFlex LS text input");
@@ -150,13 +157,21 @@ time: v_float 's' {
 			throw new IOException("error: no file");
 		}
 
+		int top_level_blocks = 0;
 		do {
-			yyparser.yydebug = true;
+			// yyparser.yydebug = true;
 			yyparser.yyparse();
-		System.out.println(yyparser.top_blocks + " top level blocks");
+			if (yyparser.parse_empty) {
+				yyparser.parse_empty = false;
+				break;
+			}
+			else {
+				top_level_blocks++;
+			}
 		} while (!yyparser.lexer.lex_at_eof());
 
-		System.out.println(yyparser.top_blocks + " top level blocks");
+		System.out.println(top_level_blocks +
+			" top level blocks");
 
 	}
 
