@@ -1,0 +1,16 @@
+--- gdb-20030303-1-orig/gdb/config/i386/tm-cygwin.h	2003-06-14 15:50:51.000000000 +0200
++++ gdb-20030303-1/gdb/config/i386/tm-cygwin.h	2003-06-14 15:51:36.000000000 +0200
+@@ -29,11 +29,13 @@
+ #include "i386/tm-i386.h"
+ 
+ #define ATTACH_NO_WAIT
++#if 0
+ #define SOLIB_ADD(filename, from_tty, targ, readsyms) child_solib_add(filename, from_tty, targ, readsyms)
+ #define PC_SOLIB(addr) solib_address (addr)
+ #define SOLIB_LOADED_LIBRARY_PATHNAME(pid) child_solib_loaded_library_pathname(pid)
+ #define CLEAR_SOLIB child_clear_solibs
+ #define ADD_SHARED_SYMBOL_FILES dll_symbol_command
++#endif
+ 
+ struct target_ops;
+ char *cygwin_pid_to_str (ptid_t ptid);
