@@ -1,20 +1,12 @@
+## Process this file with automake to produce Makefile.in
 # $Id$
 
-JAVAC=javac
 JFLEX=jflex
 BYACCJ=byaccj -J
+JAVAROOT=$(top_builddir)/src/java
 
-CLASSES=LsLex.class LsParse.class TextOut.class
 BUILT_SOURCES=LsLex.java LsParse.java
-SOURCES=$(BUILT_SOURCES)
-
-all: $(CLASSES)
-
-clean:
-	rm -f $(CLASSES) $(BUILT_SOURCES)
-
-%.class: %.java
-	$(JAVAC) $<
+java_JAVA=TextOut.java $(BUILT_SOURCES)
 
 LsLex.java: LsLex.flex
 	$(JFLEX) LsLex.flex
