@@ -3,6 +3,7 @@
 /* $Id$ */
 
 	package com.machinima.lmpc.io.text;
+	import com.machinima.lmpc.io.node.*;
 	import java.io.*;
 
 %}

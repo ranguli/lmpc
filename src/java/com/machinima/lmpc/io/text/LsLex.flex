@@ -1,7 +1,10 @@
 /* LS text lexer */
 /* $Id$ */
 package com.machinima.lmpc.io.text;
+
 import com.machinima.lmpc.io.text.*;
+import com.machinima.lmpc.io.node.*;
+
 
 %%
 

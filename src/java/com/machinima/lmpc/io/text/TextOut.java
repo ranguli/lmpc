@@ -1,5 +1,8 @@
 /* $Id$ */
 
+package com.machinima.lmpc.io.text;
+import com.machinima.lmpc.io.node.*;
+
 class TextOut {
 	StringBuffer ts;
 	StringBuffer cs;
