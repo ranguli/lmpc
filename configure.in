@@ -43,19 +43,20 @@ AC_DEFINE_UNQUOTED(COMMENT,"${COMMENT}")
 AC_DEFINE_UNQUOTED(HOST,"${host}")
 
 dnl Checks for programs.
+AC_PATH_PROG(BYACC, byacc, byacc)
 AC_PROG_CC
 if test $USE_CPLUSPLUS = yes; then
   AC_PROG_CXX
 fi
-AM_PROG_LEX
-AC_PROG_YACC
+dnl AC_PATH_PROG(GZIP, gzip, gzip)dnl
 AC_PROG_INSTALL
 INSTALL_SCRIPT='${INSTALL} -m 755'
 AC_SUBST(INSTALL_SCRIPT)
-AC_PROG_RANLIB
+AC_PATH_PROG(JFLEX, jflex, jflex)dnl
+AM_PROG_LEX
 AC_PROG_MAKE_SET
-dnl AC_PATH_PROG(GZIP, gzip, gzip)dnl
 AC_PATH_PROG(PERL, perl, perl)dnl
+AC_PROG_RANLIB
 AC_PATH_PROG(RM, rm, rm)dnl
 AC_PATH_PROG(SED, sed, sed)dnl
 AC_PATH_PROG(SGML2HTML, sgml2html, sgml2html)dnl
@@ -68,8 +69,8 @@ fulldir=`pwd`
 cd $olddir 
 AC_PATH_PROG(WPU, wpu, wpu, $PATH:$fulldir)dnl
 unset fulldir
+AC_PROG_YACC
 AC_PATH_PROG(ZIP, zip, zip)dnl
-
 
 dnl try to add some options on the already calculated GCC CFLAGS
 if test $GCC = yes; then
