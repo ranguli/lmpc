@@ -1,21 +1,21 @@
 // $Id$
 // generic class for block writing
 
+
 package com.machinima.lmpc.io.base;
-import java.io.*;
-import com.machinima.lmpc.io.node.Node;
+
 
 public class BlockWriter {
 
 
-	public BlockWriter(Writer w) {
+	public BlockWriter(java.io.Writer w) {
 		// no nothing
 	}
 
-	Node WriteBlock() {
+	public void WriteBlock(com.machinima.lmpc.io.node.Node b) {
 		// do nothing
-		return null;
 	}
+
 
 }
 

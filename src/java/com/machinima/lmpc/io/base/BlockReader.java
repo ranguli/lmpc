@@ -1,21 +1,22 @@
 // $Id$
 // generic class for block reading
 
+
 package com.machinima.lmpc.io.base;
-import java.io.*;
-import com.machinima.lmpc.io.node.Node;
+
 
 public class BlockReader {
 
 
-	public BlockReader(Reader r) {
+	public BlockReader(java.io.Reader r) {
 		// no nothing
 	}
 
-	Node ReadBlock() {
+	public com.machinima.lmpc.io.node.Node ReadBlock() {
 		// do nothing
 		return null;
 	}
+
 
 }
 
