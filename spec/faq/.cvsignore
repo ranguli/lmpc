@@ -1,0 +1,8 @@
+.cvsignore
+index.html
+index-faq-*.html
+faq.html
+faq.pdf
+faq.sgml
+faq.sgml.in
+

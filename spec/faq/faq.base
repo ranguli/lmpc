@@ -1,0 +1,782 @@
+<!doctype linuxdoc system>
+<article>
+<title>@TITLE@
+<author>@MYNAME@, 
+<tt><htmlurl url="mailto:@MYEMAIL@" name="@MYEMAIL@"></tt>
+<date>v@VERSION@, @DATE@
+<abstract>
+These are the frequently asked questions with answers concerning
+game recordings.
+</abstract>
+
+<toc>
+
+<sect>General
+<p>
+
+<sect1>About the FAQ
+<p>
+
+<sect2>Why just another FAQ?
+<p>
+Because I get so many mails asking me the same things over and over again.
+
+<sect2>What do I find in this FAQ?
+<p>
+Information on game recordings, <bf>N O T</bf> covered by my standard
+documents:
+<p>
+<descrip>
+<tag>The Unofficial LMP format description</tag>
+<url url="@HOMEURL@/lmp">
+
+<tag>The Unofficial DMO format description</tag>
+<url url="@HOMEURL@/dmo">
+
+<tag>The Unofficial DEM format description</tag>
+<url url="@HOMEURL@/dem">
+
+<tag>The Unofficial QWD format description</tag>
+<url url="@HOMEURL@/qwd">
+
+<tag>The Unofficial DM2 format description</tag>
+<url url="@HOMEURL@/dm2">
+
+<tag>LMPC user's guide</tag>
+<url url="@HOMEURL@/lmpc-alpha">,
+<url url="@HOMEURL@/lmpc-beta"> or
+<url url="@HOMEURL@/lmpc-stable">
+
+
+</descrip>
+
+
+<sect1>Personal questions
+<p>
+
+<sect2>Why all your stuff isn't Windows?? friendly?
+<p>
+I have no Windows?? at home and also not at work (I'm working for a 
+UNIX software company). I write all stuff with Linux and have to 
+cope with it.
+
+
+<sect2>Do you hate Microsoft?
+<p>
+Software quality is not a question of love, hate or religion.
+I simply don't accept a crash of my system and I don't accept a
+reboot of my system after a simple driver install. No crash and no
+reboot at all. Linux brings this quality level whereas Windows??
+is lightyears away from it. And if it doesn't I fix the source so it does.
+
+
+<sect2>What's your email address?
+<p>
+This is a difficult question. I have now 3 different addresses but will
+most likely answer from my work address.
+
+<descrip>
+
+<tag><htmlurl 
+url="mailto:Uwe.Girlich@itp.uni-leipzig.de"
+name="Uwe.Girlich@itp.uni-leipzig.de"></tag>
+is my old university address. I read it at best once a day.
+
+<tag><htmlurl 
+url="mailto:Uwe.Girlich@philosys.de" 
+name="Uwe.Girlich@philosys.de"></tag>
+is my mailbox at work. It is <em>currently</em> my main mailbox and I will
+answer mails to the other boxes from here.
+
+<tag><htmlurl
+url="mailto:uwe@planetquake.com"
+name="uwe@planetquake.com"></tag>
+is my mailbox at <htmlurl url="http://www.planetquake.com"
+name="PlanetQuake">. I get the mail from there about once a day and will
+certainly answer it from my mailbox at work.
+
+</descrip>
+
+
+<sect1>Game types
+<p>
+
+<sect2>What games are covered in this FAQ?
+<p>
+<descrip>
+<tag>Quake</tag> &nbsp;
+<tag>QuakeWorld</tag> &nbsp;
+<tag>Hexen II</tag> &nbsp;
+<tag>Quake II</tag> &nbsp;
+<tag>Quake 3 Arena</tag> &nbsp;
+</descrip>
+
+
+<sect>Playback problems
+<p>
+
+<sect1>Non-working recording files
+<p>
+
+<sect2>How can I replay a multi-level recording?<label id="multi">
+<p>
+<sect3>Quake and Hexen II
+<p>
+Quake and Hexen II have problems with the play-back of multi-level 
+recordings. The reason are blocks like
+<tscreen><verb>block {
+ camera 0.00000000 0.00000000 0.00000000;
+ stufftext "reconnect\n";
+}</verb></tscreen>
+between the different levels. The reconnect command confuses the
+play-back totally.
+<p>
+The stupid solution is to use the <it>timedemo</it> console command.
+<p>
+LMPC can repair multi-level DEM files with the <tt>--fix-multi</tt> command    
+line option. It can be used on the fly (as an additional parameter to any
+kind of conversion) or with a single binary DEM file as "in-place editing".
+
+During the level change of such a patched DEM file there might be a 
+never ending sound effect but it will stop after the next level start.
+
+<sect3>Quake II
+<p>
+Quake II has similar, if not more severe problems with multi-level
+recordings. Because of the mission character of the game (multiple level
+changes to reach a single goal) it is vitally important to be able to
+replay multi-level DM2 files.
+
+It is possible to chain single-level DM2 files, if only the last one
+keeps its <tt>endblock;</tt>. This leads directly to the solution for 
+multi-level DM2 files:
+<itemize>
+<item><tt>betweenblock;</tt> has to disappear.
+<item><tt>reconnect;</tt> has to disappear.
+<item><tt>stufftext "reconnect&bsol;n";</tt> has to disappear.
+<item><tt>isdemo 0;</tt> in <tt>serverdata</tt> messages should be
+<tt>isdemo 1;</tt>.
+<item><tt>stufftext "cmd configstrings key index&bsol;n";</tt> has to
+disappear.
+<item><tt>stufftext "cmd baselines key index&bsol;n";</tt> has to disappear.
+<item><tt>stufftext "precache key&bsol;n";</tt> has to be changed to
+<tt>stufftext "precache&bsol;n"</tt>.
+<item><tt>stufftext "record filename&bsol;n";</tt> has to disappear.
+<item><tt>download &lcub; &hellip; &rcub;</tt> has to disappear.
+</itemize>
+
+All these things can be done with the Perl script MULDER, the MUlti-Level DEmo
+Repair kit at <url url="@HOMEURL@/misc/mulder.html">. It acts on DM2 text
+files only.
+
+LMPC can repair multi-level DM2 files with the <tt>--fix-multi</tt> command    
+line option. It can be used on the fly (as an additional parameter to any
+kind of conversion) or with a single binary DM2 file as "in-place editing".
+
+
+<sect1>Too long recordings
+<p>
+
+<sect2>How can I split my large recording into single-level pieces?
+<p>
+First, you have to repair the demo file according to the section
+<ref id="multi" name="repair multi-level recordings">. Then you can 
+use LMPC to convert it into a text file. Now use any decent text editor
+or simpler a script (in your favourite script language) to split the
+recording and insert the necessary beginnings (for DEM files: CD track)
+or endings (for DM2 files: the <bf>endblock</bf>). Convert these many 
+text files back to binary with LMPC.
+<p>
+I have no experience with multi-level QWD files.
+<p>
+You can do the repair and split part for DM2 files with my Perl script
+MULDER, the MUlti-Level DEmo
+Repair kit at <url url="@HOMEURL@/misc/mulder.html">. Just use a 
+<tt>printf</tt> format place-holder (like %d) in the output name to 
+create one file per level:
+<tscreen><verb>mulder infile.dm2 outfile-%02d.dm2</verb></tscreen>
+creates output files with the names outfile-01.dm2, outfile-02.dm2 etc.
+<p>
+Future versions of LMPC may be able to do the same.
+
+<sect>Format conversions
+<p>
+
+<sect1>Recording formats
+<p>
+
+<sect2>Is there a QWD &lt; - &gt; DEM converer?
+<p>
+
+I'll never write such a program but 
+<htmlurl name="F@11"
+url="http://www.planetquake.com/filmat11/"> 
+has a ``load QWD &amp; save DEM'' feature.
+Read the source code of Quake and QuakeWorld and write your own.
+
+<sect1>Movie formats
+<p>
+
+<sect2>How can I convert a Quake DEM file to a MPEG file?
+<p>
+
+Very easily. Quake can write up to 100 screenshots (PCX files) of the 
+current screen. So it's simply a question of collecting all screenshots 
+and MPEG encoding. 
+<p>
+Some simple steps to reach this goal:
+
+<itemize>
+
+<item>
+Quake writes 4 frames after the screenshot a message
+(<tt>Wrote quake??.pcx</tt>) to the Quake screen (top line). 
+A 1 byte patch of the executable can remove the message.
+<p>
+There are so many Quake versions out there so I think it 
+should be easier to describe what to do: Find in the binary the 
+message string 
+`<tt>Wrote %s</tt>'
+This is the <tt>printf(3)</tt> format string.
+You can now change it to 
+`<tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt>'
+(this changes the message to some spaces)
+or (but this may not work)
+`<tt>&bsol;000rote %s</tt>' (the byte 0x00, not &bsol;, 0, 0, 0)
+(this collapses the <tt>printf(3)</tt> - message to nothing).
+
+<item>
+Take the DEM file, split it in 100 frames parts. Watch out for colour
+and number changes, so you may do it with DEMcut (which is included in
+the <htmlurl name="LMPC" url="@HOMEURL@/lmpc-stable"> package) and 
+its <tt>m</tt> command.
+
+<item>
+Convert it to text with 
+<htmlurl name="LMPC" 
+url="@HOMEURL@/lmpc-stable">.
+
+<item>
+Insert a 
+<tscreen><verb>stufftext "screenshot&bsol;n";</verb></tscreen>
+command in every frame of interest.
+
+<item>
+Convert it back to binary with 
+<htmlurl name="LMPC"
+url="@HOMEURL@/lmpc-stable">.
+
+<item>
+Use Quake to perform a playback of one DEM file after another.
+
+<item>
+Use any picture manipulation program like 
+<itemize>
+<item><tt>convert</tt> from the ImageMagick package (<url
+url="http://www.wizards.dupont.com/cristy/ImageMagick.html">)
+</itemize>
+to improve the quality (gamma correction,
+aspect ratio, format conversion etc.).
+
+<item>
+Use any MPEG encoder like
+<itemize>
+<item>
+<url
+ url="ftp://mm-ftp.cs.berkeley.edu/pub/mpeg2/software/old/mpeg2codec_v1.1a.tar.gz">
+</itemize>
+to encode the MPEG file and remove the encoded screen-shot files. Take 
+care to have 
+at least as much pictures as the GOP length in the MPEG file available. 
+The MPEG encoder reads the files in a different order than usual.
+It reads first the picture what will become an I frame, than the P frame and
+the B frames inbetween are the final ones.
+
+<item>
+Note: the PCX file name algorithm is very simple: Quake tries the first 
+name (<tt>quake00.pcx</tt>, 
+than the second (<tt>quake01.pcx</tt>) and so on. The first unused PCX name 
+will be used.
+So it is better to move the PCX files out of the way after the playback
+of the first chunk.
+
+<item>
+A really good variant would first find the split points in the
+file, and then delegate specific tasks to many (over the network)
+connected computers. Even the MPEG encoding can be parallelised.
+
+</itemize>
+
+The just presented solution should be regarded as way to write a script 
+to do the different tasks. Don't even try to do all these things ``by
+hand''.
+
+
+<sect2>How can I convert a Quake II DM2 file to a MPEG file?
+<p>
+
+This is a bit more difficult, because Quake II uses a fix time gap of 100ms
+(10Hz) between the frames in the DM2 file. So you end up (if you adopt the
+Quake method) with a totally unacceptable 10Hz movie. Quake II uses a
+sophisticated prediction scheme to interpolate between these 10 frames per
+second but you won't get (with <bf>stufftext "screenshot\n";</bf>) any of
+these interpolated frames.
+<p>
+So the only good method is to grab the actual picture from the screen. This 
+has to be done much faster than these mentioned 10Hz to get real movie speed
+(25 or 30 frames per second).
+<p>
+The rest can to be done as usual (picture manipulating, MPEG encoding etc.).
+<p>
+As far as I know there is no continual working screen grabber but since all 
+modern operating systems use some kind of run-time-linking it should be
+very easy to overload the actual drawing routine (in X11:
+<tt>XShmPutImage</tt>) with a different one, which stores the data in a file.
+Since the file writing goes much slower than a screen update, something
+has to be done with the speed of the game. To do this, you have to find 
+the time synchronisation routine (<tt>gettimeofday</tt> or <tt>select</tt>)
+and overload this too.
+
+<p>
+The really stupid (but often found) method is to use a graphics card card
+with a video-out feature and feed the video signal back into a grabber card.
+
+<sect>Tools
+<p>
+
+
+<sect1>LMPC
+<p>
+
+
+<sect2>What stands LMPC for?
+<p>
+
+It used to stand for ``LMP Control Centre'' and I inserted later the
+DMO, DEM and QWD format but the final ``LMP/DMO/DEM/QWD Control Centre'' was 
+such a stupid name and I decided to rename it to
+``Little Movie Processing Centre''.
+
+
+<sect2>Does LMPC accepts long filenames ?
+<p>
+
+Yes of course. I didn't include any file name restriction but the
+underlying OS may have problems with it. To prevent file name
+problems the MS-DOS binary (lmpc.exe) even changes all file names to 
+lower case.
+
+
+<sect2>What are the different versions of LMPC ?
+<p>
+
+There are 6 versions of LMPC available:
+
+<descrip>
+
+
+<tag><tt>lmpc-@LVL@.tar.gz</tt></tag>
+(download from 
+<htmlurl name="ftp.cdrom.com" url="@FTPCDROMBASE@/lmpc-@LVL@.tar.gz">
+or a 
+<htmlurl name="mirror site" url="@FTPMIRRORBASE@/lmpc-@LVL@.tar.gz">)
+is ``the Source Package''.
+It comes with no binaries but contains the full source code with 
+an Autoconf/Automake configure file for easy compilation on any (Unix) system.
+The documentation <htmlurl name="source" url="@HOMEURL@/lmpc-stable/lmpc.sgml">
+written in SGML is included as well.
+
+
+<tag><tt>lmpc-@LVL@-f.tar.gz</tt></tag>
+(download from 
+<htmlurl name="ftp.cdrom.com" url="@FTPCDROMBASE@/lmpc-@LVL@-f.tar.gz">
+or a 
+<htmlurl name="mirror site" url="@FTPMIRRORBASE@/lmpc-@LVL@-f.tar.gz">)
+is ``the Full Package''.
+Everything from all other packages and a 
+<htmlurl name="PostScript" url="@HOMEURL@/lmpc-stable/lmpc.ps"> 
+documentation is included.
+
+
+<tag><tt>lmpc@LVS@d.zip</tt></tag>
+(download from 
+<htmlurl name="ftp.cdrom.com" url="@FTPCDROMBASE@/lmpc@LVS@d.zip">
+or a  
+<htmlurl name="mirror site" url="@FTPMIRRORBASE@/lmpc@LVS@d.zip">)
+is ``the MS-DOS Binary Package''.
+It comes with <tt>lmpc.exe</tt>, <tt>demcut.exe</tt>, <tt>dema</tt> and a 
+<htmlurl name="plain" url="@HOMEURL@/lmpc-stable/lmpc.doc"> ASCII text 
+documentation.
+
+
+<tag><tt>lmpc-@LVL@-l.tar.gz</tt></tag>
+(download from 
+<htmlurl name="ftp.cdrom.com" url="@FTPCDROMBASE@/lmpc-@LVL@-l.tar.gz">
+or a 
+<htmlurl name="mirror site" url="@FTPMIRRORBASE@/lmpc-@LVL@-l.tar.gz">)
+is ``the Linux Binary Package''.
+It comes with <tt>lmpc</tt>, <tt>demcut</tt>, <tt>dbs</tt>, <tt>dema</tt>
+and a <htmlurl name="formatted" url="@HOMEURL@/lmpc-stable/lmpc.txt">
+formatted ASCII text documentation (to be read with less(1)). 
+The Linux binaries are compiled with egcs-2.91.57 and shared linked against 
+glibc.
+
+
+<tag><tt>lmpc@LVS@w.zip</tt></tag>
+(download from 
+<htmlurl name="ftp.cdrom.com" url="@FTPCDROMBASE@/lmpc@LVS@w.zip">
+or a  
+<htmlurl name="mirror site" url="@FTPMIRRORBASE@/lmpc@LVS@w.zip">)
+is the ``Win32 (Cygnus) Binary Package''.
+It comes with <tt>lmpc32.exe</tt>, <tt>demcut32.exe</tt>, <tt>dema</tt> and a 
+<htmlurl name="plain" url="@HOMEURL@/lmpc-stable/lmpc.doc"> ASCII text 
+documentation.
+
+
+<tag><tt>lmpc@LVS@m.zip</tt></tag>
+(download from 
+<htmlurl name="ftp.cdrom.com" url="@FTPCDROMBASE@/lmpc@LVS@m.zip">
+or a  
+<htmlurl name="mirror site" url="@FTPMIRRORBASE@/lmpc@LVS@m.zip">)
+is the ``Win32 (Mingw32) Binary Package''.
+It comes with <tt>lmpcm.exe</tt>, <tt>demcutm.exe</tt>, <tt>dema</tt> and a 
+<htmlurl name="plain" url="@HOMEURL@/lmpc-stable/lmpc.doc"> ASCII text 
+documentation.
+
+
+
+</descrip>
+
+
+<sect2>What are these .tar.gz files?
+<p>
+
+Some distribution packages are archived with the program TAR (TApe Archiver,
+used for over 20 years on all kind of computers) and compressed afterwards
+with Gzip (LZ77 coding compressor, used for more the 10 years for 
+general compression tasks). If you never heard of these programs, your world
+of computing consists only of Wintel PCs. What a pitty.
+<p>
+I use this package format only for packages, which should be used on 
+Unix (or Linux) computers (Source, Full, Linux binary). The .tar.gz format
+is a standard on these systems.
+
+
+<sect2>WinZip can't handle the .tar.gz files
+<p>
+
+I don't have access to a system with this program, so I can't really say
+anything intelligent about it. I saw in march 1999 a package of WinZip in 
+a book store and it had .tar.gz on the list of supported archive formats.
+Maybe you have to update.
+
+
+<sect2>Will (insert your favorite OS here) ever be supported?
+<p>
+
+I wrote LMPC in simple ANSI C with some parts in Lex and Yacc, so you
+should be able to port it to any decent OS. I have access to HP-UX, SunOS,
+SINIX and ReliantUNIX systems. If you need a binary for such systems please
+ask. I create some source code files during the compilation process with
+Perl scripts, so you definitely need Perl on your computer.
+<p>
+The main distribution packages were build at home with cross-compilers and I
+think that I wasted yet enough hard-disk space with three of them.
+
+
+<sect2>How do the both Win32 versions differ?
+<p>
+
+The <htmlurl name="Cygnus" url="http://www.cygnus.com/misc/gnu-win32/">
+version needs the special run-time DLL. Get it from
+<url url="@HOMEURL@/misc/win32.html">.
+
+The <htmlurl name="Mingw32" url="http://www.d.shuttle.de/isil/mingw32-cpd.html">
+version needs nothing else but it doesn't seem to work properly.
+
+
+<sect2>Are there Windows?? GUI versions of your command line tools?
+<p>
+
+GUI rules the world but it is very difficult to
+maintain a GUI program for different OS's. I
+use Linux only and I write my GUI programs with 
+Qt (<url url="http://www.troll.no">), which is free for non-commercial 
+Unix users. A Windows 
+developer license costs 1470 US dollar which I can't spend just for fun.
+A non-commercial Windows license does not exist (and I have no Windows
+anyway).
+<p>
+If I would publish the GUI front-end of DEMcut,
+everyone would bag me for a Windows version. A GUI version for LMPC itself
+seems to be totally senseless, since it is something like a compiler.
+<p>
+And BTW, if you'll ever write a line for a GUI program in Qt, you'll 
+never go back to anything else.
+
+
+<sect2>What about the QWD support in LMPC?
+<p>
+
+QuakeWorld QWD files are fully supported from version 3.1.9 on.
+
+
+<sect2>What about the Hexen II support in LMPC?
+<p>
+
+I abandoned the Hexen II support in LMPC and the DEM specs. It's time
+to move on. Actually nobody ever aked for a full working Hexen II LMPC.
+
+
+<sect2>What about the Quake II support in LMPC?
+<p>
+
+Quake II DM2 files are fully supported from version 3.1.7 on.
+
+
+<sect2>What about Quake 3 Arena support in LMPC?
+<p>
+
+This is difficult question. Due to legal problems I won't publish any
+information, which can be used to decode the network protocol of Q3A.
+There are plans (on the side of id Software) to remove the similarities 
+between the demo format and the network protocol.
+<p>
+On the other side, the 
+demo/movie community is seriously thinking about a self-made open demo format.
+This could work similar to the Quake II Relay project by Conor Davis
+(<htmlurl url="mailto:cedavis@planetquake.com"
+name="cedavis@planetquake.com">)
+<url url="http://www.planetquake.com/relay/">:
+The server will
+be modified, that it can record the game play into a kind of ``server
+record'' file. This file can be changed with LMPC as usual (yes, LMPC
+supports this extension to the DM2 format). Later, this file can be read in
+by the server and played back as if it was the result of an actual game
+play.
+<p>
+In Quake 3 Arena, we have the additional advantage to change the client as
+well. So maybe it is not necessary to start a server to watch the replay.
+Such a project did not start yet but it looks be really promising.
+<p>
+A really egoistic solution would be to include the DM3 support in LMPC
+but not to publish a DM3 specs and also not the source of the DM3 part in
+LMPC. I already started to include some DM3 code fragments in LMPC but
+you can't guess anything from the included source.
+
+
+<sect2>What about the (insert your favorite game here) support in LMPC?
+<p>
+
+I may support any Quake 1 and Quake 2 derived programs like Hexen 2, Sin,
+Heretic II, Half-Life, Kingpin but all this takes time, really much time.
+<p>
+I think I'll
+concentrate on the original id games. I'm currently in a total rewrite of
+LMPC, which makes it much more modular, so maybe someone other is able to
+provide "plug-in" modules for some games.
+<p>
+The idea is to write all the knowledge to parse a particular demo format in
+a single XML file. I hope to create the documentation and the source code
+out of the same XML file.
+<p>
+If your favorite game does not exist in a Linux version LMPC won't support
+it.
+
+
+<sect2>I found an error in LMPC, what shall I do?
+<p>
+
+The best way is to get the source code, fix the problem and mail me the patch
+file.
+<p>
+If you are not able to do this (for whatever reason), please send a full bug
+report with <em>all</em> of the following points:
+<itemize>
+<item>Exact version of LMPC are you using (output of <tt>lmpc -v</tt>).
+<item>Name and version of the OS you are using.
+<item>Information how you compiled LMPC or which precompiled binary you are
+using.
+<item>Recording type (LMP,DMO,DEM,QWD,DM2)! This is very important!
+<item>Full error message of LMPC.
+<item>Return code of LMPC.
+<item>If you can, please run it again under a debugger and get the stack
+trace at the crash point.
+<item>Exact description of what happended and what you expected to happen.
+<item>If possible, send the shortest recording which can cause the error
+by mail or place it on a FTP or HTTP server.
+</itemize>
+If you do it this way, you can expect a very fast response with the error
+fixed. If you send only some senseless things like ``I couldn't recompile my
+demo after decompiling it'' I won't pay much attention to you at all.
+
+
+<sect>Additional help sources
+<p>
+
+<sect1>Network protocols
+<p>
+
+<sect2>What is the difference between the QWD file format and the 
+QuakeWorld network protocol?
+<p>
+Read the source code of QuakeWorld.
+<p>
+There are many differences.
+Read the QuakeWorld Network Protocol Specs at 
+<url url="http://www.ens.fr/~cridlig/bot/qwspec21.html"> for the
+network part and my Unofficial QWD format description at
+<url url="@HOMEURL@/qwd"> for the file format part.
+It seems that the QuakeWorld Network Protocol Specs are unavailable at the
+moment (january 1999) but I hope to include them in my own QWD specs soon.
+
+<sect2>What is the difference between the DM2 file format and the 
+Quake II network protocol?
+<p>
+There are many differences. Read the Quake II network specs area at the
+Pandora bot site <url url="www.opt-sci.Arizona.EDU/Pandora/q2">
+for the network part and my Unofficial DM2 description at
+<url url="@HOMEURL@/dm2"> for the file format part.
+
+
+<sect>Version History
+<p>
+
+<descrip>
+
+<tag>0.0.1, 1st September, 1997</tag>
+<itemize>
+<item>First version completed.
+</itemize>
+
+<tag>0.0.2, 2nd September, 1997</tag>
+<itemize>
+<item>Hints on QWD, Hexen II.
+<item>More links for LMPC.
+</itemize>
+
+<tag>0.0.3, 17 September, 1997</tag>
+<itemize>
+<item>Multi-level playback problem.
+</itemize>
+
+<tag>0.0.4, 11 October, 1997</tag>
+<itemize>
+<item>QuakeWorld network specs mentioned.
+</itemize>
+
+<tag>0.0.5, 23 October, 1997</tag>
+<itemize>
+<item>Quake II DM2 files mentioned.
+</itemize>
+
+<tag>0.0.6, 29 December, 1997</tag>
+<itemize>
+<item>Quake II DM2 support in LMPC mentioned.
+</itemize>
+
+<tag>0.0.7, 2nd January, 1998</tag>
+<itemize>
+<item>New versions for DM2 specs and LMPC included.
+</itemize>
+
+<tag>0.0.8, 15 March, 1998</tag>
+<itemize>
+<item>New versions for LMPC included.
+<item>PlanetQuake is the new home.
+<item>SGML-Tools 1.0.5 used.
+</itemize>
+
+<tag>0.0.9, 17 June, 1998</tag>
+<itemize>
+<item>New versions for LMPC included.
+<item>Some more Quake II and HexenWorld hints.
+</itemize>
+
+<tag>1.0.0, 15 July, 1998</tag>
+<itemize>
+<item>SGML-Tools 1.0.7 used.
+<item>New versions for LMPC included.
+</itemize>
+
+<tag>1.0.1, 16 August, 1998</tag>
+<itemize>
+<item>New versions for LMPC included.
+<item>QuakeWorld support in LMPC mentioned.
+<item>Dead links to FTP mirrors corrected.
+<item>New bug report section.
+</itemize>
+
+<tag>1.0.2, 20 August, 1998</tag>
+<itemize>
+<item>MUlti-Level DEmo Repair kit mentioned.
+</itemize>
+
+<tag>1.0.3, 25 August, 1998</tag>
+<itemize>
+<item>Multi-level problem corrected.
+</itemize>
+
+<tag>1.0.4, 6 September, 1998</tag>
+<itemize>
+<item>New stable release for LMPC included.
+<item>Multi-level section restructured.
+<item>DM2 network protocol mentioned.
+</itemize>
+
+<tag>1.0.5, 8 September, 1998</tag>
+<itemize>
+<item>New stable release for LMPC included.
+</itemize>
+
+<tag>1.0.6, 8 January, 1999</tag>
+<itemize>
+<item>New stable release for LMPC included.
+</itemize>
+
+<tag>1.0.7, 12 January, 1999</tag>
+<itemize>
+<item>New stable release for LMPC included.
+<item>Hint on the vanishing QuakeWorld network protocol specs.
+</itemize>
+
+<tag>1.0.8, 7 April, 1999</tag>
+<itemize>
+<item>More hints on movie creating.
+<item>Some hints on file formats for the distribution packages.
+<item>New stable release for LMPC included.
+<item>Section on multi-level DM2 files corrected.
+</itemize>
+
+<tag>1.0.9, 29 April, 1999</tag>
+<itemize>
+<item>New stable release for LMPC included.
+<item>Some hints on the DM3 problems.
+<item>SGML-Tools 1.0.9 used.
+</itemize>
+
+<tag>1.1.0, 9 May, 1999</tag>
+<itemize>
+<item>New stable release for LMPC included.
+</itemize>
+
+<tag>1.1.1, 3 June, 1999</tag>
+<itemize>
+<item>New stable release for LMPC included.
+</itemize>
+
+<tag>1.1.2, 18 August, 1999</tag>
+<itemize>
+<item>New stable release for LMPC included.
+<item>Multi-level repair section enlarged.
+</itemize>
+
+<tag>1.1.3, 23 January 2000</tag>
+<itemize>
+<item>New stable release for LMPC included.
+<item>More hints on future game support.
+</itemize>
+
+</descrip>
+
+</article>
