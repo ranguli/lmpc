@@ -50,7 +50,7 @@ udemy.y: udemy.y.in tokenlist
 udeml.l: udeml.l.in tokenlist
 	srcdir=$(srcdir) $(GENTOK) $(TOKENBASEFILES) < $(srcdir)/udeml.l.in > udeml.l
 
-record.c: udemy.h
+record.o: udemy.h
 
 udm2.o: $(CALC_FROM_SPECS)
 
