@@ -128,6 +128,8 @@ sf	doc/lmpc.base	documentation input (LinuxDoc), deprecated
 sf	doc/lmpc.gen.in	documentation input (DocBook)
 ldwmf	doc/lmpc.html	documentation (HTML)
 f	doc/lmpc.pdf	documentation (PDF)
+sf	files/Makefile.am	Automake template for files/Makefile.in
+sf	files/Makefile.in	Autoconf template for files/Makefile
 sf	install-sh	Autoconf install script
 sf	missing	Automake help script
 sf	spec/Makefile.am	Automake template for spec/Makefile.in
