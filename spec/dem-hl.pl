@@ -148,6 +148,7 @@ for (@directory) {
 		printf $file_out "   type %i;\n", $macro{"type"};
 		printf $file_out "   time %fs;\n", $macro{"time"};
 		printf $file_out "   frame %i;\n", $macro{"frame"};
+		my $cont = -1;
 		# macro block 0, 1 ############################################
 		if ($macro{"type"} == 0 || $macro{"type"} == 1) {
 			printf $file_out "   ukdata // offset=0x%08x, len=%d\n",
@@ -165,6 +166,11 @@ for (@directory) {
 			my @data = unpack "C" . $macro{"length"} , $data_1_d;
 			for (@data) { printf $file_out " %02x", $_; }
 			printf $file_out ";\n";
+			$cont = 1;
+		}
+		# macro block 2 ###############################################
+		if ($macro{"type"} == 2) {
+			$cont = 1;
 		}
 		# macro block 3 ###############################################
 		if ($macro{"type"} == 3) {
@@ -173,6 +179,7 @@ for (@directory) {
 				$macro{"text"}
 			) = unpack "Z64", $data_3_d;
 			printf $file_out "   text \"%s\";\n", $macro{"text"};
+			$cont = 1;
 		}
 		# macro block 4 ###############################################
 		if ($macro{"type"} == 4) {
@@ -181,6 +188,21 @@ for (@directory) {
 			printf $file_out "   data";
 			for (@data) { printf $file_out " %02x", $_; }
 			printf $file_out ";\n";
+			$cont = 1;
+		}
+		# macro block 5 ###############################################
+		if ($macro{"type"} == 5) {
+			$cont = 0; # last in segment
+		}
+		# macro block 6 ###############################################
+		if ($macro{"type"} == 6) {
+			printf $file_out "// XXX: I have never seen a block type 6.\n";
+			$cont = 0;
+		}
+		# macro block 7 ###############################################
+		if ($macro{"type"} == 7) {
+			printf $file_out "// XXX: I have never seen a block type 7.\n";
+			$cont = 0;
 		}
 		# macro block 8 ###############################################
 		if ($macro{"type"} == 8) {
@@ -209,6 +231,7 @@ for (@directory) {
 			printf $file_out "   uk_f2 %d;\n", $macro{"uk_f2"};
 			printf $file_out "   uk_i2 0x%x;\n", $macro{"uk_i2"};
 			printf $file_out "   uk_i3 %d;\n", $macro{"uk_i3"};
+			$cont = 1;
 		}
 		# macro block 9 ###############################################
 		if ($macro{"type"} == 9) {
@@ -222,17 +245,15 @@ for (@directory) {
 			printf $file_out "   data";
 			for (@data) { printf $file_out " %02x", $_; }
 			printf $file_out ";\n";
+			$cont = 1;
 		}
 		#
 		printf $file_out "  }\n";
-		last if (
-			$macro{"type"} != 0 &&
-			$macro{"type"} != 1 &&
-			$macro{"type"} != 2 &&
-			$macro{"type"} != 3 &&
-			$macro{"type"} != 4 &&
-			$macro{"type"} != 8 &&
-			$macro{"type"} != 9);
+		if ($cont == -1) {
+			printf $file_out "// XXX: unknown block type\n";
+			$cont = 0;
+		}
+		last if (!$cont);
 	}
 	printf $file_out " }\n";
 }
