@@ -5,6 +5,7 @@ LsParse.class
 LsParse.java
 Makefile
 Makefile.in
-TextOut.class
+TextBlockReader.class
+TextBlockWriter.class
 classjava.stamp
 
