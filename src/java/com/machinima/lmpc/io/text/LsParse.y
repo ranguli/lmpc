@@ -116,7 +116,7 @@ time: v_float 's' {
 
 
 	// lexer object
-	public LsLex lexer;
+	private LsLex lexer;
 
 	boolean end_of_top_block = false;
 
@@ -164,22 +164,13 @@ time: v_float 's' {
 
 	static TextOut textout;
 
-	public Node get_yyval() { return yyval; }
+	Node get_block() { return yyval; }
 
-	public boolean get_parse_empty()
-	{
-		return parse_empty;
-	}
-
-	public void set_parse_empty(boolean parse_empty)
-	{
-		this.parse_empty = parse_empty;
-	}
-
-	public boolean block_read()
+	boolean read_block()
 	{
 		boolean result;
 
+		// yyparser.yydebug = true;
 		yyparse();
 		if (parse_empty) {
 			parse_empty = false;
@@ -190,6 +181,23 @@ time: v_float 's' {
 		}
 
 		return result;
+	}
+
+	public Node ReadNextBlock()
+	{
+		boolean read_result = read_block();
+		Node get_result;
+
+		if (read_result) {
+			get_result = get_block();
+		}
+		else {
+			get_result = null;
+		}
+
+		// !yyparser.lexer.lex_at_eof()
+
+		return get_result;
 	}
 
 	public static void main(String args[]) throws IOException
