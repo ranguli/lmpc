@@ -450,17 +450,17 @@ sub parse_message_11_serverinfo($$$) {
 sub parse_message_13_updateuserinfo($$$) {
 	my ($file, $data, $indent) = @_;
 	(
-		my $player,
-		my $user,
+		my $slot,
+		my $userid,
 		my $rest,
 	) = unpack ("C V a*", $data);
 #	$mark = 1;	
-	(my $string, $rest) = ReadString($rest);
+	(my $userinfo, $rest) = ReadString($rest);
 	printf $file "%supdateuserinfo {\n", " " x $indent;
-	printf $file "%splayer %d;\n", " " x ($indent+$indent_diff), $player;
-	printf $file "%suser %d;\n", " " x ($indent+$indent_diff), $user;
-	printf $file "%sstring \"%s\";\n", " " x ($indent+$indent_diff),
-			$string;
+	printf $file "%sslot %d;\n", " " x ($indent+$indent_diff), $slot;
+	printf $file "%suserid %d;\n", " " x ($indent+$indent_diff), $userid;
+	printf $file "%suserinfo \"%s\";\n", " " x ($indent+$indent_diff),
+			$userinfo;
 	printf $file "%s}\n", " " x $indent;
 	return $rest;
 }
