@@ -24,6 +24,7 @@
 #****************************************************************************#
 
 
+CURL=/usr/bin/curl
 DOCBOOK2HTML=/usr/bin/docbook2html
 DOCBOOK2PDF=/usr/bin/docbook2pdf
 SGMLNORM=/usr/bin/sgmlnorm
@@ -97,6 +98,13 @@ index-$(PACKAGE)-$(VERSION).html: $(PACKAGE).sgml $(WPU)
 	$(WPU) --set ACTION=indexpart \
 		--set TYPE=document \
 		$< $@
+
+upload:
+	$(WPU) --set ACTION=execsubst -- \
+		$(CURL) --user @PQLOGIN@:@PQPASSWORD@ \
+		--upload-file \
+		\{index.html,$(PACKAGE).html,$(PACKAGE).sgml,$(PACKAGE).pdf\} \
+		@PQ@/$(PACKAGE)/
 
 clean:
 	$(RM_F) temp1 temp2 temp3
