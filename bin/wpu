@@ -873,6 +873,11 @@ sub readmepackaging {
     my $currdir = cwd();
     chdir "..";
 
+		## make sure DIRECTORY exists
+		if (!-d $values{"DIRECTORY"}) {
+			symlink $currdir, $values{"DIRECTORY"};
+		}
+
     ### method zipdos
     if ($method eq "zipdos") {
       my $command = $values{"ZIP"} . " -9k $filename " .
