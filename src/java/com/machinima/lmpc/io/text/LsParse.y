@@ -22,15 +22,13 @@ input: /* empty string */ {
 top_blocks: 
 	top_block {
 		$$ = $1;
-		// do something with $1
-		// and than stop
+		// store the top block in yyval and stop
 		end_of_top_block = true;
 	}
 	|
 	top_blocks top_block {
 		$$ = $1.add_next($2);
-		// do something with $2
-		// and than stop
+		// store the top block in yyval and stop
 		end_of_top_block = true;
 	}
 	;
@@ -75,6 +73,8 @@ intarray:	v_int {
 
 floatarray:	v_float {
 		$$ = $1;
+		// FloatNode t = (FloatNode)$$;
+		// System.err.println(t.value);
 	}
 	|	floatarray v_float {
 		$$ = $1.add_next($2);
@@ -98,16 +98,13 @@ timearray:	time {
 	;
 
 time: v_float 's' {
-			// $$ = $1;
+			$$ = new TimeNode((FloatNode)$1);
 	}
 	| v_int ':' v_float 'm' {
-			// $$ = $3;
-			// $$ += 60.0 * $1;
+			$$ = new TimeNode((IntNode)$1, (FloatNode)$3);
 	}
 	| v_int ':' v_int ':' v_float 'h' {
-			// $$ = $5;
-			// $$ += 60.0 * $3;
-			// $$ += 60.0 * $5;
+			$$ = new TimeNode((IntNode)$1, (IntNode)$3, (FloatNode)$5);
 	}
 	;
 
@@ -161,6 +158,8 @@ time: v_float 's' {
 
 	static boolean parse_empty = false;
 
+	static TextOut textout;
+
 	public static void main(String args[]) throws IOException
 	{
 		System.out.println("BYACC/Java & JFlex LS text input");
@@ -174,6 +173,8 @@ time: v_float 's' {
 			throw new IOException("error: no file");
 		}
 
+		textout = new TextOut(new FileWriter("out"));
+
 		int top_level_blocks = 0;
 		do {
 			// yyparser.yydebug = true;
@@ -183,6 +184,7 @@ time: v_float 's' {
 				break;
 			}
 			else {
+				textout.node_write_text(yyparser.yyval,0);
 				top_level_blocks++;
 			}
 		} while (!yyparser.lexer.lex_at_eof());
