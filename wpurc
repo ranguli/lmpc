@@ -50,9 +50,6 @@ METHOD_m="zipwin"
 FILENAME_m="@PACKAGE@@SHORTVERSION@m.zip"
 
 
-DIRECTORY="@PACKAGE@"
-
-
 HINT_stable="This is a stable release."
 HINT_beta="This version is beta code. It contains new bugs."
 HINT_alpha="This code is considered as alpha quality. It contains many new bugs."
