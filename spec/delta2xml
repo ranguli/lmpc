@@ -1,126 +1,25 @@
 #!/usr/bin/perl -w
 
 use strict;
-use Carp;
-
-sub syntax($) { my ($text) = @_; croak "syntax error in line $.\n$text\n"; }
-sub I($) { "\t" x $_[0]; }
+use Delta;
 
 (my $release = q$Revision$) =~ s/^[^:]+:\s*(.*?)\s*$/$1/;
 (my $date = q$Date$) =~ s/^[^:]+:\s*(.*?)\s*$/$1/;        
 
+my $delta = new Delta;
+
 if (@ARGV != 2) {
 	print "Half-Life delta converter: delta.lst -> xml\n";
 	print "delta2xml (c) Uwe Girlich, Release $release, $date\n";
-	print "delta2xml.pl delta.lst delta.xml\n";
+	printf "using Delta.pm, Release %s, %s\n", $delta->release(),
+			$delta->date();
+	print "delta2xml delta.lst delta.xml\n";
 	exit;
 }
- 
-my ($deltafilename, $xmlfilename) = @ARGV;                                               
-open DELTA, "$deltafilename" || die "can't read $deltafilename: $!\n";
-open XML, ">$xmlfilename" || die "can't write $xmlfilename: $!\n";
 
-print XML I(0) . "<?xml version=\"1.0\"?>\n";
+my ($deltafilename, $xmlfilename) = @ARGV;
 
-print XML I(0) . "<delta_description>\n";
+$delta->readfile_lst($deltafilename);
+$delta->writefile_xml($xmlfilename);
 
-my $state = 0;
-
-while (<DELTA>) {
-	my $line = $_;
-
-	$line =~ s|//.*||;	# remove comments
-	$line =~ s|^\s*||;	# remove leading spaces
-	$line =~ s|\s*$||;	# remove trailing spaces
-	next if $line =~ /^$/;
-
-#	print "$state $line\n";
-
-	if ($state == 0) {
-		my ($typename, $dllname, $functionname) = split ' ', $line;
-		print XML I(1) . "<type>\n";
-		print XML I(2) . "<name>$typename</name>\n";
-		if ($dllname ne "none") {
-			print XML I(2) . "<callback>\n";
-			print XML I(3) . "<dll>$dllname</dll>\n";
-			print XML I(3) . "<function>$functionname</function>\n";
-			print XML I(2) . "</callback>\n";
-		}
-		$state = 1;
-		next;
-	}
-
-	if ($state == 1) {
-		if ($line ne "{") {
-			syntax("{ expected");
-		}
-		$state = 2;
-		next;
-	}
-
-	if ($state == 2) {
-		if ($line eq "}") {
-			# end this block
-			print XML I(1) . "</type>\n";
-			$state = 0;
-			next;
-		}
-		if ($line =~ /^DEFINE_DELTA\s*\(/) {
-			if ($line !~ /^DEFINE_DELTA\s*\(\s*([^,]+?)\s*,\s*([^,]+?)\s*,\s*([^,]+?)\s*,\s*([^,]+?)\s*\),?$/) {
-				syntax "problem in DEFINE_DELTA expression";
-			}
-			my ($name, $flags, $bits, $pre) = ($1,$2,$3,$4);
-
-			# split flags
-			$flags =~ s/\s*//g;
-			my @flags = split '\|', $flags;
-
-			# output XML
-			print XML I(2) . "<define_delta>\n";
-			print XML I(3) . "<name>$name</name>\n";
-			print XML I(3) . "<flags>\n";
-			for (@flags) {
-				print XML I(4) . "<flag>$_</flag>\n";
-			}
-			print XML I(3) . "</flags>\n";
-			print XML I(3) . "<bits>$bits</bits>\n";
-			print XML I(3) . "<pre-multiply>$pre</pre-multiply>\n";
-			print XML I(2) . "</define_delta>\n";
-
-			next;
-		}
-		if ($line =~ /^DEFINE_DELTA_POST\s*\(/) {
-			if ($line !~ /^DEFINE_DELTA_POST\s*\(\s*([^,]+?)\s*,\s*([^,]+?)\s*,\s*([^,]+?)\s*,\s*([^,]+?)\s*,\s*([^,]+?)\s*\),?$/) {
-				syntax "problem in DEFINE_DELTA_POST expression";
-			}
-			my($name,$flags,$bits,$pre,$post)=($1,$2,$3,$4,$5);
-			# split flags
-			$flags =~ s/\s*//g;
-			my @flags = split '\|', $flags;
-
-			# output XML
-			print XML I(2) . "<define_delta_post>\n";
-			print XML I(3) . "<name>$name</name>\n";
-			print XML I(3) . "<flags>\n";
-			for (@flags) {
-				print XML I(4) . "<flag>$_</flag>\n";
-			}
-			print XML I(3) . "</flags>\n";
-			print XML I(3) . "<bits>$bits</bits>\n";
-			print XML I(3) . "<pre-multiply>$pre</pre-multiply>\n";
-			print XML I(3) . "<post-multipy>$post</post-multiply>\n";
-			print XML I(2) . "</define_delta_post>\n";
-
-			next;
-		}
-		syntax "unknon command";
-	}
-}
-
-print XML I(0) . "</delta_description>\n";
-
-close DELTA;
-close XML;
-
-1;
 
