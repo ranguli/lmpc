@@ -64,9 +64,9 @@ mulder: mulder.in Makefile
 mulder.html: mulder Makefile
 	$(WPU) --set ACTION=t2h $< $@
 
-procdm2.pl:
+procdm2.pl: ../../bin/procdm2.pl
 	rm -f procdm2.pl
-	ln -fs ../../bin/procdm2.pl procdm2.pl
+	cp -a ../../bin/procdm2.pl procdm2.pl
 
 procdm2.html: procdm2.pl Makefile
 	$(WPU) --set ACTION=t2h $< $@
