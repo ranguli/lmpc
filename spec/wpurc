@@ -1,0 +1,16 @@
+# $Id$
+
+# wpu parse start /^([^=]+)="(.*)"/
+MYFIRSTNAME="Uwe"
+MYSURNAME="Girlich"
+MYNAME="@MYFIRSTNAME@ @MYSURNAME@"
+MYEMAIL="uwe@planetquake.com"
+CDROMCOM="ftp://ftp.cdrom.com"
+FTPCDROMBASE="@CDROMCOM@/pub/idgames2/planetquake/@BASE@"
+FTPMIRRORBASE="http://dl.fileplanet.com/dl/dl.asp?@BASE@"
+PLANETQUAKE="http://www.planetquake.com"
+BASE="demospecs"
+HOMEURL="@PLANETQUAKE@/@BASE@"
+HOMENAME="Demo Specs page"
+UP=upload
+# wpu parse end
