@@ -40,6 +40,8 @@ SGMLNORM=/usr/bin/sgmlnorm
 JADE=/usr/bin/jade
 RM_F=/bin/rm -f
 WPU=../../bin/wpu
+XSLTPROC=/usr/bin/xsltproc
+XSLTDIR=/usr/share/xml/docbook/stylesheet/nwalsh/current
 
 all: html pdf
 
@@ -49,25 +51,38 @@ all: html pdf
 # - with Perl from DocBook 3.0 to DocBook 4.2
 # - add some (in HTML unknown) entities
 # - normalize the SGML file with SGMLNorm.
-$(PACKAGE).sgml.in: $(PACKAGE).base
+$(PACKAGE).gen.in: $(PACKAGE).base
 	$(JADE) \
 		-t sgml \
 		-c /usr/share/sgml/openjade/catalog \
 		-c /usr/lib/sgml-tools/dtd/catalog \
 		-d "/usr/share/sgml/docbook/dsssl-stylesheets/ld2db.dsl#db" \
 		$< > temp1
-	perl ../postprocess.pl < temp1 > temp2
+	perl ../postprocess.pl 1 < temp1 > temp2
+	$(SGMLNORM) temp2 >> temp3
+	perl ../postprocess.pl 2 < temp3 > $@
+
+$(PACKAGE).sgml.in: $(PACKAGE).gen.in
 	echo '<!DOCTYPE ARTICLE PUBLIC "-//OASIS//DTD DocBook V4.2//EN" [' > $@
-	echo '<!ENTITY lowbar "_">' >> $@
-	echo '<!ENTITY lsqb "[">' >> $@
-	echo '<!ENTITY rsqb "]">' >> $@
-	echo '<!ENTITY num "#">' >> $@
-	echo '<!ENTITY bsol "\">' >> $@
-	echo ']>' >> $@
-	$(SGMLNORM) temp2 >> $@
+	cat $< >> $@
+
+$(PACKAGE).xml.in: $(PACKAGE).gen.in
+	echo '<?xml version="1.0" encoding="UTF-8"?>' > $@
+	echo '<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"' >> $@
+	echo '"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [' >> $@
+	cat $< >> $@
 
 $(PACKAGE).sgml: $(PACKAGE).sgml.in
 	$(WPU) --set ACTION=subst $< $@
+
+$(PACKAGE).xml: $(PACKAGE).xml.in
+	$(WPU) --set ACTION=subst $< $@
+
+$(PACKAGE)xml.html: $(PACKAGE).xml
+	$(XSLTPROC) --output $(PACKAGE)xml.html $(XSLTDIR)/html/docbook.xsl $<
+
+$(PACKAGE)xml.pdf: $(PACKAGE).xml
+	$(XSLTPROC) --output $(PACKAGE)xml.pdf $(XSLTDIR)/fo/docbook.xsl $<
 
 html: $(PACKAGE).html
 
@@ -80,8 +95,9 @@ $(PACKAGE).pdf: $(PACKAGE).sgml
 	$(DOCBOOK2PDF) $<
 
 clean:
-	$(RM_F) temp1 temp2
+	$(RM_F) temp1 temp2 temp3
 	$(RM_F) $(PACKAGE).sgml
+	$(RM_F) $(PACKAGE).xml
 	$(RM_F) $(PACKAGE).html
 	$(RM_F) $(PACKAGE).pdf
 	$(RM_F) *.tex *.aux *.log *.out
