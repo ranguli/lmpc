@@ -101,7 +101,7 @@ $(PACKAGE).html: $(PACKAGE).sgml ../spec.dsl
 $(PACKAGE).pdf: $(PACKAGE).sgml ../spec.dsl
 	$(DOCBOOK2PDF) -d "../spec.dsl#print" $<
 
-index: index.html index-$(PACKAGE)-$(VERSION).html
+index: index.html indexpart.html
 
 index.html: $(PACKAGE).sgml $(WPU)
 	$(WPU) --set ACTION=packageindex \
@@ -109,7 +109,7 @@ index.html: $(PACKAGE).sgml $(WPU)
 		--set DOWNCOUNT=0 \
 		$< $@
 
-index-$(PACKAGE)-$(VERSION).html: $(PACKAGE).sgml $(WPU)
+indexpart.html: $(PACKAGE).sgml $(WPU)
 	$(WPU) --set ACTION=indexpart \
 		--set TYPE=$(TYPE) \
 		$< $@
@@ -118,20 +118,30 @@ comma:= ,
 empty:=
 space:= $(empty) $(empty)
 
-UPLOAD_FILES_document=index.html $(PACKAGE).html $(PACKAGE).sgml $(PACKAGE).pdf
-UPLOAD_FILES=$(UPLOAD_FILES_$(TYPE))
-UPLOAD_FILES_COMMA=$(subst $(space),$(comma),$(UPLOAD_FILES))
+ifeq ($(strip $(UPLOAD_FILES_1)),)
+UPLOAD_FILES_1=index.html $(PACKAGE).html $(PACKAGE).sgml $(PACKAGE).pdf
+endif
 
-uploadlocal: $(UPLOAD_FILES)
+ifeq ($(strip $(UPLOAD_DIR_1)),)
+UPLOAD_DIR_1=$(PACKAGE)
+endif
+
+uploadlocal:
 	$(WPU) --set ACTION=execsubst -- \
-		mkdir -p @PQSTAGE@/$(PACKAGE)
+		mkdir -p @PQSTAGE@/$(UPLOAD_DIR_1)
 	$(WPU) --set ACTION=execsubst -- \
-		cp -a $(UPLOAD_FILES) @PQSTAGE@/$(PACKAGE)/
+		cp -a $(UPLOAD_FILES_1) @PQSTAGE@/$(UPLOAD_DIR_1)
+	if [ -n $(UPLOAD_DIR_2) ]; then \
+		$(WPU) --set ACTION=execsubst -- \
+			mkdir -p @PQSTAGE@/$(UPLOAD_DIR_2) ; \
+		$(WPU) --set ACTION=execsubst -- \
+			cp -a $(UPLOAD_FILES_2) @PQSTAGE@/$(UPLOAD_DIR_2) ; \
+	fi
 
 clean::
 	$(RM_F) temp0 temp1 temp2 temp3
 	$(RM_F) index.html
-	$(RM_F) index-$(PACKAGE)-*.html
+	$(RM_F) indexpart.html
 	$(RM_F) $(PACKAGE).sgml.in
 	$(RM_F) $(PACKAGE).xml.in
 	$(RM_F) $(PACKAGE).sgml
