@@ -108,7 +108,7 @@ upload: index.html $(PACKAGE).html $(PACKAGE).sgml $(PACKAGE).pdf
 		@PQ@/$(PACKAGE)/
 
 clean:
-	$(RM_F) temp1 temp2 temp3
+	$(RM_F) temp0 temp1 temp2 temp3
 	$(RM_F) index.html
 	$(RM_F) index-$(PACKAGE)-*.html
 	$(RM_F) $(PACKAGE).sgml.in
