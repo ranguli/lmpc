@@ -31,11 +31,9 @@ DD6="@COMMENT_m@"
 DF6="@FILENAME_m@"
 
 
-UPCOUNT="2"
+UPCOUNT="1"
 UF1="@PACKAGE@-@VERSION@.tar.gz ../@PACKAGE@-@VERSION@-l.tar.gz ../@PACKAGE@-@VERSION@-f.tar.gz ../@PACKAGE@@SHORTVERSION@d.zip ../@PACKAGE@@SHORTVERSION@m.zip ../@PACKAGE@@SHORTVERSION@w.zip"
 UD1="@UPPQFTP@"
-UF2="doc/@PACKAGE@.sgml doc/@PACKAGE@.txt doc/@PACKAGE@.doc doc/@PACKAGE@.ps doc/@PACKAGE@*.html index.html README"
-UD2="@UPPQWWW@/@PACKAGE@-@QUALITY@"
 
 
 GOODPACK="sfdlwm"
