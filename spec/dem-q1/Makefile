@@ -45,12 +45,13 @@ XSLTDIR=/usr/share/xml/docbook/stylesheet/nwalsh/current
 
 all: html pdf
 
-# This rule converts (once) the old LinuxDoc input file into a DocBook file.
+# This rule converts (once) the old LinuxDoc input file into a generic
+# (SGML) DocBook file.
 # The conversion goes as follows:
-# - via Stylesheet from LinuxDoc to DocBook 3.0
-# - with Perl from DocBook 3.0 to DocBook 4.2
-# - add some (in HTML unknown) entities
-# - normalize the SGML file with SGMLNorm.
+# - Stylesheet: from LinuxDoc to DocBook 3.0
+# - Perl script: from DocBook 3.0 to DocBook 4.2
+# - SGMLNorm: normalize the SGML file.
+# - Perl script: add some unknown entities, improve email and author name.
 $(PACKAGE).gen.in: $(PACKAGE).base
 	$(JADE) \
 		-t sgml \
@@ -70,7 +71,7 @@ $(PACKAGE).xml.in: $(PACKAGE).gen.in
 	echo '<?xml version="1.0" encoding="UTF-8"?>' > $@
 	echo '<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"' >> $@
 	echo '"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [' >> $@
-	cat $< >> $@
+	cat $< | perl ../postprocess.pl 3 >> $@
 
 $(PACKAGE).sgml: $(PACKAGE).sgml.in
 	$(WPU) --set ACTION=subst $< $@
@@ -88,17 +89,21 @@ html: $(PACKAGE).html
 
 pdf: $(PACKAGE).pdf
 
-$(PACKAGE).html: $(PACKAGE).sgml
-	$(DOCBOOK2HTML) --nochunks $<
+$(PACKAGE).html: $(PACKAGE).sgml ../spec.dsl
+	$(DOCBOOK2HTML) -d "../spec.dsl#html" --nochunks $<
 
-$(PACKAGE).pdf: $(PACKAGE).sgml
-	$(DOCBOOK2PDF) $<
+$(PACKAGE).pdf: $(PACKAGE).sgml ../spec.dsl
+	$(DOCBOOK2PDF) -d "../spec.dsl#print" $<
 
 clean:
 	$(RM_F) temp1 temp2 temp3
+	$(RM_F) $(PACKAGE).sgml.in
+	$(RM_F) $(PACKAGE).xml.in
 	$(RM_F) $(PACKAGE).sgml
 	$(RM_F) $(PACKAGE).xml
 	$(RM_F) $(PACKAGE).html
 	$(RM_F) $(PACKAGE).pdf
+	$(RM_F) $(PACKAGE)xml.html
+	$(RM_F) $(PACKAGE)xml.pdf
 	$(RM_F) *.tex *.aux *.log *.out
 
