@@ -51,7 +51,9 @@ fi
 dnl AC_PATH_PROG(GZIP, gzip, gzip)dnl
 AC_PROG_INSTALL
 INSTALL_SCRIPT='${INSTALL} -m 755'
-AC_SUBST(INSTALL_SCRIPT)
+AC_SUBST(INSTALL_SCRIPT)dnl
+AC_PATH_PROG(JAR, jar, jar)dnl
+AC_PATH_PROG(JAVAC, javac, javac)dnl
 AC_PATH_PROG(JFLEX, jflex, jflex)dnl
 AM_PROG_LEX
 AC_PROG_MAKE_SET
@@ -207,7 +209,7 @@ fi
 
 
 dnl output
-AC_OUTPUT([Makefile bin/Makefile src/Makefile doc/Makefile bin/dema bin/dm2cat bin/extract src/java/Makefile src/java/com/Makefile src/java/com/machinima/Makefile src/java/com/machinima/lmpc/Makefile src/java/com/machinima/lmpc/io/Makefile src/java/com/machinima/lmpc/io/node/Makefile src/java/com/machinima/lmpc/io/text/Makefile],
+AC_OUTPUT([Makefile bin/Makefile src/Makefile doc/Makefile bin/dema bin/dm2cat bin/extract src/java/Makefile src/java/com/Makefile src/java/com/machinima/Makefile src/java/com/machinima/lmpc/Makefile src/java/com/machinima/lmpc/io/Makefile src/java/com/machinima/lmpc/io/base/Makefile src/java/com/machinima/lmpc/io/node/Makefile src/java/com/machinima/lmpc/io/text/Makefile],
 [echo timestamp > stamp-h ; chmod +x bin/dema bin/dm2cat bin/extract])
 
 dnl check warnings
