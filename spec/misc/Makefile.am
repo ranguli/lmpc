@@ -85,6 +85,7 @@ UPLOAD_FILES_stat=cd.dem cygwin.dll cygwinb19.dll cygwin1.dll \
 		qfont.dem qfont.pcx
 UPLOAD_FILES_misc=$(UPLOAD_FILES_dyn) $(UPLOAD_FILES_stat)
 UPLOAD_DIR_misc=$(PACKAGE)
+UPLOAD_STAGE_misc=@PQSTAGE@
 
 clean::
 	$(RM_F) $(UPLOAD_FILES_dyn)
