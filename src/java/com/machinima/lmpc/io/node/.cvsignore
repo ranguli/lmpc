@@ -1,7 +1,10 @@
+Makefile
+Makefile.in
 Node.class
 StringNode.class
 FloatNode.class
 IntNode.class
 TimeNode.class
 TokenNode.class
+classjava.stamp
 
