@@ -14,8 +14,8 @@ METHOD_s="tbz"
 
 # packdb start
 [Files]
-s	@PACKAGE@.base	base documentation in LinuxDoc
-s	@PACKAGE@.sgml.in	base documentation in DocBook
+s	@PACKAGE@.base	base documentation in LinuxDoc (deprecated)
+s	@PACKAGE@.gen.in	base documentation in generic DocBook
 s	Makefile	main make file
 s	wpurc		configuration file for wpu
 
