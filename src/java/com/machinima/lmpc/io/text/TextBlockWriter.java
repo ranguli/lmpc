@@ -64,8 +64,9 @@ public class TextBlockWriter extends BlockWriter {
 	{
 		for (Node i=n ; i!= null ; i=i.next) {
 			String newPart = i.toString();
-			// wrap around check
-			if (ts.length() + newPart.length() > 79) {
+			// wrap around check for Strings only
+			if (ts.length() + newPart.length() > 79 &&
+				i instanceof StringNode) {
 				output_text_and_comment();
 				startnewline(depth);
 			}
