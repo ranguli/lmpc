@@ -1,9 +1,14 @@
 /* $Id$ */
 
-package com.machinima.lmpc.io.text;
-import com.machinima.lmpc.io.node.*;
 
-public class TextOut {
+package com.machinima.lmpc.io.text;
+
+
+import com.machinima.lmpc.io.node.*;
+import com.machinima.lmpc.io.base.BlockWriter;
+
+
+public class TextBlockWriter extends BlockWriter {
 	StringBuffer ts;
 	StringBuffer cs;
 
@@ -11,13 +16,14 @@ public class TextOut {
 
 	String LineSeparator;
 
-	public TextOut(java.io.Writer writer)
+	public TextBlockWriter(java.io.Writer writer)
 	{
+		super(writer);
 		this.writer = writer;
 		LineSeparator = java.lang.System.getProperty("line.separator");
 	}
 
-	public void WriteNextBlock(Node b)
+	public void WriteBlock(Node b)
 	{
 		node_write_text(b, 0);
 	}
