@@ -21,6 +21,7 @@ sub parse_message_14_deltadescription($$$);
 sub parse_message_15_clientdata($$$);
 sub parse_message_29_spawnstaticsound($$$);
 sub parse_message_37_roomtype($$$);
+sub parse_message_45_resourcerequest($$$);
 sub parse_message_54_sendextrainfo;
 
 my %parse = (
@@ -34,6 +35,7 @@ my %parse = (
 	15 => \&parse_message_13_updateuserinfo,
 	29 => \&parse_message_29_spawnstaticsound,
 	37 => \&parse_message_37_roomtype,
+	45 => \&parse_message_45_resourcerequest,
 	54 => \&parse_message_54_sendextrainfo,
 );
 
@@ -639,6 +641,18 @@ sub parse_message_37_roomtype($$$) {
 	printf $file "%sroomtype %d;\n", " " x $indent, $room_type;
 	return $rest;
 }
+
+
+sub parse_message_45_resourcerequest($$$) {
+	my ($file, $data, $indent) = @_;
+	my ($level, $uk_long, $rest) = unpack("V V a*", $data);
+	printf $file "%sresourcerequest {\n", " " x $indent;
+	printf $file "%slevel %d;\n", " " x ($indent+$indent_diff), $level;
+	printf $file "%suk_long %d;\n", " " x ($indent+$indent_diff), $uk_long;
+	printf $file "%s}\n", " " x $indent;
+	return $rest;
+}
+
 
 
 sub parse_message_54_sendextrainfo($$$) {
