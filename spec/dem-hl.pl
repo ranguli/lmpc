@@ -6,12 +6,26 @@ use IO::File;
 
 sub read_with_check($$);
 sub LittleFloat($);
+sub CL_ParseServerMessage($$);
+
+sub parse_message_01_nop($$$);
+sub parse_message_07_time($$$);
+
+
+my $indent_diff = 1;
 
 my %macroname = (
+	"0" => "game data",
 	"1" => "game data",
 	"3" => "client command",
 	"5" => "last in segment",
 	"8" => "play sound",
+);
+
+
+my %parse = (
+	1 => \&parse_message_01_nop,
+	7 => \&parse_message_07_time,
 );
 
 
@@ -155,7 +169,7 @@ for (@directory) {
 		printf $file_out "   type %i; // %s\n", $macro{"type"},
 			(exists $macroname{$macro{"type"}} ?
 				$macroname{$macro{"type"}} :
-				"unknown");
+				"unknown macro block type");
 		printf $file_out "   time %fs;\n", $macro{"time"};
 		printf $file_out "   frame %i;\n", $macro{"frame"};
 		my $cont = -1;
@@ -170,12 +184,16 @@ for (@directory) {
 			(
 				$macro{"length"}
 			) = unpack "V", $data_1_len_d;
-			printf $file_out "   length %i;\n", $macro{"length"};
-			printf $file_out "   gamedata";
+			printf $file_out "   gamedata_length %i;\n", $macro{"length"};
+
+#			printf $file_out "   gamedata";
 			my $data_1_d = read_with_check($file_in,$macro{"length"});
-			my @data = unpack "C" . $macro{"length"} , $data_1_d;
-			for (@data) { printf $file_out " %02x", $_; }
-			printf $file_out ";\n";
+#			my @data = unpack "C" . $macro{"length"} , $data_1_d;
+#			for (@data) { printf $file_out " %02x", $_; }
+#			printf $file_out ";\n";
+			printf $file_out "   gamedata_messages {\n";
+			CL_ParseServerMessage($file_out, $data_1_d);
+			printf $file_out "   }\n";
 			$cont = 1;
 		}
 		# macro block 2 ###############################################
@@ -318,4 +336,43 @@ sub read_with_check($$)
 
 sub LittleFloat($) {
 	unpack("f",pack("I",unpack("V",pack("f",$_[0]))));
+}
+
+sub CL_ParseServerMessage($$) {
+	my ($file, $data) = @_;
+
+	my $length = length($data);
+	my $indent = 4;
+
+	while (length($data) > 0) {
+		(my $msgtype, $data) = unpack("C a*", $data);
+		if (exists $parse{$msgtype}) {
+			my $ref = $parse{$msgtype};
+			$data = &$ref($file, $data, $indent + $indent_diff);
+		}
+		else {
+			printf $file "%smessage {\n", " " x $indent; 
+			printf $file "%s id %s; // unknown message type\n",
+				" " x $indent, $msgtype;
+			printf $file "%s data", " " x $indent;
+			my @data = unpack (("C" . length($data)), $data);
+			for (@data) { printf $file " %02x", $_; }
+			printf $file ";\n";
+			printf $file "%s}\n", " " x $indent;
+			last;
+		}
+	}
+}
+
+sub parse_message_01_nop($$$) {
+	my ($file, $data, $indent) = @_;
+	printf $file "%snop;\n", " " x $indent;
+	return $data;
+}
+
+sub parse_message_07_time($$$) {
+	my ($file, $data, $indent) = @_;
+	my ($time, $rest) = unpack("f a*", $data);
+	printf $file "%stime %f;\n", " " x $indent, $time;
+	return $rest;
 }
