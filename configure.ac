@@ -39,6 +39,8 @@ QUALITY="MY_QUALITY"
 dnl subst Autoconf variables
 AC_SUBST(host)dnl
 AC_SUBST(NETLIBS)dnl
+EMPTY=""
+AC_SUBST(EMPTY)dnl
 
 dnl insert in config.h.in
 AC_DEFINE_UNQUOTED(DATE,"${DATE}",[Define the build date.])
@@ -267,10 +269,19 @@ if test ${ENABLE_DM3} = "yes" ; then
 	AC_SUBST(UDM3_O)
 fi
 
-
 dnl output
 AC_OUTPUT([ \
 	Makefile bin/Makefile \
+	spec/Makefile \
+	spec/dem-q1/Makefile \
+	spec/dm2-q2/Makefile \
+	spec/dmo-dn/Makefile \
+	spec/faq/Makefile \
+	spec/icons/Makefile \
+	spec/lmp-d1/Makefile \
+	spec/main/Makefile \
+	spec/misc/Makefile \
+	spec/qwd-qw/Makefile \
 	src/Makefile \
 	doc/Makefile \
 	bin/dema \
