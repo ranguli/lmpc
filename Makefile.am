@@ -67,7 +67,7 @@ CXX_cygwin=$(PREFIX_cygwin)/$(TARGET_cygwin)/bin/g++
 RANLIB_cygwin=$(PREFIX_cygwin)/$(TARGET_cygwin)/bin/ranlib
 STRIP_cygwin=$(PREFIX_cygwin)/$(TARGET_cygwin)/bin/strip
 BINS_cygwin=dbs.exe demcut.exe lmpc.exe
-CHANGE_cygwin=s/.exe/w.exe/
+CHANGE_cygwin=s/.exe/32.exe/
 
 
 # MINGW target
