@@ -4,10 +4,8 @@
 TYPE="program"
 
 
-# Download from FilePlanet.
-FILEPLANET="http://www.fileplanet.com"
 # Direct FilePlanet link base to a particular file.
-DOWNFP="@FILEPLANET@/dl.aspx?/planetquake/demospecs/"
+DOWNFP="@FILEPLANET@/dl.aspx?/planetquake/@BASE@/"
 
 # Download from SourceForge.
 SOURCEFORGE="http://sourceforge.net"
@@ -15,7 +13,8 @@ SOURCEFORGE="http://sourceforge.net"
 DOWNSF="@SOURCEFORGE@/project/showfiles.php?group_id=9037"
 
 
-# this whole section is redundant and will disappear
+# This whole section looks redundant, but not always downloadable
+# files are the packages themself.
 DOWNCOUNT="6"
 DD1="@COMMENT_s@"
 DF1="@FILENAME_s@"
@@ -29,11 +28,6 @@ DD5="@COMMENT_w@"
 DF5="@FILENAME_w@"
 DD6="@COMMENT_m@"
 DF6="@FILENAME_m@"
-
-
-UPCOUNT="1"
-UF1="@PACKAGE@-@VERSION@.tar.gz ../@PACKAGE@-@VERSION@-l.tar.gz ../@PACKAGE@-@VERSION@-f.tar.gz ../@PACKAGE@@SHORTVERSION@d.zip ../@PACKAGE@@SHORTVERSION@m.zip ../@PACKAGE@@SHORTVERSION@w.zip"
-UD1="@UPPQFTP@"
 
 
 GOODPACK="sfdlwm"
@@ -75,7 +69,8 @@ PLANETQUAKE="http://@PQSITE@"
 BASE="demospecs"
 HOMEURL="@PLANETQUAKE@/@BASE@"
 HOMENAME="Demo Specs page"
-
+FPSITE="www.fileplanet.com"
+FILEPLANET="http://@FPSITE@"
 
 # wpu parse end
 
