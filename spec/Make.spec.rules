@@ -34,7 +34,14 @@ WPU=../../bin/wpu
 XSLTPROC=/usr/bin/xsltproc
 XSLTDIR=/usr/share/xml/docbook/stylesheet/nwalsh/current
 
-all: doc index
+# default type: document
+ifeq ($(strip $(TYPE)),)
+TYPE=document
+endif
+
+all: nothing
+
+nothing:
 
 doc: html pdf
 
@@ -93,23 +100,31 @@ index: index.html index-$(PACKAGE)-$(VERSION).html
 
 index.html: $(PACKAGE).sgml $(WPU)
 	$(WPU) --set ACTION=packageindex \
-		--set TYPE=document \
+		--set TYPE=$(TYPE) \
 		--set DOWNCOUNT=0 \
 		$< $@
 
 index-$(PACKAGE)-$(VERSION).html: $(PACKAGE).sgml $(WPU)
 	$(WPU) --set ACTION=indexpart \
-		--set TYPE=document \
+		--set TYPE=$(TYPE) \
 		$< $@
 
-upload: index.html $(PACKAGE).html $(PACKAGE).sgml $(PACKAGE).pdf
+comma:= ,
+empty:=
+space:= $(empty) $(empty)
+
+UPLOAD_FILES_document=index.html $(PACKAGE).html $(PACKAGE).sgml $(PACKAGE).pdf
+UPLOAD_FILES=$(UPLOAD_FILES_$(TYPE))
+UPLOAD_FILES_COMMA=$(subst $(space),$(comma),$(UPLOAD_FILES))
+
+upload: $(UPLOAD_FILES)
 	$(WPU) --set ACTION=execsubst -- \
 		$(CURL) --user @PQLOGIN@:@PQPASSWORD@ \
 		--upload-file \
-		\{index.html,$(PACKAGE).html,$(PACKAGE).sgml,$(PACKAGE).pdf\} \
+		\{$(UPLOAD_FILES_COMMA)\} \
 		@PQ@/$(PACKAGE)/
 
-clean:
+clean::
 	$(RM_F) temp0 temp1 temp2 temp3
 	$(RM_F) index.html
 	$(RM_F) index-$(PACKAGE)-*.html
