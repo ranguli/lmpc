@@ -1,0 +1,274 @@
+#!/bin/sh
+
+# COMPILE-cross
+# Compile cross compilers for C and C++ and GDB.
+# The target is Windows (Cygwin) and the host is Linux.
+# (C) Uwe Girlich
+# 14 June, 2003
+# It takes less than 10 minutes on my AMD Athlon(tm) XP 2600+.
+
+
+set -e
+set -x
+
+
+# This is my private prefix.
+PREFIX=/usr/self/gcc3
+
+
+# I did it with these versions.
+GCC_VERSION=3.2-3
+BINUTILS_VERSION=20030307-1
+CYGWIN_VERSION=1.3.22-1
+W32API_VERSION=2.3-1
+GDB_VERSION=20030303-1
+
+
+# Get all the necessary files (binutils,gcc,w32api,gdb)
+# and adapt the following lines accordingly.
+ARCHIVE_DIR=/usr/self/files2/linux/gcc
+BINUTILS_BASENAME=binutils-${BINUTILS_VERSION}
+BINUTILS_FILE=$ARCHIVE_DIR/${BINUTILS_BASENAME}-src.tar.bz2
+GCC_BASENAME=gcc-${GCC_VERSION}
+GCC_FILE=$ARCHIVE_DIR/${GCC_BASENAME}-src.tar.bz2
+CYGWIN_BASENAME=cygwin-${CYGWIN_VERSION}
+CYGWIN_FILE=${ARCHIVE_DIR}/${CYGWIN_BASENAME}.tar.bz2
+W32API_BASENAME=w32api-${W32API_VERSION}
+W32API_FILE=${ARCHIVE_DIR}/${W32API_BASENAME}.tar.bz2
+GDB_BASENAME=gdb-${GDB_VERSION}
+GDB_FILE=${ARCHIVE_DIR}/${GDB_BASENAME}-src.tar.bz2
+
+
+# You might prefer different options.
+MYCC=gcc
+# MYCFLAGS="-O3 -mpentiumpro"
+
+
+do_all ()
+{
+
+	set -e
+	set -x
+
+	BASE=`pwd`
+	TARGET=$1
+	GCC_BUILDDIR=${BASE}/${TARGET}-gcc-build
+	BINUTILS_BUILDDIR=${BASE}/${TARGET}-binutils-build
+	GDB_BUILDDIR=${BASE}/${TARGET}-gdb-build
+
+	PATH=${PATH}:${PREFIX}/bin
+	export PATH
+
+
+##############################################################################
+if [ $CONFIGURE_BINUTILS ]; then
+
+	cd ${BASE}
+	bzip2 -dc ${BINUTILS_FILE} | tar xvf -
+	mkdir ${BINUTILS_BUILDDIR}
+	cd ${BINUTILS_BUILDDIR}
+	env CC=${MYCC} \
+		../${BINUTILS_BASENAME}/configure \
+		--target=${TARGET} \
+		--prefix=${PREFIX}
+
+fi # CONFIGURE_BINUTILS ------------------------------------------------------
+
+
+
+##############################################################################
+if [ $MAKE_BINUTILS ]; then
+
+	cd ${BINUTILS_BUILDDIR}
+	make CFLAGS="$MYCFLAGS"
+
+fi # MAKE_BINUTILS -----------------------------------------------------------
+
+
+
+##############################################################################
+if [ $INSTALL_BINUTILS ]; then
+
+	cd ${BINUTILS_BUILDDIR}
+	make CFLAGS="$MYCFLAGS" install
+
+fi # INSTALL_BINUTILS --------------------------------------------------------
+
+
+
+##############################################################################
+if [ $CLEAN_BINUTILS ]; then
+
+	rm -rf ${BASE}/${BINUTILS_BASENAME}
+	rm -rf ${BINUTILS_BUILDDIR}
+
+fi # CLEAN_BINUTILS ----------------------------------------------------------
+
+
+
+##############################################################################
+if [ $MAKE_CYGWIN ]; then
+
+	rm -rf ${BASE}/${CYGWIN_BASENAME}
+	mkdir ${BASE}/${CYGWIN_BASENAME}
+	cd ${BASE}/${CYGWIN_BASENAME}
+	bzip2 -dc ${CYGWIN_FILE} | tar xvf -
+
+fi # MAKE_CYGWIN -------------------------------------------------------------
+
+
+
+##############################################################################
+if [ $MAKE_W32API ]; then
+
+	mkdir -p ${BASE}/${CYGWIN_BASENAME}
+	cd ${BASE}/${CYGWIN_BASENAME}
+	bzip2 -dc ${W32API_FILE} | tar xvf -
+
+fi # MAKE_W32API -------------------------------------------------------------
+
+
+
+##############################################################################
+if [ $CONFIGURE_GCC ]; then
+
+	cd ${BASE}
+	bzip2 -dc ${GCC_FILE} | tar xvf -
+	mkdir ${GCC_BUILDDIR}
+	cd ${GCC_BUILDDIR}
+	env CC="$MYCC" \
+		../${GCC_BASENAME}/configure \
+		--target=${TARGET} \
+		--prefix=${PREFIX} \
+		--with-gnu-as \
+		--with-gnu-ld \
+		--with-headers=${BASE}/${CYGWIN_BASENAME}/usr/include \
+		--with-libs=${BASE}/${CYGWIN_BASENAME}/usr/lib \
+		--without-newlib \
+		--disable-multilib \
+
+# 		--with-headers=${BASE}/djgpp/include \
+#		--with-libs=${BASE}/djgpp/lib
+
+fi # CONFIGURE_GCC -----------------------------------------------------------
+
+
+
+##############################################################################
+if [ $MAKE_GCC ]; then
+
+	cd ${GCC_BUILDDIR}
+	make CFLAGS="$MYCFLAGS" CC="$MYCC" LANGUAGES="c c++"
+
+fi # MAKE_GCC ----------------------------------------------------------------
+
+
+
+##############################################################################
+if [ $INSTALL_GCC ]; then
+
+	cd ${GCC_BUILDDIR}
+	make CFLAGS="$MYCFLAGS" CC="$MYCC" install
+
+fi # INSTALL_GCC -------------------------------------------------------------
+
+
+
+##############################################################################
+if [ $CLEAN_GCC ]; then
+
+	rm -rf ${BASE}/${GCC_BASENAME}
+	rm -rf ${GCC_BUILDDIR}
+
+fi # CLEAN_GCC ---------------------------------------------------------------
+
+
+
+##############################################################################
+if [ $CONFIGURE_GDB ]; then
+
+	cd ${BASE}
+	bzip2 -dc ${GDB_FILE} | tar xvf -
+	cd ${BASE}/${GDB_BASENAME}
+	patch -p1 < ../gdb-patch
+	cd ${BASE}
+	mkdir ${GDB_BUILDDIR}
+	cd ${GDB_BUILDDIR}
+	env CC="$MYCC" \
+		../${GDB_BASENAME}/configure \
+		--target=${TARGET} \
+		--prefix=${PREFIX}
+	mkdir -p ${GDB_BUILDDIR}/gdb
+	cd ${GDB_BUILDDIR}/gdb
+	env CC="$MYCC" \
+		../../${GDB_BASENAME}/gdb/configure \
+		--target=${TARGET} \
+		--prefix=${PREFIX}
+
+fi # CONFIGURE_GDB -----------------------------------------------------------
+
+
+
+##############################################################################
+if [ $MAKE_GDB ]; then
+
+	cd ${GDB_BUILDDIR}
+	make CFLAGS="$MYCFLAGS" CC="$MYCC"
+	cd ${GDB_BUILDDIR}/gdb
+	make CFLAGS="$MYCFLAGS" CC="$MYCC"
+
+fi # MAKE_GDB ----------------------------------------------------------------
+
+
+
+##############################################################################
+if [ $INSTALL_GDB ]; then
+
+	make CFLAGS="$MYCFLAGS" CC="$MYCC" install
+
+fi # INSTALL_GDB -------------------------------------------------------------
+
+
+
+##############################################################################
+if [ $CLEAN_GDB ]; then
+
+	rm -rf ${BASE}/${GDB_BASENAME}
+	rm -rf ${GDB_BUILDDIR}
+
+fi # CLEAN_GDB ---------------------------------------------------------------
+
+
+
+##############################################################################
+if [ $CLEAN_CYGWIN ]; then
+
+	rm -rf ${BASE}/${CYGWIN_BASENAME}
+
+fi # CLEAN_GDB ---------------------------------------------------------------
+
+
+}
+
+
+
+CONFIGURE_BINUTILS=yes
+MAKE_BINUTILS=yes
+INSTALL_BINUTILS=yes
+CLEAN_BINUTILS=yes
+MAKE_CYGWIN=yes
+MAKE_W32API=yes
+CONFIGURE_GCC=yes
+MAKE_GCC=yes
+INSTALL_GCC=yes
+CLEAN_GCC=yes
+CONFIGURE_GDB=yes
+MAKE_GDB=yes
+INSTALL_GDB=yes
+CLEAN_GDB=yes
+CLEAN_CYGWIN=yes
+
+do_all i386-pc-cygwin
+
+exit
+
