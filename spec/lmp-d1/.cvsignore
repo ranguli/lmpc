@@ -1,6 +1,5 @@
-.cvsignore
 index.html
-index-lmp-*.html
+indexpart.html
 lmp.html
 lmp.pdf
 lmp.sgml

@@ -1,6 +1,5 @@
-.cvsignore
 index.html
-index-faq-*.html
+indexpart.html
 faq.html
 faq.pdf
 faq.sgml

@@ -1,6 +1,5 @@
-.cvsignore
 index.html
-index-dmo-*.html
+indexpart.html
 dmo.html
 dmo.pdf
 dmo.sgml

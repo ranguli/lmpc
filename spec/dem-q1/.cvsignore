@@ -1,6 +1,5 @@
-.cvsignore
 index.html
-index-dem-*.html
+indexpart.html
 dem.html
 dem.pdf
 dem.sgml

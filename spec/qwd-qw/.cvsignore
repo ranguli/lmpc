@@ -1,6 +1,5 @@
-.cvsignore
 index.html
-index-qwd-*.html
+indexpart.html
 qwd.html
 qwd.pdf
 qwd.sgml

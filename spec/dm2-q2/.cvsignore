@@ -1,6 +1,5 @@
-.cvsignore
 index.html
-index-dm2-*.html
+indexpart.html
 dm2.html
 dm2.pdf
 dm2.sgml
