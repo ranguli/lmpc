@@ -146,7 +146,8 @@ uploadlocal:
 			ff=`basename $$f` ; \
 			if $(WPU) --set ACTION=execsubst -- \
 				cmp -s $$f $(UPLOAD_STAGE)/$(UPLOAD_DIR)/$$ff ; then \
-				echo $$f did not change. ; \
+				$(WPU) --set ACTION=execsubst -- \
+					echo $$f did not change. ; \
 			else \
 				$(WPU) --set ACTION=execsubst -- \
 					cp -a $$f $(UPLOAD_STAGE)/$(UPLOAD_DIR) ; \
