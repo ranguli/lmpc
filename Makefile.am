@@ -156,6 +156,7 @@ f: linux go32 cygwin mingw html pdf
 
 uploadlocal: doc pack index.html indexpart.html
 	cd doc ; $(MAKE) $@
+	cd files ; $(MAKE) $@
 
 
 ######################################################################
