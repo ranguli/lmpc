@@ -187,22 +187,16 @@ my $result = GetOptions (\%optctl, "set=s%");
 die "$script: command line parse problem" unless $result;
 mergehash(\%values, $optctl{"set"});
 
-foreach (sort keys %values) {
-	$values{$_} = substvariables ($values{$_});
-#	printf "'%s' = '%s'\n", $_, $values{$_};
-}
-
-#print  "package=" , $values{"PACKAGE"},  
-#      " version=", $values{"VERSION"},
-#      " date=", $values{"DATE"}, "\n";
-#print "comment=\"" , $values{"COMMENT"} , "\"\n";
-# print "file args=", join ", ", @ARGV;
-# print "\n";
-
 # set some calculated variables due to the limitation of the @blahblah@
 # method.
 if (exists $values{"VERSION"}) {
   ($values{"SHORTVERSION"} = $values{"VERSION"}) =~ s/\.//g;
+}
+
+# generic subst action
+foreach (sort keys %values) {
+	$values{$_} = substvariables ($values{$_});
+#	printf "'%s' = '%s'\n", $_, $values{$_};
 }
 
 if (exists $values{"PACKAGE"}) {
@@ -947,6 +941,7 @@ sub substvariables {
     foreach $value (keys %values) {
       $from = "@" . $value . "@";
       $to = $values{$value};
+      # printf STDERR "subst ($from) -> ($to)\n";
       $count += ($string =~ s/$from/$to/g);
     } 
   } while($count);
