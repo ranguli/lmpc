@@ -21,6 +21,21 @@ public class Util {
 			value = -value;
 		}
 
+		boolean needExponent = false;
+		int exponent = 0;
+		StringBuffer exponentText = new StringBuffer();
+		if (value!=0.0 && value<0.0001) {
+			needExponent = true;
+			exponent = (int)Math.log(value)/(int)Math.log(10.0);
+			exponentText.append('-');
+			exponent= -exponent;
+			value *= Math.pow(10,exponent);
+			if (exponent < 10) {
+				exponentText.append('0');
+			}
+			exponentText.append(exponent);
+		}
+
 		int intPart = (int)value;
 		double fracPart = value - intPart;
 
@@ -66,6 +81,11 @@ public class Util {
 		}
 
 		text.append(fracPartString);
+
+		if (needExponent) {
+			text.append('e');
+			text.append(exponentText);
+		}
 			
 		return new String(text);
 	}
