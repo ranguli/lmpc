@@ -123,12 +123,18 @@ sf	doc/COMPILE-cygwin	cross compilation script for Cygwin
 sf	doc/Makefile.am	Automake template for doc/Makefile.in
 sf	doc/Makefile.in	Autoconf template for doc/Makefile
 sf 	doc/gdb-patch	patch for a cross-GDB (target Cygwin, host Linux)
-sf	doc/lmpc.base	the main documentation file (SGML-Tools source)
-dwmf	doc/lmpc.doc	documentation (plain ASCII)
-lf	doc/lmpc.txt	documentation (formatted ASCII)
-f	doc/lmpc.ps	documentation (PostScript)
+sf	doc/lmpc.base	documentation input (LinuxDoc), deprecated
+sf	doc/lmpc.gen.in	documentation input (DocBook)
+ldwmf	doc/lmpc.html	documentation (HTML)
+f	doc/lmpc.pdf	documentation (PDF)
 sf	install-sh	Autoconf install script
 sf	missing	Automake help script
+sf	spec/Makefile.am	Automake template for spec/Makefile.in
+sf	spec/Makefile.in	Autoconf template for spec/Makefile
+sf	spec/dm2-q2/Makefile.am	Automake template for spec/dm2-q2/Makefile.in
+sf	spec/dm2-q2/Makefile.in	Autoconf template for spec/dm2-q2/Makefile
+sf	spec/dm2-q2/dm2.base	documentation input (LinuxDoc), deprecated
+sf	spec/dm2-q2/dm2.gen.in	documentation input (DocBook)
 sf	src/Makefile.am	Automake template for src/Makefile.in
 sf	src/Makefile.in	Autoconf template for src/Makefile
 sf	src/alloca.c	alloca(3) source
