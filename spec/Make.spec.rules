@@ -102,11 +102,22 @@ index: index.html indexpart.html
 # MAKE conditionals in Automake files.
 @EMPTY@ifneq ($(TYPE),main)
 
+@EMPTY@ifeq ($(TYPE),program)
+
+index.html: $(PACKAGE).sgml $(WPU)
+	$(WPU) --set ACTION=packageindex \
+		--set TYPE=$(TYPE) \
+		$< $@
+
+@EMPTY@else
+
 index.html: $(PACKAGE).sgml $(WPU)
 	$(WPU) --set ACTION=packageindex \
 		--set TYPE=$(TYPE) \
 		--set DOWNCOUNT=0 \
 		$< $@
+
+@EMPTY@endif
 
 @EMPTY@endif
 
