@@ -13,7 +13,8 @@ LMPC_JARLIST=\
 		com/machinima/lmpc/io/node/TokenNode.class \
 		com/machinima/lmpc/io/text/LsParse.class \
 		com/machinima/lmpc/io/text/LsLex.class \
-		com/machinima/lmpc/io/text/TextOut.class
+		com/machinima/lmpc/io/text/TextOut.class \
+		com/machinima/lmpc/io/bin/dm2_q2_block.class
 
 lmpc.jar: $(LMPC_JARLIST) lmpc.jar.manifest
 	cp $@.manifest manifest.in
