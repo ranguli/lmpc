@@ -55,7 +55,7 @@ Identifier = [A-Za-z_][A-Za-z_0-9]*
 DecIntegerLiteral = 0 | [1-9][0-9]*
 
 HexDigit = [0-9a-fA-F]
-HexIntegerLiteral = 0 [xX] 0* {HexDigit} {1,8}
+HexIntegerLiteral = 0 [xX] 0* {HexDigit} {1,2}
 
 OctDigit = [0-7]
 
@@ -100,7 +100,7 @@ StringCharacter = [^\r\n\"\\]
 	}
 
 	{HexIntegerLiteral} {
-		yyparser.yylval = new IntNode(Integer.parseInt(yytext().substring(2),16));
+		yyparser.yylval = new HexNode(Integer.parseInt(yytext().substring(2),16));
 		return yyparser.v_int;
 	}
  
