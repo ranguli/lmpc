@@ -1,2 +1,13 @@
+.deps
 Makefile
 Makefile.in
+dbs
+demcut
+lmpc
+tokenlist.tmp
+tokenlist
+udeml.c
+udeml.l
+udemy.y
+udemy.h
+udemy.c
