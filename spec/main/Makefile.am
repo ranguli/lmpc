@@ -27,7 +27,7 @@ include $(srcdir)/wpurc
 include $(top_srcdir)/spec/Make.spec.rules
 
 OLDPARTS=lmpc-3.1.7 lmpc-3.1.9 lmpc-3.3.0
-NEWPARTS=dem-q1 dm2-q2 dmo-dn faq lmp-d1 misc qwd-qw
+NEWPARTS=dem-q1 dm2-q2 dmo-dn faq lmp-d1 misc qwd-qw ../doc
 
 ######################################################################
 # main targets
@@ -51,9 +51,4 @@ index.html:
 
 UPLOAD_FILES_main=index.html
 UPLOAD_DIR_main=.
-
-######################################################################
-# include generic rules
-
-# include $(top_srcdir)/spec/Make.spec.rules
 
