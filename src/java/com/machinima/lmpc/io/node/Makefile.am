@@ -3,5 +3,5 @@
 
 JAVAROOT=$(top_builddir)/src/java
 
-java_JAVA=Node.java IntNode.java FloatNode.java StringNode.java TimeNode.java TokenNode.java
+java_JAVA=HexNode.java Node.java IntNode.java FloatNode.java StringNode.java TimeNode.java TokenNode.java
 
