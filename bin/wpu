@@ -78,8 +78,7 @@ my %values = (
   "BANNER1" => "<!--INSERTADTHISPAGE -->",
   "BANNER2" => "<!--ACCIPITERADINSERT /SITE=PQ/GENRE=ACTION/AREA=HOSTED/AAMSZ=IAB_FULL_BANNER-->",
   "SIG"     => "<HR>
-Last changed: \@DATE@, Count: <img
-src=\"/counter/count.exe?srgb=00ff00&prgb=101010&ft=0&tr=1&pad=0&df=pqdemospecs\">,
+Last changed: \@DATE@,
 <A HREF=\"mailto:\@MYEMAIL@\">\@MYNAME@</A>
 <P ALIGN=\"CENTER\">
 <A HREF=\"http://www.linux.org\">
@@ -110,12 +109,6 @@ $values{"TOPDIR"}     = cwd();
 
 # merge the environment ##############################################
 mergehash(\%values, \%ENV);
-
-# merge the command line options #####################################
-my %optctl = ();
-my $result = GetOptions (\%optctl, "set=s%");
-die "$script: command line parse problem" unless $result;
-mergehash(\%values, $optctl{"set"});
 
 # get config files ###################################################
 # general files
@@ -177,18 +170,24 @@ foreach my $arg (@wpuconfigs) {
 # remove the double entries
 @configs = uniq @configs;
 
-#foreach my $e (@configs) {
+foreach my $e (@configs) {
 #  print "$e\n";
-#}
+}
 
 # process and merge the entries
 foreach my $configfile (@configs) {
   ProcessConfigFile($configfile, \%values);
 }
 
+# merge the command line options #####################################
+my %optctl = ();
+my $result = GetOptions (\%optctl, "set=s%");
+die "$script: command line parse problem" unless $result;
+mergehash(\%values, $optctl{"set"});
+
 foreach (sort keys %values) {
 	$values{$_} = substvariables ($values{$_});
-#	printf "`%s´ = `%s´\n", $_, $values{$_};
+#	printf "'%s' = '%s'\n", $_, $values{$_};
 }
 
 #print  "package=" , $values{"PACKAGE"},  
@@ -362,7 +361,7 @@ v\@VERSION@, \@DATE@
 <A HREF=\"README\">README</A> online.
 <P>";
 
-  my $DocumentationSceleton = "The \@DOCTYPE@ is available in several formats:
+  my $DocumentationSceleton_old = "The \@DOCTYPE@ is available in several formats:
 <DL>
 <DT>HTML
 <DD><A
@@ -375,6 +374,17 @@ HREF=\"\@PACKAGE@.html\"><TT>\@PACKAGE@.html</TT></A>
 <DD><A HREF=\"\@PACKAGE@.ps\"><TT>\@PACKAGE@.ps</TT></A>
 <DT>SGML source 
 (for <A HREF=\"http://www.sgmltools.org\">SGML-Tools</A> 1.x)
+<DD><A HREF=\"\@PACKAGE@.sgml\"><TT>\@PACKAGE@.sgml</TT></A>
+</DL>
+";
+
+  my $DocumentationSceleton = "The \@DOCTYPE@ is available as:
+<DL>
+<DT><A HREF=\"http://www.w3.org/TR/html401/\">Hypertext Markup Language version 4.01</A>
+<DD><A HREF=\"\@PACKAGE@.html\"><TT>\@PACKAGE@.html</TT></A>
+<DT><A HREF=\"http://partners.adobe.com/asn/tech/pdf/specifications.jsp\">Adobe Portable Document Format version 1.4</A>
+<DD><A HREF=\"\@PACKAGE@.pdf\"><TT>\@PACKAGE@.pdf</TT></A>
+<DT><A HREF=\"http://www.oasis-open.org/docbook/sgml/4.2/index.shtml\">DocBook SGML version 4.2</A>
 <DD><A HREF=\"\@PACKAGE@.sgml\"><TT>\@PACKAGE@.sgml</TT></A>
 </DL>
 ";
@@ -413,7 +423,7 @@ or look it up in the PlanetQuake FTP mirror list.
   $values{"README"} = $output;
 
   # prepare DOWNLOAD section -----------------------------------------
-  if (exists $values{"DOWNCOUNT"}) {
+  if (exists $values{"DOWNCOUNT"} && $values{"DOWNCOUNT"}>0) {
     $output="";
     for (my $count=1;$count<=$values{"DOWNCOUNT"} ; $count++) {
       my $name;
