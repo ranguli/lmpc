@@ -57,7 +57,7 @@ record.o: udemy.h
 udm2.o: $(CALC_FROM_SPECS)
 
 $(CALC_FROM_SPECS):
-	echo extract from $(CALC_FROM_SPECS)
+	echo extract specs to $(CALC_FROM_SPECS)
 	$(EXTRACT)
 
 AM_YFLAGS = -d
