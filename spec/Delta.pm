@@ -24,7 +24,7 @@ sub new {
 	return $self;
 }
 
-sub readfile {
+sub readfile_lst {
 	my $self = shift;
 	my ($deltafilename) = @_;
 	
@@ -43,8 +43,6 @@ sub readfile {
 		$line =~ s|^\s*||;	# remove leading spaces
 		$line =~ s|\s*$||;	# remove trailing spaces
 		next if $line =~ /^$/;
-
-#		print "$state $line\n";
 
 		if ($state == 0) {
 			my ($typename, $dllname, $functionname) = split ' ', $line;
@@ -75,7 +73,6 @@ sub readfile {
 				my @newdeltas = @deltas;
 				my $newdeltasref = \@newdeltas;
 				$typeref->{"deltasref"} = $newdeltasref;
-#print STDERR "deltas = $newdeltasref\n";
 				push @types, $typeref;
 				$state = 0;
 				next;
@@ -106,7 +103,6 @@ sub readfile {
 				};
 
 				push @deltas, $deltaref;
-#				print STDERR "Y";
 
 				next;
 			}
@@ -147,7 +143,7 @@ sub readfile {
 }
 
 
-sub writefilexml {
+sub writefile_xml {
 	my $self = shift;
 
 	my ($xmlfilename) = @_;
@@ -180,14 +176,9 @@ sub writefilexml {
 		}
 
 		my $deltasref = $type{"deltasref"};
-
-#		print STDERR "\ndeltasref=$deltasref\n";
-
 		my @deltas = @$deltasref;
-#		print STDERR "lengh=", scalar @deltas, "\n";
 
 		foreach my $deltaref (@deltas) {
-#			print STDERR "ref=", ref $deltasref, " value=$deltasref\n";
 			my %delta = %$deltaref;
 
 			my $name = $delta{"name"};
@@ -221,6 +212,77 @@ sub writefilexml {
 
 	print XML I(0) . "</delta_description>\n";
 	close XML;
+}
+
+sub writefile_lst {
+	my $self = shift;
+
+	my ($lstfilename) = @_;
+
+	open LST, ">$lstfilename" || die "can't write $lstfilename: $!\n";
+	print LST I(0) . "// structure name
+// none == no conditional encode routine
+// gamedll routine_name : before transmitting data, invoke the named function from the game .dll to reset fields as needed
+// clientdll routine_name : same as above, except the routine is called via the client.dll
+";
+	my $typesref = $self->{"typesref"};
+
+	my @types = @$typesref;
+
+	for my $typeref (@types) {
+		my %type = %$typeref;
+
+		my $typename = $type{"typename"};
+		my $dllname = $type{"dllname"};
+		my $functionname;
+		if ($dllname ne "none") {
+			$functionname = $type{"functionname"};
+		}
+		
+		print LST I(0) . "\n$typename ";
+		if ($dllname ne "none") {
+			print LST "$dllname $functionname";
+		}
+		else {
+			print LST "none";
+		}
+		print LST I(0) . "\n{\n";
+
+		my $deltasref = $type{"deltasref"};
+		my @deltas = @$deltasref;
+
+		foreach my $deltaref (@deltas) {
+			my %delta = %$deltaref;
+
+			my $name = $delta{"name"};
+			my $flagsref = $delta{"flagsref"};
+			my $bits = $delta{"bits"};
+			my $pre = $delta{"pre"};
+			my $post = undef;
+			if (exists $delta{"post"}) {
+				$post = $delta{"post"};
+			}
+			my @flags = @$flagsref;
+		
+			print LST I(1) . ($post ? "DEFINE_DELTA_POST" : "DEFINE_DELTA");
+			print LST "( $name, ";
+			print LST join " | ", @flags;
+			print LST ", $bits, $pre";
+			
+			if ($post) {
+				print LST ", $post";
+			}
+			print LST " )";
+			if ($deltaref != $deltas[-1]) {
+				print LST ",";
+			}
+			print LST "\n";
+		}
+
+		print LST I(0) . "}\n";
+	}
+
+	close LST;
 }
 
 1;
