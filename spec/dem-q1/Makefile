@@ -56,14 +56,7 @@ $(PACKAGE).sgml.in: $(PACKAGE).base
 		-c /usr/lib/sgml-tools/dtd/catalog \
 		-d "/usr/share/sgml/docbook/dsssl-stylesheets/ld2db.dsl#db" \
 		$< > temp1
-	perl -p \
-	-e "s,-//Davenport//DTD DocBook V3.0//EN,-//OASIS//DTD DocBook V4.2//EN,;" \
-	-e "s,ArtHeader,ArticleInfo,g;" \
-	-e 's,&#38;,&amp;,g;' \
-	-e 's,&#60;,&lt;,g;' \
-	-e 's,&#62;,&gt;,g;' \
-	-e 's,&#65533;,,g;' \
-	< temp1 > temp2
+	perl ../postprocess.pl < temp1 > temp2
 	echo '<!DOCTYPE ARTICLE PUBLIC "-//OASIS//DTD DocBook V4.2//EN" [' > $@
 	echo '<!ENTITY lowbar "_">' >> $@
 	echo '<!ENTITY lsqb "[">' >> $@
