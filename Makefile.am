@@ -70,16 +70,16 @@ go32-strip: go32
 	$(go32_PREFIX)/$(go32_TARGET)/bin/strip $(top_srcdir)/bin/demcut.exe
 
 
-cygwin_TARGET=i386-pc-cygwin32
+cygwin_TARGET=i386-pc-cygwin
 cygwin_PREFIX=/usr/self/gcc3
 
 cygwin: clean
 	mv config.status config.status.orig
 	-mkdir -p systems/$(cygwin_TARGET)
 	cd systems/$(cygwin_TARGET) && \
-		CC=$(cygwin_PREFIX)/bin/$(cygwin_TARGET)-gcc \
-		CXX=$(cygwin_PREFIX)/bin/$(cygwin_TARGET)-g++ \
-		RANLIB=$(cygwin_PREFIX)/bin/$(cygwin_TARGET)-ranlib \
+		CC=$(cygwin_PREFIX)/$(cygwin_TARGET)/bin/gcc \
+		CXX=$(cygwin_PREFIX)/$(cygwin_TARGET)/bin/g++ \
+		RANLIB=$(cygwin_PREFIX)/$(cygwin_TARGET)/bin/ranlib \
 		../../configure --host=$(cygwin_TARGET)
 	cd systems/$(cygwin_TARGET) && $(MAKE)
 	mv config.status.orig config.status
