@@ -3,7 +3,7 @@
 # $Id$
 
 # This is The Web Publishing Utility (wpu).
-# It is needed in the process of preparing web pages out of SGML sources
+# It is needed in the process of preparing web pages out of SGML/XML sources
 # and some more macro expansion jobs.
 
 # This tool does not belong to this package. I distribute it only here
@@ -223,7 +223,7 @@ if (exists $values{"PACKAGE"} &&
 
 sub syntax {
   print "Web Publishing Utility\n";
-  print "$script: (c) U. Girlich, 1998-2003, Release $version, $date,\n$comment\n";
+  print "$script: (c) U. Girlich, 1998-2004, Release $version, $date,\n$comment\n";
   print "$script options fileargs\n";
   print "--set NAME=value sets various parameters\n";
   print "$script\tscans first the environment\n";
