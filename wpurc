@@ -88,6 +88,7 @@ lf	bin/lmpc	LMPC Linux binary (gcc 3.3.3, glibc, x86, ELF)
 df	bin/lmpc.exe	LMPC MS-DOS binary (egcs-2.91.66, djgpp V2.0)
 wf	bin/lmpc32.exe	LMPC Win32 binary (gcc 3.3.1, Cygwin)
 mf	bin/lmpcm.exe	LMPC Win32 binary (gcc 3.3.1, Mingw32)
+sdwmf	bin/procdm2.pl	DM2 processor (Perl script)
 sf	bin/wpu	The Web Publishing Utility
 sf	config.guess	Autoconf host system guess
 sf	config.h.in	Autoconf template for config.h
