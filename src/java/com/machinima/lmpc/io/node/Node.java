@@ -2,7 +2,7 @@
 
 package com.machinima.lmpc.io.node;
 
-class Node {
+public class Node {
 	Node next;
 	String comment;
 	int type;

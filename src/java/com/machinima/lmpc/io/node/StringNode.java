@@ -3,7 +3,7 @@
 package com.machinima.lmpc.io.node;
 import com.machinima.lmpc.io.node.Node;
 
-class StringNode extends Node {
+public class StringNode extends Node {
 	String value;
 
 	public StringNode(String value)

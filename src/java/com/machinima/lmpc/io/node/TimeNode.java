@@ -3,7 +3,7 @@
 package com.machinima.lmpc.io.node;
 import com.machinima.lmpc.io.node.Node;
 
-class TimeNode extends Node {
+public class TimeNode extends Node {
 	float value;
 
 	public TimeNode(IntNode h, IntNode m, FloatNode s)
