@@ -1,3 +1,5 @@
+# $Id$
+
 package BitField;
 
 use strict;
