@@ -1,4 +1,7 @@
 ## Process this file with automake to produce Makefile.in
+# $Id$
+
+SUBDIRS = java
 
 GENTOK=$(PERL) $(top_srcdir)/bin/gentok
 EXTRACT=$(PERL) $(top_srcdir)/bin/extract
