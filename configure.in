@@ -55,7 +55,7 @@ AC_DEFINE_UNQUOTED(COMMENT,"${COMMENT}",[Define a release note.])
 AC_DEFINE_UNQUOTED(HOST,"${host}",[Define the host, where the program should run.])
 
 dnl Checks for programs.
-AC_PATH_PROG(BYACC, byacc, byacc)
+AC_PATH_PROG([BYACC], [byacc], [true], [$PATH:/usr/self/bin])dnl
 AC_PROG_CC
 # we need CXX in every case, because some stupid tests afterwards use it
 # if test $USE_CPLUSPLUS = yes; then
@@ -68,7 +68,7 @@ AC_SUBST(INSTALL_SCRIPT)dnl
 AC_PATH_PROG(JAR, jar)dnl
 AC_PATH_PROG(JAVA, java)dnl
 AC_PATH_PROG(JAVAC, javac)dnl
-AC_PATH_PROG(JFLEX, jflex)dnl
+AC_PATH_PROG([JFLEX], [jflex], [true], [$PATH:/usr/self/bin])dnl
 AM_PROG_LEX
 AC_PROG_MAKE_SET
 AC_PATH_PROG(PERL, perl)dnl
@@ -127,7 +127,7 @@ AC_CHECK_LIB(socket,socket,NETLIBS="$NETLIBS -lsocket",,)
 
 dnl Check for header files.
 AC_HEADER_STDC
-AC_CHECK_HEADERS(memory.h sys/ipc.h sys/shm.h sys/time.h)
+AC_CHECK_HEADERS(memory.h sys/ipc.h sys/shm.h sys/time.h string.h)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_INLINE
@@ -141,6 +141,8 @@ AC_STRUCT_TM
 dnl Checks for library functions.
 AC_FUNC_ALLOCA
 AC_FUNC_MEMCMP
+dnl we need a running program to check this. It can't be detected on
+dnl cross-compilers
 dnl AC_FUNC_SETVBUF_REVERSED
 AC_CHECK_FUNC(shmget, DBS=dbs, unset DBS)
 AC_CHECK_FUNCS(mkfifo gettimeofday strdup)
@@ -268,3 +270,18 @@ dnl configure warnings
 if test "$ac_cv_header_sys_ipc_h" != yes; then
   AC_MSG_WARN(Your systems lacks IPC. DBS will not be compiled.)
 fi
+
+AH_BOTTOM([
+/*
+ *  With the following definitions I can use always the non-reversed order.
+ *  The check to get the SETVBUF_REVERSED value needs a real program run,
+ *  which is impossible with cross-compiling. So you have to manually
+ *  uncomment the next line, if you suspect something bad with setvbuf.
+ */
+/* #define SETVBUF_REVERSED 1 */
+#if defined(SETVBUF_REVERSED)
+#define SETVBUF(stream, buf, mode , size) setvbuf(stream, mode, buf, size)
+#else
+#define SETVBUF(stream, buf, mode , size) setvbuf(stream, buf, mode, size)
+#endif
+])
