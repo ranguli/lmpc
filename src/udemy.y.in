@@ -577,7 +577,7 @@ qwd_mc_serverdata: c_serverversion { $$=$1; }
 		| c_age { $$=$1; }
 		| c_game { $$=$1; }
 		| c_client { $1->down->hint=H_BYTE; $$=$1; }
-		| c_mapname { $$=$1; };
+		| c_mapname { $$=$1; }
 		| c_uk_floats { $$=$1; };
 
 dm2_m_serverdata: TOKEN_SERVERDATA '{' dm2_mcs_serverdata '}' {
