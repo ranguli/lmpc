@@ -233,6 +233,7 @@ my $new_frame = 0;
 my $new_skin = 0;
 my $subst_frame = 0;
 my $subst_skin = 0;
+my %entity = ();
 while (<$in_fh>) {
 	my $line = $_;
 	# process the input line
@@ -246,23 +247,57 @@ while (<$in_fh>) {
 		else {
 			logging 30, "work\n";
 			$state = 1;
+			# Memorize all the entities where we have something
+			# to do in this frame.
+			%entity=();
+			for (keys %{$command->{$block}}) {
+				$entity{$_} = 1;
+			}
 		}
 	}
 	if ($state == 1) {
-		if ($line =~ /  packetentity {/) {
+		if ($line =~ /packetentities {/) {
+			logging 40, "block number $block packetentities start\n";
 			$state = 2;
 		}
 	}
 	if ($state == 2) {
+		if ($line =~ /  packetentity {/) {
+			logging 40, "block number $block packetentity start\n";
+			$state = 3;
+		}
+		if ($line =~ /^ }/) {
+			logging 40, "block number $block packetentites ended\n";
+			for $entity (keys  %entity) {
+				logging 40, "block $block, entity $entity missing\n";
+				my $line_new = "  packetentity {\n   entity $entity;\n";
+				if (exists $command->{$block}->{$entity}->{"f"}) {
+					$frame = $command->{$block}->{$entity}->{"f"};
+					logging 40, "adding frame $frame\n";
+					$line_new .= "   frame $frame;\n";
+				}
+				if (exists $command->{$block}->{$entity}->{"s"}) {
+					$skin = $command->{$block}->{$entity}->{"s"};
+					logging 40, "adding skin $frame\n";
+					$line_new .= "   skin $skin;\n";
+				}
+				$line = $line_new . "  }\n" . $line;
+			}
+			%entity=();
+			$state = 0;
+		}
+	}
+	if ($state == 3) {
 		if ($line =~ /   entity (\d+);/) {
 			$entity = $1;
 			logging 30, "entity number $entity: ";
 			if (!exists $command->{$block}->{$entity}) {
 				logging 30, "ignore\n";
+				$state = 2;
 			}
 			else {
 				logging 30, "work\n";
-				$state = 3;
+				$state = 4;
 				if (exists $command->{$block}->{$entity}->{"f"}) {
 					$frame = $command->{$block}->{$entity}->{"f"};
 					$new_frame = 1;
@@ -278,7 +313,7 @@ while (<$in_fh>) {
 			}
 		}
 	}
-	if ($state == 3) {
+	if ($state == 4) {
 		if ($new_frame &&
 			$line =~ s/(   frame )\d+(;)/$1$frame$2/) {
 			logging 32, "frame subst OK\n";
@@ -298,8 +333,10 @@ while (<$in_fh>) {
 					$line = "   skin $skin;\n" . $line;
 					logging 32, "skin append OK\n";
 			}
-			$state = 1;
+			logging 40, "packetentity ended\n";
+			$state = 2;
 		}
+		delete $entity{$entity}; # This is done.
 	}
 	
 	print $out_fh $line;
