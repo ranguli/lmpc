@@ -2,10 +2,15 @@
 
 // Flavor specification for binary Quake2 DM2 files
 
+%pragma array = 65536
+
 class dm2_q2_block {
-	unsigned int(32)	size;
-	if (size != 0xffffffff) {
+	little int(32)			size;
+	if (size>0 && size<=65536) {
 		unsigned char(8)	data[size];
 	}
+	// if (size == -1) {
+	//	int			eof = 1;
+	//
 }
 
