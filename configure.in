@@ -45,9 +45,10 @@ AC_DEFINE_UNQUOTED(HOST,"${host}")
 dnl Checks for programs.
 AC_PATH_PROG(BYACC, byacc, byacc)
 AC_PROG_CC
-if test $USE_CPLUSPLUS = yes; then
+# we need CXX in every case, because some stupid tests afterwards use it
+# if test $USE_CPLUSPLUS = yes; then
   AC_PROG_CXX
-fi
+# fi
 dnl AC_PATH_PROG(GZIP, gzip, gzip)dnl
 AC_PROG_INSTALL
 INSTALL_SCRIPT='${INSTALL} -m 755'
@@ -83,14 +84,24 @@ AC_SUBST(FLAVOR_HOME)
 AC_PATH_PROG(FLAVORC, flavorc, $FLAVOR_HOME/bin/flavorc)dnl
 
 dnl try to add some options on the already calculated GCC CFLAGS
+AC_MSG_CHECKING(to see if we can add '-W -Wall' to CFLAGS)
 if test $GCC = yes; then
-  CFLAGS="$CFLAGS -Wall -pedantic"
+  CFLAGS="$CFLAGS -D_U_=\"__attribute__((unused))\" -W -Wall -pedantic"
+  AC_MSG_RESULT(yes)
+else
+  CFLAGS="-D_U_=\"\" $CFLAGS"
+  AC_MSG_RESULT(no)
 fi
 
 if test $USE_CPLUSPLUS = yes; then
   dnl try to add some options on the already calculated G++ CFLAGS
+  AC_MSG_CHECKING(to see if we can add '-W -Wall' to CXXFLAGS)
   if test $GXX = yes; then
-    CXXFLAGS="$CXXFLAGS -Wall -pedantic"
+    CXXFLAGS="$CXXFLAGS -D_U_=\"__attribute__((unused))\" -W -Wall -pedantic"
+    AC_MSG_RESULT(yes)
+  else
+    CXXFLAGS="-D_U_=\"\" $CXXFLAGS"
+    AC_MSG_RESULT(no)
   fi
 
   dnl we need the C++ compiler for the following tests
