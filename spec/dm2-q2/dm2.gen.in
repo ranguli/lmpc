@@ -5,6 +5,7 @@
 	<!ENTITY rcub "}">
 	<!ENTITY num "#">
 	<!ENTITY bsol "\">
+	<!ENTITY verbar "|">
 	]><article>
 <articleinfo>
 <title>@TITLE@</title>
