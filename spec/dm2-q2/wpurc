@@ -1,0 +1,8 @@
+## wpu parse start /^([^=]+)=(.+)\s*$/
+PACKAGE=dm2
+TITLE=The unofficial DM2 format description
+VERSION=1.0.4
+DATE=1/23/2000
+TYPE=document
+## wpu parse end
+

@@ -1,0 +1,12 @@
+# $Id$
+
+## wpu parse start /^([^=]+)=(.+)\s*$/
+PACKAGE=faq
+TITLE=The recording FAQ
+VERSION=1.1.3
+DATE=1/23/2000
+LVS=330
+LVL=3.3.0
+TYPE=document
+## wpu parse end
+

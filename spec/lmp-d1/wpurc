@@ -1,0 +1,10 @@
+# $Id$
+
+## wpu parse start /^([^=]+)=(.+)\s*$/
+PACKAGE=lmp
+TITLE=The unofficial LMP format description
+VERSION=2.1.3
+DATE=3/12/1998
+TYPE=document
+## wpu parse end
+

@@ -1,7 +1,7 @@
 # $Id$
 
-# dm2 -- the unofficial DM2 format description
-# Copyright (C) 1996-99,2004 Uwe Girlich
+# faq -- the recording FAQ
+# Copyright (C) 1997-2000,2004 Uwe Girlich
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,15 +20,10 @@
 # Uwe Girlich (uwe@planetquake.com)
 
 #****************************************************************************#
-# Makefile  -  makefile                                                      #
+# Makefile.am  -  automake file                                              #
 #****************************************************************************#
 
-# wpu parse start /^([^=]+)=(.+)\s*$/
-PACKAGE=dm2
-TITLE=The unofficial DM2 format description
-VERSION=1.0.4
-DATE=1/23/2000
-# wpu parse end
+include $(srcdir)/wpurc
+include $(top_srcdir)/spec/Make.spec.rules
 
-include ../Make.spec.rules
 

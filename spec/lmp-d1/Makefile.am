@@ -1,7 +1,7 @@
 # $Id$
 
-# faq -- the recording FAQ
-# Copyright (C) 1997-2000,2004 Uwe Girlich
+# lmp -- the unofficial LMP format description
+# Copyright (C) 1996-98,2004 Uwe Girlich
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,17 +20,9 @@
 # Uwe Girlich (uwe@planetquake.com)
 
 #****************************************************************************#
-# Makefile  -  makefile                                                      #
+# Makefile.am  -  automake file                                              #
 #****************************************************************************#
 
-# wpu parse start /^([^=]+)=(.+)\s*$/
-PACKAGE=faq
-TITLE=The recording FAQ
-VERSION=1.1.3
-DATE=1/23/2000
-LVS=330
-LVL=3.3.0
-# wpu parse end
-
-include ../Make.spec.rules
+include $(srcdir)/wpurc
+include $(top_srcdir)/spec/Make.spec.rules
 

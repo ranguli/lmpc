@@ -20,15 +20,9 @@
 # Uwe Girlich (uwe@planetquake.com)
 
 #****************************************************************************#
-# Makefile  -  makefile                                                      #
+# Makefile.am  -  automake file                                              #
 #****************************************************************************#
 
-# wpu parse start /^([^=]+)=(.+)\s*$/
-PACKAGE=dmo
-TITLE=The unofficial DMO format description
-VERSION=0.0.6
-DATE=3/11/1998
-# wpu parse end
-
-include ../Make.spec.rules
+include $(srcdir)/wpurc
+include $(top_srcdir)/spec/Make.spec.rules
 

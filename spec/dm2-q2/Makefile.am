@@ -1,7 +1,7 @@
 # $Id$
 
-# lmp -- the unofficial LMP format description
-# Copyright (C) 1996-98,2004 Uwe Girlich
+# dm2 -- the unofficial DM2 format description
+# Copyright (C) 1996-99,2004 Uwe Girlich
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,15 +20,9 @@
 # Uwe Girlich (uwe@planetquake.com)
 
 #****************************************************************************#
-# Makefile  -  makefile                                                      #
+# Makefilea.  -  automake file                                               #
 #****************************************************************************#
 
-# wpu parse start /^([^=]+)=(.+)\s*$/
-PACKAGE=lmp
-TITLE=The unofficial LMP format description
-VERSION=2.1.3
-DATE=3/12/1998
-# wpu parse end
-
-include ../Make.spec.rules
+include $(srcdir)/wpurc
+include $(top_srcdir)/spec/Make.spec.rules
 

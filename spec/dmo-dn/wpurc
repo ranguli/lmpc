@@ -1,0 +1,10 @@
+# $Id$
+
+## wpu parse start /^([^=]+)=(.+)\s*$/
+PACKAGE=dmo
+TITLE=The unofficial DMO format description
+VERSION=0.0.6
+DATE=3/11/1998
+TYPE=document
+## wpu parse end
+
