@@ -139,7 +139,7 @@ char hostip[100];
 int maxretry;
 int timeout;
                           
-static struct sockaddr_in INET_ZERO = { AF_INET };
+static struct sockaddr_in INET_ZERO;
 
 int SendUDPPacket(BB_t* m, unsigned short type, 
                   int fromsd, struct sockaddr_in *toaddr, int tolen);
@@ -893,6 +893,9 @@ int main(int argc, char ** argv)
     {0,                0, 0,   0}
   };
   int option_index = 0;
+
+  memset (&INET_ZERO, 0, sizeof(INET_ZERO));
+  INET_ZERO.sin_family = AF_INET;
     
   maxretry = 20; /* max. number of retries */
   timeout = 2;   /* seconds before next retry */
