@@ -13,7 +13,7 @@
 
 
 use POSIX;
-use Cwd;
+use Cwd qw(cwd);
 use Getopt::Long;
 use strict;
 
@@ -208,7 +208,9 @@ if (exists $values{"PACKAGE"}) {
   $values{"CAPSPACKAGE"} = uc $values{"PACKAGE"};
 }
 
-if (exists $values{"PACKAGE"} && exists $values{"VERSION"}) {
+if (exists $values{"PACKAGE"} &&
+	exists $values{"VERSION"} &&
+	!exists $values{"DIRECTORY"}) {
   $values{"DIRECTORY"} = $values{"PACKAGE"} . "-" . $values{"VERSION"};
 }
 
@@ -226,7 +228,7 @@ if (exists $values{"PACKAGE"} && exists $values{"VERSION"}) {
 
 sub syntax {
   print "Web Publishing Utility\n";
-  print "$script: (c) U. Girlich, 1998, Release $version, $date,\n$comment\n";
+  print "$script: (c) U. Girlich, 1998-2003, Release $version, $date,\n$comment\n";
   print "$script options fileargs\n";
   print "--set NAME=value sets various parameters\n";
   print "$script\tscans first the environment\n";
@@ -733,21 +735,23 @@ sub readmepackaging {
   foreach my $pack (split //, $values{"GOODPACK"} ) {
     my $methodkey = "METHOD_$pack";
     my $method = $values{$methodkey};
-    my $filename;
-    if ($method eq "zipdos" || $method eq "zipwin") {
-      $filename=$values{"PACKAGE"} . $values{"SHORTVERSION"} . "$pack.zip";
-    }
-    elsif ($method eq "tgz") {
-      $filename=$values{"PACKAGE"} . "-" . $values{"VERSION"} . "-$pack.tar.gz";
-    }
-    elsif ($method eq "tbz") {
-      $filename=$values{"PACKAGE"} . "-" . $values{"VERSION"} . "-$pack.tar.bz2";
-    }
-    else {
-      die "wrong method name `$method'\n";
-    }
     my $filenamekey = "FILENAME_$pack";
-    $values{$filenamekey} = $filename;
+    if (! exists $values{$filenamekey}) {
+      my $filename;
+      if ($method eq "zipdos" || $method eq "zipwin") {
+        $filename=$values{"PACKAGE"} . $values{"SHORTVERSION"} . "$pack.zip";
+      }
+      elsif ($method eq "tgz") {
+        $filename=$values{"PACKAGE"} . "-" . $values{"VERSION"} . "-$pack.tar.gz";
+      }
+      elsif ($method eq "tbz") {
+        $filename=$values{"PACKAGE"} . "-" . $values{"VERSION"} . "-$pack.tar.bz2";
+      }
+      else {
+        die "wrong method name `$method'\n";
+      }
+      $values{$filenamekey} = $filename;
+    }
   }
 
   # create the README sections #######################################
@@ -1053,9 +1057,8 @@ sub xslt_process($$)
 {
   my ($xml,$xslt) = @_;
 
-  my $java = "/usr/self/jdk1.2.2/bin/java";
-  $ENV{"CLASSPATH"} = "/usr/lib/xml/xp.jar:/usr/lib/xml/xt.jar:/usr/lib/xml/sax.jar";
-  my $xslt_processor = "$java com.jclark.xsl.sax.Driver";
+  my $saxon = "saxon";
+  my $xslt_processor = "$saxon";
   my $xslt_command = "$xslt_processor $xml $xslt";
   my $textstring = `$xslt_command`;
   die "Problems in '$xslt_command'.\n" if $?;
