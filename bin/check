@@ -1,0 +1,52 @@
+#! /usr/bin/perl -w
+
+# $Id$
+
+# This will be a full lmpc check in the far future.
+
+use strict;
+
+(my $script=$0) =~ s,.*/,,g;
+my $opt="";
+
+if ($#ARGV<1) { die "usage: $script lmpc demofile ...\n"; }
+
+my $lmpc = shift;
+
+# if (! -x $lmpc) { die "can't execute $lmpc\n"; }
+
+foreach (@ARGV) {
+  my $demofile = $_;
+  (my $filename=$demofile) =~ s,.*/,,g;
+  (my $basename=$filename) =~ s,\..*,,g;
+
+  my $basedir = "~/games/democheck/$basename-$$";
+  mkdir $basedir , 0777;
+  my $d_b = "$basedir/b";
+  if ($filename=~/\.bz2/) {
+    system "bzip2 -dc $demofile > $d_b";
+  }
+  else {
+    system "cp $demofile $d_b";
+  }
+  my $d_bt="$basedir/bt";
+  system "$lmpc --to-txt -m 1 $opt $d_b $d_bt";
+  my $d_btt="$basedir/btt";
+  system "$lmpc --to-txt $opt $d_bt $d_btt";
+  my $d_bttt="$basedir/bttt";
+  system "$lmpc --to-txt $opt $d_btt $d_bttt";
+  my $d_btttb="$basedir/btttb";
+  my $a = system "$lmpc --to-bin $opt $d_bttt $d_btttb";
+  if ($a != 0) {
+    print "return=$a\n";
+  }
+  my $d_btttbb="$basedir/btttbb";
+  system "$lmpc --to-bin $d_btttb $d_btttbb";
+  if (system ("diff $d_b $d_btttbb") != 0) {
+    die "problems with $basename\n";
+  }
+  else {
+    system "rm -rf $basedir";
+  }
+}
+
