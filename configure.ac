@@ -35,9 +35,9 @@ dnl subst own variables
 DATE="MY_DATE"
 COMMENT="MY_COMMENT"
 QUALITY="MY_QUALITY"
+AC_SUBST(QUALITY)dnl
 
 dnl subst Autoconf variables
-AC_SUBST(host)dnl
 AC_SUBST(NETLIBS)dnl
 EMPTY=""
 AC_SUBST(EMPTY)dnl
@@ -297,7 +297,7 @@ AC_OUTPUT([ \
 	src/java/com/machinima/lmpc/io/text/Makefile \
 	src/java/com/machinima/lmpc/io/bin/Makefile \
 	],
-[echo timestamp > stamp-h ; chmod +x bin/dema bin/dm2cat bin/extract src/java/lmpcj])
+[echo timestamp > stamp-h ; chmod +x bin/dema bin/dm2cat src/java/lmpcj])
 
 dnl check warnings
 dnl AC_MSG_WARN(build=$build host=$host target=$target)
