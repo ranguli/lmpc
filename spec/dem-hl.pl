@@ -23,7 +23,7 @@ sub parse_message_15_clientdata($$$);
 sub parse_message_29_spawnstaticsound($$$);
 sub parse_message_37_roomtype($$$);
 sub parse_message_45_resourcerequest($$$);
-sub parse_message_54_sendextrainfo;
+sub parse_message_54_sendextrainfo($$$);
 
 my %parse = (
 	 1 => \&parse_message_01_nop,
@@ -501,7 +501,7 @@ sub parse_message_11_serverinfo($$$) {
 	}
 
 	if ($maxclients < 1 || $maxclients > 32) {
-		die "Bad maxclients (%u) from server\n", $maxclients;
+		die sprintf "Bad maxclients (%u) from server\n", $maxclients;
 	}
 	printf $file "%sserverinfo {\n", " " x $indent;
 
@@ -578,6 +578,18 @@ sub parse_message_14_deltadescription($$$) {
 	$bf->set_buffer($rest);
 	my $entries = $bf->read_bits(16);
 	printf $file "%sentries \"%d\";\n", " " x ($indent+$indent_diff), $entries;
+	for (my $entry=0;$entry<$entries;$entry++) {
+		printf $file "%sentry {\n", " " x ($indent+$indent_diff);
+		my $length = $bf->read_bits(3);
+		printf $file "%slength %d\n", " " x ($indent+2*$indent_diff),
+			$length;
+		printf $file "%sdata ", " " x ($indent+2*$indent_diff);
+		for (my $i=0;$i<$length;$i++) {
+			my $byte = $bf->read_bits(8);
+			printf $file "%02x (%c) ", $byte, chr($byte);
+		}
+		print $file "\n";
+	}
 	printf $file "%s}\n", " " x $indent;
 	$rest = $bf->get_buffer();
 	return $rest;
