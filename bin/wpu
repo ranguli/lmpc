@@ -942,7 +942,7 @@ sub substvariables {
 sub ReadFileToString {
   (my $filename) = @_;
 
-  die "$script: can't read $filename\n" unless open FILE, "$filename";
+  die "$script: can't read $filename: $!\n" unless open FILE, "$filename";
   my $sep = $/;
   $/ = '';
   my $text ="";
