@@ -1,6 +1,7 @@
 #!/bin/sh
 
-# COMPILE-cross
+# $Id$
+
 # Compile cross compilers for C and C++ and GDB.
 # The target is Windows (Cygwin) and the host is Linux.
 # (C) Uwe Girlich
