@@ -3,7 +3,7 @@
 package com.machinima.lmpc.io.text;
 import com.machinima.lmpc.io.node.*;
 
-class TextOut {
+public class TextOut {
 	StringBuffer ts;
 	StringBuffer cs;
 
