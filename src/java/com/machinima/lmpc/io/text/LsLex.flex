@@ -1,4 +1,5 @@
 /* LS text lexer */
+/* $Id$ */
 
 %%
 

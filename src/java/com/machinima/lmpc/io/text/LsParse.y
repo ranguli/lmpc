@@ -1,7 +1,7 @@
-/* LS text parser */
-
 %{
-  import java.io.*;
+/* LS text parser */
+/* $Id$ */
+	import java.io.*;
 %}
       
 %token	v_int		/* integer value */

@@ -1,3 +1,5 @@
+# $Id$
+
 JAVAC=javac
 JFLEX=jflex
 BYACCJ=byaccj -J
