@@ -38,6 +38,7 @@ if ($step == "0") {
 	$text =~ s:</?f\s*>::gsi;
 	$text =~ s:\]\[:&rsqb;&lsqb;:g;
 	$text =~ s:(</?)quote\s*>:$1tscreen>:gsi;
+	$text =~ s:<tt>(<htmlurl [^>]+>)</tt>:$1:gsi;
 }
 
 if ($step == "1") {
@@ -81,6 +82,8 @@ if ($step == "2") {
 	print '<!ENTITY lowbar "_">
 	<!ENTITY lsqb "[">
 	<!ENTITY rsqb "]">
+	<!ENTITY lcub "{">
+	<!ENTITY rcub "}">
 	<!ENTITY num "#">
 	<!ENTITY bsol "\">
 	]>';
