@@ -3,17 +3,24 @@
 
 AUTOMAKE_OPTIONS = foreign
 EXTRA_DIST = wpurc README.base
-SUBDIRS = bin doc src
+SUBDIRS = bin doc src spec
 
 
 ######################################################################
 # documentation rules
 
-.PHONY: docu sgml txt doc html dvi ps ps.gz ps.zip
-
-docu sgml txt doc html dvi ps ps.gz ps.zip:
+docu:
 	cd doc && $(MAKE) $@
 
+sgml:
+	cd doc && $(MAKE) $@
+
+html:
+	cd doc && $(MAKE) $@
+
+pdf:
+	cd doc && $(MAKE) $@
+	
 
 #####################################################################
 # WWW page rules
@@ -135,15 +142,15 @@ l d w m f:
 
 s: dist
 
-l: linux txt
+l: linux html
 
-d: go32 doc
+d: go32 html
 
-w: cygwin doc
+w: cygwin html
 
-m: mingw doc
+m: mingw html
 
-f: linux go32 cygwin mingw txt doc ps
+f: linux go32 cygwin mingw html pdf
 
 
 ######################################################################
