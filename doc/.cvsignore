@@ -1,7 +1,9 @@
 Makefile
 Makefile.in
-lmpc.doc
+index.html
+indexpart.html
 lmpc.html
+lmpc.pdf
 lmpc.sgml
-lmpc.txt
+lmpc.sgml.in
 lmpc-*.html
