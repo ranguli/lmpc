@@ -53,7 +53,7 @@ CXX_go32=$(PREFIX_go32)/$(TARGET_go32)/bin/g++
 RANLIB_go32=$(PREFIX_go32)/$(TARGET_go32)/bin/ranlib
 STRIP_go32=$(PREFIX_go32)/$(TARGET_go32)/bin/strip
 BINS_go32=demcut.exe lmpc.exe
-CHANGE_go32=s/.exe/d.exe/
+CHANGE_go32=s/.exe/.exe/
 
 
 # CYGWIN target
