@@ -8,7 +8,8 @@ DEM files are supported more extensive with
 DEMA, The DEM Text File Analyser,
 DEMcut, The DEM file cutter tool and
 DBS, The Demo Broadcasting Server
-DM2cat, The DM2 file concatenator is included as well.
+DM2cat, The DM2 file concatenator and
+DM2proc, the DM2 processor are included as well.
 
 Look in the doc subdirectory for a full documentation. 
 
@@ -46,21 +47,26 @@ Features:
    + play a DEM file backwards
    + join easily parts of different (even multi-player) DEM files
  * DBS: The Demo Broadcasting Server
-   + due to the many limits in Microsoft OSes, it works in Unix only
+   + if connected, plays a prepared DEM file to any client
+   + it surely works in Unix, it compiled for Win32 too
    + fake Quake server
    + may be `Qspy'ed
-   + if connected, plays a prepared DEM file to any client
  * DM2cat: The DM2 file concatenator
    + concats binary DM2 files together (Perl script)
+ * DM2proc: The DM2 processor
+   + manipulates frame and skin entries in ranges of blocks
+   + simplifies lip syncing by inserting whole animations at once
+   + works on DM2 text files
+   + with the help of LMPC, it can manipulate DM2 binary files
  * full source code is available for everything
      This is free software, and you are welcome to redistribute it under 
      certain conditions; read the GNU General Public Licence for details.
  * precompiled binaries are available for
-   + Linux (egcs-2.91.66, glibc, x86) 
+   + Linux (gcc 3.3.3, glibc, x86) 
    + MS-DOS (egcs-2.91.66, cross-compiled like djgpp V2.0 (go32))
-   + Win32 (cross-compiled with the Cygwin toolset B20.1 (egcs-2.91.57),
+   + Win32 (cross-compiled with the Cygwin toolset (gcc 3.3.1),
        needs cygwin1.dll)
-   + Win32 (cross-compiled with the Cygwin toolset B20.1 (egcs-2.91.57)
+   + Win32 (cross-compiled with the Cygwin toolset (gcc 3.3.1)
        and Mingw32, does not need any additional DLLs)
 
 Files: 
