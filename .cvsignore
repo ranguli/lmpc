@@ -7,4 +7,6 @@ config.h
 config.h.in
 config.log
 config.status
-configure                                                                       
+configure
+stamp.h
+stamp-h.in
