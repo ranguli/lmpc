@@ -5,7 +5,6 @@
 # Compile cross compilers for C and C++ and GDB.
 # The target is Windows (Cygwin) and the host is Linux.
 # (C) Uwe Girlich
-# 14 June, 2003
 # It takes less than 10 minutes on my AMD Athlon(tm) XP 2600+.
 
 
@@ -18,11 +17,11 @@ PREFIX=/usr/self/gcc3
 
 
 # I did it with these versions.
-GCC_VERSION=3.2-3
-BINUTILS_VERSION=20030307-1
-CYGWIN_VERSION=1.3.22-1
-W32API_VERSION=2.3-1
-GDB_VERSION=20030303-1
+GCC_VERSION=3.3.1-2
+BINUTILS_VERSION=20040312-1
+CYGWIN_VERSION=1.5.8-1
+W32API_VERSION=2.5-1
+GDB_VERSION=20030919-1
 
 
 # Get all the necessary files (binutils,gcc,w32api,gdb)
@@ -66,7 +65,7 @@ if [ $CONFIGURE_BINUTILS ]; then
 
 	cd ${BASE}
 	bzip2 -dc ${BINUTILS_FILE} | tar xvf -
-	mkdir ${BINUTILS_BUILDDIR}
+	mkdir -p ${BINUTILS_BUILDDIR}
 	cd ${BINUTILS_BUILDDIR}
 	env CC=${MYCC} \
 		../${BINUTILS_BASENAME}/configure \
@@ -111,7 +110,7 @@ fi # CLEAN_BINUTILS ----------------------------------------------------------
 if [ $MAKE_CYGWIN ]; then
 
 	rm -rf ${BASE}/${CYGWIN_BASENAME}
-	mkdir ${BASE}/${CYGWIN_BASENAME}
+	mkdir -p ${BASE}/${CYGWIN_BASENAME}
 	cd ${BASE}/${CYGWIN_BASENAME}
 	bzip2 -dc ${CYGWIN_FILE} | tar xvf -
 
@@ -135,7 +134,7 @@ if [ $CONFIGURE_GCC ]; then
 
 	cd ${BASE}
 	bzip2 -dc ${GCC_FILE} | tar xvf -
-	mkdir ${GCC_BUILDDIR}
+	mkdir -p ${GCC_BUILDDIR}
 	cd ${GCC_BUILDDIR}
 	env CC="$MYCC" \
 		../${GCC_BASENAME}/configure \
@@ -147,6 +146,7 @@ if [ $CONFIGURE_GCC ]; then
 		--with-libs=${BASE}/${CYGWIN_BASENAME}/usr/lib \
 		--without-newlib \
 		--disable-multilib \
+		--enable-languages=c,c++
 
 # 		--with-headers=${BASE}/djgpp/include \
 #		--with-libs=${BASE}/djgpp/lib
@@ -193,7 +193,7 @@ if [ $CONFIGURE_GDB ]; then
 	cd ${BASE}/${GDB_BASENAME}
 	patch -p1 < ../gdb-patch
 	cd ${BASE}
-	mkdir ${GDB_BUILDDIR}
+	mkdir -p ${GDB_BUILDDIR}
 	cd ${GDB_BUILDDIR}
 	env CC="$MYCC" \
 		../${GDB_BASENAME}/configure \
