@@ -62,8 +62,8 @@
 #ifdef ENABLE_DM3
   #include "udm3.h"
 #else
-  int isDM3bin(char *filename) { return 0; }
-  int isDM3txt(char *filename) { return 0; }
+  int isDM3bin(char *filename _U_) { return 0; }
+  int isDM3txt(char *filename _U_) { return 0; }
 #endif
 
 /* prototypes */
@@ -2274,7 +2274,7 @@ void ActionDMObin2DMOtxt(char *dmofilename, char *dsfilename, opt_t *opt)
 #ifdef ENABLE_DEM
 
 
-void ActionInfoDEM(char *filename, opt_t *opt)
+void ActionInfoDEM(char *filename, opt_t *opt _U_)
 {
   unsigned long tics;
 
@@ -2538,7 +2538,7 @@ void ActionDEMtxt2DEMtxt(char *demtxtfilename1, char *demtxtfilename2,
 #ifdef ENABLE_QWD
 
 
-void ActionInfoQWD(char *filename, opt_t *opt)
+void ActionInfoQWD(char *filename, opt_t *opt _U_)
 {
   unsigned long tics;
 
@@ -2711,7 +2711,7 @@ void ActionQWDtxt2QWDtxt(char *qwdtxtfilename1, char *qwdtxtfilename2,
 #ifdef ENABLE_DM2
 
 
-void ActionInfoDM2(char *filename, opt_t *opt)
+void ActionInfoDM2(char *filename, opt_t *opt _U_)
 {
   unsigned long tics;
 
@@ -3119,7 +3119,7 @@ void ActionInfoDM3(char *filename, opt_t *opt)
   udm3_done();
 }
 
-void ActionDM3bin2DM3bin(char *dm3binfilename1, char *dm3binfilename2,
+void ActionDM3bin2DM3bin(char *dm3binfilename1 _U_, char *dm3binfilename2 _U_,
        opt_t *opt)
 { syserror(NOTCOM,"DM3"); }
 
@@ -3165,35 +3165,35 @@ void ActionDM3bin2DM3txt(char *dm3binfilename, char *dm3txtfilename,
   udm3_done(); 
 }
 
-void ActionDM3txt2DM3bin(char *dm3txtfilename, char *dm3binfilename,
-       opt_t *opt)
+void ActionDM3txt2DM3bin(char *dm3txtfilename _U_, char *dm3binfilename _U_,
+       opt_t *opt _U_)
 { syserror(NOTCOM,"DM3"); }
 
-void ActionDM3txt2DM3txt(char *dm3txtfilename1, char *dm3txtfilename2, 
-       opt_t *opt)
+void ActionDM3txt2DM3txt(char *dm3txtfilename1 _U_, char *dm3txtfilename2 _U_, 
+       opt_t *opt _U_)
 { syserror(NOTCOM,"DM3"); }
 
 
 #else /* !ENABLE_DM3" */
 
 
-void ActionInfoDM3(char *filename, opt_t *opt)
+void ActionInfoDM3(char *filename _U_, opt_t *opt _U_)
 { syserror(NOTCOM,"DM3"); }
 
-void ActionDM3bin2DM3bin(char *dm3binfilename1, char *dm2binfilename2,
-       opt_t *opt)
+void ActionDM3bin2DM3bin(char *dm3binfilename1 _U_, char *dm2binfilename2 _U_,
+       opt_t *opt _U_)
 { syserror(NOTCOM,"DM3"); }
 
-void ActionDM3bin2DM3txt(char *dm3binfilename, char *dm3txtfilename, 
-       opt_t *opt)
+void ActionDM3bin2DM3txt(char *dm3binfilename _U_, char *dm3txtfilename _U_, 
+       opt_t *opt _U_)
 { syserror(NOTCOM,"DM3"); }
 
-void ActionDM3txt2DM3bin(char *dm3txtfilename, char *dm3binfilename,
-       opt_t *opt)
+void ActionDM3txt2DM3bin(char *dm3txtfilename _U_, char *dm3binfilename _U_,
+       opt_t *opt _U_)
 { syserror(NOTCOM,"DM3"); }
 
-void ActionDM3txt2DM3txt(char *dm3txtfilename1, char *dm3txtfilename2, 
-       opt_t *opt)
+void ActionDM3txt2DM3txt(char *dm3txtfilename1 _U_, char *dm3txtfilename2 _U_,
+       opt_t *opt _U_)
 { syserror(NOTCOM,"DM3"); }
 
 
