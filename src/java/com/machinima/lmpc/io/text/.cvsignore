@@ -1,13 +1,9 @@
-
 .cvsignore
-FloatNode.class
-IntNode.class
 LsLex.class
 LsLex.java
 LsParse.class
 LsParse.java
-Node.class
-StringNode.class
+Makefile
+Makefile.in
 TextOut.class
-TimeNode.class
-TokenNode.class
+
