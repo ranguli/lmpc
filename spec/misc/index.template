@@ -10,6 +10,9 @@ With this Perl script you can repair the standard Eschaton distribution.
 <a href="mulder.html">MUlti-Level DEmo Repair kit</a><dd>
 With this Perl script you can repair and split multi-level DM2 text files.
 <dt>
+<a href="procdm2.html">DM2 Processor</a><dd>
+With this Perl script you can manipulate frame and skin in ranges of DM2 blocks.
+<dt>
 <a href="qfont.html">Quake Font Table</a><dd>
 This Quake DEM file saves a screenshot with an ASCII table of the 
 Quake font.
