@@ -7,36 +7,50 @@ package com.machinima.lmpc.io.base;
 
 public class Util {
 
-	public static String toString(int digits, float value)
+	public static String toString(int digits, char format, float value)
 	{
-		return toString(digits, (double)value);
+		return toString(digits, format, (double)value);
 	}
 
-	public static String toString(int digits, double value)
+	public static String toString(int digits, char format, double value)
 	{
 		StringBuffer text = new StringBuffer();
 
 		if (value < 0.0) {
 			text.append("-");
-			digits++;
+			value = -value;
 		}
 
-		double positiveFloatValue = Math.abs(value);
-		int positiveIntValue = (int)positiveFloatValue;
-		text.append(positiveIntValue);
-		if (value != 0.0 && positiveIntValue == 0) {
+		int intPart = (int)value;
+		double fracPart = value - intPart;
+
+		String intPartString = new Integer(intPart).toString();
+		int intPartDigits = intPartString.length();
+
+		text.append(intPartString);
+		if (value != 0.0 && intPart == 0) {
 			digits++;
 		}
 
 		text.append('.');
 
-		positiveFloatValue -= (int)positiveFloatValue;
-		while (text.length()<digits) {
-			positiveFloatValue *= 10.0;
-			text.append((char)('0' +
-					(int)(positiveFloatValue) % 10));
+		for (int i=(format=='f' ? 0 : intPartDigits) ;
+			i<digits ; i++) {
+			fracPart *= 10.0;
 		}
 
+		long fracPartLong = Math.round(fracPart);
+		String fracPartString = new Long(fracPartLong).toString();
+		int fracPartDigits = fracPartString.length();
+
+		for (	int i=(format=='f' ? 0 : intPartDigits) ;
+			i < digits - fracPartDigits;
+			i++) {
+			text.append('0');
+		}
+
+		text.append(fracPartString);
+			
 		return new String(text);
 	}
 
