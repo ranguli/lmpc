@@ -158,11 +158,7 @@ time: v_float 's' {
 		lexer = new LsLex(r, this);
 	}
 
-	static boolean interactive;
-
 	private static boolean parse_empty = false;
-
-	static TextOut textout;
 
 	Node get_block() { return yyval; }
 
@@ -183,54 +179,4 @@ time: v_float 's' {
 		return result;
 	}
 
-	public Node ReadNextBlock()
-	{
-		boolean read_result = read_block();
-		Node get_result;
-
-		if (read_result) {
-			get_result = get_block();
-		}
-		else {
-			get_result = null;
-		}
-
-		// !yyparser.lexer.lex_at_eof()
-
-		return get_result;
-	}
-
-	public static void main(String args[]) throws IOException
-	{
-		System.out.println("BYACC/Java & JFlex LS text input");
-
-		LsParse yyparser;
-		if ( args.length > 0 ) {
-			// parse a file
-			yyparser = new LsParse(new FileReader(args[0]));
-		}
-		else {
-			throw new IOException("error: no file");
-		}
-
-		textout = new TextOut(new FileWriter("out"));
-
-		int top_level_blocks = 0;
-		do {
-			// yyparser.yydebug = true;
-			yyparser.yyparse();
-			if (yyparser.parse_empty) {
-				yyparser.parse_empty = false;
-				break;
-			}
-			else {
-				textout.node_write_text(yyparser.yyval,0);
-				top_level_blocks++;
-			}
-		} while (!yyparser.lexer.lex_at_eof());
-
-		System.out.println(top_level_blocks +
-			" top level blocks");
-
-	}
 
