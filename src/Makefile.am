@@ -10,8 +10,8 @@ EXTRACT=$(PERL) $(top_srcdir)/bin/extract
 CALC_FROM_SPECS = udm2-te1.c udm2-te2.c udm2-te3.c
 
 
-bin_PROGRAMS = $(DBS) demcut lmpc
-EXTRA_PROGRAMS = dbs
+bin_PROGRAMS = @dbs_bin@ @demcut_bin@ @lmpc_bin@
+EXTRA_PROGRAMS = dbs demcut lmpc
 EXTRA_HEADERS = 
 noinst_LIBRARIES = libutil.a
 noinst_HEADERS = getopt.h binblock.h lmpc.h node.h tools.h udem.h \
@@ -24,9 +24,11 @@ BUILT_SOURCES = udeml.l udemy.y
 
 dbs_SOURCES = dbs.c node.c udem.c
 dbs_LDADD = $(NETLIBS) libutil.a
+dbs_DEPENDENCIES = udemy.h
 
 demcut_SOURCES = demcut.c udem.c
 demcut_LDADD = libutil.a
+demcut_DEPENDENCIES = udemy.h
 
 lmpc_SOURCES = lmpc.c ulmp.c lzw.c unlzw.c udmo.c udem.c udemy.y udeml.l \
 uqwd.c udm2.c
