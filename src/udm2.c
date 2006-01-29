@@ -737,8 +737,8 @@ node* DM2_bin_to_node(BB_t *m, int opt)
         /* variables */
         long mask;
         long entity;
-        vec3_t origin;
-        vec3_t angles;
+        vec3_t origin = {0.0,0.0,0.0};
+        vec3_t angles = {0.0,0.0,0.0};
         vec3_t old_origin;
         long modelindex=0;
         long modelindex2=0;
@@ -963,8 +963,8 @@ node* DM2_bin_to_node(BB_t *m, int opt)
         unsigned char pm_flags=0;
         unsigned char pm_time=0;
         short gravity=0;
-        vec3_t delta_angles;
-        vec3_t viewangles;
+        vec3_t delta_angles = {0.0,0.0,0.0};
+        vec3_t viewangles = {0.0,0.0,0.0};
         vec3_t viewoffset;
         vec3_t kick_angles;
         vec3_t gunangles;
@@ -1173,9 +1173,9 @@ node* DM2_bin_to_node(BB_t *m, int opt)
         long mask;
         long entity;
         long remove;
-        vec3_t origin;
-        vec3_t angles;
-        vec3_t old_origin;
+        vec3_t origin = {0.0,0.0,0.0};
+        vec3_t angles = {0.0,0.0,0.0};
+        vec3_t old_origin = {0.0,0.0,0.0};
         long modelindex=0;
         long modelindex2=0;
         long modelindex3=0;

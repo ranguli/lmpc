@@ -1323,13 +1323,12 @@ node* QWD_bin_to_node(BB_t *m, int opt)
               
               long mask2=0;
               long load=0;
-              fvector angles;
-              svector speed;
+              fvector angles={0.0,0.0,0.0};
+              svector speed={0,0,0};
               long flag=0;
               long impulse=0;
-                            
               int i, j;
-              
+
               /* binary in */
               player = ReadByte(m);
               mask = ReadShort(m);

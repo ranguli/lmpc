@@ -33,6 +33,7 @@
 #include <getopt.h>
 #include <stdio.h>
 #include <stdlib.h>
+#define __USE_GNU
 #include <string.h>
 #include <unistd.h>
 #ifdef HAVE_MEMORY_H
@@ -2334,8 +2335,6 @@ void ActionInplaceDEM(char *filename, opt_t *opt)
         for (bufferbase=buffer + 4 + 12;
              bufferbase < bufferend;
              bufferbase++) {
-          /* Note the parameter order! 
-             The Linux memmem(3) man page is wrong */
           if ((bufferpos=(unsigned char*)memmem(bufferbase, bufferend - bufferbase,
                                                 FixMultiString, FixMultiStringLength))!=NULL) {
             /*
