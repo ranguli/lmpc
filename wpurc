@@ -170,6 +170,8 @@ sf	src/udm2-te1.c	temp_entity code from the specs, part 1
 sf	src/udm2-te2.c	temp_entity code from the specs, part 2
 sf	src/udm2-te3.c	temp_entity code from the specs, part 3
 sf	src/udm2.h	header file for udm2.c
+sf	src/udm3.c	special DM3 functions
+sf	src/udm3.h	header file for udm3.c
 sf	src/udmo.c	special DMO functions
 sf	src/udmo.h	header file for udmo.c
 sf	src/ulmp.c	special LMP functions
@@ -177,6 +179,8 @@ sf	src/ulmp.h	header file for ulmp.c
 sf	src/unlzw.c	uncompress DMO files (by sw)
 sf	src/uqwd.c	special QWD functions
 sf	src/uqwd.h	header file for uqwd.c
+sf	src/quake3/Makefile.am	Automake template for src/quake3/Makefile.in
+sf	src/quake3/Makefile.in	Autoconf template for src/quake3/Makefile
 sf	stamp-h.in	time stamp file for Makefile regeneration
 sf	wpurc		configuration file for wpu
 
