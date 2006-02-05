@@ -248,10 +248,10 @@ case "$ENABLE_DM2" in
 esac
 
 AC_ARG_ENABLE(dm3,
-    [  --enable-dm3            enables DM3 support (must not be enabled)],
+    [  --enable-dm3            enables DM3 support],
     ENABLE_DM3=$enableval
 )
-: ${ENABLE_DM3=no}
+: ${ENABLE_DM3=yes}
 case "$ENABLE_DM3" in
     n | no) : ;;
     y | ye | yes) 
