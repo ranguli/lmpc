@@ -3095,7 +3095,7 @@ void ActionDM2txt2DM2txt(char *dm2txtfilename1, char *dm2txtfilename2,
 #ifdef ENABLE_DM3
 
 
-void ActionInfoDM3(char *filename, opt_t *opt)
+void ActionInfoDM3(char *filename, opt_t *opt _U_)
 {
   unsigned long tics;
 
@@ -3117,7 +3117,7 @@ void ActionInfoDM3(char *filename, opt_t *opt)
 }
 
 void ActionDM3bin2DM3bin(char *dm3binfilename1 _U_, char *dm3binfilename2 _U_,
-       opt_t *opt)
+       opt_t *opt _U_)
 { syserror(NOTCOM,"DM3"); }
 
 void ActionDM3bin2DM3txt(char *dm3binfilename, char *dm3txtfilename, 
@@ -3126,7 +3126,7 @@ void ActionDM3bin2DM3txt(char *dm3binfilename, char *dm3txtfilename,
   DM3_t d;
   TEXT_t s;
   char ts[1000];
-  DM3_binblock m;
+  DM3_binblock_t m;
   node *n;
   int o;
 
