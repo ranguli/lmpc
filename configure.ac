@@ -5,8 +5,8 @@ dnl This is the main version definition area.
 dnl wpu parse start /^define\(MY_([^,]+),\[([^\]]+)\]\)/
 define(MY_PACKAGE,[lmpc])
 define(MY_TITLE,[The Little Movie Processing Centre])
-define(MY_VERSION,[3.4.0])
-define(MY_DATE,[8/29/2004])
+define(MY_VERSION,[3.4.1])
+define(MY_DATE,[2/5/2006])
 define(MY_COMMENT,[alpha test release])
 define(MY_QUALITY,[alpha])
 define(MY_EMAIL,[uwe@planetquake.com])
@@ -297,6 +297,7 @@ AC_OUTPUT([ \
 	src/java/com/machinima/lmpc/io/node/Makefile \
 	src/java/com/machinima/lmpc/io/text/Makefile \
 	src/java/com/machinima/lmpc/io/bin/Makefile \
+	src/quake3/Makefile \
 	],
 [echo timestamp > stamp-h ; chmod +x bin/dema bin/dm2cat src/java/lmpcj])
 
