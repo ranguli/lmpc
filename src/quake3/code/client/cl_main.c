@@ -1648,11 +1648,6 @@ void CL_InitServerInfo( serverInfo_t *server, serverAddress_t *address ) {
 CL_ServersResponsePacket
 ===================
 */
-#ifdef __GNUC__
-#define _U_ __attribute__((unused))
-#else
-#define _U_
-#endif
 void CL_ServersResponsePacket( netadr_t from _U_, msg_t *msg ) {
 	int				i, count, max, total;
 	serverAddress_t addresses[MAX_SERVERSPERPACKET];
