@@ -1,7 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 # $Id$
 
-SUBDIRS = java
+SUBDIRS = quake3 java
 
 GENTOK=$(PERL) $(top_srcdir)/bin/gentok
 EXTRACT=$(PERL) $(top_srcdir)/bin/extract
@@ -32,8 +32,8 @@ demcut_DEPENDENCIES = libutil.a udemy.h
 
 lmpc_SOURCES = lmpc.c ulmp.c lzw.c unlzw.c udmo.c udem.c udemy.y udeml.l \
 uqwd.c udm2.c
-lmpc_LDADD = libutil.a $(UDM3_O) @LEXLIB@ @ALLOCA@
-lmpc_DEPENDENCIES = libutil.a $(UDM3_O) @ALLOCA@
+lmpc_LDADD = libutil.a quake3/libquake3.a $(UDM3_O) @LEXLIB@ @ALLOCA@
+lmpc_DEPENDENCIES = libutil.a quake3/libquake3.a $(UDM3_O) @ALLOCA@
 
 udm3.o: udm3.c udm3.h
 
