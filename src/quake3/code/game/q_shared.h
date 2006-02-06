@@ -483,11 +483,14 @@ MATHLIB
 */
 
 
+#ifndef VEC_DEFINED
 typedef float vec_t;
 typedef vec_t vec2_t[2];
 typedef vec_t vec3_t[3];
 typedef vec_t vec4_t[4];
 typedef vec_t vec5_t[5];
+#define VEC_DEFINED
+#endif
 
 typedef	int	fixed4_t;
 typedef	int	fixed8_t;
@@ -987,7 +990,9 @@ COLLISION DETECTION
 ==============================================================
 */
 
+#if 0
 #include "surfaceflags.h"			/* shared with the q3map utility */
+#endif
 
 /* plane types are used to speed some tests */
 /* 0-2 are axial planes */
