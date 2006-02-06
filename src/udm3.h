@@ -34,6 +34,8 @@
 
 
 #include "node.h"
+#include "quake3/code/game/q_shared.h"
+#include "quake3/code/qcommon/qcommon.h"
 
 
 #define QUAKE3 16384
@@ -56,13 +58,17 @@ typedef struct DM3_s {
 #define DM3_BBB_MAX 65536
 
 typedef struct DM3_binblock_s {
-         long size;
-         unsigned char buffer[DM3_BBB_MAX];
-         unsigned char* p;
-         unsigned char* end;
-         long base;
-         void* top;
-         long hint;
+	int	serverMessageSequence;
+	msg_t	buf;
+	byte	bufData[ MAX_MSGLEN ];
+#if 0
+	long size;
+	unsigned char* p;
+	unsigned char* end;
+	long base;
+	void* top;
+#endif
+	long	hint;
 } DM3_binblock_t;
 
 extern token_t DM3_token[];
