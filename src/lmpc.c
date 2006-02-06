@@ -3120,46 +3120,47 @@ void ActionDM3bin2DM3bin(char *dm3binfilename1 _U_, char *dm3binfilename2 _U_,
        opt_t *opt _U_)
 { syserror(NOTCOM,"DM3"); }
 
-void ActionDM3bin2DM3txt(char *dm3binfilename, char *dm3txtfilename, 
-       opt_t *opt)
+void
+ActionDM3bin2DM3txt(char *dm3binfilename, char *dm3txtfilename, 
+	opt_t *opt)
 {
-  DM3_t d;
-  TEXT_t s;
-  char ts[1000];
-  DM3_binblock_t m;
-  node *n;
-  int o;
+	DM3_t d;
+	TEXT_t s;
+	char ts[1000];
+	DM3_binblock_t m;
+	node *n;
+	int o;
 
-  udm3_init();
+	udm3_init();
 
-  DM3_init(&d,dm3binfilename,"rb");
-  TEXT_init(&s,dm3txtfilename,"wb");
-  node_write_text_init(&s); /* for node_write_text */
-  node_token_init(DM3_token); /* for token routines */
-  glob_opt = opt; /* for DM3_block_edit */
-  do_block_edit = DM3_block_edit;
-  do_block_output = DM3_block_write_text;
+	DM3_init(&d,dm3binfilename,"rb");
+	TEXT_init(&s,dm3txtfilename,"wb");
+	node_write_text_init(&s); /* for node_write_text */
+	node_token_init(DM3_token); /* for token routines */
+	glob_opt = opt; /* for DM3_block_edit */
+	do_block_edit = DM3_block_edit;
+	do_block_output = DM3_block_write_text;
 
-  fprintf(stderr,"%s (DM3 bin) -> %s (DM3 txt)%s\n", 
-                 d.filename, s.filename, opt_string(opt));
+	fprintf(stderr,"%s (DM3 bin) -> %s (DM3 txt)%s\n", 
+		d.filename, s.filename, opt_string(opt));
 
-  sprintf(ts,"// source: DM3 binary file %s", d.filename); WriteLine(s.file, ts);
-  WriteLine(s.file,"");
+	sprintf(ts,"// source: DM3 binary file %s", d.filename); WriteLine(s.file, ts);
+	WriteLine(s.file,"");
 
-  if (opt->option & opMarkStep) o=0x01; else o=0x00;
+	if (opt->option & opMarkStep) o=0x01; else o=0x00;
   
-  d.frame=0;
-  while ((unsigned long)ftell(d.file)<d.filesize) {
-    DM3_block_read_bin(&d, &m);
-    n=DM3_bin_to_node(&m,o);
-    do_block(n);
-    node_delete(n);
-    d.frame++;
-  }
-  DM3_done(&d);
-  TEXT_done(&s);
+	d.frame=0;
+	while ((unsigned long)ftell(d.file)<d.filesize) {
+		DM3_block_read_bin(&d, &m);
+		n=DM3_bin_to_node(&m,o);
+		do_block(n);
+		node_delete(n);
+		d.frame++;
+	}
+	DM3_done(&d);
+	TEXT_done(&s);
 
-  udm3_done(); 
+	udm3_done(); 
 }
 
 void ActionDM3txt2DM3bin(char *dm3txtfilename _U_, char *dm3binfilename _U_,
