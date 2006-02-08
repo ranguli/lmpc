@@ -30,11 +30,15 @@
 #include "tools.h"
 #include "record.h"
 #include "udm3.h"
+#include "binblock.h"
 
 
 token_t DM3_token[]={
-	{ "endblock",	TOKEN_ENDBLOCK,	0 },
-	{ "datablock",	TOKEN_DATABLOCK,	0 },
+	{ "block",	TOKEN_BLOCK,	0	},
+	{ "endblock",	TOKEN_ENDBLOCK,	0	},
+	{ "sequence",	TOKEN_SEQUENCE,	0	},
+	{ "size",	TOKEN_SIZE,	0	},
+	{ "data",	TOKEN_DATA,	0	},
 	{ "",	GEN_NOTHING,	0 },
 };
 
@@ -164,13 +168,9 @@ DM3_block_read_bin(DM3_t *d, DM3_binblock_t* m)
 		syserror(FIREAD,"data block length of file '%s'", d->filename);
 
         m->buf.cursize = LittleLong( m->buf.cursize );
-        if ( m->buf.cursize == -1 ) {
-		m->hint = TOKEN_ENDBLOCK;
-        }
-	else {
+        if ( m->buf.cursize != -1 ) {
 		size_t result;
 
-		m->hint = TOKEN_DATABLOCK;
 		if ( m->buf.cursize > m->buf.maxsize ) {
 			syserror(EINVAL,"%s: demoMsglen (%d) > MAX (%d)", __func__,
 			m->buf.cursize, m->buf.maxsize);
@@ -185,9 +185,24 @@ DM3_block_read_bin(DM3_t *d, DM3_binblock_t* m)
 
 
 node*
-DM3_bin_to_node(DM3_binblock_t *m _U_, int opt _U_)
+DM3_bin_to_node(DM3_binblock_t *m, int opt _U_)
 {
-	return NULL;
+	node	*n, *tn, *ttn;
+	int	i;
+
+	n = NULL;
+	tn=node_command_init(TOKEN_SEQUENCE, V_INT, H_LONG, NODE_VALUE_INT_dup(m->serverMessageSequence), 0);
+	if (m->buf.cursize == -1) {
+		return node_init_all(TOKEN_ENDBLOCK,H_DM3_ENDBLOCK,tn,0);
+	}
+	tn = node_link(tn, node_command_init(TOKEN_SIZE, V_INT, H_LONG, NODE_VALUE_INT_dup(m->buf.cursize), 0));
+	for (ttn=NULL, i=0 ; i<m->buf.cursize ; i++) {
+		ttn=node_link(ttn,node_init(V_BYTEHEX, NODE_VALUE_INT_dup(m->buf.data[i]), 0));
+	}
+	tn=node_link(tn, node_init(TOKEN_DATA,ttn,0));
+	n=node_link(n,node_init_all(TOKEN_BLOCK, H_DM3_BLOCK, tn, 0));
+	
+	return n;
 }
 
 
