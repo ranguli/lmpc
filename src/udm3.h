@@ -40,6 +40,10 @@
 
 #define QUAKE3 16384
 
+#define H_DM3_HINT (1<<21)
+
+#define H_DM3_BLOCK	( H_DM3_HINT | 1)
+#define H_DM3_ENDBLOCK	( H_DM3_HINT | 2)
 
 extern void udm3_init(void);
 extern void udm3_done(void);
