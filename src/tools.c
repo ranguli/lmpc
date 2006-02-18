@@ -86,7 +86,9 @@ char *my_errlist[] = {
 			"text parsing: constant is out-of-bounds",
 			"text parsing: unrecognized token",
 			"QWD structure: internal error",
-			"DM2 structure: internal error"
+			"DM2 structure: internal error",
+			"bad DM3 file",
+			"DM3 structure: internal error"
 		       };
 
 char *progname;

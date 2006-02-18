@@ -91,8 +91,9 @@
 #define QWDINTE  err_base+35
 #define DM2INTE  err_base+36
 #define WDM3     err_base+37
+#define DM3INTE  err_base+38
 
-#define LASTERR  err_base+38
+#define LASTERR  err_base+39
 #define TRUE  1
 #define FALSE 0
 

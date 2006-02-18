@@ -34,12 +34,26 @@
 
 
 token_t DM3_token[]={
-	{ "block",	TOKEN_BLOCK,	0	},
-	{ "endblock",	TOKEN_ENDBLOCK,	0	},
-	{ "sequence",	TOKEN_SEQUENCE,	0	},
-	{ "size",	TOKEN_SIZE,	0	},
-	{ "data",	TOKEN_DATA,	0	},
-	{ "",	GEN_NOTHING,	0 },
+	{ "block",		TOKEN_BLOCK,		0	},
+	{ "endblock",		TOKEN_ENDBLOCK,		0	},
+	{ "sequence",		TOKEN_SEQUENCE,		0	},
+	{ "size",		TOKEN_SIZE,		0	},
+	{ "rel_ack",		TOKEN_REL_ACK,		0	},
+	{ "data",		TOKEN_DATA,		0	},
+	{ "rest",		TOKEN_REST,		0	},
+	{ "bits",		TOKEN_BITS,		0	},
+	{ "bytes",		TOKEN_BYTES,		0	},
+	{ "bad",		TOKEN_BYTES,		0	},
+	{ "nop",		TOKEN_BYTES,		0	},
+	{ "gamestate",		TOKEN_GAMESTATE,	0	},
+	{ "configstring",	TOKEN_CONFIGSTRING,	0	},
+	{ "baseline",		TOKEN_BASELINE,		0	},
+	{ "serverCommand",	TOKEN_SERVERCOMMAND,	0	},
+	{ "download",		TOKEN_DOWNLOAD,		0	},
+	{ "snapshot",		TOKEN_SNAPSHOT,		0	},
+	{ "EOF",		TOKEN_EOF,		0	},
+	{ "unknown",		TOKEN_UNKNOWN,		0	},
+	{ "",			GEN_NOTHING,		0 	},
 };
 
 void
@@ -188,7 +202,12 @@ node*
 DM3_bin_to_node(DM3_binblock_t *m, int opt _U_)
 {
 	node	*n, *tn, *ttn;
+#if 0
 	int	i;
+#endif
+	int	c;
+	long	rel_ack;
+	int	loop_end;
 
 	n = NULL;
 	tn=node_command_init(TOKEN_SEQUENCE, V_INT, H_LONG, NODE_VALUE_INT_dup(m->serverMessageSequence), 0);
@@ -196,10 +215,85 @@ DM3_bin_to_node(DM3_binblock_t *m, int opt _U_)
 		return node_init_all(TOKEN_ENDBLOCK,H_DM3_ENDBLOCK,tn,0);
 	}
 	tn = node_link(tn, node_command_init(TOKEN_SIZE, V_INT, H_LONG, NODE_VALUE_INT_dup(m->buf.cursize), 0));
+
+#if 0
 	for (ttn=NULL, i=0 ; i<m->buf.cursize ; i++) {
 		ttn=node_link(ttn,node_init(V_BYTEHEX, NODE_VALUE_INT_dup(m->buf.data[i]), 0));
 	}
 	tn=node_link(tn, node_init(TOKEN_DATA,ttn,0));
+#endif
+
+	/* Messages are bit streams. */
+	MSG_Bitstream(&(m->buf));
+
+	/* Start with a long ack number. */
+	rel_ack = MSG_ReadLong(&(m->buf));
+	tn=node_link(tn, node_command_init(TOKEN_REL_ACK, V_INT, H_LONG, NODE_VALUE_INT_dup(rel_ack), 0));
+
+	/* Parse the message. */
+	loop_end = 0;
+	while (1) {
+		int	cmd;
+		if ( m->buf.readcount > m->buf.cursize ) {
+			syserror(DM3INTE,"read past end of server message");
+		}
+		/* Get the command. */
+		cmd = MSG_ReadByte( &(m->buf) );
+		switch(cmd) {
+			case svc_bad:
+				tn=node_link(tn, node_init(TOKEN_BAD, NULL, 0));
+				tn=node_link(tn, node_init(TOKEN_UNKNOWN, NULL, 0));
+				loop_end = 1;
+			break;
+			case svc_nop:	/* Complete. */
+				tn=node_link(tn, node_init(TOKEN_NOP, NULL, 0));
+			break;
+			case svc_gamestate:
+				tn=node_link(tn, node_init(TOKEN_GAMESTATE, NULL, 0));
+				tn=node_link(tn, node_init(TOKEN_UNKNOWN, NULL, 0));
+				loop_end = 1;
+			break;
+			case svc_configstring:
+				tn=node_link(tn, node_init(TOKEN_CONFIGSTRING, NULL, 0));
+				tn=node_link(tn, node_init(TOKEN_UNKNOWN, NULL, 0));
+				loop_end = 1;
+			break;
+			case svc_baseline:
+				tn=node_link(tn, node_init(TOKEN_BASELINE, NULL, 0));
+				tn=node_link(tn, node_init(TOKEN_UNKNOWN, NULL, 0));
+				loop_end = 1;
+			break;
+			case svc_serverCommand:
+				tn=node_link(tn, node_init(TOKEN_SERVERCOMMAND, NULL, 0));
+				tn=node_link(tn, node_init(TOKEN_UNKNOWN, NULL, 0));
+				loop_end = 1;
+			break;
+			case svc_download:
+				tn=node_link(tn, node_init(TOKEN_DOWNLOAD, NULL, 0));
+				tn=node_link(tn, node_init(TOKEN_UNKNOWN, NULL, 0));
+				loop_end = 1;
+			break;
+			case svc_snapshot:
+				tn=node_link(tn, node_init(TOKEN_SNAPSHOT, NULL, 0));
+				tn=node_link(tn, node_init(TOKEN_UNKNOWN, NULL, 0));
+				loop_end = 1;
+			break;
+			case svc_EOF:	/* Complete. */
+				tn=node_link(tn, node_init(TOKEN_EOF, NULL, 0));
+				loop_end = 1;
+			break;
+			default:	/* Complete. */
+				syserror(DM3INTE,"unknown cmd %d", cmd);
+		}
+
+		/* If we know no further, stop this loop. */
+		if (loop_end) break;
+	}
+
+	for (ttn=NULL; (c = MSG_ReadByte(&(m->buf))) != -1 ; ) {
+		ttn=node_link(ttn,node_init(V_BYTEHEX, NODE_VALUE_INT_dup(c), 0));
+	}
+	tn=node_link(tn, node_init(TOKEN_BYTES, ttn, 0));
 	n=node_link(n,node_init_all(TOKEN_BLOCK, H_DM3_BLOCK, tn, 0));
 	
 	return n;
