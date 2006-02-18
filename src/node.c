@@ -445,7 +445,7 @@ void node_write_text_recursive(int depth, char* ts, char* cs,
       /* value */
       /* fprintf(stderr,"value\n"); */ 
       if (i->down==NULL) {
-        fprintf(stderr, "no value in node type %i, hint %i\n", i->type, i->hint); 
+        fprintf(stderr, "no value in node type %i (%s), hint %i\n", i->type, node_token_string(i->type)!=NULL?node_token_string(i->type):"unknown node type", i->hint); 
         syserror(GENERR, "wrong internal structure");
       }
       switch (i->type) {

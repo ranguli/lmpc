@@ -52,7 +52,12 @@ token_t DM3_token[]={
 	{ "download",		TOKEN_DOWNLOAD,		0	},
 	{ "snapshot",		TOKEN_SNAPSHOT,		0	},
 	{ "EOF",		TOKEN_EOF,		0	},
+	{ "serverTime",		TOKEN_SERVERTIME,	0	},
+	{ "deltaNum",		TOKEN_DELTANUM,		0	},
+	{ "snapFlags",		TOKEN_SNAPFLAGS,	0	},
+	{ "areamask",		TOKEN_AREAMASK,		0	},
 	{ "unknown",		TOKEN_UNKNOWN,		0	},
+	{ "incomplete",		TOKEN_INCOMPLETE,	0	},
 	{ "",			GEN_NOTHING,		0 	},
 };
 
@@ -240,26 +245,11 @@ DM3_bin_to_node(DM3_binblock_t *m, int opt _U_)
 		/* Get the command. */
 		cmd = MSG_ReadByte( &(m->buf) );
 		switch(cmd) {
-			case svc_bad:
-				tn=node_link(tn, node_init(TOKEN_BAD, NULL, 0));
-				tn=node_link(tn, node_init(TOKEN_UNKNOWN, NULL, 0));
-				loop_end = 1;
-			break;
 			case svc_nop:	/* Complete. */
 				tn=node_link(tn, node_init(TOKEN_NOP, NULL, 0));
 			break;
 			case svc_gamestate:
 				tn=node_link(tn, node_init(TOKEN_GAMESTATE, NULL, 0));
-				tn=node_link(tn, node_init(TOKEN_UNKNOWN, NULL, 0));
-				loop_end = 1;
-			break;
-			case svc_configstring:
-				tn=node_link(tn, node_init(TOKEN_CONFIGSTRING, NULL, 0));
-				tn=node_link(tn, node_init(TOKEN_UNKNOWN, NULL, 0));
-				loop_end = 1;
-			break;
-			case svc_baseline:
-				tn=node_link(tn, node_init(TOKEN_BASELINE, NULL, 0));
 				tn=node_link(tn, node_init(TOKEN_UNKNOWN, NULL, 0));
 				loop_end = 1;
 			break;
@@ -273,10 +263,56 @@ DM3_bin_to_node(DM3_binblock_t *m, int opt _U_)
 				tn=node_link(tn, node_init(TOKEN_UNKNOWN, NULL, 0));
 				loop_end = 1;
 			break;
-			case svc_snapshot:
-				tn=node_link(tn, node_init(TOKEN_SNAPSHOT, NULL, 0));
-				tn=node_link(tn, node_init(TOKEN_UNKNOWN, NULL, 0));
+			case svc_snapshot: {
+				node	*tttn;
+				int	serverTime;
+				int	deltaNum;
+				int	snapFlags;
+				int	areamask_len;
+				unsigned char	areamask_data[MAX_MAP_AREA_BYTES];
+				int	i;
+
+				/* Start empty. */
+				ttn = NULL;
+
+				/* Get the serverTime. */
+				serverTime = MSG_ReadLong( &(m->buf) );
+				ttn = node_link(ttn, node_command_init(TOKEN_SERVERTIME, V_INT, H_LONG, NODE_VALUE_INT_dup(serverTime), 0));
+				/* Get the deltaNum. */
+				deltaNum = MSG_ReadByte( &(m->buf) );
+				ttn = node_link(ttn, node_command_init(TOKEN_DELTANUM, V_INT, H_BYTE, NODE_VALUE_INT_dup(deltaNum), 0));
+
+				/* Get the snapFlags. */
+				snapFlags = MSG_ReadByte( &(m->buf) );
+				ttn = node_link(ttn, node_command_init(TOKEN_SNAPFLAGS, V_INT, H_BYTE, NODE_VALUE_INT_dup(snapFlags), 0));
+
+				/* Get the areamask length. */
+				areamask_len = MSG_ReadByte( &(m->buf) );
+				if (areamask_len>(int)sizeof(areamask_data)) {
+					syserror(DM3INTE, "areamask has %d bytes, %lu is max.",
+						areamask_len, sizeof(areamask_data));
+				}
+
+				/* Get the areamask data. */
+				MSG_ReadData( &(m->buf), &areamask_data, areamask_len);
+				for (tttn=NULL, i=0; i<areamask_len; i++) {
+					tttn=node_link(tttn,node_init(V_BYTEHEX, NODE_VALUE_INT_dup(areamask_data[i]), 0));
+				}
+				ttn=node_link(ttn, node_init(TOKEN_AREAMASK, tttn, 0));
+
+				/* Read player state. */
+				/* TODO */
+
+				/* Read entity state. */
+				/* TODO */
+
+				/* This code is still incomplete. */
+				ttn = node_link(ttn, node_init(TOKEN_INCOMPLETE,NULL,0));
+
+				/* Create a "snapshot" node. */
+				tn=node_link(tn, node_init(TOKEN_SNAPSHOT, ttn, 0));
 				loop_end = 1;
+			}
 			break;
 			case svc_EOF:	/* Complete. */
 				tn=node_link(tn, node_init(TOKEN_EOF, NULL, 0));
