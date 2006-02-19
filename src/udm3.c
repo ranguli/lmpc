@@ -117,6 +117,55 @@ token_t DM3_token[]={
 	{ "ammos",		TOKEN_AMMOS,		0,	},
 	{ "powerup",		TOKEN_POWERUP,		0,	},
 	{ "powerups",		TOKEN_POWERUPS,		0,	},
+	{ "entity",		TOKEN_ENTITY,		0,	},
+	{ "entities",		TOKEN_ENTITIES,		0,	},
+	{ "remove",		TOKEN_REMOVE,		0,	},
+	{ "pos.trTime",		TOKEN_POS_TRTIME,	0,	},
+	{ "pos.trBase[0]",	TOKEN_POS_TRBASE_0,	0,	},
+	{ "pos.trBase[1]",	TOKEN_POS_TRBASE_1,	0,	},
+	{ "pos.trDelta[0]",	TOKEN_POS_TRDELTA_0,	0,	},
+	{ "pos.trDelta[1]",	TOKEN_POS_TRDELTA_1,	0,	},
+	{ "pos.trBase[2]",	TOKEN_POS_TRBASE_2,	0,	},
+	{ "apos.trBase[1]",	TOKEN_APOS_TRBASE_1,	0,	},
+	{ "pos.trDelta[2]",	TOKEN_POS_TRDELTA_2,	0,	},
+	{ "apos.trBase[0]",	TOKEN_APOS_TRBASE_0,	0,	},
+	{ "event",		TOKEN_EVENT,		0,	},
+	{ "angles2[1]",		TOKEN_ANGLES2_1,	0,	},
+	{ "eType",		TOKEN_ETYPE,		0,	},
+	{ "torsoAnim",		TOKEN_TORSOANIM,	0,	},
+	{ "eventParm",		TOKEN_EVENTPARM,	0,	},
+	{ "legsAnim",		TOKEN_LEGSANIM,		0,	},
+	{ "groundEntityNum",	TOKEN_GROUNDENTITYNUM,	0,	},
+	{ "pos.trType",		TOKEN_POS_TRTYPE,	0,	},
+	{ "eFlags",		TOKEN_EFLAGS,		0,	},
+	{ "otherEntityNum",	TOKEN_OTHERENTITYNUM,	0,	},
+	{ "weapon",		TOKEN_WEAPON,		0,	},
+	{ "clientNum",		TOKEN_CLIENTNUM,	0,	},
+	{ "angles[1]",		TOKEN_ANGLES_1,		0,	},
+	{ "pos.trDuration",	TOKEN_POS_TRDURATION,	0,	},
+	{ "apos.trType",	TOKEN_APOS_TRTYPE,	0,	},
+	{ "solid",		TOKEN_SOLID,		0,	},
+	{ "powerups",		TOKEN_POWERUPS,		0,	},
+	{ "modelindex",		TOKEN_MODELINDEX,	0,	},
+	{ "otherEntityNum2",	TOKEN_OTHERENTITYNUM2,	0,	},
+	{ "origin2[2]",		TOKEN_ORIGIN2_2,	0,	},
+	{ "origin2[0]",		TOKEN_ORIGIN2_0,	0,	},
+	{ "origin2[1]",		TOKEN_ORIGIN2_1,	0,	},
+	{ "modelindex2",	TOKEN_MODELINDEX2,	0,	},
+	{ "angles[0]",		TOKEN_ANGLES_0,		0,	},
+	{ "time",		TOKEN_TIME,		0,	},
+	{ "apos.trTime",	TOKEN_APOS_TRTIME,	0,	},
+	{ "apos.trDuration",	TOKEN_APOS_TRDURATION,	0,	},
+	{ "apos.trBase[2]",	TOKEN_APOS_TRBASE_2,	0,	},
+	{ "apos.trDelta[0]",	TOKEN_APOS_TRDELTA_0,	0,	},
+	{ "apos.trDelta[1]",	TOKEN_APOS_TRDELTA_1,	0,	},
+	{ "apos.trDelta[2]",	TOKEN_APOS_TRDELTA_2,	0,	},
+	{ "time2",		TOKEN_TIME2,		0,	},
+	{ "angles[2]",		TOKEN_ANGLES_2,		0,	},
+	{ "angles2[0]",		TOKEN_ANGLES2_0,	0,	},
+	{ "angles2[2]",		TOKEN_ANGLES2_2,	0,	},
+	{ "constantLight",	TOKEN_CONSTANTLIGHT,	0,	},
+	{ "frame",		TOKEN_FRAME,		0,	},
 	{ "",			GEN_NOTHING,		0 	}
 };
 
@@ -170,6 +219,60 @@ int playertoken[] = {
 	TOKEN_GRAPPLEPOINT_2,
 	TOKEN_JUMPPAD_ENT,
 	TOKEN_LOOPSOUND
+};
+
+int entitytoken[] = {
+	TOKEN_POS_TRTIME,
+	TOKEN_POS_TRBASE_0,
+	TOKEN_POS_TRBASE_1,
+	TOKEN_POS_TRDELTA_0,
+	TOKEN_POS_TRDELTA_1,
+	TOKEN_POS_TRBASE_2,
+	TOKEN_APOS_TRBASE_1,
+	TOKEN_POS_TRDELTA_2,
+	TOKEN_APOS_TRBASE_0,
+	TOKEN_EVENT,
+	TOKEN_ANGLES2_1,
+	TOKEN_ETYPE,
+	TOKEN_TORSOANIM,
+	TOKEN_EVENTPARM,
+	TOKEN_LEGSANIM,
+	TOKEN_GROUNDENTITYNUM,
+	TOKEN_POS_TRTYPE,
+	TOKEN_EFLAGS,
+	TOKEN_OTHERENTITYNUM,
+	TOKEN_WEAPON,
+	TOKEN_CLIENTNUM,
+	TOKEN_ANGLES_1,
+	TOKEN_POS_TRDURATION,
+	TOKEN_APOS_TRTYPE,
+	TOKEN_ORIGIN_0,
+	TOKEN_ORIGIN_1,
+	TOKEN_ORIGIN_2,
+	TOKEN_SOLID,
+	TOKEN_POWERUPS,
+	TOKEN_MODELINDEX,
+	TOKEN_OTHERENTITYNUM2,
+	TOKEN_LOOPSOUND,
+	TOKEN_GENERIC1,
+	TOKEN_ORIGIN2_2,
+	TOKEN_ORIGIN2_0,
+	TOKEN_ORIGIN2_1,
+	TOKEN_MODELINDEX2,
+	TOKEN_ANGLES_0,
+	TOKEN_TIME,
+	TOKEN_APOS_TRTIME,
+	TOKEN_APOS_TRDURATION,
+	TOKEN_APOS_TRBASE_2,
+	TOKEN_APOS_TRDELTA_0,
+	TOKEN_APOS_TRDELTA_1,
+	TOKEN_APOS_TRDELTA_2,
+	TOKEN_TIME2,
+	TOKEN_ANGLES_2,
+	TOKEN_ANGLES2_0,
+	TOKEN_ANGLES2_2,
+	TOKEN_CONSTANTLIGHT,
+	TOKEN_FRAME
 };
 
 void
@@ -315,13 +418,108 @@ DM3_block_read_bin(DM3_t *d, DM3_binblock_t* m)
 
 
 node*
+DM3_bin_to_node_entity(msg_t *msg)
+{
+	node	*n = NULL;
+	node	*tn = NULL;
+	int	index;
+	int	lc;
+	netField_t	*field;
+	int	*tp;
+	int	i;
+
+	/* Get the index itself. */
+	index = MSG_ReadBits( msg, GENTITYNUM_BITS );
+	if (index == (MAX_GENTITIES-1)) {
+		goto lastout;
+	}
+	tn = node_link(tn, node_command_init(TOKEN_INDEX, V_INT, H_LONG, NODE_VALUE_INT_dup(index), 0));
+
+	/* Check for a remove. */
+	if ( MSG_ReadBits( msg, 1 ) == 1 ) {
+		tn=node_link(tn, node_init(TOKEN_REMOVE,NULL,0));
+		goto out;
+	}
+
+	/* Check for no delta. */
+	if ( MSG_ReadBits( msg, 1 ) == 0 ) {
+		goto out;
+	}
+
+	/* Get the last field number. */
+	lc = MSG_ReadByte(msg);
+	if (lc>entityStateFields_length) {
+		syserror(DM3INTE, "last entity field is %d, max allowed is %d", lc, entityStateFields_length);
+	}
+
+	/* Loop over all fields. */
+	for ( i = 0, field = entityStateFields, tp = entitytoken ;
+		i < lc ;
+		i++, field++, tp++ ) {
+
+		/* Check the bit, if we have a change. */
+		if ( MSG_ReadBits( msg, 1 ) ) {
+			union {
+				float	value_f;
+				int	value_i;
+			} value;
+
+			if (field->bits == 0) {
+				/* Float. */
+
+				/* Check for 0. */
+				if (MSG_ReadBits( msg, 1 ) == 0 ) {
+					value.value_f = 0.0f;
+				} else {
+					/* Check the float type. */
+					if (MSG_ReadBits( msg, 1 ) == 0) {
+						/* Get an integral float. */
+						int	trunc;
+
+						trunc = MSG_ReadBits( msg, FLOAT_INT_BITS );
+						/* Bias to allow equal parts positive and negative. */
+						trunc -= FLOAT_INT_BIAS;
+						value.value_f = trunc;
+					}
+					else {
+						/* Get a full floating point value. */
+						value.value_i = MSG_ReadBits( msg, 32 );
+						/* TODO: byte order? */
+					}
+				}
+				tn = node_link(tn, node_command_init(*tp, V_FLOAT, H_FLOAT, NODE_VALUE_FLOAT_dup(value.value_f), 0));
+			} else {
+				/* Integer. */
+
+				/* Check for 0. */
+				if ( MSG_ReadBits( msg, 1 ) == 0 ) {
+					value.value_i = 0;
+				}
+				else {
+					value.value_i = MSG_ReadBits( msg, field->bits );
+				}
+				tn = node_link(tn, node_command_init(*tp, V_INT, H_LONG, NODE_VALUE_INT_dup(value.value_i), 0));
+			}
+		}
+
+
+	} /* End loop over all fields. */
+
+out:
+	n = node_init(TOKEN_ENTITY, tn, 0);
+
+lastout:
+	return n;
+}
+
+
+node*
 DM3_bin_to_node(DM3_binblock_t *m, int opt _U_)
 {
 	node	*n, *tn, *ttn;
 #if 0
 	int	i;
 #endif
-	int	c;
 	long	rel_ack;
 	int	loop_end;
 
@@ -543,16 +741,26 @@ DM3_bin_to_node(DM3_binblock_t *m, int opt _U_)
 
 				/* Connect player parts to existing node tree. */
 				ttn=node_link(ttn, node_init(TOKEN_PLAYER, tttn, 0));
+				tttn = NULL;
+				/* Read packet entities. */
+				while (1) {
+					node *e;
 
-				/* Read entity state. */
-				/* TODO */
+					e = DM3_bin_to_node_entity(&(m->buf));
+					/* Last in list. */
+					if (e==NULL) {
+						break;
+					}
 
-				/* This code is still incomplete. */
-				ttn = node_link(ttn, node_init(TOKEN_INCOMPLETE,NULL,0));
+					tttn = node_link(tttn, e);
+				} /* End read packet entities. */
+
+				/* Connect entity parts to existing node tree. */
+				ttn=node_link(ttn, node_init(TOKEN_ENTITIES, tttn, 0));
 
 				/* Create a "snapshot" node. */
 				tn=node_link(tn, node_init(TOKEN_SNAPSHOT, ttn, 0));
-				loop_end = 1;
+				/* loop_end = 1; */
 			}
 			break;
 			case svc_EOF:	/* Complete. */
@@ -567,10 +775,6 @@ DM3_bin_to_node(DM3_binblock_t *m, int opt _U_)
 		if (loop_end) break;
 	}
 
-	for (ttn=NULL; (c = MSG_ReadByte(&(m->buf))) != -1 ; ) {
-		ttn=node_link(ttn,node_init(V_BYTEHEX, NODE_VALUE_INT_dup(c), 0));
-	}
-	tn=node_link(tn, node_init(TOKEN_BYTES, ttn, 0));
 	n=node_link(n,node_init_all(TOKEN_BLOCK, H_DM3_BLOCK, tn, 0));
 	
 	return n;
