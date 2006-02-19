@@ -60,112 +60,115 @@ token_t DM3_token[]={
 	{ "incomplete",		TOKEN_INCOMPLETE,	0	},
 	{ "player",		TOKEN_PLAYER,		0	},
 	{ "commandTime",	TOKEN_COMMANDTIME,	0	},
-	{ "origin[0]",		TOKEN_ORIGIN_0,		0,	},
-	{ "origin[1]",		TOKEN_ORIGIN_1,		0,	},
-	{ "bobCycle",		TOKEN_BOBCYCLE,		0,	},
-	{ "velocity[0]",	TOKEN_VELOCITY_0,	0,	},
-	{ "velocity[1]",	TOKEN_VELOCITY_1,	0,	},
-	{ "viewangles[1]",	TOKEN_VIEWANGLES_1,	0,	},
-	{ "viewangles[0]",	TOKEN_VIEWANGLES_0,	0,	},
-	{ "weaponTime",		TOKEN_WEAPONTIME,	0,	},
-	{ "origin[2]",		TOKEN_ORIGIN_2,		0,	},
-	{ "velocity[2]",	TOKEN_VELOCITY_2,	0,	},
-	{ "legsTimer",		TOKEN_LEGSTIMER,	0,	},
-	{ "pm_time",		TOKEN_PM_TIME,		0,	},
-	{ "eventSequence",	TOKEN_EVENTSEQUENCE,	0,	},
-	{ "torsoAnim",		TOKEN_TORSOANIM,	0,	},
-	{ "movementDir",	TOKEN_MOVEMENTDIR,	0,	},
-	{ "events[0]",		TOKEN_EVENTS_0,		0,	},
-	{ "legsAnim",		TOKEN_LEGSANIM,		0,	},
-	{ "events[1]",		TOKEN_EVENTS_1,		0,	},
-	{ "pm_flags",		TOKEN_PM_FLAGS,		0,	},
-	{ "groundEntityNum",	TOKEN_GROUNDENTITYNUM,	0,	},
-	{ "weaponstate",	TOKEN_WEAPONSTATE,	0,	},
-	{ "eFlags",		TOKEN_EFLAGS,		0,	},
-	{ "externalEvent",	TOKEN_EXTERNALEVENT,	0,	},
-	{ "gravity",		TOKEN_GRAVITY,		0,	},
-	{ "speed",		TOKEN_SPEED,		0,	},
-	{ "delta_angles[1]",	TOKEN_DELTAANGLES_1,	0,	},
-	{ "externalEventParm",	TOKEN_EXTERNALEVENTPARM,0,	},
-	{ "viewheight",		TOKEN_VIEWHEIGHT,	0,	},
-	{ "damageEvent",	TOKEN_DAMAGEEVENT,	0,	},
-	{ "damageYaw",		TOKEN_DAMAGEYAW,	0,	},
-	{ "damagePitch",	TOKEN_DAMAGEPITCH,	0,	},
-	{ "damageCount",	TOKEN_DAMAGECOUNT,	0,	},
-	{ "generic1",		TOKEN_GENERIC1,		0,	},
-	{ "pm_type",		TOKEN_PM_TYPE,		0,	},
-	{ "delta_angles[0]",	TOKEN_DELTAANGLES_0,	0,	},
-	{ "delta_angles[2]",	TOKEN_DELTAANGLES_2,	0,	},
-	{ "torsoTimer",		TOKEN_TORSOTIMER,	0,	},
-	{ "eventParms[0]",	TOKEN_EVENTPARMS_0,	0,	},
-	{ "eventParms[1]",	TOKEN_EVENTPARMS_1,	0,	},
-	{ "clientNum",		TOKEN_CLIENTNUM,	0,	},
-	{ "weapon",		TOKEN_WEAPON,		0,	},
-	{ "viewangles[2]",	TOKEN_VIEWANGLES_2,	0,	},
-	{ "grapplePoint[0]",	TOKEN_GRAPPLEPOINT_0,	0,	},
-	{ "grapplePoint[1]",	TOKEN_GRAPPLEPOINT_1,	0,	},
-	{ "grapplePoint[2]",	TOKEN_GRAPPLEPOINT_2,	0,	},
-	{ "jumppad_ent",	TOKEN_JUMPPAD_ENT,	0,	},
-	{ "loopSound",		TOKEN_LOOPSOUND,	0,	},
-	{ "index",		TOKEN_INDEX,		0,	},
-	{ "value",		TOKEN_VALUE,		0,	},
-	{ "stat",		TOKEN_STAT,		0,	},
-	{ "stats",		TOKEN_STATS,		0,	},
-	{ "persistant",		TOKEN_PERSISTANT,	0,	},
-	{ "persistants",	TOKEN_PERSISTANTS,	0,	},
-	{ "ammo",		TOKEN_AMMO,		0,	},
-	{ "ammos",		TOKEN_AMMOS,		0,	},
-	{ "powerup",		TOKEN_POWERUP,		0,	},
-	{ "powerups",		TOKEN_POWERUPS,		0,	},
-	{ "entity",		TOKEN_ENTITY,		0,	},
-	{ "entities",		TOKEN_ENTITIES,		0,	},
-	{ "remove",		TOKEN_REMOVE,		0,	},
-	{ "pos.trTime",		TOKEN_POS_TRTIME,	0,	},
-	{ "pos.trBase[0]",	TOKEN_POS_TRBASE_0,	0,	},
-	{ "pos.trBase[1]",	TOKEN_POS_TRBASE_1,	0,	},
-	{ "pos.trDelta[0]",	TOKEN_POS_TRDELTA_0,	0,	},
-	{ "pos.trDelta[1]",	TOKEN_POS_TRDELTA_1,	0,	},
-	{ "pos.trBase[2]",	TOKEN_POS_TRBASE_2,	0,	},
-	{ "apos.trBase[1]",	TOKEN_APOS_TRBASE_1,	0,	},
-	{ "pos.trDelta[2]",	TOKEN_POS_TRDELTA_2,	0,	},
-	{ "apos.trBase[0]",	TOKEN_APOS_TRBASE_0,	0,	},
-	{ "event",		TOKEN_EVENT,		0,	},
-	{ "angles2[1]",		TOKEN_ANGLES2_1,	0,	},
-	{ "eType",		TOKEN_ETYPE,		0,	},
-	{ "torsoAnim",		TOKEN_TORSOANIM,	0,	},
-	{ "eventParm",		TOKEN_EVENTPARM,	0,	},
-	{ "legsAnim",		TOKEN_LEGSANIM,		0,	},
-	{ "groundEntityNum",	TOKEN_GROUNDENTITYNUM,	0,	},
-	{ "pos.trType",		TOKEN_POS_TRTYPE,	0,	},
-	{ "eFlags",		TOKEN_EFLAGS,		0,	},
-	{ "otherEntityNum",	TOKEN_OTHERENTITYNUM,	0,	},
-	{ "weapon",		TOKEN_WEAPON,		0,	},
-	{ "clientNum",		TOKEN_CLIENTNUM,	0,	},
-	{ "angles[1]",		TOKEN_ANGLES_1,		0,	},
-	{ "pos.trDuration",	TOKEN_POS_TRDURATION,	0,	},
-	{ "apos.trType",	TOKEN_APOS_TRTYPE,	0,	},
-	{ "solid",		TOKEN_SOLID,		0,	},
-	{ "powerups",		TOKEN_POWERUPS,		0,	},
-	{ "modelindex",		TOKEN_MODELINDEX,	0,	},
-	{ "otherEntityNum2",	TOKEN_OTHERENTITYNUM2,	0,	},
-	{ "origin2[2]",		TOKEN_ORIGIN2_2,	0,	},
-	{ "origin2[0]",		TOKEN_ORIGIN2_0,	0,	},
-	{ "origin2[1]",		TOKEN_ORIGIN2_1,	0,	},
-	{ "modelindex2",	TOKEN_MODELINDEX2,	0,	},
-	{ "angles[0]",		TOKEN_ANGLES_0,		0,	},
-	{ "time",		TOKEN_TIME,		0,	},
-	{ "apos.trTime",	TOKEN_APOS_TRTIME,	0,	},
-	{ "apos.trDuration",	TOKEN_APOS_TRDURATION,	0,	},
-	{ "apos.trBase[2]",	TOKEN_APOS_TRBASE_2,	0,	},
-	{ "apos.trDelta[0]",	TOKEN_APOS_TRDELTA_0,	0,	},
-	{ "apos.trDelta[1]",	TOKEN_APOS_TRDELTA_1,	0,	},
-	{ "apos.trDelta[2]",	TOKEN_APOS_TRDELTA_2,	0,	},
-	{ "time2",		TOKEN_TIME2,		0,	},
-	{ "angles[2]",		TOKEN_ANGLES_2,		0,	},
-	{ "angles2[0]",		TOKEN_ANGLES2_0,	0,	},
-	{ "angles2[2]",		TOKEN_ANGLES2_2,	0,	},
-	{ "constantLight",	TOKEN_CONSTANTLIGHT,	0,	},
-	{ "frame",		TOKEN_FRAME,		0,	},
+	{ "origin[0]",		TOKEN_ORIGIN_0,		0	},
+	{ "origin[1]",		TOKEN_ORIGIN_1,		0	},
+	{ "bobCycle",		TOKEN_BOBCYCLE,		0	},
+	{ "velocity[0]",	TOKEN_VELOCITY_0,	0	},
+	{ "velocity[1]",	TOKEN_VELOCITY_1,	0	},
+	{ "viewangles[1]",	TOKEN_VIEWANGLES_1,	0	},
+	{ "viewangles[0]",	TOKEN_VIEWANGLES_0,	0	},
+	{ "weaponTime",		TOKEN_WEAPONTIME,	0	},
+	{ "origin[2]",		TOKEN_ORIGIN_2,		0	},
+	{ "velocity[2]",	TOKEN_VELOCITY_2,	0	},
+	{ "legsTimer",		TOKEN_LEGSTIMER,	0	},
+	{ "pm_time",		TOKEN_PM_TIME,		0	},
+	{ "eventSequence",	TOKEN_EVENTSEQUENCE,	0	},
+	{ "torsoAnim",		TOKEN_TORSOANIM,	0	},
+	{ "movementDir",	TOKEN_MOVEMENTDIR,	0	},
+	{ "events[0]",		TOKEN_EVENTS_0,		0	},
+	{ "legsAnim",		TOKEN_LEGSANIM,		0	},
+	{ "events[1]",		TOKEN_EVENTS_1,		0	},
+	{ "pm_flags",		TOKEN_PM_FLAGS,		0	},
+	{ "groundEntityNum",	TOKEN_GROUNDENTITYNUM,	0	},
+	{ "weaponstate",	TOKEN_WEAPONSTATE,	0	},
+	{ "eFlags",		TOKEN_EFLAGS,		0	},
+	{ "externalEvent",	TOKEN_EXTERNALEVENT,	0	},
+	{ "gravity",		TOKEN_GRAVITY,		0	},
+	{ "speed",		TOKEN_SPEED,		0	},
+	{ "delta_angles[1]",	TOKEN_DELTAANGLES_1,	0	},
+	{ "externalEventParm",	TOKEN_EXTERNALEVENTPARM,0	},
+	{ "viewheight",		TOKEN_VIEWHEIGHT,	0	},
+	{ "damageEvent",	TOKEN_DAMAGEEVENT,	0	},
+	{ "damageYaw",		TOKEN_DAMAGEYAW,	0	},
+	{ "damagePitch",	TOKEN_DAMAGEPITCH,	0	},
+	{ "damageCount",	TOKEN_DAMAGECOUNT,	0	},
+	{ "generic1",		TOKEN_GENERIC1,		0	},
+	{ "pm_type",		TOKEN_PM_TYPE,		0	},
+	{ "delta_angles[0]",	TOKEN_DELTAANGLES_0,	0	},
+	{ "delta_angles[2]",	TOKEN_DELTAANGLES_2,	0	},
+	{ "torsoTimer",		TOKEN_TORSOTIMER,	0	},
+	{ "eventParms[0]",	TOKEN_EVENTPARMS_0,	0	},
+	{ "eventParms[1]",	TOKEN_EVENTPARMS_1,	0	},
+	{ "clientNum",		TOKEN_CLIENTNUM,	0	},
+	{ "weapon",		TOKEN_WEAPON,		0	},
+	{ "viewangles[2]",	TOKEN_VIEWANGLES_2,	0	},
+	{ "grapplePoint[0]",	TOKEN_GRAPPLEPOINT_0,	0	},
+	{ "grapplePoint[1]",	TOKEN_GRAPPLEPOINT_1,	0	},
+	{ "grapplePoint[2]",	TOKEN_GRAPPLEPOINT_2,	0	},
+	{ "jumppad_ent",	TOKEN_JUMPPAD_ENT,	0	},
+	{ "loopSound",		TOKEN_LOOPSOUND,	0	},
+	{ "index",		TOKEN_INDEX,		0	},
+	{ "value",		TOKEN_VALUE,		0	},
+	{ "stat",		TOKEN_STAT,		0	},
+	{ "stats",		TOKEN_STATS,		0	},
+	{ "persistant",		TOKEN_PERSISTANT,	0	},
+	{ "persistants",	TOKEN_PERSISTANTS,	0	},
+	{ "ammo",		TOKEN_AMMO,		0	},
+	{ "ammos",		TOKEN_AMMOS,		0	},
+	{ "powerup",		TOKEN_POWERUP,		0	},
+	{ "powerups",		TOKEN_POWERUPS,		0	},
+	{ "entity",		TOKEN_ENTITY,		0	},
+	{ "entities",		TOKEN_ENTITIES,		0	},
+	{ "remove",		TOKEN_REMOVE,		0	},
+	{ "pos.trTime",		TOKEN_POS_TRTIME,	0	},
+	{ "pos.trBase[0]",	TOKEN_POS_TRBASE_0,	0	},
+	{ "pos.trBase[1]",	TOKEN_POS_TRBASE_1,	0	},
+	{ "pos.trDelta[0]",	TOKEN_POS_TRDELTA_0,	0	},
+	{ "pos.trDelta[1]",	TOKEN_POS_TRDELTA_1,	0	},
+	{ "pos.trBase[2]",	TOKEN_POS_TRBASE_2,	0	},
+	{ "apos.trBase[1]",	TOKEN_APOS_TRBASE_1,	0	},
+	{ "pos.trDelta[2]",	TOKEN_POS_TRDELTA_2,	0	},
+	{ "apos.trBase[0]",	TOKEN_APOS_TRBASE_0,	0	},
+	{ "event",		TOKEN_EVENT,		0	},
+	{ "angles2[1]",		TOKEN_ANGLES2_1,	0	},
+	{ "eType",		TOKEN_ETYPE,		0	},
+	{ "torsoAnim",		TOKEN_TORSOANIM,	0	},
+	{ "eventParm",		TOKEN_EVENTPARM,	0	},
+	{ "legsAnim",		TOKEN_LEGSANIM,		0	},
+	{ "groundEntityNum",	TOKEN_GROUNDENTITYNUM,	0	},
+	{ "pos.trType",		TOKEN_POS_TRTYPE,	0	},
+	{ "eFlags",		TOKEN_EFLAGS,		0	},
+	{ "otherEntityNum",	TOKEN_OTHERENTITYNUM,	0	},
+	{ "weapon",		TOKEN_WEAPON,		0	},
+	{ "clientNum",		TOKEN_CLIENTNUM,	0	},
+	{ "angles[1]",		TOKEN_ANGLES_1,		0	},
+	{ "pos.trDuration",	TOKEN_POS_TRDURATION,	0	},
+	{ "apos.trType",	TOKEN_APOS_TRTYPE,	0	},
+	{ "solid",		TOKEN_SOLID,		0	},
+	{ "powerups",		TOKEN_POWERUPS,		0	},
+	{ "modelindex",		TOKEN_MODELINDEX,	0	},
+	{ "otherEntityNum2",	TOKEN_OTHERENTITYNUM2,	0	},
+	{ "origin2[2]",		TOKEN_ORIGIN2_2,	0	},
+	{ "origin2[0]",		TOKEN_ORIGIN2_0,	0	},
+	{ "origin2[1]",		TOKEN_ORIGIN2_1,	0	},
+	{ "modelindex2",	TOKEN_MODELINDEX2,	0	},
+	{ "angles[0]",		TOKEN_ANGLES_0,		0	},
+	{ "time",		TOKEN_TIME,		0	},
+	{ "apos.trTime",	TOKEN_APOS_TRTIME,	0	},
+	{ "apos.trDuration",	TOKEN_APOS_TRDURATION,	0	},
+	{ "apos.trBase[2]",	TOKEN_APOS_TRBASE_2,	0	},
+	{ "apos.trDelta[0]",	TOKEN_APOS_TRDELTA_0,	0	},
+	{ "apos.trDelta[1]",	TOKEN_APOS_TRDELTA_1,	0	},
+	{ "apos.trDelta[2]",	TOKEN_APOS_TRDELTA_2,	0	},
+	{ "time2",		TOKEN_TIME2,		0	},
+	{ "angles[2]",		TOKEN_ANGLES_2,		0	},
+	{ "angles2[0]",		TOKEN_ANGLES2_0,	0	},
+	{ "angles2[2]",		TOKEN_ANGLES2_2,	0	},
+	{ "constantLight",	TOKEN_CONSTANTLIGHT,	0	},
+	{ "frame",		TOKEN_FRAME,		0	},
+	{ "serverCommandSequence",TOKEN_SERVERCOMMANDSEQUENCE,	0	},
+	{ "clientNum",		TOKEN_CLIENTNUM,	0	},
+	{ "checksumFeed",	TOKEN_CHECKSUMFEED,	0	},
 	{ "",			GEN_NOTHING,		0 	}
 };
 
@@ -557,22 +560,74 @@ DM3_bin_to_node(DM3_binblock_t *m, int opt _U_)
 			case svc_nop:	/* Complete. */
 				tn=node_link(tn, node_init(TOKEN_NOP, NULL, 0));
 			break;
-			case svc_gamestate:
-				tn=node_link(tn, node_init(TOKEN_GAMESTATE, NULL, 0));
-				tn=node_link(tn, node_init(TOKEN_UNKNOWN, NULL, 0));
+			case svc_gamestate: { /* Complete. */
+				int	gamestate_loop_end = 0;
+				ttn = NULL;
+
+				/* A gamestate always marks a server command sequence. */
+				ttn = node_link(ttn, node_command_init(TOKEN_SERVERCOMMANDSEQUENCE, V_INT, H_LONG, NODE_VALUE_INT_dup(MSG_ReadLong( &(m->buf))), 0));
+
+				while (1) { /* Loop over gamestate commands. */
+					int	gcmd;
+
+					/* Get the gamestate command. */
+					gcmd = MSG_ReadByte( &(m->buf) );
+
+					switch(gcmd) {
+						case svc_EOF: /* Complete. */
+							ttn=node_link(ttn, node_init(TOKEN_EOF, NULL, 0));
+							gamestate_loop_end = 1;
+						break;
+						case svc_configstring: { /* Complete. */
+							node	*tttn;
+							int	index = MSG_ReadShort( &(m->buf) );
+							tttn = node_link(
+								node_command_init(TOKEN_INDEX,V_INT,H_SHORT,NODE_VALUE_INT_dup(index),0),
+									node_command_init(TOKEN_VALUE,V_STRING,H_STRING,NODE_VALUE_STRING_dup(MSG_ReadBigString( &(m->buf ))),0));
+
+							ttn=node_link(ttn, node_init(TOKEN_CONFIGSTRING, tttn, 0));
+						}
+						break;
+						case svc_baseline: { /* Complete. */
+							node	*tttn;
+
+							tttn = DM3_bin_to_node_entity(&(m->buf));
+							if (tttn == NULL) {
+								fprintf(stderr, "no baseline entity");
+							}
+							ttn=node_link(ttn, node_init(TOKEN_BASELINE, tttn, 0));
+						}
+						break;
+						default:
+							syserror(WDM3, "bad gamestate command byte %d", gcmd);
+					} /* End switch gcmd. */
+
+					if (gamestate_loop_end) {
+						break;
+					}
+				} /* End loop over gamestate commands. */
+
+				/* Get the client number. */
+				ttn = node_link(ttn,node_command_init(TOKEN_CLIENTNUM, V_INT, H_LONG, NODE_VALUE_INT_dup(MSG_ReadLong(&(m->buf))), 0));
+
+				/* Get the checksum feed. */
+				ttn = node_link(ttn,node_command_init(TOKEN_CHECKSUMFEED, V_INT, H_LONG, NODE_VALUE_INT_dup(MSG_ReadLong(&(m->buf))), 0));
+				
+				tn=node_link(tn, node_init(TOKEN_GAMESTATE, ttn, 0));
 				loop_end = 1;
+			}
 			break;
-			case svc_serverCommand:
+			case svc_serverCommand: /* Incomplete. */
 				tn=node_link(tn, node_init(TOKEN_SERVERCOMMAND, NULL, 0));
 				tn=node_link(tn, node_init(TOKEN_UNKNOWN, NULL, 0));
 				loop_end = 1;
 			break;
-			case svc_download:
+			case svc_download: /* Incomplete. */
 				tn=node_link(tn, node_init(TOKEN_DOWNLOAD, NULL, 0));
 				tn=node_link(tn, node_init(TOKEN_UNKNOWN, NULL, 0));
 				loop_end = 1;
 			break;
-			case svc_snapshot: {
+			case svc_snapshot: { /* Complete. */
 				node	*tttn;
 				int	serverTime;
 				int	deltaNum;
@@ -773,7 +828,7 @@ DM3_bin_to_node(DM3_binblock_t *m, int opt _U_)
 
 		/* If we know no further, stop this loop. */
 		if (loop_end) break;
-	}
+	} /* End main message loop. */
 
 	n=node_link(n,node_init_all(TOKEN_BLOCK, H_DM3_BLOCK, tn, 0));
 	
