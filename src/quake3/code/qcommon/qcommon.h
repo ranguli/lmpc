@@ -44,8 +44,11 @@ typedef struct {
 	int	bits;			/* 0 = float */
 } netField_t;
 
-extern netField_t playerStateFields[];
-extern int playerStateFields_length;
+extern netField_t	playerStateFields[];
+extern int		playerStateFields_length;
+extern netField_t	entityStateFields[];
+extern int		entityStateFields_length;
+
 
 typedef struct {
 	qboolean	allowoverflow;	/* if false, do a Com_Error */

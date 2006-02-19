@@ -843,6 +843,7 @@ netField_t	entityStateFields[] =
 { NETF(constantLight), 32 },
 { NETF(frame), 16 }
 };
+int entityStateFields_length = sizeof(entityStateFields)/sizeof(entityStateFields[0]);
 
 
 #if 0
