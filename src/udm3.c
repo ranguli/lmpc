@@ -169,6 +169,7 @@ token_t DM3_token[]={
 	{ "serverCommandSequence",TOKEN_SERVERCOMMANDSEQUENCE,	0	},
 	{ "clientNum",		TOKEN_CLIENTNUM,	0	},
 	{ "checksumFeed",	TOKEN_CHECKSUMFEED,	0	},
+	{ "seq",		TOKEN_SEQ,		0	},
 	{ "",			GEN_NOTHING,		0 	}
 };
 
@@ -617,10 +618,14 @@ DM3_bin_to_node(DM3_binblock_t *m, int opt _U_)
 				loop_end = 1;
 			}
 			break;
-			case svc_serverCommand: /* Incomplete. */
-				tn=node_link(tn, node_init(TOKEN_SERVERCOMMAND, NULL, 0));
-				tn=node_link(tn, node_init(TOKEN_UNKNOWN, NULL, 0));
-				loop_end = 1;
+			case svc_serverCommand: { /* Complete. */
+				ttn = NULL;
+
+				ttn = node_link(ttn, node_command_init(TOKEN_SEQ, V_INT, H_LONG, NODE_VALUE_INT_dup(MSG_ReadLong( &(m->buf) )), 0));
+				ttn = node_link(ttn, node_command_init(TOKEN_VALUE, V_STRING, H_STRING, NODE_VALUE_STRING_dup(MSG_ReadString( &(m->buf) )), 0));
+				
+				tn=node_link(tn, node_init(TOKEN_SERVERCOMMAND, ttn, 0));
+			} /* End svc_serverCommand. */
 			break;
 			case svc_download: /* Incomplete. */
 				tn=node_link(tn, node_init(TOKEN_DOWNLOAD, NULL, 0));
