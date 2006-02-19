@@ -58,7 +58,118 @@ token_t DM3_token[]={
 	{ "areamask",		TOKEN_AREAMASK,		0	},
 	{ "unknown",		TOKEN_UNKNOWN,		0	},
 	{ "incomplete",		TOKEN_INCOMPLETE,	0	},
-	{ "",			GEN_NOTHING,		0 	},
+	{ "player",		TOKEN_PLAYER,		0	},
+	{ "commandTime",	TOKEN_COMMANDTIME,	0	},
+	{ "origin[0]",		TOKEN_ORIGIN_0,		0,	},
+	{ "origin[1]",		TOKEN_ORIGIN_1,		0,	},
+	{ "bobCycle",		TOKEN_BOBCYCLE,		0,	},
+	{ "velocity[0]",	TOKEN_VELOCITY_0,	0,	},
+	{ "velocity[1]",	TOKEN_VELOCITY_1,	0,	},
+	{ "viewangles[1]",	TOKEN_VIEWANGLES_1,	0,	},
+	{ "viewangles[0]",	TOKEN_VIEWANGLES_0,	0,	},
+	{ "weaponTime",		TOKEN_WEAPONTIME,	0,	},
+	{ "origin[2]",		TOKEN_ORIGIN_2,		0,	},
+	{ "velocity[2]",	TOKEN_VELOCITY_2,	0,	},
+	{ "legsTimer",		TOKEN_LEGSTIMER,	0,	},
+	{ "pm_time",		TOKEN_PM_TIME,		0,	},
+	{ "eventSequence",	TOKEN_EVENTSEQUENCE,	0,	},
+	{ "torsoAnim",		TOKEN_TORSOANIM,	0,	},
+	{ "movementDir",	TOKEN_MOVEMENTDIR,	0,	},
+	{ "events[0]",		TOKEN_EVENTS_0,		0,	},
+	{ "legsAnim",		TOKEN_LEGSANIM,		0,	},
+	{ "events[1]",		TOKEN_EVENTS_1,		0,	},
+	{ "pm_flags",		TOKEN_PM_FLAGS,		0,	},
+	{ "groundEntityNum",	TOKEN_GROUNDENTITYNUM,	0,	},
+	{ "weaponstate",	TOKEN_WEAPONSTATE,	0,	},
+	{ "eFlags",		TOKEN_EFLAGS,		0,	},
+	{ "externalEvent",	TOKEN_EXTERNALEVENT,	0,	},
+	{ "gravity",		TOKEN_GRAVITY,		0,	},
+	{ "speed",		TOKEN_SPEED,		0,	},
+	{ "delta_angles[1]",	TOKEN_DELTAANGLES_1,	0,	},
+	{ "externalEventParm",	TOKEN_EXTERNALEVENTPARM,0,	},
+	{ "viewheight",		TOKEN_VIEWHEIGHT,	0,	},
+	{ "damageEvent",	TOKEN_DAMAGEEVENT,	0,	},
+	{ "damageYaw",		TOKEN_DAMAGEYAW,	0,	},
+	{ "damagePitch",	TOKEN_DAMAGEPITCH,	0,	},
+	{ "damageCount",	TOKEN_DAMAGECOUNT,	0,	},
+	{ "generic1",		TOKEN_GENERIC1,		0,	},
+	{ "pm_type",		TOKEN_PM_TYPE,		0,	},
+	{ "delta_angles[0]",	TOKEN_DELTAANGLES_0,	0,	},
+	{ "delta_angles[2]",	TOKEN_DELTAANGLES_2,	0,	},
+	{ "torsoTimer",		TOKEN_TORSOTIMER,	0,	},
+	{ "eventParms[0]",	TOKEN_EVENTPARMS_0,	0,	},
+	{ "eventParms[1]",	TOKEN_EVENTPARMS_1,	0,	},
+	{ "clientNum",		TOKEN_CLIENTNUM,	0,	},
+	{ "weapon",		TOKEN_WEAPON,		0,	},
+	{ "viewangles[2]",	TOKEN_VIEWANGLES_2,	0,	},
+	{ "grapplePoint[0]",	TOKEN_GRAPPLEPOINT_0,	0,	},
+	{ "grapplePoint[1]",	TOKEN_GRAPPLEPOINT_1,	0,	},
+	{ "grapplePoint[2]",	TOKEN_GRAPPLEPOINT_2,	0,	},
+	{ "jumppad_ent",	TOKEN_JUMPPAD_ENT,	0,	},
+	{ "loopSound",		TOKEN_LOOPSOUND,	0,	},
+	{ "index",		TOKEN_INDEX,		0,	},
+	{ "value",		TOKEN_VALUE,		0,	},
+	{ "stat",		TOKEN_STAT,		0,	},
+	{ "stats",		TOKEN_STATS,		0,	},
+	{ "persistant",		TOKEN_PERSISTANT,	0,	},
+	{ "persistants",	TOKEN_PERSISTANTS,	0,	},
+	{ "ammo",		TOKEN_AMMO,		0,	},
+	{ "ammos",		TOKEN_AMMOS,		0,	},
+	{ "powerup",		TOKEN_POWERUP,		0,	},
+	{ "powerups",		TOKEN_POWERUPS,		0,	},
+	{ "",			GEN_NOTHING,		0 	}
+};
+
+
+int playertoken[] = {
+	TOKEN_COMMANDTIME,
+	TOKEN_ORIGIN_0,
+	TOKEN_ORIGIN_1,
+	TOKEN_BOBCYCLE,
+	TOKEN_VELOCITY_0,
+	TOKEN_VELOCITY_1,
+	TOKEN_VIEWANGLES_1,
+	TOKEN_VIEWANGLES_0,
+	TOKEN_WEAPONTIME,
+	TOKEN_ORIGIN_2,
+	TOKEN_VELOCITY_2,
+	TOKEN_LEGSTIMER,
+	TOKEN_PM_TIME,
+	TOKEN_EVENTSEQUENCE,
+	TOKEN_TORSOANIM,
+	TOKEN_MOVEMENTDIR,
+	TOKEN_EVENTS_0,
+	TOKEN_LEGSANIM,
+	TOKEN_EVENTS_1,
+	TOKEN_PM_FLAGS,
+	TOKEN_GROUNDENTITYNUM,
+	TOKEN_WEAPONSTATE,
+	TOKEN_EFLAGS,
+	TOKEN_EXTERNALEVENT,
+	TOKEN_GRAVITY,
+	TOKEN_SPEED,
+	TOKEN_DELTAANGLES_1,
+	TOKEN_EXTERNALEVENTPARM,
+	TOKEN_VIEWHEIGHT,
+	TOKEN_DAMAGEEVENT,
+	TOKEN_DAMAGEYAW,
+	TOKEN_DAMAGEPITCH,
+	TOKEN_DAMAGECOUNT,
+	TOKEN_GENERIC1,
+	TOKEN_PM_TYPE,
+	TOKEN_DELTAANGLES_0,
+	TOKEN_DELTAANGLES_2,
+	TOKEN_TORSOTIMER,
+	TOKEN_EVENTPARMS_0,
+	TOKEN_EVENTPARMS_1,
+	TOKEN_CLIENTNUM,
+	TOKEN_WEAPON,
+	TOKEN_VIEWANGLES_2,
+	TOKEN_GRAPPLEPOINT_0,
+	TOKEN_GRAPPLEPOINT_1,
+	TOKEN_GRAPPLEPOINT_2,
+	TOKEN_JUMPPAD_ENT,
+	TOKEN_LOOPSOUND
 };
 
 void
@@ -271,6 +382,9 @@ DM3_bin_to_node(DM3_binblock_t *m, int opt _U_)
 				int	areamask_len;
 				unsigned char	areamask_data[MAX_MAP_AREA_BYTES];
 				int	i;
+				int	lc;
+				int	*tp;
+				netField_t	*field;
 
 				/* Start empty. */
 				ttn = NULL;
@@ -301,7 +415,134 @@ DM3_bin_to_node(DM3_binblock_t *m, int opt _U_)
 				ttn=node_link(ttn, node_init(TOKEN_AREAMASK, tttn, 0));
 
 				/* Read player state. */
-				/* TODO */
+				tttn = NULL;
+
+				/* Get the max field number. */
+				lc = MSG_ReadByte(&(m->buf));
+				if (lc>playerStateFields_length) {
+					syserror(DM3INTE, "last player field is %d, max allowed is %d", lc, playerStateFields_length);
+				}
+
+				/* Loop over the fields. */
+				for (i=0,field=playerStateFields,tp=playertoken;
+					i<lc;
+					i++,field++,tp++) {
+
+					/* Check, if we have this field. */
+					if ( MSG_ReadBits( &(m->buf), 1 ) ) {
+						if (field->bits == 0) {
+							/* Get a float value. */
+							union {
+								float	value_f;
+								int	value_i;
+							} value;
+							int	hint;
+
+							/* Check the float type. */
+							if (MSG_ReadBits( &(m->buf), 1 ) == 0) {
+								/* Get an integral float. */
+								int	trunc;
+
+								trunc = MSG_ReadBits( &(m->buf), FLOAT_INT_BITS );
+								/* Bias to allow equal parts positive and negative. */
+								trunc -= FLOAT_INT_BIAS;
+								value.value_f = trunc;
+								hint = H_FLOAT_INT;
+							}
+							else {
+								/* Get a full floating point value. */
+								value.value_i = MSG_ReadBits( &(m->buf), 32 );
+								/* TODO: byte order? */
+								hint = H_FLOAT;
+							}
+
+							tttn = node_link(tttn, node_command_init(*tp, V_FLOAT, hint, NODE_VALUE_FLOAT_dup(value.value_f), 0));
+						}
+						else {
+							/* Get an integer value. */
+							tttn = node_link(tttn, node_command_init(*tp, V_INT, H_LONG, NODE_VALUE_INT_dup(MSG_ReadBits( &(m->buf), field->bits )), 0)); 
+
+						}
+					}
+
+				} /* End loop over the fields. */
+
+				/* Read the arrays. */
+				if (MSG_ReadBits( &(m->buf), 1 ) ) {
+					int	bits;
+					int	value;
+					node	*a;
+					node	*e;
+
+					/* Parse the stats. */
+					if ( MSG_ReadBits( &(m->buf), 1 ) ) {
+						a = NULL;
+						bits = MSG_ReadShort (&(m->buf));
+						for (i=0 ; i<16 ; i++) {
+							if (bits & (1<<i) ) {
+								value = MSG_ReadShort(&(m->buf));
+								e = node_link(
+									node_command_init(TOKEN_INDEX,V_INT,H_SHORT,NODE_VALUE_INT_dup(i),0),
+									node_command_init(TOKEN_VALUE,V_INT,H_SHORT,NODE_VALUE_INT_dup(value),0));
+								a = node_link(a,node_init(TOKEN_STAT,e,0));
+							}
+						}
+						tttn = node_link(tttn,node_init(TOKEN_STATS,a,0));
+					}
+
+					/* Parse the persistant stats. */
+					if ( MSG_ReadBits( &(m->buf), 1 ) ) {
+						a = NULL;
+						bits = MSG_ReadShort (&(m->buf));
+						for (i=0 ; i<16 ; i++) {
+							if (bits & (1<<i) ) {
+								value = MSG_ReadShort(&(m->buf));
+								e = node_link(
+									node_command_init(TOKEN_INDEX,V_INT,H_SHORT,NODE_VALUE_INT_dup(i),0),
+									node_command_init(TOKEN_VALUE,V_INT,H_SHORT,NODE_VALUE_INT_dup(value),0));
+								a = node_link(a,node_init(TOKEN_PERSISTANT,e,0));
+							}
+						}
+						tttn = node_link(tttn,node_init(TOKEN_PERSISTANTS,a,0));
+					}
+
+					/* Parse the ammo. */
+					if ( MSG_ReadBits( &(m->buf), 1 ) ) {
+						a = NULL;
+						bits = MSG_ReadShort (&(m->buf));
+						for (i=0 ; i<16 ; i++) {
+							if (bits & (1<<i) ) {
+								value = MSG_ReadShort(&(m->buf));
+								e = node_link(
+									node_command_init(TOKEN_INDEX,V_INT,H_SHORT,NODE_VALUE_INT_dup(i),0),
+									node_command_init(TOKEN_VALUE,V_INT,H_SHORT,NODE_VALUE_INT_dup(value),0));
+								a = node_link(a,node_init(TOKEN_AMMO,e,0));
+							}
+						}
+						tttn = node_link(tttn,node_init(TOKEN_AMMOS,a,0));
+					}
+
+					/* Parse the powerup. */
+					if ( MSG_ReadBits( &(m->buf), 1 ) ) {
+						a = NULL;
+						bits = MSG_ReadShort (&(m->buf));
+						for (i=0 ; i<16 ; i++) {
+							if (bits & (1<<i) ) {
+								value = MSG_ReadLong(&(m->buf));
+								e = node_link(
+									node_command_init(TOKEN_INDEX,V_INT,H_SHORT,NODE_VALUE_INT_dup(i),0),
+									node_command_init(TOKEN_VALUE,V_INT,H_SHORT,NODE_VALUE_INT_dup(value),0));
+								a = node_link(a,node_init(TOKEN_POWERUP,e,0));
+							}
+						}
+						tttn = node_link(tttn,node_init(TOKEN_POWERUPS,a,0));
+					}
+
+				} /* End read the arrays. */
+
+
+				/* Connect player parts to existing node tree. */
+				ttn=node_link(ttn, node_init(TOKEN_PLAYER, tttn, 0));
 
 				/* Read entity state. */
 				/* TODO */
