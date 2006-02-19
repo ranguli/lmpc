@@ -777,11 +777,14 @@ void MSG_ReportChangeVectors_f( void ) {
 	}
 }
 
+#if 0
+/* This was moved into qcommon.h. */
 typedef struct {
 	char	*name;
 	int		offset;
 	int		bits;		/* 0 = float */
 } netField_t;
+#endif
 
 /* using the stringizing operator to save typing... */
 #define	NETF(x) #x,(int)&((entityState_t*)0)->x
@@ -842,10 +845,13 @@ netField_t	entityStateFields[] =
 };
 
 
+#if 0
+/* This was moved into qcommon.h. */
 /* if (int)f == f and (int)f + ( 1<<(FLOAT_INT_BITS-1) ) < ( 1 << FLOAT_INT_BITS ) */
 /* the float will be sent with FLOAT_INT_BITS, otherwise all 32 bits will be sent */
 #define	FLOAT_INT_BITS	13
 #define	FLOAT_INT_BIAS	(1<<(FLOAT_INT_BITS-1))
+#endif
 
 /*
 ==================
@@ -1152,6 +1158,7 @@ netField_t	playerStateFields[] =
 { PSF(jumppad_ent), 10 },
 { PSF(loopSound), 16 }
 };
+int playerStateFields_length=sizeof(playerStateFields)/sizeof(playerStateFields[0]);
 
 /*
 =============

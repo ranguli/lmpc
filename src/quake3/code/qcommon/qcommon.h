@@ -32,6 +32,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 /*
  * msg.c
  */
+
+/* if (int)f == f and (int)f + ( 1<<(FLOAT_INT_BITS-1) ) < ( 1 << FLOAT_INT_BITS ) */
+/* the float will be sent with FLOAT_INT_BITS, otherwise all 32 bits will be sent */
+#define FLOAT_INT_BITS  13
+#define FLOAT_INT_BIAS  (1<<(FLOAT_INT_BITS-1))
+
+typedef struct {
+	char	*name;
+	int	offset;
+	int	bits;			/* 0 = float */
+} netField_t;
+
+extern netField_t playerStateFields[];
+extern int playerStateFields_length;
+
 typedef struct {
 	qboolean	allowoverflow;	/* if false, do a Com_Error */
 	qboolean	overflowed;		/* set to true if the buffer size failed (with allowoverflow set) */
