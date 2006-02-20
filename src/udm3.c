@@ -170,6 +170,7 @@ token_t DM3_token[]={
 	{ "clientNum",		TOKEN_CLIENTNUM,	0	},
 	{ "checksumFeed",	TOKEN_CHECKSUMFEED,	0	},
 	{ "seq",		TOKEN_SEQ,		0	},
+	{ "downloadSize",	TOKEN_DOWNLOADSIZE,	0	},
 	{ "",			GEN_NOTHING,		0 	}
 };
 
@@ -521,25 +522,18 @@ node*
 DM3_bin_to_node(DM3_binblock_t *m, int opt _U_)
 {
 	node	*n, *tn, *ttn;
-#if 0
-	int	i;
-#endif
 	long	rel_ack;
 	int	loop_end;
 
-	n = NULL;
-	tn=node_command_init(TOKEN_SEQUENCE, V_INT, H_LONG, NODE_VALUE_INT_dup(m->serverMessageSequence), 0);
+	tn = NULL;
+
+	/* If there is nothing in it, it must be an endblock. */
 	if (m->buf.cursize == -1) {
 		return node_init_all(TOKEN_ENDBLOCK,H_DM3_ENDBLOCK,tn,0);
 	}
-	tn = node_link(tn, node_command_init(TOKEN_SIZE, V_INT, H_LONG, NODE_VALUE_INT_dup(m->buf.cursize), 0));
 
-#if 0
-	for (ttn=NULL, i=0 ; i<m->buf.cursize ; i++) {
-		ttn=node_link(ttn,node_init(V_BYTEHEX, NODE_VALUE_INT_dup(m->buf.data[i]), 0));
-	}
-	tn=node_link(tn, node_init(TOKEN_DATA,ttn,0));
-#endif
+	/* Start the block with the sequence number. */
+	tn=node_link(tn, node_command_init(TOKEN_SEQUENCE, V_INT, H_LONG, NODE_VALUE_INT_dup(m->serverMessageSequence), 0));
 
 	/* Messages are bit streams. */
 	MSG_Bitstream(&(m->buf));
@@ -576,7 +570,10 @@ DM3_bin_to_node(DM3_binblock_t *m, int opt _U_)
 
 					switch(gcmd) {
 						case svc_EOF: /* Complete. */
+#if 0
+							/* Don't tell anyone. The gamestate commands always end with EOF. */
 							ttn=node_link(ttn, node_init(TOKEN_EOF, NULL, 0));
+#endif
 							gamestate_loop_end = 1;
 						break;
 						case svc_configstring: { /* Complete. */
@@ -627,10 +624,49 @@ DM3_bin_to_node(DM3_binblock_t *m, int opt _U_)
 				tn=node_link(tn, node_init(TOKEN_SERVERCOMMAND, ttn, 0));
 			} /* End svc_serverCommand. */
 			break;
-			case svc_download: /* Incomplete. */
-				tn=node_link(tn, node_init(TOKEN_DOWNLOAD, NULL, 0));
-				tn=node_link(tn, node_init(TOKEN_UNKNOWN, NULL, 0));
-				loop_end = 1;
+			case svc_download: { /* Complete. */
+				int block;
+				int size;
+				unsigned char data[MAX_MSGLEN];
+				node *tttn;
+
+				ttn = 0;
+				block = MSG_ReadShort ( &(m->buf) );
+				ttn = node_link(ttn, node_command_init(TOKEN_BLOCK, V_INT, H_SHORT, NODE_VALUE_INT_dup(block), 0));
+				if (block == 0) {
+					/* Block zero is special, contains file size. */
+					/* This is a redundancy. block==0 means downloadsize,
+					why use then block at all, if downloadSize is there? */
+					ttn = node_link(ttn, node_command_init(TOKEN_DOWNLOADSIZE, V_INT, H_LONG, NODE_VALUE_INT_dup(MSG_ReadLong( &(m->buf) )), 0));
+				}
+
+				/* Get the size but don't put it into the node tree as this is a
+				senseless redundancy. */
+				size = MSG_ReadShort ( &(m->buf) );
+
+				/* Make sure we don't get too many bytes. */
+				if (size > (int)sizeof(data)) {
+					syserror(WDM3, "Download block size is too big. Got %d but %d is only allowed.", size, MAX_MSGLEN);
+				}
+
+				/* size == 0 is also allowed (file end). */
+				tttn = NULL;
+				if (size > 0) {
+					int	i;
+
+					/* Get the actual data. */
+					MSG_ReadData( &(m->buf), data, size );
+					for (i=0; i<size; i++) {
+						tttn=node_link(tttn,node_init(V_BYTEHEX, NODE_VALUE_INT_dup(data[i]), 0));
+					}
+				}
+
+				/* Add the data node, even if it is empty (tttn==NULL). */
+				ttn=node_link(ttn, node_init(TOKEN_DATA, tttn, 0));
+
+				/* Link the parts together to the download node. */
+				tn=node_link(tn, node_init(TOKEN_DOWNLOAD, ttn, 0));
+			} /* End svc_download. */
 			break;
 			case svc_snapshot: { /* Complete. */
 				node	*tttn;
@@ -824,7 +860,10 @@ DM3_bin_to_node(DM3_binblock_t *m, int opt _U_)
 			}
 			break;
 			case svc_EOF:	/* Complete. */
+#if 0
+				/* Don't tell anyone. The last command is always an EOF. */
 				tn=node_link(tn, node_init(TOKEN_EOF, NULL, 0));
+#endif
 				loop_end = 1;
 			break;
 			default:	/* Complete. */
@@ -835,8 +874,10 @@ DM3_bin_to_node(DM3_binblock_t *m, int opt _U_)
 		if (loop_end) break;
 	} /* End main message loop. */
 
-	n=node_link(n,node_init_all(TOKEN_BLOCK, H_DM3_BLOCK, tn, 0));
+	/* Connect commands into a message block. */
+	n=node_init_all(TOKEN_BLOCK, H_DM3_BLOCK, tn, 0);
 	
+	/* Return the nop-level block. */
 	return n;
 }
 
