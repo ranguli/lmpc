@@ -32,6 +32,8 @@
 #include "tools.h"
 #include "lmpc.h"
 
+#define CFREE(x) {if((x)!=NULL){free(x);(x)=NULL;}}
+
 typedef struct node {
                       struct node* next;
                       char* comment;
@@ -46,6 +48,15 @@ typedef struct {
   int type;
   unsigned char id;
 } token_t;
+
+
+/* This stucture is used to reorder sub-nodes into a standard scheme. */
+typedef struct node_down_reorder_s {
+	int		type;		/* The node type. */
+	unsigned int	obligatory:1;	/* Node must appear. */
+	unsigned int	multiple:1;	/* More then 1 orcurrence is allowed. */
+} node_down_reorder_t;
+
 
 #define NODE_VALUE 0x2000
 
@@ -75,6 +86,7 @@ extern void node_delete(node* n);
 extern node* node_add_hint_next(node* n, int hint);
 extern char *node_token_string(int type);
 extern int node_count_next(node *base);
+extern void node_down_reorder(node* m, node_down_reorder_t* co, int count);
 extern node* node_add_type_next(node* n, int type);
 extern node* do_block(node* b);
 

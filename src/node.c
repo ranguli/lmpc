@@ -247,7 +247,116 @@ int node_count_next(node *base)
 }
 
 
-/* complex structures in nodes and vide versa */
+void
+node_down_reorder(node* m, node_down_reorder_t* co, int count)
+{
+	int	down_nodes;	/* Number of down nodes in this node. */
+	node	**down_node = NULL;	/* Down node array. */
+	int	j;		/* Counter for the down nodes. */
+	node	*n;		/* Node pointer. */
+	int	*order = NULL;	/* Array with the ordered node numbers. */
+	int	*used = NULL;	/* Array with the already used node numbers. */
+
+	int	i;		/* node description counter */
+	int	cc;		/* ordered node index */
+	char	ts[1000];	/* temp string for syntax error */
+	int	found;		/* found flag */
+
+	/* Count the number of down entries. */
+	down_nodes = node_count_next(m->down);
+	/* May be 0, if everything is optional and missing. */
+
+	/* Do we have down nodes to reorder? */
+	if (down_nodes > 0) {
+		/* Allocate a node* array for the ordering. */
+		down_node = (node**) malloc(sizeof(node*) * down_nodes);
+		if (down_node == NULL) {
+			syserror(ENOMEM, "down_node");
+		}
+
+		/* Fill down_node with down_nodes node pointers. */
+		for (j=0, n=m->down; j<down_nodes; j++, n=n->next) {
+			down_node[j] = n;
+		}
+
+		/* Allocate the order array. */
+		order = (int*) malloc(sizeof(int) * down_nodes);
+		if (order == NULL) {
+			syserror(ENOMEM, "order");
+		}
+
+		/* Allocate the used array. */
+		used = (int*) malloc(sizeof(int) * down_nodes);
+		if (used == NULL) {
+			syserror(ENOMEM, "used");
+		}
+
+		/* Init the arrays. */
+		for (j=0 ; j<down_nodes ; j++) {
+			order[j] = -1;	/* Not filled. */
+			down_node[j]->next = NULL;	/* Dissolve the linked list. */
+			used[j] = 0;	/* The node j is not used yet. */
+		}
+	}
+
+	/* cc is the index in order. */
+	cc = 0;
+
+	/* Go over the reorder definition array. */
+	for (i=0 ; i<count ; i++) {
+		found = 0; /* We didn't found such a node yet. */
+
+		/* Loop over all available nodes. */
+		for (j=0 ; j<down_nodes ; j++) {
+			if (used[j]) continue; /* Is it used already? */
+			/* Is this the right type? */
+			if (co[i].type==down_node[j]->type) {
+				found++; /* We found it. */
+
+				/* Remember this node. */
+				order[cc++] = j;
+
+				/* This node is now used. */
+				used[j] = 1;
+
+				/* If this is a "only-once" node, stop here. */
+				if (co[i].multiple == 0) {
+					break;
+				}
+			}
+		} /* End loop over all available nodes. */
+		if (found==0 && co[i].obligatory==1) {
+			sprintf(ts, "In node type %s, a %s down-node is missing.",
+			node_token_string(m->type), node_token_string(co[i].type));
+			syntaxerror(m->pos, ts);
+		}
+	}
+
+	/* We worked with cc down nodes, it should be cc == down_nodes. */
+	if (down_nodes!=cc) {
+		sprintf(ts, "In node type %s are additional down nodes",
+			node_token_string(m->type));
+		syntaxerror(m->pos, ts);
+	}
+
+	/* Make the linked list. */
+	for (i=0 ; i<down_nodes-1 ; i++) {
+		down_node[order[i]]->next = down_node[order[i+1]];
+	}
+
+	/* The down node list starts with the first. */
+	if (down_nodes > 0) {
+		m->down = down_node[order[0]];
+	}
+
+	/* Optionally free everything again. */
+	CFREE(down_node);
+	CFREE(order);
+	CFREE(used);
+}
+
+
+/* complex structures in nodes and vice versa */
 node* bitlist_to_nodes(unsigned long field)
 {
   int i;
