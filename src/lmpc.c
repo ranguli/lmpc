@@ -44,26 +44,27 @@
 #include "tools.h"
 
 #ifdef ENABLE_LMP
-  #include "ulmp.h"
+#include "ulmp.h"
 #endif
 #ifdef ENABLE_DMO
-  #include "udmo.h" 
+#include "udmo.h" 
 #endif
 #ifdef ENABLE_DEM
-  #include "udem.h"
+#include "udem.h"
 #endif
 #ifdef ENABLE_QWD
-  #include "uqwd.h"
+#include "uqwd.h"
 #endif
 #ifdef ENABLE_DM2
-  #include "udm2.h"
+#include "udm2.h"
 #endif
 #ifdef ENABLE_DM3
-  #include "udm3.h"
-#else
-  int isDM3bin(char *filename _U_) { return 0; }
-  int isDM3txt(char *filename _U_) { return 0; }
+#include "udm3.h"
 #endif
+
+
+#include "udemy.h"
+
 
 /* prototypes */
 
@@ -3095,30 +3096,36 @@ void ActionDM2txt2DM2txt(char *dm2txtfilename1, char *dm2txtfilename2,
 #ifdef ENABLE_DM3
 
 
-void ActionInfoDM3(char *filename, opt_t *opt _U_)
+void
+ActionInfoDM3(char *filename, opt_t *opt _U_)
 {
-  unsigned long tics;
+	unsigned long tics;
 
-  udm3_init();
+	udm3_init();
 
-  /* I check here again for text or bin, text check is much faster */
-  if (isDM3txt(filename)) {
-    fprintf(stderr,"%s: Quake III Arena (DM3 txt)\n", filename);
-  }
-  else {
-    if ((tics=isDM3bin(filename))!=0) {
-      fprintf(stderr,"%s: Quake III Arena (DM3 bin), %li frames\n", filename, tics);
-    }
-    else {
-      syswarning(WDM3,filename);
-    }
-  }
-  udm3_done();
+	/* I check here again for text or bin, text check is much faster */
+	if (isDM3txt(filename)) {
+		fprintf(stderr,"%s: Quake III Arena (DM3 txt)\n", filename);
+	}
+	else {
+		if ((tics=isDM3bin(filename))!=0) {
+			fprintf(stderr,"%s: Quake III Arena (DM3 bin), %li frames\n", filename, tics);
+		}
+		else {
+			syswarning(WDM3,filename);
+		}
+	}
+	udm3_done();
 }
 
-void ActionDM3bin2DM3bin(char *dm3binfilename1 _U_, char *dm3binfilename2 _U_,
+
+void
+ActionDM3bin2DM3bin(char *dm3binfilename1 _U_, char *dm3binfilename2 _U_,
        opt_t *opt _U_)
-{ syserror(NOTCOM,"DM3"); }
+{
+	syserror(ENOSYS,"DM3");
+}
+
 
 void
 ActionDM3bin2DM3txt(char *dm3binfilename, char *dm3txtfilename, 
@@ -3147,6 +3154,11 @@ ActionDM3bin2DM3txt(char *dm3binfilename, char *dm3txtfilename,
 	sprintf(ts,"// source: DM3 binary file %s", d.filename); WriteLine(s.file, ts);
 	WriteLine(s.file,"");
 
+	/* Create a 'dm3' token. */
+	n = node_init(TOKEN_DM3,NULL,0);
+	do_block(n);
+	node_delete(n);
+
 	if (opt->option & opMarkStep) o=0x01; else o=0x00;
   
 	d.frame=0;
@@ -3163,37 +3175,74 @@ ActionDM3bin2DM3txt(char *dm3binfilename, char *dm3txtfilename,
 	udm3_done(); 
 }
 
-void ActionDM3txt2DM3bin(char *dm3txtfilename _U_, char *dm3binfilename _U_,
-       opt_t *opt _U_)
-{ syserror(NOTCOM,"DM3"); }
 
-void ActionDM3txt2DM3txt(char *dm3txtfilename1 _U_, char *dm3txtfilename2 _U_, 
+void
+ActionDM3txt2DM3bin(char *dm3txtfilename _U_, char *dm3binfilename _U_,
        opt_t *opt _U_)
-{ syserror(NOTCOM,"DM3"); }
+{
+	syserror(ENOSYS,"DM3");
+}
+
+
+void
+ActionDM3txt2DM3txt(char *dm3txtfilename1 _U_, char *dm3txtfilename2 _U_, 
+       opt_t *opt _U_)
+{
+	syserror(ENOSYS,"DM3");
+}
 
 
 #else /* !ENABLE_DM3" */
 
+int
+isDM3bin(char *filename _U_) {
+	return 0;
+}
 
-void ActionInfoDM3(char *filename _U_, opt_t *opt _U_)
-{ syserror(NOTCOM,"DM3"); }
 
-void ActionDM3bin2DM3bin(char *dm3binfilename1 _U_, char *dm2binfilename2 _U_,
+int
+isDM3txt(char *filename _U_) {
+	return 0;
+}
+
+
+void
+ActionInfoDM3(char *filename _U_, opt_t *opt _U_)
+{
+	syserror(NOTCOM,"DM3");
+}
+
+
+void
+ActionDM3bin2DM3bin(char *dm3binfilename1 _U_, char *dm2binfilename2 _U_,
        opt_t *opt _U_)
-{ syserror(NOTCOM,"DM3"); }
+{
+	syserror(NOTCOM,"DM3");
+}
 
-void ActionDM3bin2DM3txt(char *dm3binfilename _U_, char *dm3txtfilename _U_, 
+
+void
+ActionDM3bin2DM3txt(char *dm3binfilename _U_, char *dm3txtfilename _U_, 
        opt_t *opt _U_)
-{ syserror(NOTCOM,"DM3"); }
+{
+	syserror(NOTCOM,"DM3");
+}
 
-void ActionDM3txt2DM3bin(char *dm3txtfilename _U_, char *dm3binfilename _U_,
+
+void
+ActionDM3txt2DM3bin(char *dm3txtfilename _U_, char *dm3binfilename _U_,
        opt_t *opt _U_)
-{ syserror(NOTCOM,"DM3"); }
+{
+	syserror(NOTCOM,"DM3");
+}
 
-void ActionDM3txt2DM3txt(char *dm3txtfilename1 _U_, char *dm3txtfilename2 _U_,
+
+void
+ActionDM3txt2DM3txt(char *dm3txtfilename1 _U_, char *dm3txtfilename2 _U_,
        opt_t *opt _U_)
-{ syserror(NOTCOM,"DM3"); }
-
+{
+	syserror(NOTCOM,"DM3");
+}
 
 #endif /* ENABLE_DM3 */
 

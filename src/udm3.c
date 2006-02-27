@@ -34,6 +34,7 @@
 
 
 token_t DM3_token[]={
+	{ "dm3",		TOKEN_DM3,		0	},
 	{ "block",		TOKEN_BLOCK,		0	},
 	{ "endblock",		TOKEN_ENDBLOCK,		0	},
 	{ "sequence",		TOKEN_SEQUENCE,		0	},
@@ -331,6 +332,47 @@ isDM3bin(char *filename)
 int
 isDM3txt(char* filename _U_)
 {
+	FILE *file;
+	#define BUFFER_SIZE 1000
+	char buffer[BUFFER_SIZE];
+	long blocksize;
+	long p;
+	int state;
+
+	if ((file=fopen(filename, "rb"))==NULL)
+		return 0;
+	rewind(file);
+	if ((blocksize=fread(buffer,1,BUFFER_SIZE,file))==0)
+		return 0;
+	if(fclose(file))
+		return 0;
+	if (blocksize<20)
+		return 0;
+	state = 0;
+	for (p=0;p<blocksize;p++) {
+		switch (state) {
+			/* not a comment */
+			/* Search for the 'dm3' keyword. */
+			case 0:
+				if (strncmp (&(buffer[p]), "dm3", 3)==0)
+					return 1;
+				if (strncmp (&(buffer[p]), "//", 2)==0) {
+					state=1;
+					break;
+				}
+				if (buffer[p]!=' ' && buffer[p]!='\t' &&
+					buffer[p]!='\r' && buffer[p]!='\n' &&
+					buffer[p]!='\f')
+					return 0;
+			break;
+			/* a comment */
+			case 1:
+				if (buffer[p]=='\n') state=0;
+			break;
+		}
+	}
+	/* If it comes to this line it may be a DM2 txt file but we don't
+	beleave it. */
 	return 0;
 }
 
