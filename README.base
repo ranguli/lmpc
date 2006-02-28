@@ -3,7 +3,7 @@ This is @CAPSPACKAGE@ @VERSION@ (@COMMENT@), @COMMENT_@PACK@@
 @HINT_@QUALITY@@
 
 LMPC is the Little Movie Processing Centre.
-LMPC helps you to handle LMP, DMO, DEM, QWD and DM2 files.
+LMPC helps you to handle LMP, DMO, DEM, QWD, DM2, and DM3 files.
 DEM files are supported more extensive with
 DEMA, The DEM Text File Analyser,
 DEMcut, The DEM file cutter tool and
@@ -29,13 +29,14 @@ Features:
      - Quake (versions 0.91 .. 1.09)
      - QuakeWorld (version 1.64 .. 2.30)
      - Quake II (versions 3.05 .. 3.20 + relay extensions)
-   + get information about one or more LMP/DMO/DEM/QWD/DM2 files
+     - Quake III Arena (version 1.32b, GPL release)
+   + get information about one or more LMP/DMO/DEM/QWD/DM2/DM3 files
    + change the version of an existing LMP file
    + change the player number who recorded the multi-player LMP file
    + add some seconds of waiting at the end of a LMP file
    + remove the PAUSE parts of LMP files
    + repair multi-level DEM and DM2 files
-   + decompile (a part of) a LMP/DMO/DEM/QWD/DM2 file (binary) to a 
+   + decompile (a part of) a LMP/DMO/DEM/QWD/DM2/DM3 file (binary) to a 
      Lmp Source (LS) file (ASCII text)
    + compile one or more LMP/DEM/QDW/DM2 text files to a LMP/DEM/QWD/DM2 
      binary file
@@ -62,7 +63,7 @@ Features:
      This is free software, and you are welcome to redistribute it under 
      certain conditions; read the GNU General Public Licence for details.
  * precompiled binaries are available for
-   + Linux (gcc 3.3.3, glibc, x86) 
+   + Linux (gcc 4.0.2, glibc, x86) 
    + MS-DOS (egcs-2.91.66, cross-compiled like djgpp V2.0 (go32))
    + Win32 (cross-compiled with the Cygwin toolset (gcc 3.3.1),
        needs cygwin1.dll)
