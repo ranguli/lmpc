@@ -23,6 +23,8 @@
 |  lmpc.c  -  main source code                                               |
 \****************************************************************************/
 
+/* $Id$ */
+
 
 #ifdef HAVE_CONFIG_H
   #include <config.h>
@@ -3120,10 +3122,42 @@ ActionInfoDM3(char *filename, opt_t *opt _U_)
 
 
 void
-ActionDM3bin2DM3bin(char *dm3binfilename1 _U_, char *dm3binfilename2 _U_,
-       opt_t *opt _U_)
+ActionDM3bin2DM3bin(char *dm3binfilename1, char *dm3binfilename2,
+       opt_t *opt)
 {
-	syserror(ENOSYS,"DM3");
+	DM3_t d1, d2;
+	DM3_binblock_t m;
+	node *n;
+	int o;
+
+	udm3_init();
+
+	DM3_init(&d1,dm3binfilename1,"rb");
+	DM3_init(&d2,dm3binfilename2,"wb");
+	DM3_prepare_write_bin(&d2);
+	node_token_init(DM3_token); /* for token routines */
+	glob_opt = opt; /* for DM3_block_edit */
+	do_block_edit = DM3_block_edit;
+	do_block_output = DM3_block_write_bin;
+
+	fprintf(stderr, "%s (DM3 bin) -> %s (DM3 bin)%s\n",
+	dm3binfilename1, dm3binfilename2, opt_string(opt));
+
+	if (opt->option & opMarkStep) o=0x01; else o=0x00;
+
+	d1.frame = 0;
+	while ((unsigned long)ftell(d1.file)<d1.filesize) {
+		DM3_block_read_bin(&d1, &m);
+		n=DM3_bin_to_node(&m,o);
+		do_block(n);
+		node_delete(n);
+		d1.frame++;
+	}
+
+	DM3_done(&d1);
+	DM3_done(&d2);
+
+	udm3_done();
 }
 
 
@@ -3176,20 +3210,45 @@ ActionDM3bin2DM3txt(char *dm3binfilename, char *dm3txtfilename,
 }
 
 
-void
-ActionDM3txt2DM3bin(char *dm3txtfilename _U_, char *dm3binfilename _U_,
-       opt_t *opt _U_)
-{
-	syserror(ENOSYS,"DM3");
-}
-
-/* Maybe this should go into some header file. */
+/* TODO: Maybe this should go into some header file. */
+/* This comes from demotextl.l. */
 extern FILE *demotext_in;
+/* This comes from demotexty.y. */
 #ifdef YYPARSE_PARAM
 extern int demotext_parse(void *YYPARSE_PARAM);
 #else
 extern int demotext_parse();
 #endif
+
+void
+ActionDM3txt2DM3bin(char *dm3txtfilename, char *dm3binfilename,
+       opt_t *opt)
+{
+	TEXT_t s;
+	DM3_t d;
+
+	udm3_init();
+
+	TEXT_init(&s,dm3txtfilename,"rb");
+	DM3_init(&d,dm3binfilename,"wb");
+	DM3_prepare_write_bin(&d);
+	node_token_init(DM3_token); /* for token routines */
+	glob_opt = opt; /* for DM3_block_edit */
+	do_block_edit = DM3_block_edit;
+	do_block_output = DM3_block_write_bin;
+
+	fprintf(stderr, "%s (DM3 txt) -> %s (DM3 bin)%s\n", 
+                   dm3txtfilename, dm3binfilename, opt_string(opt));
+
+	demotext_in = s.file;
+	demotext_parse();
+
+	TEXT_done(&s);
+	DM3_done(&d);
+
+	udm3_done();
+}
+
 
 void
 ActionDM3txt2DM3txt(char *dm3txtfilename1, char *dm3txtfilename2, 

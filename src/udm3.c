@@ -23,6 +23,8 @@
 |  udm3.c - implementation, general DM3 routines                             |
 \****************************************************************************/
 
+/* $Id$ */
+
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
@@ -948,6 +950,7 @@ DM3_block_write_text(node* b)
 node*
 DM3_block_write_bin(node* b)
 {
+	syserror(ENOSYS, "DM3_block_write_bin");
 	return b;
 }
 
