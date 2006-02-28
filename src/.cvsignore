@@ -4,6 +4,8 @@ Makefile.in
 dbs
 demcut
 demotextl.c
+demotexty.c
+demotexty.h
 lmpc
 tokenlist.tmp
 tokenlist
