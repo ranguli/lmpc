@@ -36,7 +36,10 @@
 #include <stdio.h>         /* for fileno in the created flex code */
 #include "udem.h"
 #include "tools.h"         /* for syserror */
+#if 0
 #include "udemy.h"         /* yyparse */
+#endif
+#include "demotexty.h"
 #include <math.h>          /* for atof */
 #define yyerror demotext_error
 void yyerror(char *s);
@@ -202,10 +205,10 @@ NL \r?\n
 			}
 			yylval = node_init(token->type,NULL,linenumber);
 			if (token->id == 1) {
-				return (TOKEN_TOPLEVEL);
+				return (DEMOTEXT_TOPLEVEL);
 			}
 			else {
-				return (TOKEN_LOWLEVEL);
+				return (DEMOTEXT_LOWLEVEL);
 			}
 		}
 

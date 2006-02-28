@@ -35,8 +35,6 @@
 
 token_t DM3_token[]={
 	{ "dm3",		TOKEN_DM3,		1	},
-	{ "toplevel",		TOKEN_TOPLEVEL,		0	},
-	{ "lowlevel",		TOKEN_LOWLEVEL,		0	},
 	{ "block",		TOKEN_BLOCK,		1	},
 	{ "endblock",		TOKEN_ENDBLOCK,		1	},
 	{ "sequence",		TOKEN_SEQUENCE,		0	},

@@ -31,7 +31,7 @@ demcut_LDADD = libutil.a
 demcut_DEPENDENCIES = libutil.a udemy.h
 
 lmpc_SOURCES = lmpc.c ulmp.c lzw.c unlzw.c udmo.c udem.c udemy.y udeml.l \
-uqwd.c udm2.c demotextl.l
+uqwd.c udm2.c demotexty.y demotextl.l
 lmpc_LDADD = $(UDM3_O) libutil.a quake3/libquake3.a @LEXLIB@ @ALLOCA@
 lmpc_DEPENDENCIES = libutil.a quake3/libquake3.a $(UDM3_O) @ALLOCA@
 
