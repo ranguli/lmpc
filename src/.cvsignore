@@ -3,6 +3,7 @@ Makefile
 Makefile.in
 dbs
 demcut
+demotextl.c
 lmpc
 tokenlist.tmp
 tokenlist
