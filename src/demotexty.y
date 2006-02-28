@@ -53,13 +53,6 @@
   #include "binblock.h"
   #include "udm3.h"
 
-  typedef struct {
-    int type;
-    int obli;
-  } CO_t;
-
-  void reorder_commands(node* m, CO_t* co, int count);
-
   extern void yyerror(char* s);
   extern int yylex(void);
 %}

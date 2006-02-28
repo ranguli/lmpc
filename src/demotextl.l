@@ -31,6 +31,7 @@
   #include <config.h>
 #endif
 #include "node.h"          /* nodes */
+#define yylval	demotext_lval
 #define YYSTYPE nodep
 #include <errno.h>         /* for ENOMEM */
 #include <stdio.h>         /* for fileno in the created flex code */
@@ -146,7 +147,7 @@ NL \r?\n
 			unsigned long value;
 
 			sscanf(yytext+2, "%lx", &value);
-			yylval = node_init(V_INT,NODE_VALUE_INT_dup(value),linenumber);
+			yylval = node_init((value<=255)?V_BYTEHEX:V_INT,NODE_VALUE_INT_dup(value),linenumber);
 
 			return v_int;
 		}
@@ -194,7 +195,7 @@ NL \r?\n
 			linenumber++;
 		}
 
-<norm>[a-zA-Z_][a-zA-Z0-9_]+ {	/* These are keywords. */
+<norm>[a-zA-Z_][a-zA-Z0-9_\.\[\]]+ {	/* These are keywords. */
 			token_t	*token;
 
 			/* Search the keyword in the token list. */

@@ -3183,12 +3183,45 @@ ActionDM3txt2DM3bin(char *dm3txtfilename _U_, char *dm3binfilename _U_,
 	syserror(ENOSYS,"DM3");
 }
 
+/* Maybe this should go into some header file. */
+extern FILE *demotext_in;
+#ifdef YYPARSE_PARAM
+extern int demotext_parse(void *YYPARSE_PARAM);
+#else
+extern int demotext_parse();
+#endif
 
 void
-ActionDM3txt2DM3txt(char *dm3txtfilename1 _U_, char *dm3txtfilename2 _U_, 
-       opt_t *opt _U_)
+ActionDM3txt2DM3txt(char *dm3txtfilename1, char *dm3txtfilename2, 
+       opt_t *opt)
 {
-	syserror(ENOSYS,"DM3");
+	TEXT_t s1;
+	TEXT_t s2;
+	char ts[1000];
+
+	udm3_init();
+
+	TEXT_init(&s1,dm3txtfilename1,"rb");
+	TEXT_init(&s2,dm3txtfilename2,"wb");
+	node_write_text_init(&s2); /* for node_write_text */
+	node_token_init(DM3_token); /* for token routines */
+	glob_opt = opt; /* for DM3_block_edit */
+	do_block_edit = DM3_block_edit;
+	do_block_output = DM3_block_write_text;
+
+	fprintf(stderr,"%s (DM3 txt) -> %s (DM3 txt)%s\n", 
+		s1.filename, s2.filename, opt_string(opt));
+
+	sprintf(ts,"// source: DM3 text file %s", s1.filename); WriteLine(s2.file, ts);
+	WriteLine(s2.file,"");
+
+	demotext_in = s1.file;
+	demotext_parse();
+
+	TEXT_done(&s1);
+	TEXT_done(&s2);
+
+	udm3_done();
 }
 
 
