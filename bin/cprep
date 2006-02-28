@@ -1,5 +1,7 @@
 #!/usr/bin/perl -w
 
+# $Id$
+
 use strict;
 sub ext_conv;
 
@@ -21,6 +23,7 @@ my @files =
 	"src/tools__EXT__",
 	"src/udem__EXT__",
 	"src/udm2__EXT__",
+	"src/udm3__EXT__",
 	"src/udmo__EXT__",
 	"src/ulmp__EXT__",
 	"src/unlzw__EXT__",
@@ -39,7 +42,7 @@ my @metafiles =
 
 my @macrofiles =
 (
-	"configure.in",
+	"configure.ac",
 	"configure",
 );
 
