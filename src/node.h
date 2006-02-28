@@ -127,6 +127,8 @@ extern char*    NODE_VALUE_STRING_dup(char *value);
 
 extern void node_token_init(token_t *t);
 extern unsigned char node_token_id(int type);
+extern token_t *node_token_get_by_string(char *string);
+
 
 extern void node_write_text_init(TEXT_t* t);
 extern void node_write_text(node* b, int depth);

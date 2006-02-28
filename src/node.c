@@ -477,6 +477,19 @@ unsigned char node_token_id(int type)
   return 0;
 }
 
+token_t*
+node_token_get_by_string(char *string)
+{
+	token_t *i;
+
+	for (i=node_token_field;i->string!=NULL;i++) {
+		if (strcmp(i->string,string)==0) {
+			return i;
+		}
+	}
+	return NULL;
+}
+
 /*----------------------------------------------------------------------------*/
 
 void node_write_text_init(TEXT_t* t)

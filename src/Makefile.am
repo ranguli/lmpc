@@ -31,7 +31,7 @@ demcut_LDADD = libutil.a
 demcut_DEPENDENCIES = libutil.a udemy.h
 
 lmpc_SOURCES = lmpc.c ulmp.c lzw.c unlzw.c udmo.c udem.c udemy.y udeml.l \
-uqwd.c udm2.c
+uqwd.c udm2.c demotextl.l
 lmpc_LDADD = $(UDM3_O) libutil.a quake3/libquake3.a @LEXLIB@ @ALLOCA@
 lmpc_DEPENDENCIES = libutil.a quake3/libquake3.a $(UDM3_O) @ALLOCA@
 
@@ -51,6 +51,12 @@ udemy.y: udemy.y.in tokenlist
 
 udeml.l: udeml.l.in tokenlist
 	srcdir=$(srcdir) $(GENTOK) $(TOKENBASEFILES) < $(srcdir)/udeml.l.in > udeml.l
+
+# The general Automake generated rule is wrong, as it cannot cope with
+# the source line %option prefix="demotext_". This option generates an
+# unexpected file name.
+demotextl.c: demotextl.l
+	$(SHELL) $(YLWRAP) $< lex.demotext_.c $@ -- $(LEXCOMPILE)
 
 record.o: udemy.h
 
