@@ -146,6 +146,7 @@ sf	src/binblock.h	header file for binblock.c
 sf	src/dbs.c	DBS main source
 sf	src/demcut.c	DEMcut main source
 sf	src/demotextl.l	general lexer for demo text files
+sf	src/demotexty.y	general parser for demo text files
 sf	src/getopt.c	getopt(3) source
 sf	src/getopt.h	getopt(3) and getopt_long(3) header
 sf	src/getopt1.c	getopt_long(3) source
