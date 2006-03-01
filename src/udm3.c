@@ -947,6 +947,33 @@ DM3_block_write_text(node* b)
 /* block output: binary version ***********************************************/
 /******************************************************************************/
 
+
+void
+MSG_WriteNodeValue(msg_t *m, node *n)
+{
+	if (m==NULL) {
+		syserror(EINVAL,"message pointer is NULL");
+	}
+	if (n==NULL) {
+		syserror(EINVAL,"node pointer is NULL");
+	}
+	switch (n->type) {
+		case V_INT:
+			switch(n->hint) {
+				case H_LONG:
+					MSG_WriteLong(m, *(long*)n->down);
+				break;
+				default:
+					syserror(DINTE, "wrong int hint type %d at pos=%d, type=%d",
+						n->hint, n->pos, n->type);
+			}
+		break;
+		default:
+			syserror(DINTE, "wrong argument type at pos=%d, type=%d", n->pos, n->type);
+	} /* End switch n->type. */
+}
+
+
 node*
 DM3_block_write_bin(node* b)
 {
@@ -977,7 +1004,6 @@ DM3_block_write_bin(node* b)
 			/* The real stuff. */
 			DM3_binblock_t	m;
 			node		*n;
-			long		rel_ack;
 			int		len;
 
 			/* Init the message. */
@@ -1008,7 +1034,7 @@ DM3_block_write_bin(node* b)
 			m.serverMessageSequence = *(long*)(n->down->down);
 
 			/* Go forward to the next entry. */
-			n = n->next;
+			NODE_NEXT(n);
 
 			/* Get the reliable acknowledge sequence number. */
 			if (n == NULL) { syserror(DM3INTE, "Empty next entry."); }
@@ -1018,22 +1044,38 @@ DM3_block_write_bin(node* b)
 					node_token_string(TOKEN_REL_ACK), TOKEN_REL_ACK,
 					node_token_string(n->type), n->type);
 			}
-			if (n->down == NULL) { syserror(DM3INTE, "Empty argument"); }
-			if (n->down->type != V_INT) {
-				syserror(DM3INTE,
-					"Expected V_INT type but got %d", n->down->type);
-			}
 
-			/* Actually get the value. */
-			rel_ack = *(long*)(n->down->down);
-
-			MSG_WriteLong(&(m.buf), rel_ack);
+			/* Get the value and write it. */
+			MSG_WriteNodeValue(&(m.buf), n->down); NODE_NEXT(n);
 			
-			syswarning(ENOSYS, "fill message");
-#if 0
-			while (1) {
+			/* Loop over all following commands. */
+			for ( ; n!=NULL ; NODE_NEXT(n)) {
+				switch (n->type) {
+					default:
+						syserror(EINVAL, "unknown command %d", n->type);
+					break;
+					case TOKEN_NOP: { /* Complete. */
+						MSG_WriteByte(&(m.buf), svc_nop);
+					} /* End svc_nop. */
+					break;
+					case TOKEN_SERVERCOMMAND: { /* TODO */
+						syswarning(ENOSYS, "fill message '%s'", node_token_string(n->type));
+					} /* End svc_serverCommand. */
+					break;
+					case TOKEN_GAMESTATE: { /* TODO */
+						syswarning(ENOSYS, "fill message '%s'", node_token_string(n->type));
+					} /* End svc_gamestate. */
+					break;
+					case TOKEN_SNAPSHOT: { /* TODO */
+						syswarning(ENOSYS, "fill message '%s'", node_token_string(n->type));
+					} /* End svc_snapshot. */
+					break;
+					case TOKEN_DOWNLOAD: { /* TODO */
+						syswarning(ENOSYS, "fill message '%s'", node_token_string(n->type));
+					} /* End svc_download. */
+					break;
+				} /* End switch n->type. */
 			}
-#endif
 
 			/* Append an empty eof message. */
 			MSG_WriteByte( &(m.buf), svc_EOF );
