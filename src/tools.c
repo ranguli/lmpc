@@ -23,6 +23,8 @@
 |  tools.c  -  implementation, general tool routines                         |
 \****************************************************************************/
 
+/* $Id$ */
+
 #include <string.h>
 
 #ifdef HAVE_CONFIG_H
@@ -94,14 +96,19 @@ char *my_errlist[] = {
 char *progname;
 
 
-void syserror(int errorcode, char* message, ...)
+void
+syserror(int errorcode, char* message, ...)
 {
-  va_list args;
-  va_start(args, message);
-  syswarning(errorcode, message, args);
-  va_end(args);
-  exit(errorcode);
+	/* I know, buffer overrun etc. etc., who really cares ? */
+	char buffer[1000];
+	va_list args;
+	va_start(args, message);
+	vsprintf(buffer,message,args);
+	va_end(args);
+	syswarning(errorcode, buffer);
+	exit(errorcode);
 }
+
 
 void syswarning(int errorcode, char* message, ...)
 {
