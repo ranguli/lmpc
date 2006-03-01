@@ -439,14 +439,14 @@ DM3_block_read_bin(DM3_t *d, DM3_binblock_t* m)
 		syserror(EINVAL,"file '%s' not open for reading.", d->filename);
 	}
 
-        /* get the sequence number */
+        /* Get the sequence number. */
 	if (fread(&s,1,4,d->file)!=4) syserror(FIREAD,"sequence number of file '%s'", d->filename);
         m->serverMessageSequence = LittleLong( s );
 
-        /* init the message */
+        /* Init the message. */
         MSG_Init( &(m->buf), m->bufData, sizeof( m->bufData ) );
 
-        /* get the length */
+        /* Get the length. */
         if (fread(&(m->buf.cursize),1,4,d->file) != 4)
 		syserror(FIREAD,"data block length of file '%s'", d->filename);
 
@@ -596,10 +596,12 @@ DM3_bin_to_node(DM3_binblock_t *m, int opt _U_)
 		}
 		/* Get the command. */
 		cmd = MSG_ReadByte( &(m->buf) );
+		/* fprintf(stderr,"cmd=%d\n", cmd); */
 		switch(cmd) {
-			case svc_nop:	/* Complete. */
+			case svc_nop: {	/* Complete. */
 				tn=node_link(tn, node_init(TOKEN_NOP, NULL, 0));
-			break;
+			}
+			break; /* End svc_nop. */
 			case svc_gamestate: { /* Complete. */
 				int	gamestate_loop_end = 0;
 				ttn = NULL;
@@ -658,7 +660,7 @@ DM3_bin_to_node(DM3_binblock_t *m, int opt _U_)
 				
 				tn=node_link(tn, node_init(TOKEN_GAMESTATE, ttn, 0));
 				loop_end = 1;
-			}
+			} /* End svc_gamestate. */
 			break;
 			case svc_serverCommand: { /* Complete. */
 				ttn = NULL;
@@ -902,15 +904,12 @@ DM3_bin_to_node(DM3_binblock_t *m, int opt _U_)
 				/* Create a "snapshot" node. */
 				tn=node_link(tn, node_init(TOKEN_SNAPSHOT, ttn, 0));
 				/* loop_end = 1; */
-			}
+			} /* End svc_snapshot. */
 			break;
 			case svc_EOF:	/* Complete. */
-#if 0
-				/* Don't tell anyone. The last command is always an EOF. */
-				tn=node_link(tn, node_init(TOKEN_EOF, NULL, 0));
-#endif
+				/* The last command is always an EOF. */
 				loop_end = 1;
-			break;
+			break; /* End svc_EOF. */
 			default:	/* Complete. */
 				syserror(DM3INTE,"unknown cmd %d", cmd);
 		}
@@ -967,16 +966,95 @@ DM3_block_write_bin(node* b)
 			/* The last block contains twice a '-1'. */
 			int	len = -1;
 			if (fwrite(&len, 1, 4, output_file) != 4) {
-				syserror(FIWRITE, output_filename);
+				syserror(errno, output_filename);
 			}
 			if (fwrite(&len, 1, 4, output_file) != 4) {
-				syserror(FIWRITE, output_filename);
+				syserror(errno, output_filename);
 			}
 		}
 		break;
 		case TOKEN_BLOCK: {
 			/* The real stuff. */
-			syswarning(ENOSYS, "write TOKEN_BLOCK");
+			DM3_binblock_t	m;
+			node		*n;
+			long		rel_ack;
+			int		len;
+
+			/* Init the message. */
+			MSG_Init( &(m.buf), m.bufData, sizeof( m.bufData ) );
+
+			/* Messages are bit streams. */
+			MSG_Bitstream(&(m.buf));
+
+			/* We look around the "down" data. */
+			n = b->down;
+			/* TODO Where should all these checking be done? */
+
+			/* Get the sequence number. */
+			if (n == NULL) { syserror(DM3INTE, "Empty down list"); }
+			if (n->type != TOKEN_SEQUENCE) {
+				syserror(DM3INTE,
+					"Expected token %s (%d) but got %s (%d)",
+					node_token_string(TOKEN_SEQUENCE), TOKEN_SEQUENCE,
+					node_token_string(n->type), n->type);
+			}
+			if (n->down == NULL) { syserror(DM3INTE, "Empty argument"); }
+			if (n->down->type != V_INT) {
+				syserror(DM3INTE,
+					"Expected V_INT type but got %d", n->down->type);
+			}
+				
+			/* Actually get the value. */
+			m.serverMessageSequence = *(long*)(n->down->down);
+
+			/* Go forward to the next entry. */
+			n = n->next;
+
+			/* Get the reliable acknowledge sequence number. */
+			if (n == NULL) { syserror(DM3INTE, "Empty next entry."); }
+			if (n->type != TOKEN_REL_ACK) {
+				syserror(DM3INTE,
+					"Expected token %s (%d) but got %s (%d)",
+					node_token_string(TOKEN_REL_ACK), TOKEN_REL_ACK,
+					node_token_string(n->type), n->type);
+			}
+			if (n->down == NULL) { syserror(DM3INTE, "Empty argument"); }
+			if (n->down->type != V_INT) {
+				syserror(DM3INTE,
+					"Expected V_INT type but got %d", n->down->type);
+			}
+
+			/* Actually get the value. */
+			rel_ack = *(long*)(n->down->down);
+
+			MSG_WriteLong(&(m.buf), rel_ack);
+			
+			syswarning(ENOSYS, "fill message");
+#if 0
+			while (1) {
+			}
+#endif
+
+			/* Append an empty eof message. */
+			MSG_WriteByte( &(m.buf), svc_EOF );
+
+			/* Write the sequence number. */
+			len = LittleLong(m.serverMessageSequence);
+			if (fwrite(&len, 1, 4, output_file) != 4) {
+				syserror(errno, output_filename);
+			}
+
+			/* Write the message length. */
+			len = LittleLong (m.buf.cursize);
+			if (fwrite(&len, 1, 4, output_file) != 4) {
+				syserror(errno, output_filename);
+			}
+
+			/* Write the message itself. */
+			if (fwrite (m.buf.data, 1, m.buf.cursize, output_file) !=
+				(size_t)m.buf.cursize) {
+				syserror(errno, output_filename);
+			}
 		}
 		break;
 	} /* End switch. */
