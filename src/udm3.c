@@ -638,7 +638,7 @@ DM3_bin_to_node(DM3_binblock_t *m, int opt _U_)
 
 							tttn = DM3_bin_to_node_entity(&(m->buf));
 							if (tttn == NULL) {
-								fprintf(stderr, "no baseline entity");
+								syserror(EINVAL, "empty baseline entity");
 							}
 							ttn=node_link(ttn, node_init(TOKEN_BASELINE, tttn, 0));
 						}
@@ -771,6 +771,9 @@ DM3_bin_to_node(DM3_binblock_t *m, int opt _U_)
 
 					/* Check, if we have this field. */
 					if ( MSG_ReadBits( &(m->buf), 1 ) ) {
+#if 0
+						fprintf(stderr,"get %s\n", node_token_string(*tp));
+#endif
 						if (field->bits == 0) {
 							/* Get a float value. */
 							union {
@@ -805,6 +808,11 @@ DM3_bin_to_node(DM3_binblock_t *m, int opt _U_)
 
 						}
 					}
+#if 0
+					else {
+						fprintf(stderr,"no %s\n", node_token_string(*tp));
+					}
+#endif
 
 				} /* End loop over the fields. */
 
@@ -817,10 +825,16 @@ DM3_bin_to_node(DM3_binblock_t *m, int opt _U_)
 
 					/* Parse the stats. */
 					if ( MSG_ReadBits( &(m->buf), 1 ) ) {
+#if 0
+						fprintf(stderr,"get stats\n");
+#endif
 						a = NULL;
 						bits = MSG_ReadShort (&(m->buf));
 						for (i=0 ; i<16 ; i++) {
 							if (bits & (1<<i) ) {
+#if 0
+								fprintf(stderr,"get stat[%d]\n", i);
+#endif
 								value = MSG_ReadShort(&(m->buf));
 								e = node_link(
 									node_command_init(TOKEN_INDEX,V_INT,H_SHORT,NODE_VALUE_INT_dup(i),0),
@@ -1158,6 +1172,9 @@ MSG_WriteNodePlayer(msg_t *m, node *n)
 
 	/* Write the number of the last changed field. */
 	MSG_WriteByte(m, lc);
+#if 0
+	fprintf(stderr, "lc=%d\n", lc);
+#endif
 
 	/* Go again over all fields. */
 	for ( i = 0, field = playerStateFields, tp = playertoken, ttn = tn ;
@@ -1171,9 +1188,11 @@ MSG_WriteNodePlayer(msg_t *m, node *n)
 
 			/* The "to" field pointer. */
 			toF = (int *)ttn->down->down;
-
 			/* There is a change in this field. */
 			MSG_WriteBits( m, 1, 1 );
+#if 0
+			fprintf(stderr,"change in %s\n", node_token_string(*tp));
+#endif
 
 			if ( field->bits == 0 ) {
 				/* A float number. */
@@ -1203,8 +1222,15 @@ MSG_WriteNodePlayer(msg_t *m, node *n)
 		else {
 			/* No change in this field. */
 			MSG_WriteBits( m, 0, 1 );
+#if 0
+			fprintf(stderr,"no change in %s\n", node_token_string(*tp));
+#endif
 		}
 	} /* End loop over all fields. */
+
+#if 0
+	ttn=0;
+#endif
 
 	tn = ttn;
 
@@ -1221,6 +1247,10 @@ MSG_WriteNodePlayer(msg_t *m, node *n)
 	if (tn->type == TOKEN_STATS) {
 		short	bitmask;
 
+#if 0
+		fprintf(stderr,"stats");
+#endif
+
 		/* We have it. */
 		MSG_WriteBits( m, 1, 1 );
 
@@ -1240,14 +1270,16 @@ MSG_WriteNodePlayer(msg_t *m, node *n)
 
 		/* Advance node. */
 		NODE_NEXT(tn);
-		if (tn==NULL) return;
 	}
 	else {
+#if 0
+		fprintf(stderr,"no stats");
+#endif
 		MSG_WriteBits( m, 0, 1 );
 	}
 
 	/* persistants */
-	if (tn->type == TOKEN_PERSISTANTS) {
+	if (tn!=NULL && tn->type == TOKEN_PERSISTANTS) {
 		short	bitmask;
 
 		/* We have it. */
@@ -1269,14 +1301,13 @@ MSG_WriteNodePlayer(msg_t *m, node *n)
 
 		/* Advance node. */
 		NODE_NEXT(tn);
-		if (tn==NULL) return;
 	}
 	else {
 		MSG_WriteBits( m, 0, 1 );
 	}
 
 	/* ammos */
-	if (tn->type == TOKEN_AMMOS) {
+	if (tn!=NULL && tn->type == TOKEN_AMMOS) {
 		short	bitmask;
 
 		/* We have it. */
@@ -1298,14 +1329,13 @@ MSG_WriteNodePlayer(msg_t *m, node *n)
 
 		/* Advance node. */
 		NODE_NEXT(tn);
-		if (tn==NULL) return;
 	}
 	else {
 		MSG_WriteBits( m, 0, 1 );
 	}
 
 	/* powerups */
-	if (tn->type == TOKEN_POWERUPS) {
+	if (tn!=NULL && tn->type == TOKEN_POWERUPS) {
 		short	bitmask;
 
 		/* We have it. */
@@ -1326,7 +1356,6 @@ MSG_WriteNodePlayer(msg_t *m, node *n)
 
 		/* Advance node. */
 		NODE_NEXT(tn);
-		if (tn==NULL) return;
 	}
 	else {
 		MSG_WriteBits( m, 0, 1 );
