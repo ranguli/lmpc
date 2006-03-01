@@ -61,6 +61,7 @@
 #define H_SB 31
 #define H_UNICAST 32
 #define H_FLOAT_INT 33
+#define H_ENTITY_INDEX 34
 
 #define MASK_UNICAST 0x80
 
