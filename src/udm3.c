@@ -483,7 +483,7 @@ DM3_bin_to_node_entity(msg_t *msg)
 	if (index == (MAX_GENTITIES-1)) {
 		goto lastout;
 	}
-	tn = node_link(tn, node_command_init(TOKEN_INDEX, V_INT, H_LONG, NODE_VALUE_INT_dup(index), 0));
+	tn = node_link(tn, node_command_init(TOKEN_INDEX, V_INT, H_ENTITY_INDEX, NODE_VALUE_INT_dup(index), 0));
 
 	/* Check for a remove. */
 	if ( MSG_ReadBits( msg, 1 ) == 1 ) {
@@ -966,6 +966,9 @@ MSG_WriteNodeValue(msg_t *m, node *n)
 				case H_SHORT:
 					MSG_WriteShort(m, *(short*)n->down);
 				break;
+				case H_ENTITY_INDEX:
+					MSG_WriteBits(m, *(long*)n->down, GENTITYNUM_BITS);
+				break;
 				default:
 					syserror(DINTE, "wrong int hint type %d at pos=%d, type=%d",
 						n->hint, n->pos, n->type);
@@ -984,10 +987,125 @@ void
 MSG_WriteNodeEntity(msg_t *m, node *n)
 {
 	node	*tn;
+	node	*ttn;
+	int	lc;
+	int	i;
+	int	*tp;
+	netField_t	*field;
 
 	/* The parts of an entity. */
 	tn = n->down;
-	syswarning(ENOSYS, "fill message '%s'", node_token_string(n->type));
+
+	/* index. */
+	tn->down->hint = H_ENTITY_INDEX;
+	MSG_WriteNodeValue(m, tn->down); NODE_NEXT(tn);
+
+	/* Maybe there is nothing more after the index. */
+	if (tn == NULL) {
+		/* no remove */
+		MSG_WriteBits(m, 0, 1);
+		/* no delta data */
+		MSG_WriteBits(m, 0, 1);
+		return;
+	}
+
+	/* remove */
+	if (tn->type == TOKEN_REMOVE) {
+		MSG_WriteBits(m, 1, 1);
+		return;
+	}
+	/* no remove */
+	MSG_WriteBits(m, 0, 1);
+	/* with delta */
+	MSG_WriteBits(m, 1, 1);
+
+	/* Search for the highest field number. */
+	for ( i = 0, field = entityStateFields, tp = entitytoken, ttn = tn, lc = 0 ;
+		i < entityStateFields_length ;
+		i++, field++, tp++ ) {
+		/* If we have the right token... */
+		if (*tp == ttn->type) {
+			/* Remember the index. */
+			lc = i+1;
+			/* Advance the nodes. */
+			NODE_NEXT(ttn);
+
+			/* No need to search, if there are no more nodes. */
+			if (ttn == NULL) {
+				break;
+			}
+		}
+	}
+
+	/* Consistency check. */
+	if (lc == 0) {
+		syserror(EINVAL, "only unknown fields found in an entity.");
+	}
+
+	/* Write the number of the last changed field. */
+	MSG_WriteByte(m, lc);
+
+	/* Go again over all fields. */
+	for ( i = 0, field = entityStateFields, tp = entitytoken, ttn = tn ;
+		i < lc ;
+		i++, field++, tp++ ) {
+		/* If we have the right token... */
+		if (*tp == ttn->type) {
+			int	*toF;
+			int	trunc;
+			float	fullFloat;
+
+			/* The "to" field pointer. */
+			toF = (int *)ttn->down->down;
+
+			/* There is a change in this field. */
+			MSG_WriteBits( m, 1, 1 );
+
+			if ( field->bits == 0 ) {
+				/* A float number. */
+				fullFloat = *(float *)toF;
+				trunc = (int)fullFloat;
+
+				if (fullFloat == 0.0f) {
+					MSG_WriteBits( m, 0, 1 );
+				} else {
+					MSG_WriteBits( m, 1, 1 );
+					if ( trunc == fullFloat && trunc + FLOAT_INT_BIAS >= 0 &&
+					trunc + FLOAT_INT_BIAS < ( 1 << FLOAT_INT_BITS ) ) {
+						/* Send as small integer. */
+						MSG_WriteBits( m, 0, 1 );
+						MSG_WriteBits( m, trunc + FLOAT_INT_BIAS, FLOAT_INT_BITS );
+					} else {
+						/* Send as full floating point value. */
+						MSG_WriteBits( m, 1, 1 );
+						MSG_WriteBits( m, *toF, 32 );
+					}
+				}
+			}
+			else {
+				if (*toF == 0) {
+					MSG_WriteBits( m, 0, 1 );
+				}
+				else {
+					MSG_WriteBits( m, 1, 1 );
+					/* Integer */
+					MSG_WriteBits( m, *toF, field->bits );
+				}
+			}
+ 
+			/* Advance the nodes. */
+			NODE_NEXT(ttn);
+
+			/* No need to search, if there are no more nodes. */
+			if (ttn == NULL) {
+				break;
+			}
+		}
+		else {
+			/* No change in this field. */
+			MSG_WriteBits( m, 0, 1 );
+		}
+	} /* End loop over all fields. */
 }
 
 
@@ -1087,7 +1205,7 @@ DM3_block_write_bin(node* b)
 						MSG_WriteNodeValue(&(m.buf), arg->down); NODE_NEXT(arg);
 					} /* End svc_serverCommand. */
 					break;
-					case TOKEN_GAMESTATE: { /* TODO */
+					case TOKEN_GAMESTATE: { /* Complete. */
 						node	*arg;
 						int	loop_end;
 						/* The command byte itself. */
@@ -1113,6 +1231,9 @@ DM3_block_write_bin(node* b)
 								}
 								break;
 								case TOKEN_BASELINE: {
+									/* The command byte itself. */
+									MSG_WriteByte(&(m.buf), svc_baseline);
+									/* entity */
 									MSG_WriteNodeEntity(&(m.buf), sub);
 									NODE_NEXT(arg);
 								}
