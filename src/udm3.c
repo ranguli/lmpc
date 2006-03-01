@@ -957,6 +957,8 @@ DM3_block_write_bin(node* b)
 	switch (b->type) {
 		default:
 			/* Unknown top level block. */
+			syserror(DM3INTE, "Unknown top level block: '%s' (%d)",
+				node_token_string(b->type), b->type);
 		break;
 		case TOKEN_DM3:
 			/* Do nothing. */
@@ -974,7 +976,7 @@ DM3_block_write_bin(node* b)
 		break;
 		case TOKEN_BLOCK: {
 			/* The real stuff. */
-			syswarning(ENOSYS, "write token_block");
+			syswarning(ENOSYS, "write TOKEN_BLOCK");
 		}
 		break;
 	} /* End switch. */
