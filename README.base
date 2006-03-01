@@ -38,8 +38,8 @@ Features:
    + repair multi-level DEM and DM2 files
    + decompile (a part of) a LMP/DMO/DEM/QWD/DM2/DM3 file (binary) to a 
      Lmp Source (LS) file (ASCII text)
-   + compile one or more LMP/DEM/QDW/DM2 text files to a LMP/DEM/QWD/DM2 
-     binary file
+   + compile one or more LMP/DEM/QDW/DM2/DM3 text files to a
+     LMP/DEM/QWD/DM2/DM3 binary file
  * DEMA: The DEM Text File Analyser
    + prints some statitics about a demo file (Perl script)
  * DEMcut: The DEM file cutter tool
