@@ -138,7 +138,7 @@ NL \r?\n
 			long value;
 
 			value = atoi(yytext);
-			yylval = node_init(V_INT,NODE_VALUE_INT_dup(value),linenumber);
+			yylval = node_init_all(V_INT,H_LONG,NODE_VALUE_INT_dup(value),linenumber);
 			
 			return v_int;
 		}
