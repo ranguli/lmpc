@@ -33,6 +33,7 @@
 #include "lmpc.h"
 
 #define CFREE(x) {if((x)!=NULL){free(x);(x)=NULL;}}
+#define NODE_NEXT(n) (n)=(n)->next
 
 typedef struct node {
                       struct node* next;
