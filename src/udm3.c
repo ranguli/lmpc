@@ -964,7 +964,10 @@ MSG_WriteNodeValue(msg_t *m, node *n)
 					MSG_WriteLong(m, *(long*)n->down);
 				break;
 				case H_SHORT:
-					MSG_WriteShort(m, *(short*)n->down);
+					MSG_WriteShort(m, *(long*)n->down);
+				break;
+				case H_BYTE:
+					MSG_WriteByte(m, *(long*)n->down);
 				break;
 				case H_ENTITY_INDEX:
 					MSG_WriteBits(m, *(long*)n->down, GENTITYNUM_BITS);
@@ -974,6 +977,9 @@ MSG_WriteNodeValue(msg_t *m, node *n)
 						n->hint, n->pos, n->type);
 			}
 		break;
+		case V_BYTEHEX:
+			MSG_WriteByte(m, *(long*)n->down);
+		break;
 		case V_STRING:
 			MSG_WriteString(m, (char*)n->down);
 		break;
@@ -981,6 +987,16 @@ MSG_WriteNodeValue(msg_t *m, node *n)
 			syserror(DINTE, "wrong argument type at pos=%d, type=%s (%d)", n->pos, node_token_string(n->type), n->type);
 	} /* End switch n->type. */
 }
+
+
+void
+MSG_WriteNodeValues(msg_t *m, node *n)
+{
+	for ( ; n!=NULL; NODE_NEXT(n)) {
+		MSG_WriteNodeValue(m, n);
+	}
+}
+
 
 
 void
@@ -1106,6 +1122,221 @@ MSG_WriteNodeEntity(msg_t *m, node *n)
 			MSG_WriteBits( m, 0, 1 );
 		}
 	} /* End loop over all fields. */
+}
+
+
+void
+MSG_WriteNodePlayer(msg_t *m, node *n)
+{
+	node	*tn;
+	node	*ttn;
+	int	lc;
+	int	i;
+	int	*tp;
+	netField_t	*field;
+
+	/* The parts of a player. */
+	tn = n->down;
+
+	/* Search for the highest field number. */
+	for ( i = 0, field = playerStateFields, tp = playertoken, ttn = tn, lc = 0 ;
+		i < playerStateFields_length && ttn!=NULL ;
+		i++, field++, tp++ ) {
+		/* If we have the right token... */
+		if (*tp == ttn->type) {
+			/* Remember the index. */
+			lc = i+1;
+			/* Advance the nodes. */
+			NODE_NEXT(ttn);
+
+			/* No need to search, if there are no more nodes. */
+			if (ttn == NULL) {
+				break;
+			}
+		}
+	}
+
+	/* Write the number of the last changed field. */
+	MSG_WriteByte(m, lc);
+
+	/* Go again over all fields. */
+	for ( i = 0, field = playerStateFields, tp = playertoken, ttn = tn ;
+		i < lc ;
+		i++, field++, tp++ ) {
+		/* If we have the right token... */
+		if (ttn != NULL && *tp == ttn->type) {
+			int	*toF;
+			int	trunc;
+			float	fullFloat;
+
+			/* The "to" field pointer. */
+			toF = (int *)ttn->down->down;
+
+			/* There is a change in this field. */
+			MSG_WriteBits( m, 1, 1 );
+
+			if ( field->bits == 0 ) {
+				/* A float number. */
+				fullFloat = *(float *)toF;
+				trunc = (int)fullFloat;
+
+				if ( trunc == fullFloat && trunc + FLOAT_INT_BIAS >= 0 &&
+				trunc + FLOAT_INT_BIAS < ( 1 << FLOAT_INT_BITS ) ) {
+					/* Send as small integer. */
+					MSG_WriteBits( m, 0, 1 );
+					MSG_WriteBits( m, trunc + FLOAT_INT_BIAS, FLOAT_INT_BITS );
+				} else {
+					/* Send as full floating point value. */
+					MSG_WriteBits( m, 1, 1 );
+					MSG_WriteBits( m, *toF, 32 );
+				}
+			}
+			else {
+				/* Integer */
+				MSG_WriteBits( m, *toF, field->bits );
+			}
+ 
+			/* Advance the nodes. */
+			NODE_NEXT(ttn);
+
+		}
+		else {
+			/* No change in this field. */
+			MSG_WriteBits( m, 0, 1 );
+		}
+	} /* End loop over all fields. */
+
+	tn = ttn;
+
+	if (tn==NULL) {
+		/* We have nothing left. */
+		MSG_WriteBits( m, 0, 1 );
+		return;
+	}
+
+	/* There is still something. */
+	MSG_WriteBits( m, 1, 1 );
+
+	/* stats */
+	if (tn->type == TOKEN_STATS) {
+		short	bitmask;
+
+		/* We have it. */
+		MSG_WriteBits( m, 1, 1 );
+
+		/* Loop over the single entries. */
+		for (bitmask=0,ttn=tn->down;ttn!=NULL;NODE_NEXT(ttn)) {
+			bitmask|=1<<(*(int*)(ttn->down->down->down));
+		}
+
+		/* Write the bitmask. */
+		MSG_WriteShort(m, bitmask);
+
+		/* Loop over the single entries. */
+		for (ttn=tn->down;ttn!=NULL;NODE_NEXT(ttn)) {
+			ttn->down->next->down->hint = H_SHORT;
+			MSG_WriteNodeValue(m, ttn->down->next->down);
+		}
+
+		/* Advance node. */
+		NODE_NEXT(tn);
+		if (tn==NULL) return;
+	}
+	else {
+		MSG_WriteBits( m, 0, 1 );
+	}
+
+	/* persistants */
+	if (tn->type == TOKEN_PERSISTANTS) {
+		short	bitmask;
+
+		/* We have it. */
+		MSG_WriteBits( m, 1, 1 );
+
+		/* Loop over the single entries. */
+		for (bitmask=0,ttn=tn->down;ttn!=NULL;NODE_NEXT(ttn)) {
+			bitmask|=1<<(*(int*)(ttn->down->down->down));
+		}
+
+		/* Write the bitmask. */
+		MSG_WriteShort(m, bitmask);
+
+		/* Loop over the single entries. */
+		for (ttn=tn->down;ttn!=NULL;NODE_NEXT(ttn)) {
+			ttn->down->next->down->hint = H_SHORT;
+			MSG_WriteNodeValue(m, ttn->down->next->down);
+		}
+
+		/* Advance node. */
+		NODE_NEXT(tn);
+		if (tn==NULL) return;
+	}
+	else {
+		MSG_WriteBits( m, 0, 1 );
+	}
+
+	/* ammos */
+	if (tn->type == TOKEN_AMMOS) {
+		short	bitmask;
+
+		/* We have it. */
+		MSG_WriteBits( m, 1, 1 );
+
+		/* Loop over the single entries. */
+		for (bitmask=0,ttn=tn->down;ttn!=NULL;NODE_NEXT(ttn)) {
+			bitmask|=1<<(*(int*)(ttn->down->down->down));
+		}
+
+		/* Write the bitmask. */
+		MSG_WriteShort(m, bitmask);
+
+		/* Loop over the single entries. */
+		for (ttn=tn->down;ttn!=NULL;NODE_NEXT(ttn)) {
+			ttn->down->next->down->hint = H_SHORT;
+			MSG_WriteNodeValue(m, ttn->down->next->down);
+		}
+
+		/* Advance node. */
+		NODE_NEXT(tn);
+		if (tn==NULL) return;
+	}
+	else {
+		MSG_WriteBits( m, 0, 1 );
+	}
+
+	/* powerups */
+	if (tn->type == TOKEN_POWERUPS) {
+		short	bitmask;
+
+		/* We have it. */
+		MSG_WriteBits( m, 1, 1 );
+
+		/* Loop over the single entries. */
+		for (bitmask=0,ttn=tn->down;ttn!=NULL;NODE_NEXT(ttn)) {
+			bitmask|=1<<(*(int*)(ttn->down->down->down));
+		}
+
+		/* Write the bitmask. */
+		MSG_WriteShort(m, bitmask);
+
+		/* Loop over the single entries. */
+		for (ttn=tn->down;ttn!=NULL;NODE_NEXT(ttn)) {
+			MSG_WriteNodeValue(m, ttn->down->next->down);
+		}
+
+		/* Advance node. */
+		NODE_NEXT(tn);
+		if (tn==NULL) return;
+	}
+	else {
+		MSG_WriteBits( m, 0, 1 );
+	}
+
+	/* Consistency check. */
+	if (tn != NULL) {
+		syserror(EINVAL, "unexpected node type %s (%d) in player",
+			node_token_string(tn->type), tn->type);
+	}
 }
 
 
@@ -1254,8 +1485,42 @@ DM3_block_write_bin(node* b)
 
 					} /* End svc_gamestate. */
 					break;
-					case TOKEN_SNAPSHOT: { /* TODO */
-						syswarning(ENOSYS, "fill message '%s'", node_token_string(n->type));
+					case TOKEN_SNAPSHOT: { /* Complete */
+						node	*arg;
+						node	*entity;
+
+						/* The command byte itself. */
+						MSG_WriteByte(&(m.buf), svc_snapshot);
+						arg = n->down;
+
+						/* serverTime */
+						MSG_WriteNodeValue(&(m.buf), arg->down); NODE_NEXT(arg);
+
+						/* deltaNum */
+						arg->down->hint = H_BYTE;
+						MSG_WriteNodeValue(&(m.buf), arg->down); NODE_NEXT(arg);
+
+						/* snapFlags */
+						arg->down->hint = H_BYTE;
+						MSG_WriteNodeValue(&(m.buf), arg->down); NODE_NEXT(arg);
+
+						/* areamask length */
+						MSG_WriteByte(&(m.buf), node_count_next(arg->down));
+
+						/* areamask data */
+						MSG_WriteNodeValues(&(m.buf), arg->down); NODE_NEXT(arg);
+
+						/* player */
+						MSG_WriteNodePlayer(&(m.buf), arg); NODE_NEXT(arg);
+
+						/* entities */
+						for (entity = arg->down;entity!=NULL;NODE_NEXT(entity)) {
+							/* entity */
+							MSG_WriteNodeEntity(&(m.buf), entity);
+						}
+						/* End of list of entities. */
+						MSG_WriteBits( &(m.buf), (MAX_GENTITIES-1), GENTITYNUM_BITS );
+
 					} /* End svc_snapshot. */
 					break;
 					case TOKEN_DOWNLOAD: { /* TODO */
