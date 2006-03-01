@@ -968,8 +968,11 @@ MSG_WriteNodeValue(msg_t *m, node *n)
 						n->hint, n->pos, n->type);
 			}
 		break;
+		case V_STRING:
+			MSG_WriteString(m, (char*)n->down);
+		break;
 		default:
-			syserror(DINTE, "wrong argument type at pos=%d, type=%d", n->pos, n->type);
+			syserror(DINTE, "wrong argument type at pos=%d, type=%s (%d)", n->pos, node_token_string(n->type), n->type);
 	} /* End switch n->type. */
 }
 
@@ -1058,8 +1061,14 @@ DM3_block_write_bin(node* b)
 						MSG_WriteByte(&(m.buf), svc_nop);
 					} /* End svc_nop. */
 					break;
-					case TOKEN_SERVERCOMMAND: { /* TODO */
-						syswarning(ENOSYS, "fill message '%s'", node_token_string(n->type));
+					case TOKEN_SERVERCOMMAND: { /* Complete */
+						node	*arg;
+						MSG_WriteByte(&(m.buf), svc_serverCommand);
+						arg = n->down;
+						/* seq */
+						MSG_WriteNodeValue(&(m.buf), arg->down); NODE_NEXT(arg);
+						/* value */
+						MSG_WriteNodeValue(&(m.buf), arg->down); NODE_NEXT(arg);
 					} /* End svc_serverCommand. */
 					break;
 					case TOKEN_GAMESTATE: { /* TODO */
