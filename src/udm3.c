@@ -174,6 +174,7 @@ token_t DM3_token[]={
 	{ "checksumFeed",	TOKEN_CHECKSUMFEED,	0	},
 	{ "seq",		TOKEN_SEQ,		0	},
 	{ "downloadSize",	TOKEN_DOWNLOADSIZE,	0	},
+	{ "transfer",		TOKEN_TRANSFER,		0	},
 	{ "",			GEN_NOTHING,		0 	}
 };
 
@@ -676,7 +677,7 @@ DM3_bin_to_node(DM3_binblock_t *m, int opt _U_)
 
 				ttn = 0;
 				block = MSG_ReadShort ( &(m->buf) );
-				ttn = node_link(ttn, node_command_init(TOKEN_BLOCK, V_INT, H_SHORT, NODE_VALUE_INT_dup(block), 0));
+				ttn = node_link(ttn, node_command_init(TOKEN_TRANSFER, V_INT, H_SHORT, NODE_VALUE_INT_dup(block), 0));
 				if (block == 0) {
 					/* Block zero is special, contains file size. */
 					/* This is a redundancy. block==0 means downloadsize,
@@ -950,7 +951,33 @@ DM3_block_write_text(node* b)
 node*
 DM3_block_write_bin(node* b)
 {
-	syserror(ENOSYS, "DM3_block_write_bin");
+	if (b==NULL) {
+		syserror(DM3INTE, "Empty block to write");
+	}
+	switch (b->type) {
+		default:
+			/* Unknown top level block. */
+		break;
+		case TOKEN_DM3:
+			/* Do nothing. */
+		break;
+		case TOKEN_ENDBLOCK: {
+			/* The last block contains twice a '-1'. */
+			int	len = -1;
+			if (fwrite(&len, 1, 4, output_file) != 4) {
+				syserror(FIWRITE, output_filename);
+			}
+			if (fwrite(&len, 1, 4, output_file) != 4) {
+				syserror(FIWRITE, output_filename);
+			}
+		}
+		break;
+		case TOKEN_BLOCK: {
+			/* The real stuff. */
+			syswarning(ENOSYS, "write token_block");
+		}
+		break;
+	} /* End switch. */
 	return b;
 }
 
