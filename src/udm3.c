@@ -963,6 +963,9 @@ MSG_WriteNodeValue(msg_t *m, node *n)
 				case H_LONG:
 					MSG_WriteLong(m, *(long*)n->down);
 				break;
+				case H_SHORT:
+					MSG_WriteShort(m, *(short*)n->down);
+				break;
 				default:
 					syserror(DINTE, "wrong int hint type %d at pos=%d, type=%d",
 						n->hint, n->pos, n->type);
@@ -974,6 +977,17 @@ MSG_WriteNodeValue(msg_t *m, node *n)
 		default:
 			syserror(DINTE, "wrong argument type at pos=%d, type=%s (%d)", n->pos, node_token_string(n->type), n->type);
 	} /* End switch n->type. */
+}
+
+
+void
+MSG_WriteNodeEntity(msg_t *m, node *n)
+{
+	node	*tn;
+
+	/* The parts of an entity. */
+	tn = n->down;
+	syswarning(ENOSYS, "fill message '%s'", node_token_string(n->type));
 }
 
 
@@ -1058,11 +1072,13 @@ DM3_block_write_bin(node* b)
 						syserror(EINVAL, "unknown command %d", n->type);
 					break;
 					case TOKEN_NOP: { /* Complete. */
+						/* The command byte itself. */
 						MSG_WriteByte(&(m.buf), svc_nop);
 					} /* End svc_nop. */
 					break;
 					case TOKEN_SERVERCOMMAND: { /* Complete */
 						node	*arg;
+						/* The command byte itself. */
 						MSG_WriteByte(&(m.buf), svc_serverCommand);
 						arg = n->down;
 						/* seq */
@@ -1072,7 +1088,49 @@ DM3_block_write_bin(node* b)
 					} /* End svc_serverCommand. */
 					break;
 					case TOKEN_GAMESTATE: { /* TODO */
-						syswarning(ENOSYS, "fill message '%s'", node_token_string(n->type));
+						node	*arg;
+						int	loop_end;
+						/* The command byte itself. */
+						MSG_WriteByte( &(m.buf), svc_gamestate );
+						arg = n->down;
+						/* serverCommandSequence */
+						MSG_WriteNodeValue(&(m.buf), arg->down); NODE_NEXT(arg);
+						/* gamestate sub-commands: configstring, baseline. */
+						for (loop_end=0;loop_end==0;) {
+							node *sub;
+							sub = arg->down;
+							switch (arg->type) {
+								case TOKEN_CONFIGSTRING: {
+									/* The command byte itself. */
+									MSG_WriteByte(&(m.buf), svc_configstring);
+									
+									/* index */
+									sub->down->hint = H_SHORT;
+									MSG_WriteNodeValue(&(m.buf), sub->down); NODE_NEXT(sub);
+									/* value */
+									MSG_WriteNodeValue(&(m.buf), sub->down); NODE_NEXT(sub);
+									NODE_NEXT(arg);
+								}
+								break;
+								case TOKEN_BASELINE: {
+									MSG_WriteNodeEntity(&(m.buf), sub);
+									NODE_NEXT(arg);
+								}
+								break;
+								default:
+									loop_end = 1;
+							} /* End switch. */
+						} /* End gamestate sub-commands. */
+
+						/* Mark the end of the gamestate sub-commands. */
+						MSG_WriteByte( &(m.buf), svc_EOF );
+
+						/* clientNum */
+						MSG_WriteNodeValue(&(m.buf), arg->down); NODE_NEXT(arg);
+
+						/* checksumFeed */
+						MSG_WriteNodeValue(&(m.buf), arg->down); NODE_NEXT(arg);
+
 					} /* End svc_gamestate. */
 					break;
 					case TOKEN_SNAPSHOT: { /* TODO */
