@@ -15,24 +15,26 @@
 </author>
 <pubdate>v@VERSION@, @DATE@, (@COMMENT@)</pubdate>
 <abstract>
-<para>This document is the user's guide of The Little Movie Processing Centre (LMPC).
-LMPC is a utility to handle DOOM, DOOM &rsqb;&lsqb;, HERETIC,
-HEXEN and STRIFE LMP files. There is a rudimentary support for Duke Nukem 3D and Redneck Rampage DMO files. Quake DEM files, QuakeWorld QWD files and Quake II DM2 files (client recorded, server recorded, relay files)
-are supported too. The DEM file cutter tool (DEMcut), The DEM Text File Analyser (DEMA),
-The Demo Broadcasting Server (DBS) and The DM2 file concatenator (DM2cat) are
-part of this package as well.</para>
+<para>This document is the user's guide of The Little Movie Processing Centre
+(LMPC). LMPC is a utility to handle DOOM, DOOM &rsqb;&lsqb;, HERETIC, HEXEN and
+STRIFE LMP files. There is a rudimentary support for Duke Nukem 3D and Redneck
+Rampage DMO files. Quake DEM files, QuakeWorld QWD files, Quake II DM2 files
+(client recorded, server recorded, relay files), and Quake III Arena DM3 files
+are supported too. The DEM file cutter tool (DEMcut), The DEM Text File
+Analyser (DEMA), The Demo Broadcasting Server (DBS) and The DM2 file
+concatenator (DM2cat) are part of this package as well.</para>
 </abstract>
 </articleinfo>
 <sect1>
 <title>Introduction</title>
-<para>LMPC is the name of the complete package and the name of the biggest parts 
-in it: The Little Movie Processing Centre.</para>
+<para>LMPC is the name of the complete package and the name of the biggest
+parts in it: The Little Movie Processing Centre.</para>
 <para>LMPC is a collection of utilities to handle old (&lt;=1.4) and new DOOM, 
 DOOM &rsqb;&lsqb;, HERETIC, HEXEN and STRIFE LMP files. There is support for 
 Duke Nukem 3D and Redneck Rampage DMO files, Quake DEM files, 
-QuakeWorld QWD files and Quake II DM2 files (client recorded, server
-recorded, and relay files) too. For relay files, read the home page of the
-Quake II Relay project by Conor Davis
+QuakeWorld QWD files, Quake II DM2 files (client recorded, server
+recorded, and relay files), and Quake III Arena DM3 files too. For Quake II
+relay files, read the home page of the Quake II Relay project by Conor Davis
 (<ulink URL="mailto:cedavis@planetquake.com">cedavis@planetquake.com</ulink>)
 <ulink URL="http://www.planetquake.com/relay/"></ulink></para>
 <para>You can download the package from my 
@@ -43,29 +45,30 @@ Quake II Relay project by Conor Davis
 <ulink URL="@HOMEURL@/dem">Unofficial DEM format description</ulink>, the
 <ulink URL="@HOMEURL@/qwd">Unofficial QWD format description</ulink> and the
 <ulink URL="@HOMEURL@/dm2">Unofficial DM2 format description</ulink>.</para>
-<para>Read the apropriate document to find out the exact version numbers supported
-by LMPC. I write the format description and the program at the same time; so
-if it is described in the specs document, it is in general supported by the
-LMPC program.</para>
+<para>Read the apropriate document to find out the exact version numbers
+supported by LMPC. I write the format description and the program at the same
+time; so if it is described in the specs document, it is in general supported
+by the LMPC program.</para>
 </sect1>
 <sect1>
 <title>LMPC, The Little Movie Processing Centre</title>
 <sect2>
 <title>Introduction</title>
-<para>With LMPC you can get information about a LMP, DMO, DEM, QWD or DM2 file, 
-change the version 
+<para>With LMPC you can get information about a LMP, DMO, DEM, QWD, DM2, or DM3
+file, change the version 
 and viewing player's number, add some wait tics at the end, remove the 
 pause tics, clear the ``Save Game'' tics in LMP files
 and (this is the main part) you can compile and 
-decompile a LMP, DMO, DEM, QWD or DM2 from and to a LS file. LS stands for 
-``<emphasis>L</emphasis>MP <emphasis>S</emphasis>ource''.
+decompile a LMP, DMO, DEM, QWD, DM2, or DM3 from and to a LS file. LS stands
+for ``<emphasis>L</emphasis>MP <emphasis>S</emphasis>ource''.
 To reduce the amount of new abbreviations I call the ``DMO Source'' LS too.
 The language is similar and will be treated in the same way.
 The real LS language is documented at full
 length in the section <xref LINKEND="LMPSOURCE">.
 The ``DEM Source'' (see section <xref LINKEND="DEMSOURCE">) 
 and all the more the ``QWD Source'' (see section <xref LINKEND="QWDSOURCE">) is totally different but I call it LS anyway.
-The same holds for Quake II DM2 (see section <xref LINKEND="DM2SOURCE">) files.</para>
+The same holds for Quake II DM2 (see section <xref LINKEND="DM2SOURCE">) and
+Quake III Areana DM3 files.</para>
 </sect2>
 <sect2>
 <title>Command line parameters</title>
@@ -91,7 +94,7 @@ used together.</para>
 receive the following syntax message:
 
 <screen>Little Movie Processing Centre
-LMPC (c) U. Girlich, 1994-2000, Release @VERSION@ @DATE@ (@COMMENT@)
+LMPC (c) U. Girlich, 1994-2006, Release @VERSION@ @DATE@ (@COMMENT@)
 lmpc &lsqb;option ...&rsqb; filename &lsqb;filename ...&rsqb;
 -h, --help                   display this help and exit.
 -V, --version                output version information and exit.
@@ -108,9 +111,9 @@ lmpc &lsqb;option ...&rsqb; filename &lsqb;filename ...&rsqb;
 -f, --fix-multi              fixes multi-level DEM and DM2 files.
 -t, --tic FROM(,|:)TO        converts only a part of the LMP-file
                              (in connection with -s only).
--g, --game GAME              forces game (GAME=DOOM,DOOM2,HERETIC,HEXEN,
-                             STRIFE,DUKE,REDNECK,QUAKE,QUAKEWORLD,QUAKE2)
-                             short: D2HXSNRQWq (only with -(i|s|v|p|w|r|c)).
+-g, --game GAME              forces game (GAME=DOOM,DOOM2,HERETIC,HEXEN,STRIFE
+                             DUKE,REDNECK,QUAKE,QUAKEWORLD,QUAKE2,QUAKE3)
+                             short: D2HXSNRQWqA (only with -(i|s|v|p|w|r|c)).
 -m, --mark-step STEP         marks every STEPth tic in the LS file (-s only)
                              STEP=0 doesn't mark any game tic; default: STEP=1.</screen>
 
@@ -120,7 +123,7 @@ lmpc &lsqb;option ...&rsqb; filename &lsqb;filename ...&rsqb;
 </variablelist></para>
 </sect3>
 <sect3>
-<title>Information about a LMP, DMO, DEM, QWD or DM2 file</title>
+<title>Information about a LMP, DMO, DEM, QWD, DM2 or DM3 file</title>
 <para><variablelist>
 <varlistentry>
 <term>Syntax:</term>
@@ -146,14 +149,16 @@ only the vague information v&lt;1.4 instead of v1.2.
 LMPC doesn't report any version for HERETIC and HEXEN LMP files.</para>
 <para>This option works for DMO files too. They will be detected automatically
 but you can use the <literal REMAP="tt">--game DUKE</literal> option as well.</para>
-<para>This option works for DEM, QWD and DM2 files too. They will be detected 
-automatically
-but you can use the <literal REMAP="tt">--game QUAKE</literal>, <literal REMAP="tt">--game QUAKEWORLD</literal>
-and <literal REMAP="tt">--game QUAKE2</literal> 
+<para>This option works for DEM, QWD, DM2 and DM3 files too. They will be
+detected automatically
+but you can use the <literal REMAP="tt">--game QUAKE</literal>,
+<literal REMAP="tt">--game QUAKEWORLD</literal>,
+<literal REMAP="tt">--game QUAKE2</literal>, and
+<literal REMAP="tt">--game QUAKE3</literal>,
 option as well. The information
-on DEM, QWD and DM2 files nearly zero beside the information that it is 
-actually a DEM, QWD or DM2 file and the number of frames in binary DEM, 
-QWD or DM2 files.</para>
+on DEM, QWD, DM2, and DM3 files nearly zero beside the information that it is 
+actually a DEM, QWD, DM2, or DM3 file and the number of frames in binary DEM, 
+QWD, DM2, or DM3 files.</para>
 <para>To get more information of a DEM file convert it into a text file and use 
 DEMA, The DEM Text File Analyser.</para>
 </listitem>
@@ -161,7 +166,7 @@ DEMA, The DEM Text File Analyser.</para>
 </variablelist></para>
 </sect3>
 <sect3>
-<title>LMP/DMO/DEM/QWD/DM2 text converter (decompiler)</title>
+<title>LMP/DMO/DEM/QWD/DM2/DM3 text converter (decompiler)</title>
 <para><variablelist>
 <varlistentry>
 <term>Syntax:</term>
@@ -184,10 +189,11 @@ DEMA, The DEM Text File Analyser.</para>
 <varlistentry>
 <term>Description:</term>
 <listitem>
-<para>LMPC reads the file <literal REMAP="tt">infile</literal>, converts it to the corresponding
-text format and stores the result in the text file <literal REMAP="tt">txtfile</literal>.
-<literal REMAP="tt">infile</literal> may be a LMP binary, DMO binary, DEM binary, DEM text,
-QWD binary, QWD text, DM2 binary or DM2 text file. Most of the additional
+<para>LMPC reads the file <literal REMAP="tt">infile</literal>, converts it to
+the corresponding text format and stores the result in the text file
+<literal REMAP="tt">txtfile</literal>. <literal REMAP="tt">infile</literal> may
+be a LMP binary, DMO binary, DEM binary, DEM text, QWD binary, QWD text,
+DM2 binary, DM2 text, DM3 binary or DM3 text file. Most of the additional
 options do work with binary LMP files only.</para>
 <para>If the <literal REMAP="tt">--tic</literal> option is used, only the part between gametic
 <literal REMAP="tt">FROM</literal> and <literal REMAP="tt">TO</literal> (inclusive) will be stored in the LS file.
@@ -223,7 +229,7 @@ to repair the broken multi-level DEM and DM2 files.</para>
 </variablelist></para>
 </sect3>
 <sect3>
-<title>LMP/DEM/QWD/DM2 binary converter (compiler)</title>
+<title>LMP/DEM/QWD/DM2/MD3 binary converter (compiler)</title>
 <para><variablelist>
 <varlistentry>
 <term>Syntax:</term>
@@ -250,7 +256,7 @@ to repair the broken multi-level DEM and DM2 files.</para>
 binary file out of all the files on the command line. The binary (destination) 
 file is always the last argument. </para>
 <para>This option works with LMP text files, DEM text, DEM binary, QWD text, 
-QWD binary, DM2 text and DM2 binary files as
+QWD binary, DM2 text, DM2 binary, DM3 text, and DM3 binary files as
 input files only. LMPC can handle more than 1 input file with LMP text files
 only.</para>
 <para>For combination of DEM files use DEMcut.</para>
@@ -522,8 +528,8 @@ and <literal REMAP="tt">--to-txt</literal>. LMPC removes the offending commands 
 <term>Description:</term>
 <listitem>
 <para>LMPC determines the game type of a LMP (binary), DMO (binary), DEM 
-(text and binary), QWD (text and binary) or 
-DM2 (text and binary) file very good. But it can't good
+(text and binary), QWD (text and binary), DM2 (text and binary),
+or DM3 (text and binary) file very good. But it can't good
 distinguish between HERETIC/HEXEN and old DOOM LMP files. Moreover it
 can't distinguish at all between DOOM &rsqb;&lsqb; Map 1-9 and new DOOM 
 Episode 1 
@@ -531,9 +537,14 @@ LMP files. The latter case is not very important but the first is more
 severe. To force LMPC to use a particular game type use <literal REMAP="tt">--game</literal>.
 <literal REMAP="tt">GAME</literal> can be <literal REMAP="tt">DOOM</literal>, <literal REMAP="tt">DOOM2</literal>,
 <literal REMAP="tt">HERETIC</literal>, <literal REMAP="tt">HEXEN</literal>, <literal REMAP="tt">STRIFE</literal>, <literal REMAP="tt">DUKE</literal>, 
-<literal REMAP="tt">REDNECK</literal>, <literal REMAP="tt">QUAKE</literal>, <literal REMAP="tt">QUAKEWORLD</literal> or <literal REMAP="tt">QUAKE2</literal>
+<literal REMAP="tt">REDNECK</literal>, <literal REMAP="tt">QUAKE</literal>,
+<literal REMAP="tt">QUAKEWORLD</literal>,
+<literal REMAP="tt">QUAKE2</literal> or
+<literal REMAP="tt">QUAKE3</literal>
 or the short form <literal REMAP="tt">D</literal>, <literal REMAP="tt">2</literal>, <literal REMAP="tt">H</literal>, <literal REMAP="tt">X</literal>, <literal REMAP="tt">S</literal>,
-<literal REMAP="tt">N</literal>, <literal REMAP="tt">R</literal>, <literal REMAP="tt">Q</literal>, <literal REMAP="tt">W</literal> or <literal REMAP="tt">q</literal>.</para>
+<literal REMAP="tt">N</literal>, <literal REMAP="tt">R</literal>, <literal REMAP="tt">Q</literal>, <literal REMAP="tt">W</literal>,
+<literal REMAP="tt">q</literal>, or
+<literal REMAP="tt">A</literal>.</para>
 </listitem>
 </varlistentry>
 </variablelist></para>
@@ -580,6 +591,18 @@ back the old and the new format.</para>
 messages. LMPC tries its best to decompile even such bad files too but
 it may well be, that some other messages with bit masks have the same
 problem.</para>
+<para>Quake III Arena uses bit fields for all its game messages. A 
+server-to-client-message (or a block in a DM3 file) uses always full bytes. It
+follows, that some bits in the last byte are not used by the game. LMPC set
+these bits always to zero but Quake III Arena does not. Therefore it is
+impossible for LMPC to reproduce a totally identical DM3 file. The file from
+LMPC will behave the same as the original but some bits are zero.</para>
+<para>The DM3 text parser is really a joke. I implemented it in about two hours.
+It cannot cope with non-ordered entries in any block. Thus be sure not to
+shuffle the entries! If this happens, the program will certainly crash or at
+least not work as expected. If this is a problem, I can always extend the old
+parser to parse DM3 texts too but this would take at least a week of hard
+work.</para>
 </sect2>
 </sect1>
 <sect1 ID="DEMA">
@@ -2030,8 +2053,7 @@ artifact number. Up to now I know only 12 artifacts.
 
 <table>
 <title>STRIFE artifacts</title>
-<tgroup COLS="3">
-<colspec COLSEP="0" ALIGN="LEFT">
+<tgroup COLS="2">
 <colspec COLSEP="0" ALIGN="LEFT">
 <colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
@@ -2361,6 +2383,19 @@ mentioned document.</para>
 <para>If someone is willing to write a documentation of my DM2 text format please
 inform me and your document will be included right here. </para>
 </sect1>
+<sect1 ID="DM3SOURCE">
+<title>DM3 source format</title>
+<para>The DM3 format is very sophisticated file format to save every thinkable
+bit. It was developed for internet multiplayer action at a time, when highspeed
+internet access was rare. There is (not yet) an ``Unofficial DM3 format
+description'' but you can easily learn it by looking through the Quake III Arena source code or the LMPC source code.</para>
+<para>You will understand my textual representation of the DM3 format
+by inspecting a sample file</para>
+<para>If someone is willing to write a documentation of my DM3 text format please
+inform me and your document will be included right here. </para>
+</sect1>
+
+
 <sect1>
 <title>Some links and further information</title>
 <para>For further information on LMP files look in the ``Unofficial LMP format 
@@ -4055,15 +4090,14 @@ for the bug report and a demo file.</para>
 <para>Compile: MS-DOS binaries cross-compiled with egcs-2.91.66.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>3.3.0 (1/23/2000) (public release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DM2: RLA (Quake II Relay) support.</para>
@@ -4072,10 +4106,44 @@ for the bug report and a demo file.</para>
 <para>Docu: Some links updated.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
+<varlistentry>
+<term>3.4.0 (8/29/2004) (alpha test release)</term>
+<listitem>
+<para>
+<itemizedlist>
+<listitem>
+<para>Compile: Compiled everything on a current platform.</para>
+</listitem>
+<listitem>
+<para>Docu: Used new tools to generate the documentation.</para>
+</listitem>
+</itemizedlist>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>3.4.1 (3/5/2006) (alpha test release)</term>
+<listitem>
+<para>
+<itemizedlist>
+<listitem>
+<para>DM3: Support added.</para>
+</listitem>
+<listitem>
+<para>Docu: DM3 mentioned.</para>
+</listitem>
+<listitem>
+<para>Compile: Compiled everything on SuSE Linux 10.0.</para>
+</listitem>
+</itemizedlist>
+</para>
+</listitem>
+
 </variablelist></para>
 <para>Plan for 4.0.0 in order of importance
 
@@ -4132,7 +4200,7 @@ algorithm and the one used in Duke Nukem 3D?</para>
 </orderedlist>
 
 </para>
-<para>A new regular version of LMPC (like 3.3.0) will be announced on
+<para>A new regular version of LMPC (like 3.5.0) will be announced on
 <ulink URL="http://www.bluesnews.com">BluesNews</ulink> and on 
 <ulink URL="http://www.planetquake.com">PlanetQuake</ulink>.</para>
 <para>You can download LMPC from my <ulink URL="@HOMEURL@">@HOMENAME@</ulink>.</para>
