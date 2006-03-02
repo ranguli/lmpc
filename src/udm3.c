@@ -148,7 +148,6 @@ token_t DM3_token[]={
 	{ "pos.trDuration",	TOKEN_POS_TRDURATION,	0	},
 	{ "apos.trType",	TOKEN_APOS_TRTYPE,	0	},
 	{ "solid",		TOKEN_SOLID,		0	},
-	{ "powerups",		TOKEN_POWERUPS,		0	},
 	{ "modelindex",		TOKEN_MODELINDEX,	0	},
 	{ "otherEntityNum2",	TOKEN_OTHERENTITYNUM2,	0	},
 	{ "origin2[2]",		TOKEN_ORIGIN2_2,	0	},
@@ -861,7 +860,7 @@ DM3_bin_to_node(DM3_binblock_t *m, int opt _U_)
 						tttn = node_link(tttn,node_init(TOKEN_PERSISTANTS,a,0));
 					}
 
-					/* Parse the ammo. */
+					/* Parse the ammos. */
 					if ( MSG_ReadBits( &(m->buf), 1 ) ) {
 						a = NULL;
 						bits = MSG_ReadShort (&(m->buf));
@@ -877,7 +876,7 @@ DM3_bin_to_node(DM3_binblock_t *m, int opt _U_)
 						tttn = node_link(tttn,node_init(TOKEN_AMMOS,a,0));
 					}
 
-					/* Parse the powerup. */
+					/* Parse the powerups. */
 					if ( MSG_ReadBits( &(m->buf), 1 ) ) {
 						a = NULL;
 						bits = MSG_ReadShort (&(m->buf));
@@ -1050,20 +1049,15 @@ MSG_WriteNodeEntity(msg_t *m, node *n)
 	MSG_WriteBits(m, 1, 1);
 
 	/* Search for the highest field number. */
-	for ( i = 0, field = entityStateFields, tp = entitytoken, ttn = tn, lc = 0 ;
-		i < entityStateFields_length ;
-		i++, field++, tp++ ) {
+	for ( i = 0, tp = entitytoken, ttn = tn, lc = 0 ;
+		i < entityStateFields_length && ttn != NULL;
+		i++, tp++ ) {
 		/* If we have the right token... */
 		if (*tp == ttn->type) {
 			/* Remember the index. */
 			lc = i+1;
 			/* Advance the nodes. */
 			NODE_NEXT(ttn);
-
-			/* No need to search, if there are no more nodes. */
-			if (ttn == NULL) {
-				break;
-			}
 		}
 	}
 
@@ -1080,7 +1074,7 @@ MSG_WriteNodeEntity(msg_t *m, node *n)
 		i < lc ;
 		i++, field++, tp++ ) {
 		/* If we have the right token... */
-		if (*tp == ttn->type) {
+		if (ttn!=NULL && *tp == ttn->type) {
 			int	*toF;
 			int	trunc;
 			float	fullFloat;
@@ -1126,10 +1120,6 @@ MSG_WriteNodeEntity(msg_t *m, node *n)
 			/* Advance the nodes. */
 			NODE_NEXT(ttn);
 
-			/* No need to search, if there are no more nodes. */
-			if (ttn == NULL) {
-				break;
-			}
 		}
 		else {
 			/* No change in this field. */
@@ -1153,20 +1143,15 @@ MSG_WriteNodePlayer(msg_t *m, node *n)
 	tn = n->down;
 
 	/* Search for the highest field number. */
-	for ( i = 0, field = playerStateFields, tp = playertoken, ttn = tn, lc = 0 ;
+	for ( i = 0, tp = playertoken, ttn = tn, lc = 0 ;
 		i < playerStateFields_length && ttn!=NULL ;
-		i++, field++, tp++ ) {
+		i++, tp++ ) {
 		/* If we have the right token... */
 		if (*tp == ttn->type) {
 			/* Remember the index. */
 			lc = i+1;
 			/* Advance the nodes. */
 			NODE_NEXT(ttn);
-
-			/* No need to search, if there are no more nodes. */
-			if (ttn == NULL) {
-				break;
-			}
 		}
 	}
 
@@ -1186,10 +1171,11 @@ MSG_WriteNodePlayer(msg_t *m, node *n)
 			int	trunc;
 			float	fullFloat;
 
-			/* The "to" field pointer. */
-			toF = (int *)ttn->down->down;
 			/* There is a change in this field. */
 			MSG_WriteBits( m, 1, 1 );
+
+			/* The "to" field pointer. */
+			toF = (int *)ttn->down->down;
 #if 0
 			fprintf(stderr,"change in %s\n", node_token_string(*tp));
 #endif
