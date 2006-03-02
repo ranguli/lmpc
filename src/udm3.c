@@ -1401,6 +1401,12 @@ DM3_block_write_bin(node* b)
 			node		*n;
 			int		len;
 
+			/* Set all the data bits to 0. This is not really
+			needed but only so we can ensure, that different LMPCs
+			will generate always the same binary data: with the
+			unused bits in the last byte set to zero. */
+			memset(m.bufData, 0, sizeof( m.bufData ));
+
 			/* Init the message. */
 			MSG_Init( &(m.buf), m.bufData, sizeof( m.bufData ) );
 
