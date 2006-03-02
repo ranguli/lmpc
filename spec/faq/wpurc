@@ -3,10 +3,10 @@
 ## wpu parse start /^([^=]+)=(.+)\s*$/
 PACKAGE=faq
 TITLE=The recording FAQ
-VERSION=1.1.3
-DATE=1/23/2000
-LVS=330
-LVL=3.3.0
+VERSION=1.1.4
+DATE=3/5/2006
+LVS=341
+LVL=3.4.1
 TYPE=document
 ## wpu parse end
 

@@ -95,16 +95,10 @@ is lightyears away from it. And if it doesn't I fix the source so it does.</para
 most likely answer from my work address.</para>
 <para><variablelist>
 <varlistentry>
-<term><ulink URL="mailto:Uwe.Girlich@itp.uni-leipzig.de">Uwe.Girlich@itp.uni-leipzig.de</ulink></term>
-<listitem>
-<para>is my old university address. I read it at best once a day.</para>
-</listitem>
-</varlistentry>
-<varlistentry>
 <term><ulink URL="mailto:Uwe.Girlich@philosys.de">Uwe.Girlich@philosys.de</ulink></term>
 <listitem>
 <para>is my mailbox at work. It is <emphasis>currently</emphasis> my main mailbox and I will
-answer mails to the other boxes from here.</para>
+answer mails to other boxes from here.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
@@ -147,7 +141,7 @@ certainly answer it from my mailbox at work.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term>Quake 3 Arena</term>
+<term>Quake III Arena</term>
 <listitem>
 <para>&nbsp;</para>
 </listitem>
@@ -523,8 +517,8 @@ documentation.</para>
 <sect3>
 <title>What are these .tar.gz files?</title>
 <para>Some distribution packages are archived with the program TAR (TApe Archiver,
-used for over 20 years on all kind of computers) and compressed afterwards
-with Gzip (LZ77 coding compressor, used for more the 10 years for 
+used since the 1970ies on all kind of computers) and compressed afterwards
+with Gzip (LZ77 coding compressor, used since the 1980ies for 
 general compression tasks). If you never heard of these programs, your world
 of computing consists only of Wintel PCs. What a pitty.</para>
 <para>I use this package format only for packages, which should be used on 
@@ -541,8 +535,8 @@ Maybe you have to update.</para>
 <sect3>
 <title>Will (insert your favorite OS here) ever be supported?</title>
 <para>I wrote LMPC in simple ANSI C with some parts in Lex and Yacc, so you
-should be able to port it to any decent OS. I have access to HP-UX, SunOS,
-SINIX and ReliantUNIX systems. If you need a binary for such systems please
+should be able to port it to any decent OS. I have access to some UNIX
+(not Linux) machines. If you need a binary for such systems please
 ask. I create some source code files during the compilation process with
 Perl scripts, so you definitely need Perl on your computer.</para>
 <para>The main distribution packages were build at home with cross-compilers and I
@@ -557,20 +551,11 @@ version needs the special run-time DLL. Get it from
 version needs nothing else but it doesn't seem to work properly.</para>
 </sect3>
 <sect3>
-<title>Are there Windows?? GUI versions of your command line tools?</title>
+<title>Are there GUI versions of your command line tools?</title>
 <para>GUI rules the world but it is very difficult to
-maintain a GUI program for different OS's. I
-use Linux only and I write my GUI programs with 
-Qt (<ulink URL="http://www.troll.no"></ulink>), which is free for non-commercial 
-Unix users. A Windows 
-developer license costs 1470 US dollar which I can't spend just for fun.
-A non-commercial Windows license does not exist (and I have no Windows
-anyway).</para>
-<para>If I would publish the GUI front-end of DEMcut,
-everyone would bag me for a Windows version. A GUI version for LMPC itself
-seems to be totally senseless, since it is something like a compiler.</para>
-<para>And BTW, if you'll ever write a line for a GUI program in Qt, you'll 
-never go back to anything else.</para>
+maintain a GUI program for different OS's. I think about wxPerl or Qt
+<ulink URL="http://www.troll.no"></ulink> for such
+a task. You are welcome to write such a GUI program.</para>
 </sect3>
 <sect3>
 <title>What about the QWD support in LMPC?</title>
@@ -586,29 +571,12 @@ to move on. Actually nobody ever aked for a full working Hexen II LMPC.</para>
 <para>Quake II DM2 files are fully supported from version 3.1.7 on.</para>
 </sect3>
 <sect3>
-<title>What about Quake 3 Arena support in LMPC?</title>
-<para>This is difficult question. Due to legal problems I won't publish any
-information, which can be used to decode the network protocol of Q3A.
-There are plans (on the side of id Software) to remove the similarities 
-between the demo format and the network protocol.</para>
-<para>On the other side, the 
-demo/movie community is seriously thinking about a self-made open demo format.
-This could work similar to the Quake II Relay project by Conor Davis
-(<ulink URL="mailto:cedavis@planetquake.com">cedavis@planetquake.com</ulink>)
-<ulink URL="http://www.planetquake.com/relay/"></ulink>:
-The server will
-be modified, that it can record the game play into a kind of ``server
-record'' file. This file can be changed with LMPC as usual (yes, LMPC
-supports this extension to the DM2 format). Later, this file can be read in
-by the server and played back as if it was the result of an actual game
-play.</para>
-<para>In Quake 3 Arena, we have the additional advantage to change the client as
-well. So maybe it is not necessary to start a server to watch the replay.
-Such a project did not start yet but it looks be really promising.</para>
-<para>A really egoistic solution would be to include the DM3 support in LMPC
-but not to publish a DM3 specs and also not the source of the DM3 part in
-LMPC. I already started to include some DM3 code fragments in LMPC but
-you can't guess anything from the included source.</para>
+<title>What about Quake III Arena support in LMPC?</title>
+<para>Quake III Arena DM3 (dm_68) files are fully supported from version 3.4.1
+on.</para>
+<para>Due to legal problems I could not add this earlier but after the
+source code of Quake III Arena was published as GPL, I added support for it
+in LMPC.</para>
 </sect3>
 <sect3>
 <title>What about the (insert your favorite game here) support in LMPC?</title>
@@ -643,7 +611,7 @@ report with <emphasis>all</emphasis> of the following points:
 using.</para>
 </listitem>
 <listitem>
-<para>Recording type (LMP,DMO,DEM,QWD,DM2)! This is very important!</para>
+<para>Recording type (LMP,DMO,DEM,QWD,DM2,DM3)! This is very important!</para>
 </listitem>
 <listitem>
 <para>Full error message of LMPC.</para>
@@ -692,6 +660,14 @@ Pandora bot site <ulink URL="www.opt-sci.Arizona.EDU/Pandora/q2"></ulink>
 for the network part and my Unofficial DM2 description at
 <ulink URL="@HOMEURL@/dm2"></ulink> for the file format part.</para>
 </sect3>
+<sect3>
+<title>What is the difference between the DM3 file format and the
+Quake III Arena network protocol?</title>
+<para>Quake III Arena uses a (simple) encryption scheme to secure the network
+protocol. This encryption is not included in DM3 files. Please read the source
+code of Quake III Arena.</para>
+</sect3>
+
 </sect2>
 </sect1>
 <sect1>
@@ -1056,11 +1032,11 @@ for the network part and my Unofficial DM2 description at
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>1.1.3, 23 January 2000</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>New stable release for LMPC included.</para>
@@ -1069,10 +1045,22 @@ for the network part and my Unofficial DM2 description at
 <para>More hints on future game support.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
+<varlistentry>
+<term>1.1.4, 5 March 2006</term>
+<listitem>
+<para>
+<itemizedlist>
+<listitem>
+<para>Hints on Quake III Arena completely changed.</para>
+</listitem>
+</itemizedlist>
+</para>
+</listitem>
+
 </variablelist></para>
 </sect1>
 </article>

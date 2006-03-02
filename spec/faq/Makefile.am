@@ -1,7 +1,7 @@
 # $Id$
 
 # faq -- the recording FAQ
-# Copyright (C) 1997-2000,2004 Uwe Girlich
+# Copyright (C) 1997-2000,2004,2006 Uwe Girlich
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
