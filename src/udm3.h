@@ -23,6 +23,7 @@
 |  udm3.h - header file of udm3.c, general DM3 routines                      |
 \****************************************************************************/
 
+/* $Id$ */
 
 #ifndef __UDM3_H
 #define __UDM3_H
@@ -58,20 +59,10 @@ typedef struct DM3_s {
 	int	frame;
 } DM3_t;
 
-
-#define DM3_BBB_MAX 65536
-
 typedef struct DM3_binblock_s {
 	int	serverMessageSequence;
 	msg_t	buf;
 	byte	bufData[ MAX_MSGLEN ];
-#if 0
-	long size;
-	unsigned char* p;
-	unsigned char* end;
-	long base;
-	void* top;
-#endif
 	long	hint;
 } DM3_binblock_t;
 
