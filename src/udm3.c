@@ -1558,8 +1558,28 @@ DM3_block_write_bin(node* b)
 
 					} /* End svc_snapshot. */
 					break;
-					case TOKEN_DOWNLOAD: { /* TODO */
-						syswarning(ENOSYS, "fill message '%s'", node_token_string(n->type));
+					case TOKEN_DOWNLOAD: { /* Complete */
+						node	*arg;
+
+						/* The command byte itself. */
+						MSG_WriteByte(&(m.buf), svc_download);
+						arg = n->down;
+
+						/* transfer */
+						arg->down->hint = H_SHORT;
+						MSG_WriteNodeValue(&(m.buf), arg->down); NODE_NEXT(arg);
+
+						/* downloadSize */
+						if (arg->type == TOKEN_DOWNLOADSIZE) {
+							MSG_WriteNodeValue(&(m.buf), arg->down); NODE_NEXT(arg);
+						}
+
+						/* data length */
+						MSG_WriteShort(&(m.buf), node_count_next(arg->down));
+
+						/* data bytes */
+						MSG_WriteNodeValues(&(m.buf), arg->down); NODE_NEXT(arg);
+
 					} /* End svc_download. */
 					break;
 				} /* End switch n->type. */
