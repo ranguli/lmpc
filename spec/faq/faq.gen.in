@@ -435,9 +435,9 @@ lower case.</para>
 <term><literal REMAP="tt">lmpc-@LVL@.tar.gz</literal></term>
 <listitem>
 <para>(download from 
-<ulink URL="@FTPCDROMBASE@/lmpc-@LVL@.tar.gz">ftp.cdrom.com</ulink>
-or a 
-<ulink URL="@FTPMIRRORBASE@/lmpc-@LVL@.tar.gz">mirror site</ulink>)
+<ulink URL="@FTPSFBASE@/lmpc-@LVL@.tar.gz@FTPSFPOST@">SourceForge</ulink>
+or 
+<ulink URL="@FTPMIRRORBASE@/lmpc-@LVL@.tar.gz">FilePlanet</ulink>)
 is ``the Source Package''.
 It comes with no binaries but contains the full source code with 
 an Autoconf/Automake configure file for easy compilation on any (Unix) system.
@@ -449,12 +449,12 @@ written in SGML is included as well.</para>
 <term><literal REMAP="tt">lmpc-@LVL@-f.tar.gz</literal></term>
 <listitem>
 <para>(download from 
-<ulink URL="@FTPCDROMBASE@/lmpc-@LVL@-f.tar.gz">ftp.cdrom.com</ulink>
-or a 
-<ulink URL="@FTPMIRRORBASE@/lmpc-@LVL@-f.tar.gz">mirror site</ulink>)
+<ulink URL="@FTPSFBASE@/lmpc-@LVL@-f.tar.gz@FTPSFPOST@">SourceForge</ulink>
+or 
+<ulink URL="@FTPMIRRORBASE@/lmpc-@LVL@-f.tar.gz">FilePlanet</ulink>)
 is ``the Full Package''.
 Everything from all other packages and a 
-<ulink URL="@HOMEURL@/lmpc-stable/lmpc.ps">PostScript</ulink> 
+<ulink URL="@HOMEURL@/lmpc-stable/lmpc.pdf">PDF</ulink> 
 documentation is included.</para>
 </listitem>
 </varlistentry>
@@ -462,54 +462,50 @@ documentation is included.</para>
 <term><literal REMAP="tt">lmpc@LVS@d.zip</literal></term>
 <listitem>
 <para>(download from 
-<ulink URL="@FTPCDROMBASE@/lmpc@LVS@d.zip">ftp.cdrom.com</ulink>
-or a  
-<ulink URL="@FTPMIRRORBASE@/lmpc@LVS@d.zip">mirror site</ulink>)
+<ulink URL="@FTPSFBASE@/lmpc@LVS@d.zip@FTPSFPOST@">SourceForge</ulink>
+or 
+<ulink URL="@FTPMIRRORBASE@/lmpc@LVS@d.zip">FilePlanet</ulink>)
 is ``the MS-DOS Binary Package''.
 It comes with <literal REMAP="tt">lmpc.exe</literal>, <literal REMAP="tt">demcut.exe</literal>, <literal REMAP="tt">dema</literal> and a 
-<ulink URL="@HOMEURL@/lmpc-stable/lmpc.doc">plain</ulink> ASCII text 
-documentation.</para>
+<ulink URL="@HOMEURL@/lmpc-stable/lmpc.html">HTML</ulink> documentation.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term><literal REMAP="tt">lmpc-@LVL@-l.tar.gz</literal></term>
 <listitem>
 <para>(download from 
-<ulink URL="@FTPCDROMBASE@/lmpc-@LVL@-l.tar.gz">ftp.cdrom.com</ulink>
-or a 
-<ulink URL="@FTPMIRRORBASE@/lmpc-@LVL@-l.tar.gz">mirror site</ulink>)
+<ulink URL="@FTPSFBASE@/lmpc-@LVL@-l.tar.gz@FTPSFPOST@">SourceForge</ulink>
+or 
+<ulink URL="@FTPMIRRORBASE@/lmpc-@LVL@-l.tar.gz">FilePlanet</ulink>)
 is ``the Linux Binary Package''.
 It comes with <literal REMAP="tt">lmpc</literal>, <literal REMAP="tt">demcut</literal>, <literal REMAP="tt">dbs</literal>, <literal REMAP="tt">dema</literal>
-and a <ulink URL="@HOMEURL@/lmpc-stable/lmpc.txt">formatted</ulink>
-formatted ASCII text documentation (to be read with less(1)). 
-The Linux binaries are compiled with egcs-2.91.57 and shared linked against 
-glibc.</para>
+and a <ulink URL="@HOMEURL@/lmpc-stable/lmpc.html">HTML</ulink>
+documentation. The Linux binaries are compiled with GCC 4.0.2 and shared linked
+against glibc.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term><literal REMAP="tt">lmpc@LVS@w.zip</literal></term>
 <listitem>
 <para>(download from 
-<ulink URL="@FTPCDROMBASE@/lmpc@LVS@w.zip">ftp.cdrom.com</ulink>
-or a  
-<ulink URL="@FTPMIRRORBASE@/lmpc@LVS@w.zip">mirror site</ulink>)
+<ulink URL="@FTPSFBASE@/lmpc@LVS@w.zip@FTPSFPOST@">SourceForge</ulink>
+or 
+<ulink URL="@FTPMIRRORBASE@/lmpc@LVS@w.zip">FilePlanet</ulink>)
 is the ``Win32 (Cygnus) Binary Package''.
 It comes with <literal REMAP="tt">lmpc32.exe</literal>, <literal REMAP="tt">demcut32.exe</literal>, <literal REMAP="tt">dema</literal> and a 
-<ulink URL="@HOMEURL@/lmpc-stable/lmpc.doc">plain</ulink> ASCII text 
-documentation.</para>
+<ulink URL="@HOMEURL@/lmpc-stable/lmpc.html">HTML</ulink> documentation.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
 <term><literal REMAP="tt">lmpc@LVS@m.zip</literal></term>
 <listitem>
 <para>(download from 
-<ulink URL="@FTPCDROMBASE@/lmpc@LVS@m.zip">ftp.cdrom.com</ulink>
-or a  
-<ulink URL="@FTPMIRRORBASE@/lmpc@LVS@m.zip">mirror site</ulink>)
+<ulink URL="@FTPSFBASE@/lmpc@LVS@m.zip@FTPSFPOST@">SourceForge</ulink>
+or 
+<ulink URL="@FTPMIRRORBASE@/lmpc@LVS@m.zip">FilePlanet</ulink>)
 is the ``Win32 (Mingw32) Binary Package''.
 It comes with <literal REMAP="tt">lmpcm.exe</literal>, <literal REMAP="tt">demcutm.exe</literal>, <literal REMAP="tt">dema</literal> and a 
-<ulink URL="@HOMEURL@/lmpc-stable/lmpc.doc">plain</ulink> ASCII text 
-documentation.</para>
+<ulink URL="@HOMEURL@/lmpc-stable/lmpc.html">HTML</ulink> documentation.</para>
 </listitem>
 </varlistentry>
 </variablelist></para>
