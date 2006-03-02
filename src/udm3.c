@@ -482,6 +482,9 @@ DM3_bin_to_node_entity(msg_t *msg)
 	if (index == (MAX_GENTITIES-1)) {
 		goto lastout;
 	}
+#if 0
+	fprintf(stderr,"index=%d\n", index);
+#endif
 	tn = node_link(tn, node_command_init(TOKEN_INDEX, V_INT, H_ENTITY_INDEX, NODE_VALUE_INT_dup(index), 0));
 
 	/* Check for a remove. */
@@ -498,7 +501,7 @@ DM3_bin_to_node_entity(msg_t *msg)
 	/* Get the last field number. */
 	lc = MSG_ReadByte(msg);
 	if (lc>entityStateFields_length) {
-		syserror(DM3INTE, "last entity field is %d, max allowed is %d", lc, entityStateFields_length);
+		syserror(DM3INTE, "last entity field is %d, max allowed is %d, index=%d", lc, entityStateFields_length, index);
 	}
 
 	/* Loop over all fields. */
@@ -731,6 +734,9 @@ DM3_bin_to_node(DM3_binblock_t *m, int opt _U_)
 
 				/* Get the serverTime. */
 				serverTime = MSG_ReadLong( &(m->buf) );
+#if 0
+				fprintf(stderr,"serverTime=%d\n", serverTime);
+#endif
 				ttn = node_link(ttn, node_command_init(TOKEN_SERVERTIME, V_INT, H_LONG, NODE_VALUE_INT_dup(serverTime), 0));
 				/* Get the deltaNum. */
 				deltaNum = MSG_ReadByte( &(m->buf) );
@@ -846,6 +852,9 @@ DM3_bin_to_node(DM3_binblock_t *m, int opt _U_)
 
 					/* Parse the persistant stats. */
 					if ( MSG_ReadBits( &(m->buf), 1 ) ) {
+#if 0
+						fprintf(stderr,"get persistants\n");
+#endif
 						a = NULL;
 						bits = MSG_ReadShort (&(m->buf));
 						for (i=0 ; i<16 ; i++) {
@@ -862,6 +871,9 @@ DM3_bin_to_node(DM3_binblock_t *m, int opt _U_)
 
 					/* Parse the ammos. */
 					if ( MSG_ReadBits( &(m->buf), 1 ) ) {
+#if 0
+						fprintf(stderr,"get ammos\n");
+#endif
 						a = NULL;
 						bits = MSG_ReadShort (&(m->buf));
 						for (i=0 ; i<16 ; i++) {
@@ -878,14 +890,20 @@ DM3_bin_to_node(DM3_binblock_t *m, int opt _U_)
 
 					/* Parse the powerups. */
 					if ( MSG_ReadBits( &(m->buf), 1 ) ) {
+#if 0
+						fprintf(stderr,"get powerups\n");
+#endif
 						a = NULL;
 						bits = MSG_ReadShort (&(m->buf));
 						for (i=0 ; i<16 ; i++) {
 							if (bits & (1<<i) ) {
+#if 0
+								fprintf(stderr,"get powerup[%d]\n", i);
+#endif
 								value = MSG_ReadLong(&(m->buf));
 								e = node_link(
 									node_command_init(TOKEN_INDEX,V_INT,H_SHORT,NODE_VALUE_INT_dup(i),0),
-									node_command_init(TOKEN_VALUE,V_INT,H_SHORT,NODE_VALUE_INT_dup(value),0));
+									node_command_init(TOKEN_VALUE,V_INT,H_LONG,NODE_VALUE_INT_dup(value),0));
 								a = node_link(a,node_init(TOKEN_POWERUP,e,0));
 							}
 						}
