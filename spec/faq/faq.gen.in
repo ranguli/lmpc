@@ -435,7 +435,7 @@ lower case.</para>
 <term><literal REMAP="tt">lmpc-@LVL@.tar.gz</literal></term>
 <listitem>
 <para>(download from 
-<ulink URL="@FTPSFBASE@/lmpc-@LVL@.tar.gz@FTPSFPOST@">SourceForge</ulink>
+<ulink URL="@DOWNSF@lmpc-@LVL@.tar.gz">SourceForge</ulink>
 or 
 <ulink URL="@FTPMIRRORBASE@/lmpc-@LVL@.tar.gz">FilePlanet</ulink>)
 is ``the Source Package''.
@@ -449,7 +449,7 @@ written in SGML is included as well.</para>
 <term><literal REMAP="tt">lmpc-@LVL@-f.tar.gz</literal></term>
 <listitem>
 <para>(download from 
-<ulink URL="@FTPSFBASE@/lmpc-@LVL@-f.tar.gz@FTPSFPOST@">SourceForge</ulink>
+<ulink URL="@DOWNSF@lmpc-@LVL@-f.tar.gz">SourceForge</ulink>
 or 
 <ulink URL="@FTPMIRRORBASE@/lmpc-@LVL@-f.tar.gz">FilePlanet</ulink>)
 is ``the Full Package''.
@@ -462,7 +462,7 @@ documentation is included.</para>
 <term><literal REMAP="tt">lmpc@LVS@d.zip</literal></term>
 <listitem>
 <para>(download from 
-<ulink URL="@FTPSFBASE@/lmpc@LVS@d.zip@FTPSFPOST@">SourceForge</ulink>
+<ulink URL="@DOWNSF@lmpc@LVS@d.zip">SourceForge</ulink>
 or 
 <ulink URL="@FTPMIRRORBASE@/lmpc@LVS@d.zip">FilePlanet</ulink>)
 is ``the MS-DOS Binary Package''.
@@ -474,7 +474,7 @@ It comes with <literal REMAP="tt">lmpc.exe</literal>, <literal REMAP="tt">demcut
 <term><literal REMAP="tt">lmpc-@LVL@-l.tar.gz</literal></term>
 <listitem>
 <para>(download from 
-<ulink URL="@FTPSFBASE@/lmpc-@LVL@-l.tar.gz@FTPSFPOST@">SourceForge</ulink>
+<ulink URL="@DOWNSF@lmpc-@LVL@-l.tar.gz">SourceForge</ulink>
 or 
 <ulink URL="@FTPMIRRORBASE@/lmpc-@LVL@-l.tar.gz">FilePlanet</ulink>)
 is ``the Linux Binary Package''.
@@ -488,7 +488,7 @@ against glibc.</para>
 <term><literal REMAP="tt">lmpc@LVS@w.zip</literal></term>
 <listitem>
 <para>(download from 
-<ulink URL="@FTPSFBASE@/lmpc@LVS@w.zip@FTPSFPOST@">SourceForge</ulink>
+<ulink URL="@DOWNSF@lmpc@LVS@w.zip">SourceForge</ulink>
 or 
 <ulink URL="@FTPMIRRORBASE@/lmpc@LVS@w.zip">FilePlanet</ulink>)
 is the ``Win32 (Cygnus) Binary Package''.
@@ -500,7 +500,7 @@ It comes with <literal REMAP="tt">lmpc32.exe</literal>, <literal REMAP="tt">demc
 <term><literal REMAP="tt">lmpc@LVS@m.zip</literal></term>
 <listitem>
 <para>(download from 
-<ulink URL="@FTPSFBASE@/lmpc@LVS@m.zip@FTPSFPOST@">SourceForge</ulink>
+<ulink URL="@DOWNSF@lmpc@LVS@m.zip">SourceForge</ulink>
 or 
 <ulink URL="@FTPMIRRORBASE@/lmpc@LVS@m.zip">FilePlanet</ulink>)
 is the ``Win32 (Mingw32) Binary Package''.
@@ -544,7 +544,7 @@ think that I wasted yet enough hard-disk space with three of them.</para>
 version needs the special run-time DLL. Get it from
 <ulink URL="@HOMEURL@/misc/win32.html"></ulink>.</para>
 <para>The <ulink URL="http://www.d.shuttle.de/isil/mingw32-cpd.html">Mingw32</ulink>
-version needs nothing else but it doesn't seem to work properly.</para>
+version needs nothing else but is reported to perform a bit slower.</para>
 </sect3>
 <sect3>
 <title>Are there GUI versions of your command line tools?</title>

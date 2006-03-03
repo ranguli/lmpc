@@ -8,7 +8,6 @@ DATE=3/5/2006
 LVS=341
 LVL=3.4.1
 TYPE=document
-FTPSFBASE=http://prdownloads.sourceforge.net/lmpc
-FTPSFPOST=?download
+DOWNSF=http://prdownloads.sourceforge.net/lmpc/
 ## wpu parse end
 
