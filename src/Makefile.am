@@ -48,10 +48,10 @@ tokenlist: tokenlist.in $(TOKENBASEFILES)
 	cmp -s tokenlist.tmp tokenlist || cp tokenlist.tmp tokenlist
 
 udemy.y: udemy.y.in tokenlist
-	srcdir=$(srcdir) $(GENTOK) $(TOKENBASEFILES) < $(srcdir)/udemy.y.in > udemy.y
+	srcdir=$(srcdir) $(GENTOK) $(TOKENBASEFILES) < $(srcdir)/udemy.y.in > $(srcdir)/udemy.y
 
 udeml.l: udeml.l.in tokenlist
-	srcdir=$(srcdir) $(GENTOK) $(TOKENBASEFILES) < $(srcdir)/udeml.l.in > udeml.l
+	srcdir=$(srcdir) $(GENTOK) $(TOKENBASEFILES) < $(srcdir)/udeml.l.in > $(srcdir)/udeml.l
 
 # The general Automake generated rule is wrong, as it cannot cope with
 # the source line %option prefix="demotext_". This option generates an
