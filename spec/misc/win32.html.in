@@ -5,45 +5,27 @@
 <body>
 <h1>Win32 additionals</h1>
 
-The <a href="http://www.cygnus.com/misc/gnu-win32/">Cygwin</a>
+<p>
+The <a href="http://www.cygwin.com/">Cygwin</a>
 version of LMPC needs a special run-time DLL. In the README file
 of your copy of LMPC you find the version number of the DLL you need.
-<p>
-You can get them from:
+</p>
+
 <dl>
-<dt>version b18<dd>
-File cygwin.dll from:
-<ul>
-<li><a href="ftp://ftp.cygnus.com/pub/gnu-win32/gnu-win32-18b/cygwin.dll">ftp.cygnus.com</a>
-<li><a href="@FTPCDROMBASE@/cygwin.dll">ftp.cdrom.com</a>
-<li><a href="@FTPMIRRORBASE@/cygwin.dll">PlanetQuake mirror list</a>
-</ul>
-
-<dt>version b19.1<dd>
-File cygwinb19.dll from:
-<ul>
-<li><a
-href="ftp://ftp.cygnus.com/pub/gnu-win32/gnu-win32-b19/b19.1-update/new-cygwinb19.dll.gz">ftp.cygnus.com</a>
-You have to uncompress the file from this site with gunzip.
-<li><a href="@FTPCDROMBASE@/cygwinb19.dll">ftp.cdrom.com</a>
-<li><a href="@FTPMIRRORBASE@/cygwinb19.dll">PlanetQuake mirror list</a>
-</ul>
-
-<dt>version b20.1<dd>
-File cygwinb1.dll from:
-<ul>
-<li><a
-href="ftp://go.cygnus.com/pub/sourceware.cygnus.com/cygwin/cygwin-b20/cygwin1-20.1.dll.bz2">go.cygnus.com</a>
-You have to uncompress the file from this site with bunzip2 and to remove
-the version trail form the filename.
-<li><a href="@FTPCDROMBASE@/cygwin1.dll">ftp.cdrom.com</a>
-<li><a href="@FTPMIRRORBASE@/cygwin1.dll">PlanetQuake mirror list</a>
-</ul>
-
+<dt>version b18</dt>
+	<dd><tt><a href="cygwin.dll">cygwin.dll</a></tt></dd>
+<dt>version b19.1</dt>
+	<dd><tt><a href="cygwinb19.dll">cygwinb19.dll</a></tt></dd>
+<dt>version b20.1 or later</dt>
+	<dd><tt><a href="cygwin1.dll">cygwin1.dll</a></tt></dd>
 </dl>
 
-Copy the DLL in your <tt>windows\system</tt> directory.
 <p>
-1/8/1999, @MYNAME@ (@MYEMAIL@)
+Copy the DLL in your <tt>windows\system</tt> directory or better in the
+directory, where you placed the binaries <tt>lmpc32.exe</tt>,
+<tt>demcut32.exe</tt>, or <tt>dbs32.exe</tt>.
+</p>
+
+<p>3/5/2006, @MYNAME@ (@MYEMAIL@)</p>
 </body>
 </html>
