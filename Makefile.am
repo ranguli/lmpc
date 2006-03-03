@@ -105,7 +105,8 @@ CHANGE_GEN=$(CHANGE_$(TARGET))
 # generic compile rules
 compile-bin:
 	mv config.status config.status.orig
-	-mkdir -p systems/$(TARGET_GEN)
+	rm -rf systems/$(TARGET_GEN)
+	mkdir -p systems/$(TARGET_GEN)
 	cd systems/$(TARGET_GEN) && \
 		CC=$(CC_GEN) \
 		CXX=$(CXX_GEN) \
@@ -114,7 +115,8 @@ compile-bin:
 		LDFLAGS=$(LDFLAGS_GEN) \
 		../../configure --host=$(TARGET_GEN)
 	mv config.status.orig config.status
-	cd systems/$(TARGET_GEN)/src && $(MAKE) $(BINS_GEN)
+	cd src && $(MAKE) clean
+	cd systems/$(TARGET_GEN)/src && $(MAKE)
 	for i in $(BINS_GEN) ; do \
 		j=`echo $$i|sed -e $(CHANGE_GEN)` ; \
 		cp -a systems/$(TARGET_GEN)/src/$$i $(top_srcdir)/bin/$$j ; \
