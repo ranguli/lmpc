@@ -33,6 +33,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 #ifdef _WIN32
 
+#ifndef __MINGW32__
 #pragma warning(disable : 4018)     /* signed/unsigned mismatch */
 #pragma warning(disable : 4032)
 #pragma warning(disable : 4051)
@@ -54,6 +55,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #pragma warning(disable : 4702)		/* unreachable code */
 #pragma warning(disable : 4711)		/* selected for automatic inline expansion */
 #pragma warning(disable : 4220)		/* varargs matches remaining parameters */
+#endif
 #endif
 
 /**********************************************************************
@@ -152,9 +154,9 @@ float	FloatSwap (const float *f);
 
 static ID_INLINE short BigShort( short l) { return ShortSwap(l); }
 #define LittleShort
-static ID_INLINE int BigLong(int l) { LongSwap(l); }
+static ID_INLINE int BigLong(int l) { return LongSwap(l); }
 #define LittleLong
-static ID_INLINE float BigFloat(const float *l) { FloatSwap(l); }
+static ID_INLINE float BigFloat(const float *l) { return FloatSwap(l); }
 #define LittleFloat
 
 #define	PATH_SEP '\\'
@@ -320,6 +322,51 @@ static short LittleShort(short l) { return ShortSwap(l); }
 static int LittleLong (int l) { return LongSwap(l); }
 #define BigFloat
 static float LittleFloat (const float *l) { return FloatSwap(l); }
+#endif
+
+#endif
+
+/*======================= CYGWIN DEFINES ================================= */
+#ifdef __CYGWIN__
+
+/* bk001205 - from Makefile */
+#define stricmp strcasecmp
+
+#define	MAC_STATIC /* bk: FIXME */
+#define ID_INLINE inline 
+
+#ifdef __i386__
+#define	CPUSTRING	"cygwin-i386"
+#elif defined __axp__
+#define	CPUSTRING	"cygwin-alpha"
+#else
+#define	CPUSTRING	"cygwin-other"
+#endif
+
+#define	PATH_SEP '/'
+
+/* bk001205 - try */
+#ifdef Q3_STATIC
+#define	GAME_HARD_LINKED
+#define	CGAME_HARD_LINKED
+#define	UI_HARD_LINKED
+#define	BOTLIB_HARD_LINKED
+#endif
+
+#if !idppc
+inline static short BigShort( short l) { return ShortSwap(l); }
+#define LittleShort
+inline static int BigLong(int l) { return LongSwap(l); }
+#define LittleLong
+inline static float BigFloat(const float *l) { return FloatSwap(l); }
+#define LittleFloat
+#else
+#define BigShort
+inline static short LittleShort(short l) { return ShortSwap(l); }
+#define BigLong
+inline static int LittleLong (int l) { return LongSwap(l); }
+#define BigFloat
+inline static float LittleFloat (const float *l) { return FloatSwap(l); }
 #endif
 
 #endif
