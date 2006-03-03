@@ -82,17 +82,9 @@ UNIX software company). I write all stuff with Linux and have to
 cope with it.</para>
 </sect3>
 <sect3>
-<title>Do you hate Microsoft?</title>
-<para>Software quality is not a question of love, hate or religion.
-I simply don't accept a crash of my system and I don't accept a
-reboot of my system after a simple driver install. No crash and no
-reboot at all. Linux brings this quality level whereas Windows??
-is lightyears away from it. And if it doesn't I fix the source so it does.</para>
-</sect3>
-<sect3>
 <title>What's your email address?</title>
-<para>This is a difficult question. I have now 3 different addresses but will
-most likely answer from my work address.</para>
+<para>This is a difficult question. I have currently two main addresses but
+will most likely answer from my work address.</para>
 <para><variablelist>
 <varlistentry>
 <term><ulink URL="mailto:Uwe.Girlich@philosys.de">Uwe.Girlich@philosys.de</ulink></term>
@@ -520,24 +512,7 @@ It comes with <literal REMAP="tt">lmpcm.exe</literal>, <literal REMAP="tt">demcu
 
 </variablelist></para>
 </sect3>
-<sect3>
-<title>What are these .tar.gz files?</title>
-<para>Some distribution packages are archived with the program TAR (TApe Archiver,
-used since the 1970ies on all kind of computers) and compressed afterwards
-with Gzip (LZ77 coding compressor, used since the 1980ies for 
-general compression tasks). If you never heard of these programs, your world
-of computing consists only of Wintel PCs. What a pitty.</para>
-<para>I use this package format only for packages, which should be used on 
-Unix (or Linux) computers (Source, Full, Linux binary). The .tar.gz format
-is a standard on these systems.</para>
-</sect3>
-<sect3>
-<title>WinZip can't handle the .tar.gz files</title>
-<para>I don't have access to a system with this program, so I can't really say
-anything intelligent about it. I saw in march 1999 a package of WinZip in 
-a book store and it had .tar.gz on the list of supported archive formats.
-Maybe you have to update.</para>
-</sect3>
+
 <sect3>
 <title>Will (insert your favorite OS here) ever be supported?</title>
 <para>I wrote LMPC in simple ANSI C with some parts in Lex and Yacc, so you
@@ -548,6 +523,7 @@ Perl scripts, so you definitely need Perl on your computer.</para>
 <para>The main distribution packages were build at home with cross-compilers and I
 think that I wasted yet enough hard-disk space with three of them.</para>
 </sect3>
+
 <sect3>
 <title>How do the both Win32 versions differ?</title>
 <para>The <ulink URL="http://www.cygnus.com/misc/gnu-win32/">Cygnus</ulink>
@@ -1073,6 +1049,9 @@ protocol. This encryption is not included in DM3 files.</para>
 <itemizedlist>
 <listitem>
 <para>Hints on Quake III Arena completely changed.</para>
+</listitem>
+<listitem>
+<para>Too simple and too old questions removed.</para>
 </listitem>
 </itemizedlist>
 </para>
