@@ -183,6 +183,12 @@ sf	src/uqwd.c	special QWD functions
 sf	src/uqwd.h	header file for uqwd.c
 sf	src/quake3/Makefile.am	Automake template for src/quake3/Makefile.in
 sf	src/quake3/Makefile.in	Autoconf template for src/quake3/Makefile
+sf	src/quake3/add.c	glue code to remove parts of the Q3A source
+sf	src/quake3/code/game/q_shared.h	part of the Q3A source
+sf	src/quake3/code/qcommon/huffman.c	part of the Q3A source
+sf	src/quake3/code/qcommon/msg.c	part of the Q3A source
+sf	src/quake3/code/qcommon/qcommon.h	part of the Q3A source
+
 sf	stamp-h.in	time stamp file for Makefile regeneration
 sf	wpurc		configuration file for wpu
 
@@ -206,6 +212,9 @@ bin/cwsdpmi.exe	cwsdpmi.exe is a free (I hope so) DPMI server for djgpp V2.0 MS-
 
 [Copyright]
 src/lzw.c	The files lzw.c and unlzw.c are written by Steffen Winterfeldt (wfeldt@suse.com) and are based on the source of a public domain compress(1) program.
+
+[Copyright]
+src/quake3/code/game/q_shared.h	The files q_shared.h huffman.c msg.c, and qcommon.h are part of the Q3A source code (see COPYING).
 
 [Note]
 bin/lmpc32.exe	The Win32 binaries lmpc32.exe and demcut32.exe (compiled with the Cygwin toolset) need cygwin1.dll. Get it from @HOMEURL@/misc/win32.html
