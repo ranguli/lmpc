@@ -113,8 +113,8 @@ compile-bin:
 		CFLAGS=$(CFLAGS_GEN) \
 		LDFLAGS=$(LDFLAGS_GEN) \
 		../../configure --host=$(TARGET_GEN)
-	cd systems/$(TARGET_GEN)/src && $(MAKE) $(BINS_GEN)
 	mv config.status.orig config.status
+	cd systems/$(TARGET_GEN)/src && $(MAKE) $(BINS_GEN)
 	for i in $(BINS_GEN) ; do \
 		j=`echo $$i|sed -e $(CHANGE_GEN)` ; \
 		cp -a systems/$(TARGET_GEN)/src/$$i $(top_srcdir)/bin/$$j ; \
