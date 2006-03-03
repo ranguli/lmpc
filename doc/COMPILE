@@ -144,7 +144,7 @@ The cross-compile rules were added very rude but anyway, it works as it is.
 The whole process of configuring and compiling Linux, MS-DOS and Win32
 (Cygwin and Mingw32) binaries of LMPC, DEMcut and DBS, the creation of the
 documentation for the distribution packages (html, pdf) and the packaging
-itself takes on my Athlon 2600+ about 1 minute (make pack).
+itself takes on my Athlon 2600+ about 75 seconds (make pack).
 
 
 
