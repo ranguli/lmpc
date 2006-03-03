@@ -571,8 +571,11 @@ to move on. Actually nobody ever aked for a full working Hexen II LMPC.</para>
 <para>Quake III Arena DM3 (dm_68) files are fully supported from version 3.4.1
 on.</para>
 <para>Due to legal problems I could not add this earlier but after the
-source code of Quake III Arena was published as GPL, I added support for it
-in LMPC.</para>
+<ulink
+URL="ftp://ftp.idsoftware.com/idstuff/source/quake3-1.32b-source.zip">source
+code of Quake III Arena</ulink> was published under the
+<ulink URL="http://www.gnu.org/licenses/licenses.html#GPL">GPL</ulink>, I added
+support for it in LMPC.</para>
 </sect3>
 <sect3>
 <title>What about the (insert your favorite game here) support in LMPC?</title>
@@ -640,7 +643,9 @@ demo after decompiling it'' I won't pay much attention to you at all.</para>
 <title>Network protocols</title>
 <sect3>
 <title>What is the difference between the QWD file format and the QuakeWorld network protocol?</title>
-<para>Read the source code of QuakeWorld.</para>
+<para>Read the
+<ulink URL="ftp://ftp.idsoftware.com/idstuff/source/q1source.zip">source code
+of QuakeWorld</ulink>.</para>
 <para>There are many differences.
 Read the QuakeWorld Network Protocol Specs at 
 <ulink URL="http://www.ens.fr/~cridlig/bot/qwspec21.html"></ulink> for the
@@ -651,6 +656,10 @@ moment (january 1999) but I hope to include them in my own QWD specs soon.</para
 </sect3>
 <sect3>
 <title>What is the difference between the DM2 file format and the Quake II network protocol?</title>
+<para>Read the source code of
+<ulink
+URL="ftp://ftp.idsoftware.com/idstuff/source/q2source-3.21.zip">Quake
+II</ulink>.</para>
 <para>There are many differences. Read the Quake II network specs area at the
 Pandora bot site <ulink URL="www.opt-sci.Arizona.EDU/Pandora/q2"></ulink>
 for the network part and my Unofficial DM2 description at
@@ -659,11 +668,13 @@ for the network part and my Unofficial DM2 description at
 <sect3>
 <title>What is the difference between the DM3 file format and the
 Quake III Arena network protocol?</title>
+<para>Read the
+<ulink
+URL="ftp://ftp.idsoftware.com/idstuff/source/quake3-1.32b-source.zip">source
+code of Quake III Arena.</ulink></para>
 <para>Quake III Arena uses a (simple) encryption scheme to secure the network
-protocol. This encryption is not included in DM3 files. Please read the source
-code of Quake III Arena.</para>
+protocol. This encryption is not included in DM3 files.</para>
 </sect3>
-
 </sect2>
 </sect1>
 <sect1>
