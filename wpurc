@@ -9,8 +9,9 @@ DOWNFP="@FILEPLANET@/dl.aspx?/planetquake/@BASE@/"
 
 # Download from SourceForge.
 SOURCEFORGE="http://sourceforge.net"
-# General SourceForge download link for LMPC files.
-DOWNSF="@SOURCEFORGE@/project/showfiles.php?group_id=9037"
+# Direct SourceForge link base to a particular file.
+DOWNSF="http://prdownloads.sourceforge.net/lmpc/"
+
 
 
 # This whole section looks redundant, but not always downloadable

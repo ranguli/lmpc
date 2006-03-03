@@ -388,9 +388,8 @@ HREF=\"\@PACKAGE@.html\"><TT>\@PACKAGE@.html</TT></A>
 </DL>
 ";
 
-  my $DownloadSceleton = "You can download everything directly from 
-<A HREF=\"\@FILEPLANET@/\">FilePlanet</A>
-or look it up in the <A HREF=\"\@DOWNSF@\">SourceForge mirror list</A>.
+  my $DownloadSceleton = "You can download everything from 
+<A HREF=\"\@FILEPLANET@/\">FilePlanet</A> or <A HREF=\"\@SOURCEFORGE@\">SourceForge</A>.
 <DL>
 \@DOWNLOADENTRIES@
 </DL>
@@ -430,12 +429,13 @@ or look it up in the <A HREF=\"\@DOWNSF@\">SourceForge mirror list</A>.
 
       $name = $values{"DF$count"};
       $desc = $values{"DD$count"};
-      $output .= "<DT><TT>$name</TT> from 
+      $output .= "<DT><TT>$name</TT>: get it from 
 <A HREF=\"\@DOWNFP\@$name\">FilePlanet</A>
-or the 
-<A HREF=\"\@DOWNSF@\">SourceForge mirror list</A>
+or 
+<A HREF=\"\@DOWNSF\@$name\">SourceForge</A>.
 <DD>$desc
 ";
+
     }
     $values{"DOWNLOADENTRIES"} = $output;
     $values{"DOWNLOAD"} = $DownloadSceleton;
