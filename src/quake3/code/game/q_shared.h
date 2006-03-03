@@ -371,6 +371,57 @@ inline static float LittleFloat (const float *l) { return FloatSwap(l); }
 
 #endif
 
+/*======================= GO32 DEFINES ================================= */
+#ifdef GO32
+
+/* bk001205 - from Makefile */
+#define stricmp strcasecmp
+
+#define	MAC_STATIC /* bk: FIXME */
+#define ID_INLINE
+
+#ifdef __i386__
+#define	CPUSTRING	"cygwin-i386"
+#elif defined __axp__
+#define	CPUSTRING	"cygwin-alpha"
+#else
+#define	CPUSTRING	"cygwin-other"
+#endif
+
+#define	PATH_SEP '/'
+
+/* bk001205 - try */
+#ifdef Q3_STATIC
+#define	GAME_HARD_LINKED
+#define	CGAME_HARD_LINKED
+#define	UI_HARD_LINKED
+#define	BOTLIB_HARD_LINKED
+#endif
+
+#if !idppc
+#if 0
+static short BigShort( short l) { return ShortSwap(l); }
+#endif
+#define LittleShort
+#if 0
+static int BigLong(int l) { return LongSwap(l); }
+#endif
+#define LittleLong
+#if 0
+static float BigFloat(const float *l) { return FloatSwap(l); }
+#endif
+#define LittleFloat
+#else
+#define BigShort
+static short LittleShort(short l) { return ShortSwap(l); }
+#define BigLong
+static int LittleLong (int l) { return LongSwap(l); }
+#define BigFloat
+static float LittleFloat (const float *l) { return FloatSwap(l); }
+#endif
+
+#endif
+
 /*============================================================= */
 
 typedef unsigned char 		byte;
@@ -711,6 +762,8 @@ float RadiusFromBounds( const vec3_t mins, const vec3_t maxs );
 void ClearBounds( vec3_t mins, vec3_t maxs );
 void AddPointToBounds( const vec3_t v, vec3_t mins, vec3_t maxs );
 
+#if 0
+
 #ifndef __LCC__
 static ID_INLINE int VectorCompare( const vec3_t v1, const vec3_t v2 ) {
 	if (v1[0] != v2[0] || v1[1] != v2[1] || v1[2] != v2[2]) {
@@ -782,6 +835,8 @@ void VectorNormalizeFast( vec3_t v );
 void VectorInverse( vec3_t v );
 
 void CrossProduct( const vec3_t v1, const vec3_t v2, vec3_t cross );
+
+#endif
 
 #endif
 
