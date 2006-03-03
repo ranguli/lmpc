@@ -429,8 +429,9 @@ lower case.</para>
 </sect3>
 <sect3>
 <title>What are the different versions of LMPC ?</title>
-<para>There are 6 versions of LMPC available:</para>
+<para>There are 6 versions of the current LMPC @LVL@ available:</para>
 <para><variablelist>
+
 <varlistentry>
 <term><literal REMAP="tt">lmpc-@LVL@.tar.gz</literal></term>
 <listitem>
@@ -441,10 +442,12 @@ or
 is ``the Source Package''.
 It comes with no binaries but contains the full source code with 
 an Autoconf/Automake configure file for easy compilation on any (Unix) system.
-The documentation <ulink URL="@HOMEURL@/lmpc-stable/lmpc.sgml">source</ulink>
-written in SGML is included as well.</para>
+The documentation <ulink URL="@HOMEURL@/lmpc-@LQUALITY@/lmpc.sgml">source</ulink>
+written in <ulink URL="http://www.docbook.org/">DocBook SGML</ulink> is
+included as well.</para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term><literal REMAP="tt">lmpc-@LVL@-f.tar.gz</literal></term>
 <listitem>
@@ -454,10 +457,11 @@ or
 <ulink URL="@FTPMIRRORBASE@/lmpc-@LVL@-f.tar.gz">FilePlanet</ulink>)
 is ``the Full Package''.
 Everything from all other packages and a 
-<ulink URL="@HOMEURL@/lmpc-stable/lmpc.pdf">PDF</ulink> 
+<ulink URL="@HOMEURL@/lmpc-@LQUALITY@/lmpc.pdf">PDF</ulink> 
 documentation is included.</para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term><literal REMAP="tt">lmpc@LVS@d.zip</literal></term>
 <listitem>
@@ -467,9 +471,10 @@ or
 <ulink URL="@FTPMIRRORBASE@/lmpc@LVS@d.zip">FilePlanet</ulink>)
 is ``the MS-DOS Binary Package''.
 It comes with <literal REMAP="tt">lmpc.exe</literal>, <literal REMAP="tt">demcut.exe</literal>, <literal REMAP="tt">dema</literal> and a 
-<ulink URL="@HOMEURL@/lmpc-stable/lmpc.html">HTML</ulink> documentation.</para>
+<ulink URL="@HOMEURL@/lmpc-@LQUALITY@/lmpc.html">HTML</ulink> documentation.</para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term><literal REMAP="tt">lmpc-@LVL@-l.tar.gz</literal></term>
 <listitem>
@@ -479,11 +484,11 @@ or
 <ulink URL="@FTPMIRRORBASE@/lmpc-@LVL@-l.tar.gz">FilePlanet</ulink>)
 is ``the Linux Binary Package''.
 It comes with <literal REMAP="tt">lmpc</literal>, <literal REMAP="tt">demcut</literal>, <literal REMAP="tt">dbs</literal>, <literal REMAP="tt">dema</literal>
-and a <ulink URL="@HOMEURL@/lmpc-stable/lmpc.html">HTML</ulink>
-documentation. The Linux binaries are compiled with GCC 4.0.2 and shared linked
-against glibc.</para>
+and a <ulink URL="@HOMEURL@/lmpc-@LQUALITY@/lmpc.html">HTML</ulink>
+documentation. The Linux binaries are compiled for Intel PCs.</para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term><literal REMAP="tt">lmpc@LVS@w.zip</literal></term>
 <listitem>
@@ -492,10 +497,14 @@ against glibc.</para>
 or 
 <ulink URL="@FTPMIRRORBASE@/lmpc@LVS@w.zip">FilePlanet</ulink>)
 is the ``Win32 (Cygnus) Binary Package''.
-It comes with <literal REMAP="tt">lmpc32.exe</literal>, <literal REMAP="tt">demcut32.exe</literal>, <literal REMAP="tt">dema</literal> and a 
-<ulink URL="@HOMEURL@/lmpc-stable/lmpc.html">HTML</ulink> documentation.</para>
+It comes with <literal REMAP="tt">lmpc32.exe</literal>,
+<literal REMAP="tt">demcut32.exe</literal>,
+<literal REMAP="tt">dbs32.exe</literal>,
+<literal REMAP="tt">dema</literal> and a 
+<ulink URL="@HOMEURL@/lmpc-@LQUALITY@/lmpc.html">HTML</ulink> documentation.</para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term><literal REMAP="tt">lmpc@LVS@m.zip</literal></term>
 <listitem>
@@ -505,9 +514,10 @@ or
 <ulink URL="@FTPMIRRORBASE@/lmpc@LVS@m.zip">FilePlanet</ulink>)
 is the ``Win32 (Mingw32) Binary Package''.
 It comes with <literal REMAP="tt">lmpcm.exe</literal>, <literal REMAP="tt">demcutm.exe</literal>, <literal REMAP="tt">dema</literal> and a 
-<ulink URL="@HOMEURL@/lmpc-stable/lmpc.html">HTML</ulink> documentation.</para>
+<ulink URL="@HOMEURL@/lmpc-@LQUALITY@/lmpc.html">HTML</ulink> documentation.</para>
 </listitem>
 </varlistentry>
+
 </variablelist></para>
 </sect3>
 <sect3>
