@@ -52,7 +52,7 @@ doc: html pdf
 # - Perl script: from DocBook 3.0 to DocBook 4.2
 # - SGMLNorm: normalize the SGML file.
 # - Perl script: add some unknown entities, improve email and author name.
-$(PACKAGE).gen.in: $(PACKAGE).base
+$(PACKAGE).gen.base: $(PACKAGE).base
 	$(POSTPROCESS) 0 < $< > temp0
 	$(JADE) \
 		-t sgml \
@@ -63,6 +63,7 @@ $(PACKAGE).gen.in: $(PACKAGE).base
 	$(POSTPROCESS) 1 < temp1 > temp2
 	$(SGMLNORM) temp2 >> temp3
 	$(POSTPROCESS) 2 < temp3 > $@
+	echo You have to rename $@ to $(PACKAGE).gen.in yourself.
 
 $(PACKAGE).sgml.in: $(PACKAGE).gen.in
 	echo '<!DOCTYPE ARTICLE PUBLIC "-//OASIS//DTD DocBook V4.2//EN" [' > $@

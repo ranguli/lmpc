@@ -3,7 +3,7 @@
 
 AUTOMAKE_OPTIONS = foreign
 EXTRA_DIST = wpurc README.base
-SUBDIRS = bin doc src spec
+SUBDIRS = bin doc src spec files
 
 
 ######################################################################

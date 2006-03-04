@@ -269,37 +269,61 @@ if test ${ENABLE_DM3} = "yes" ; then
 	AC_SUBST(UDM3_O)
 fi
 
-dnl output
+AC_ARG_ENABLE(java,
+    [  --enable-java           enables Java code (default off)],
+    ENABLE_JAVA=$enableval
+)
+: ${ENABLE_JAVA=no}
+case "$ENABLE_JAVA" in
+    n | no) : ;;
+    y | ye | yes) 
+        AC_DEFINE(ENABLE_JAVA,1,"Define if Java code support should be compiled.")
+    ;;
+esac
+
+dnl set a variable in src/Makefile to switch Java support on or off
+if test ${ENABLE_JAVA} = "yes" ; then
+	SUBDIR_JAVA=java
+	AC_SUBST(SUBDIR_JAVA)
+fi
+
+dnl general output
 AC_OUTPUT([ \
 	Makefile bin/Makefile \
-	spec/Makefile \
-	spec/dem-q1/Makefile \
-	spec/dm2-q2/Makefile \
-	spec/dmo-dn/Makefile \
-	spec/faq/Makefile \
-	spec/icons/Makefile \
-	spec/lmp-d1/Makefile \
-	spec/main/Makefile \
-	spec/misc/Makefile \
-	spec/qwd-qw/Makefile \
-	src/Makefile \
-	doc/Makefile \
-	files/Makefile \
-	bin/dema \
-	bin/dm2cat \
+        spec/Makefile \
+        spec/dem-q1/Makefile \
+        spec/dm2-q2/Makefile \
+        spec/dmo-dn/Makefile \
+        spec/faq/Makefile \
+        spec/icons/Makefile \
+        spec/lmp-d1/Makefile \
+        spec/main/Makefile \
+        spec/misc/Makefile \
+        spec/qwd-qw/Makefile \
+        src/Makefile \
+        doc/Makefile \
+        files/Makefile \
+        bin/dema \
+        bin/dm2cat \
+	src/quake3/Makefile],
+[echo timestamp > stamp-h ; chmod +x bin/dema bin/dm2cat])
+
+dnl Java releated output
+if test ${ENABLE_JAVA} = "yes" ; then
+AC_OUTPUT([ \
 	src/java/Makefile \
-	src/java/lmpcj \
-	src/java/com/Makefile \
-	src/java/com/machinima/Makefile \
-	src/java/com/machinima/lmpc/Makefile \
-	src/java/com/machinima/lmpc/io/Makefile \
-	src/java/com/machinima/lmpc/io/base/Makefile \
-	src/java/com/machinima/lmpc/io/node/Makefile \
-	src/java/com/machinima/lmpc/io/text/Makefile \
-	src/java/com/machinima/lmpc/io/bin/Makefile \
-	src/quake3/Makefile \
-	],
-[echo timestamp > stamp-h ; chmod +x bin/dema bin/dm2cat src/java/lmpcj])
+        src/java/lmpcj \
+        src/java/com/Makefile \
+        src/java/com/machinima/Makefile \
+        src/java/com/machinima/lmpc/Makefile \
+        src/java/com/machinima/lmpc/io/Makefile \
+        src/java/com/machinima/lmpc/io/base/Makefile \
+        src/java/com/machinima/lmpc/io/node/Makefile \
+        src/java/com/machinima/lmpc/io/text/Makefile \
+        src/java/com/machinima/lmpc/io/bin/Makefile])
+AC_CONFIG_COMMANDS(lmpcj,[chmod +x src/java/lmpcj])
+fi
+
 
 dnl check warnings
 dnl AC_MSG_WARN(build=$build host=$host target=$target)

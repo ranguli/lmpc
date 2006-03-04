@@ -1,7 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 # $Id$
 
-SUBDIRS = quake3
+SUBDIRS = quake3 @SUBDIR_JAVA@
 
 GENTOK=$(PERL) $(top_srcdir)/bin/gentok
 EXTRACT=$(PERL) $(top_srcdir)/bin/extract
@@ -17,7 +17,7 @@ noinst_LIBRARIES = libutil.a
 noinst_HEADERS = getopt.h binblock.h lmpc.h node.h tools.h udem.h \
 	udm2.h $(UDM3_H) \
 udmo.h ulmp.h uqwd.h record.h
-EXTRA_DIST = udeml.l.in udemy.y.in tokenlist.in $(CALC_FROM_SPECS)
+EXTRA_DIST = udeml.l.in udemy.y.in tokenlist.in udm3.c $(CALC_FROM_SPECS)
 CLEANFILES = udemy.y udemy.c udemy.h udeml.l udeml.c tokenlist tokenlist.tmp \
 	demotextl.c demotexty.c demotexty.h
 

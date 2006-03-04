@@ -23,6 +23,8 @@
 # Makefilea.  -  automake file                                               #
 #****************************************************************************#
 
+EXTRA_DIST=dm2.gen.in
+
 include $(srcdir)/wpurc
 include $(top_srcdir)/spec/Make.spec.rules
 

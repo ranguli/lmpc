@@ -26,6 +26,8 @@
 
 SUBDIRS=dem-q1 dmo-dn dm2-q2 faq icons lmp-d1 main qwd-qw misc 
 
+EXTRA_DIST=spec.dsl
+
 include $(top_srcdir)/spec/Make.spec.rules
 
 uploadlocalall:
