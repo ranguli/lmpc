@@ -49,7 +49,7 @@ FILENAME_l="@PACKAGE@-@VERSION@-l.tar.gz"
 COMMENT_w="Win32 (Cygwin) Binary Package"
 METHOD_w="zipwin"
 FILENAME_w="@PACKAGE@@SHORTVERSION@w.zip"
-COMMENT_m="Win32 (Mingw32) Binary Package"
+COMMENT_m="Win32 (MinGW) Binary Package"
 METHOD_m="zipwin"
 FILENAME_m="@PACKAGE@@SHORTVERSION@m.zip"
 
