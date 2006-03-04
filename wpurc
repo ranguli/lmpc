@@ -133,12 +133,29 @@ sf	files/Makefile.am	Automake template for files/Makefile.in
 sf	files/Makefile.in	Autoconf template for files/Makefile
 sf	install-sh	Autoconf install script
 sf	missing	Automake help script
+sf	spec/Make.spec.rules	Makefile include file
 sf	spec/Makefile.am	Automake template for spec/Makefile.in
 sf	spec/Makefile.in	Autoconf template for spec/Makefile
+sf	spec/spec.dsl	style sheet customization
+sf	spec/dem-q1/Makefile.am	Automake template for spec/dem-q1/Makefile.in
+sf	spec/dem-q1/Makefile.in	Autoconf template for spec/dem-q1/Makefile
 sf	spec/dm2-q2/Makefile.am	Automake template for spec/dm2-q2/Makefile.in
 sf	spec/dm2-q2/Makefile.in	Autoconf template for spec/dm2-q2/Makefile
-sf	spec/dm2-q2/dm2.base	documentation input (LinuxDoc), deprecated
 sf	spec/dm2-q2/dm2.gen.in	documentation input (DocBook)
+sf	spec/dmo-dn/Makefile.am	Automake template for spec/dmo-dn/Makefile.in
+sf	spec/dmo-dn/Makefile.in	Autoconf template for spec/dmo-dn/Makefile
+sf	spec/faq/Makefile.am	Automake template for spec/faq/Makefile.in
+sf	spec/faq/Makefile.in	Autoconf template for spec/faq/Makefile
+sf	spec/icons/Makefile.am	Automake template for spec/icons/Makefile.in
+sf	spec/icons/Makefile.in	Autoconf template for spec/icons/Makefile
+sf	spec/lmp-d1/Makefile.am	Automake template for spec/lmp-d1/Makefile.in
+sf	spec/lmp-d1/Makefile.in	Autoconf template for spec/lmp-d1/Makefile
+sf	spec/main/Makefile.am	Automake template for spec/main/Makefile.in
+sf	spec/main/Makefile.in	Autoconf template for spec/main/Makefile
+sf	spec/misc/Makefile.am	Automake template for spec/misc/Makefile.in
+sf	spec/misc/Makefile.in	Autoconf template for spec/misc/Makefile
+sf	spec/qwd-qw/Makefile.am	Automake template for spec/qwd-qw/Makefile.in
+sf	spec/qwd-qw/Makefile.in	Autoconf template for spec/qwd-qw/Makefile
 sf	src/Makefile.am	Automake template for src/Makefile.in
 sf	src/Makefile.in	Autoconf template for src/Makefile
 sf	src/alloca.c	alloca(3) source
@@ -189,9 +206,10 @@ sf	src/quake3/code/game/q_shared.h	part of the Q3A source
 sf	src/quake3/code/qcommon/huffman.c	part of the Q3A source
 sf	src/quake3/code/qcommon/msg.c	part of the Q3A source
 sf	src/quake3/code/qcommon/qcommon.h	part of the Q3A source
-
 sf	stamp-h.in	time stamp file for Makefile regeneration
 sf	wpurc		configuration file for wpu
+sf	depcomp	part of Autoconf
+sf	ylwrap	part of Autoconf
 
 [Copyright]
 src/getopt.c	The getopt files are part of the GNU C library (see COPYING.LIB).
