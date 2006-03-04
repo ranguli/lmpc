@@ -3,8 +3,8 @@
 ## wpu parse start /^([^=]+)=(.+)\s*$/
 PACKAGE=main
 TITLE=Main files for the Web page
-VERSION=1.1.2
-DATE=8/4/2000
+VERSION=1.1.3
+DATE=3/4/2006
 TYPE=main
 # wpu parse end
 
