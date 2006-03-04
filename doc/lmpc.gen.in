@@ -1274,18 +1274,6 @@ Interactive work could then mean: fiddling at this server and
 a Quake client of any architecture serves as a monitoring screen (after 
 connect to this server at the same or any other machine).</para>
 </listitem>
-<listitem>
-<para>Please use a real OS for DEMcut. The preparing phase at the start 
-of DEMcut for <literal REMAP="tt">rgb2.dem</literal> takes at my P133 8 seconds with Linux but 17 
-seconds with MS-DOS.</para>
-</listitem>
-<listitem>
-<para>The Mingw32 (Win32 without <literal REMAP="tt">cygwin.dll</literal>) version of DEMcut 
-(<literal REMAP="tt">demcutm.exe</literal>) may be totally
-broken. I never tested it and have no access to a Win32 system to check
-it. If someone really wants a working version for such a OS, please find 
-the problem yourself. </para>
-</listitem>
 </itemizedlist>
 
 </para>
