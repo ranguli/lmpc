@@ -488,7 +488,7 @@ documentation. The Linux binaries are compiled for Intel PCs.</para>
 <ulink URL="@DOWNSF@lmpc@LVS@w.zip">SourceForge</ulink>
 or 
 <ulink URL="@FTPMIRRORBASE@/lmpc@LVS@w.zip">FilePlanet</ulink>)
-is the ``Win32 (Cygnus) Binary Package''.
+is the ``Win32 (Cygwin) Binary Package''.
 It comes with <literal REMAP="tt">lmpc32.exe</literal>,
 <literal REMAP="tt">demcut32.exe</literal>,
 <literal REMAP="tt">dbs32.exe</literal>,
@@ -504,7 +504,7 @@ It comes with <literal REMAP="tt">lmpc32.exe</literal>,
 <ulink URL="@DOWNSF@lmpc@LVS@m.zip">SourceForge</ulink>
 or 
 <ulink URL="@FTPMIRRORBASE@/lmpc@LVS@m.zip">FilePlanet</ulink>)
-is the ``Win32 (Mingw32) Binary Package''.
+is the ``Win32 (MinGW) Binary Package''.
 It comes with <literal REMAP="tt">lmpcm.exe</literal>, <literal REMAP="tt">demcutm.exe</literal>, <literal REMAP="tt">dema</literal> and a 
 <ulink URL="@HOMEURL@/lmpc-@LQUALITY@/lmpc.html">HTML</ulink> documentation.</para>
 </listitem>
@@ -526,10 +526,10 @@ think that I wasted yet enough hard-disk space with three of them.</para>
 
 <sect3>
 <title>How do the both Win32 versions differ?</title>
-<para>The <ulink URL="http://www.cygnus.com/misc/gnu-win32/">Cygnus</ulink>
+<para>The <ulink URL="http://www.cygwin.com/">Cygwin</ulink>
 version needs the special run-time DLL. Get it from
 <ulink URL="@HOMEURL@/misc/win32.html"></ulink>.</para>
-<para>The <ulink URL="http://www.d.shuttle.de/isil/mingw32-cpd.html">Mingw32</ulink>
+<para>The <ulink URL="http://www.mingw.org/">MinGW</ulink>
 version needs nothing else but is reported to perform a bit slower.</para>
 </sect3>
 <sect3>
