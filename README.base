@@ -68,7 +68,7 @@ Features:
    + Win32 (cross-compiled with the Cygwin toolset (gcc 3.3.1),
        needs cygwin1.dll)
    + Win32 (cross-compiled with the Cygwin toolset (gcc 3.3.1)
-       and Mingw32, does not need any additional DLLs)
+       and MinGW, does not need any additional DLLs)
 
 Files: 
 ------
