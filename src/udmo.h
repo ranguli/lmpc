@@ -72,21 +72,15 @@ typedef struct {
 	unsigned char  map;
 	unsigned char	m_coop;
 	unsigned char	m_ffire;
-	unsigned char  multirule;
 	double         time;
 	unsigned short max_players;
 	unsigned short user_name_length;
 	unsigned short playernum;
-	unsigned long	m_monsters_off;
-	unsigned long	m_respawn_monsters;
-	unsigned long	m_respawn_items;
-	unsigned long	m_respawn_inventory;
-	unsigned long	playerai;
-	unsigned long	t1; /* /t1 */
-	unsigned long	t2; /* /t2 */
-	unsigned long	t3; /* /t3 */
-	unsigned long	a;  /* /a  */
-	unsigned long	m;  /* /m  */
+	unsigned long	m_monsters_off;		/* Option /m. */
+	unsigned long	m_respawn_monsters;	/* Option /t1. */
+	unsigned long	m_respawn_items;	/* Option /t2. */
+	unsigned long	m_respawn_inventory;	/* Option /t3. */
+	unsigned long	playerai;	/* Option /a. */
 	char		*name;
 	char		**user_name;
 	unsigned long	auto_run;

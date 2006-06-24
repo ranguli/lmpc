@@ -2029,25 +2029,43 @@ void ActionInfoDMO(char *filename, opt_t *opt)
     fprintf(stderr,"%d players", d.playernum);  
   }    
   if (d.game==DUKE_new) {
-    if (d.t1) fprintf(stderr, " /t1");
-    if (d.t2) fprintf(stderr, " /t2");
-    if (d.t3) fprintf(stderr, " /t3");
-    if (d.m) fprintf(stderr, " /m");
+    if (d.m_respawn_monsters) fprintf(stderr, " /t1");
+    if (d.m_respawn_items) fprintf(stderr, " /t2");
+    if (d.m_respawn_inventory) fprintf(stderr, " /t3");
+    if (d.m_monsters_off) fprintf(stderr, " /m");
     if (d.playernum>1) {
-      fprintf(stderr, " /c%i", d.multirule);
+      fprintf(stderr, " /c%i", d.m_coop);
     }
   }
 	if (d.game == GAME_DUKE_14PLUS) {
-
+		int	i;	/* Loop count. */
+		if (d.m_respawn_monsters) fprintf(stderr, " /t1");
+		if (d.m_respawn_items) fprintf(stderr, " /t2");
+		if (d.m_respawn_inventory) fprintf(stderr, " /t3");
+		if (d.playerai) fprintf(stderr, " /a");
+		if (d.m_monsters_off) fprintf(stderr, " /m");
+		if (d.playernum>1) {
+			fprintf(stderr, " /c%i", d.m_coop);
+		}
+		if (d.playernum==1) {
+			if (strcmp(d.user_name[0],"DUKE")!=0) {
+				fprintf(stderr, " -name %s", d.user_name[0]);
+			}
+		}
+		else for (i=0;i<d.playernum;i++) {
+			if (strcmp(d.user_name[i],"DUKE")!=0) {
+				fprintf(stderr, " -name%d %s", i, d.user_name[i]);
+			}
+		}
 	}
   if (d.game==REDNECK) {
-    if (d.t1) fprintf(stderr, " /t1");
-    if (d.t2) fprintf(stderr, " /t2");
-    if (d.t3) fprintf(stderr, " /t3");
-    if (d.a) fprintf(stderr, " /a");
-    if (d.m) fprintf(stderr, " /m");
+    if (d.m_respawn_monsters) fprintf(stderr, " /t1");
+    if (d.m_respawn_items) fprintf(stderr, " /t2");
+    if (d.m_respawn_inventory) fprintf(stderr, " /t3");
+    if (d.playerai) fprintf(stderr, " /a");
+    if (d.m_monsters_off) fprintf(stderr, " /m");
     if (d.playernum>1) {
-      fprintf(stderr, " /c%i", d.multirule);
+      fprintf(stderr, " /c%i", d.m_coop);
     }
     if (strcmp(d.name,"LEONARD")!=0) {
       fprintf(stderr, " -name %s", d.name);
@@ -2106,45 +2124,72 @@ void ActionDMObin2DMOtxt(char *dmofilename, char *dsfilename, opt_t *opt)
   sprintf(ss," Episode:           %d", d.episode); WriteLine(s.file,ss);
   sprintf(ss," Map:               %d", d.map); WriteLine(s.file,ss);
   sprintf(ss," Player:            %d", d.playernum); WriteLine(s.file,ss);
-  if (d.game&DUKE_new) {
+  if (d.game&(DUKE_new|GAME_DUKE_14PLUS)) {
     if (d.playernum>1) {
-      switch (d.multirule) {
-        case 1:  sprintf(ss, " MultiRule:         DukeMatch(spawn)")   ; break;
-        case 2:  sprintf(ss, " MultiRule:         Coop")                 ; break;
-        case 3:  sprintf(ss, " MultiRule:         Dukematch(no spawn)") ; break;
-        default: sprintf(ss, " MultiRule:         %d", d.multirule)      ; break;
+      switch (d.m_coop) {
+        case 1:  sprintf(ss, " MultiRule:         DukeMatch (spawn)")   ; break;
+        case 2:  sprintf(ss, " MultiRule:         Cooperative play")                 ; break;
+        case 3:  sprintf(ss, " MultiRule:         Dukematch (no spawn)") ; break;
+        default: sprintf(ss, " MultiRule:         %d", d.m_coop)      ; break;
       }
       WriteLine(s.file,ss);
     }
   }
   if (d.game&REDNECK) {
     if (d.playernum>1) {
-      switch (d.multirule) {
-        case 1:  sprintf(ss, " MultiRule:         RedneckMatch(spawn)")    ; break;
-        case 2:  sprintf(ss, " MultiRule:         Coop")                   ; break;
-        case 3:  sprintf(ss, " MultiRule:         Redneckmatch(no spawn)") ; break;
-        default: sprintf(ss, " MultiRule:         %d", d.multirule)        ; break;
+      switch (d.m_coop) {
+        case 1:  sprintf(ss, " MultiRule:         RedneckMatch (spawn)")    ; break;
+        case 2:  sprintf(ss, " MultiRule:         Cooperative play")                   ; break;
+        case 3:  sprintf(ss, " MultiRule:         Redneckmatch (no spawn)") ; break;
+        default: sprintf(ss, " MultiRule:         %d", d.m_coop)        ; break;
       }
       WriteLine(s.file,ss);
     }
   }
-  if (d.game&(DUKE_new|REDNECK)) {
-    if (d.t1) {
-      sprintf(ss," Respawn Monsters:  %ld", d.t1); WriteLine(s.file,ss);
+  if (d.game&(DUKE_new|GAME_DUKE_14PLUS|REDNECK)) {
+    if (d.m_respawn_monsters) {
+      sprintf(ss," Respawn Monsters:  %ld", d.m_respawn_monsters); WriteLine(s.file,ss);
     }
-    if (d.t2) {
-      sprintf(ss," Respawn Items:     %ld", d.t2); WriteLine(s.file,ss);
+    if (d.m_respawn_items) {
+      sprintf(ss," Respawn Items:     %ld", d.m_respawn_items); WriteLine(s.file,ss);
     }
-    if (d.t3) {
-      sprintf(ss," Respawn Inventory: %ld", d.t3); WriteLine(s.file,ss);
+    if (d.m_respawn_inventory) {
+      sprintf(ss," Respawn Inventory: %ld", d.m_respawn_inventory); WriteLine(s.file,ss);
     }
-    if (d.m) {
-      sprintf(ss," NoMonsters:        %ld", d.m); WriteLine(s.file,ss);
+    if (d.m_monsters_off) {
+      sprintf(ss," NoMonsters:        %ld", d.m_monsters_off); WriteLine(s.file,ss);
     }
   }
+	if (d.game&GAME_DUKE_14PLUS) {
+		if (d.playerai) {
+			sprintf(ss," FakePlayerAI:      %ld", d.playerai); WriteLine(s.file,ss);
+		}
+		if (d.playernum == 1) {
+			sprintf(ss," Name:              \"%s\"", d.user_name[0]);
+			WriteLine(s.file,ss);
+		}
+		else for(i=0;i<d.playernum;i++) {
+			sprintf(ss," Name[%02lu]:          \"%s\"", i, d.user_name[i]);
+			WriteLine(s.file,ss);
+		}
+		if (d.auto_run) {
+			sprintf(ss," AutoRun:           %ld", d.auto_run); WriteLine(s.file,ss);
+		}
+		if (d.boardfilename[0] != '\0') {
+			sprintf(ss," BoardFileName:     \"%s\"", d.boardfilename); WriteLine(s.file,ss);
+		}
+		if (d.playernum == 1) {
+			sprintf(ss," AimMode:           %d", d.aim_mode[0]);
+			WriteLine(s.file,ss);
+		}
+		else for(i=0;i<d.playernum;i++) {
+			sprintf(ss," AimMode[%02lu]:       %d", i, d.aim_mode[i]);
+			WriteLine(s.file,ss);
+		}
+	}
   if (d.game&REDNECK) {
-    if (d.a) {
-      sprintf(ss," FakePlayerAI:      %ld", d.a); WriteLine(s.file,ss);
+    if (d.playerai) {
+      sprintf(ss," FakePlayerAI:      %ld", d.playerai); WriteLine(s.file,ss);
     }
     sprintf(ss,  " Name:              \"%s\"", d.name); WriteLine(s.file,ss);
   }

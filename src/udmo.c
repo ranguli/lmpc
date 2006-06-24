@@ -115,34 +115,40 @@ DMO_readheader(DMO_t *d)
       d->playernum=((unsigned short)d->header[7]     ) |
                    ((unsigned short)d->header[8] << 8);
     break;
-    case DUKE_new:
-      newheadersize = HEADER_DUKE_new;
-      if (fread(d->header+d->headersize,1,newheadersize-d->headersize,d->file)!=newheadersize-d->headersize) syserror(FIREAD,d->filename);
-      d->headersize = newheadersize;
-      d->game=DUKE_new;
-      d->gs="Duke Nukem 3D";
-      d->vs="1.3D";
-      d->episode=d->header[0x04] + 1;
-      d->map=d->header[0x05] + 1;
-      d->skill=d->header[0x06];
-      d->multirule=d->header[0x07];
-      d->playernum=((unsigned short)d->header[0x08]     ) |
-                   ((unsigned short)d->header[0x09] << 8);
-      d->m=((unsigned short)d->header[0x0A]     ) |
-           ((unsigned short)d->header[0x0B] << 8);
-      d->t1 = ((unsigned long)d->header[0x0C]      ) |
-              ((unsigned long)d->header[0x0D] <<  8) |
-              ((unsigned long)d->header[0x0E] << 16) |
-              ((unsigned long)d->header[0x0F] << 24);
-      d->t2 = ((unsigned long)d->header[0x10]      ) |
-              ((unsigned long)d->header[0x11] <<  8) |
-              ((unsigned long)d->header[0x12] << 16) |
-              ((unsigned long)d->header[0x13] << 24);
-      d->t3 = ((unsigned long)d->header[0x14]      ) |
-              ((unsigned long)d->header[0x15] <<  8) |
-              ((unsigned long)d->header[0x16] << 16) |
-              ((unsigned long)d->header[0x17] << 24);
-    break;
+	case DUKE_new: {
+		newheadersize = HEADER_DUKE_new;
+		if (fread(d->header+d->headersize,1,newheadersize-d->headersize,d->file)!=newheadersize-d->headersize) syserror(FIREAD,d->filename);
+		d->headersize = newheadersize;
+		d->game=DUKE_new;
+		d->gs="Duke Nukem 3D";
+		d->vs="1.3D";
+		d->episode=d->header[0x04] + 1;
+		d->map=d->header[0x05] + 1;
+		d->skill=d->header[0x06];
+		d->m_coop=d->header[0x07];
+		d->playernum=
+			((unsigned short)d->header[0x08]     ) |
+			((unsigned short)d->header[0x09] << 8);
+		d->m_monsters_off=
+			((unsigned short)d->header[0x0A]     ) |
+			((unsigned short)d->header[0x0B] << 8);
+		d->m_respawn_monsters=
+			((unsigned long)d->header[0x0C]      ) |
+			((unsigned long)d->header[0x0D] <<  8) |
+			((unsigned long)d->header[0x0E] << 16) |
+			((unsigned long)d->header[0x0F] << 24);
+		d->m_respawn_items=
+			((unsigned long)d->header[0x10]      ) |
+			((unsigned long)d->header[0x11] <<  8) |
+			((unsigned long)d->header[0x12] << 16) |
+			((unsigned long)d->header[0x13] << 24);
+		d->m_respawn_inventory=
+			((unsigned long)d->header[0x14]      ) |
+			((unsigned long)d->header[0x15] <<  8) |
+			((unsigned long)d->header[0x16] << 16) |
+			((unsigned long)d->header[0x17] << 24);
+	}
+	break;
 	case GAME_DUKE_14PLUS: {
 		unsigned long	ho;	/* Header offset. */
 		unsigned short	i;	/* Loop counter. */
@@ -251,7 +257,7 @@ DMO_readheader(DMO_t *d)
 		/* header size is 2a2 + multimode, max header size is 2b2 */
 	}
 	break;
-    case REDNECK:
+	case REDNECK: {
       newheadersize = HEADER_REDNECK_BASE;
       if (fread(d->header+d->headersize,1,newheadersize-d->headersize,d->file)!=newheadersize-d->headersize) syserror(FIREAD,d->filename);
       d->headersize = newheadersize;
@@ -261,33 +267,40 @@ DMO_readheader(DMO_t *d)
       d->headersize=HEADER_REDNECK_BASE;
       d->episode=1; /* don't know any better yet */
       d->skill=d->header[0x07];
-      d->multirule=d->header[0x08]+1;
+      d->m_coop=d->header[0x08]+1;
       d->map=d->header[0x09];
-      d->playernum=((unsigned short)d->header[0x0A]     ) |
-                   ((unsigned short)d->header[0x0B] << 8);
-      d->m=((unsigned short)d->header[0x0C]     ) |
-           ((unsigned short)d->header[0x0D] << 8);
-      d->t1 = ((unsigned long)d->header[0x0E]      ) |
-              ((unsigned long)d->header[0x0F] <<  8) |
-              ((unsigned long)d->header[0x10] << 16) |
-              ((unsigned long)d->header[0x11] << 24);
-      d->t2 = ((unsigned long)d->header[0x12]      ) |
-              ((unsigned long)d->header[0x13] <<  8) |
-              ((unsigned long)d->header[0x14] << 16) |
-              ((unsigned long)d->header[0x15] << 24);
-      d->t3 = ((unsigned long)d->header[0x16]      ) |
-              ((unsigned long)d->header[0x17] <<  8) |
-              ((unsigned long)d->header[0x18] << 16) |
-              ((unsigned long)d->header[0x19] << 24);
-      d->a  = ((unsigned long)d->header[0x1A]      ) |
-              ((unsigned long)d->header[0x1B] <<  8) |
-              ((unsigned long)d->header[0x1C] << 16) |
-              ((unsigned long)d->header[0x1D] << 24);
+      d->playernum=
+		((unsigned short)d->header[0x0A]     ) |
+		((unsigned short)d->header[0x0B] << 8);
+      d->m_monsters_off=
+		((unsigned short)d->header[0x0C]     ) |
+		((unsigned short)d->header[0x0D] << 8);
+      d->m_respawn_monsters=
+		((unsigned long)d->header[0x0E]      ) |
+		((unsigned long)d->header[0x0F] <<  8) |
+		((unsigned long)d->header[0x10] << 16) |
+		((unsigned long)d->header[0x11] << 24);
+      d->m_respawn_items=
+		((unsigned long)d->header[0x12]      ) |
+		((unsigned long)d->header[0x13] <<  8) |
+		((unsigned long)d->header[0x14] << 16) |
+		((unsigned long)d->header[0x15] << 24);
+      d->m_respawn_inventory=
+		((unsigned long)d->header[0x16]      ) |
+		((unsigned long)d->header[0x17] <<  8) |
+		((unsigned long)d->header[0x18] << 16) |
+		((unsigned long)d->header[0x19] << 24);
+      d->playerai =
+		((unsigned long)d->header[0x1A]      ) |
+		((unsigned long)d->header[0x1B] <<  8) |
+		((unsigned long)d->header[0x1C] << 16) |
+		((unsigned long)d->header[0x1D] << 24);
       d->name=(char*)d->header+0x1E;
       newheadersize = d->headersize + d->playernum;
       if (fread(d->header+d->headersize,1,newheadersize-d->headersize,d->file)!=newheadersize-d->headersize) syserror(FIREAD,d->filename);
       d->headersize = newheadersize;
-    break;
+	}
+	break;
 	default:
 		syserror(WDMO,"game %d unknown", d->game);
 	break;
