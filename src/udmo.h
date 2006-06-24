@@ -47,12 +47,23 @@
 #define REDNECK           512
 #define GAME_DUKE_14PLUS		32768
 
+#if 0
 typedef struct {
              short go_x;
              short go_y;
              short turn;
              unsigned long use;
            } DMO_TIC_t;
+#else
+typedef struct DMO_TIC_s {
+	signed char	avel;	/* angle (turn left or right) */
+	signed char	horz;	/* angle (aim up or down) */
+	signed short	fvel;	/* go x */
+	signed short	svel;	/* go y */
+	unsigned long	bits;	/* actions */
+} DMO_TIC_t;
+#endif
+
             
 typedef struct {
 	char           *filename;

@@ -2222,6 +2222,7 @@ void ActionDMObin2DMOtxt(char *dmofilename, char *dsfilename, opt_t *opt)
         tic++;
       }
       time=tic*DMO_TICTIME;
+#if 0
       /* sign ok ??? */
       t.go_x = ((short)chu.u_buffer[i*DMO_TIC+0]     )  |
                ((short)chu.u_buffer[i*DMO_TIC+1] << 8);
@@ -2286,6 +2287,74 @@ void ActionDMObin2DMOtxt(char *dmofilename, char *dsfilename, opt_t *opt)
           }
         }
       }
+#else
+	t.avel = *(signed char*)(&chu.u_buffer[i*DMO_TIC+0]);
+	t.horz = *(signed char*)(&chu.u_buffer[i*DMO_TIC+1]);
+	t.fvel =
+		((short)chu.u_buffer[i*DMO_TIC+2]) |
+		((short)chu.u_buffer[i*DMO_TIC+3] << 8);
+	t.svel =
+		((short)chu.u_buffer[i*DMO_TIC+4]) |
+		((short)chu.u_buffer[i*DMO_TIC+5] << 8);
+	t.bits =
+		((unsigned long)chu.u_buffer[i*DMO_TIC+6]     )  |
+		((unsigned long)chu.u_buffer[i*DMO_TIC+7] << 8)  |
+		((unsigned long)chu.u_buffer[i*DMO_TIC+8] << 16) |
+		((unsigned long)chu.u_buffer[i*DMO_TIC+9] << 24);  
+	strcpy(ts,"");
+	strcpy(cs,"");
+	empty_t=TRUE;
+	empty_c=TRUE;
+	if (opt->tic_step!=0) { 
+		if (p==0 && ((tic%opt->tic_step==1)||(opt->tic_step==1))) {
+			sprintf(cs, "%5ld (%s)", tic, Time2String(time,buffer));
+			empty_c=FALSE;
+		} 
+	}
+	if (t.fvel!=0) {
+		if (!empty_t) strcat(ts," ");
+		sprintf(ts+strlen(ts),"GX%hd",t.fvel);
+		empty_t=FALSE;
+	}
+	if (t.svel!=0) {
+		if (!empty_t) strcat(ts," ");
+		sprintf(ts+strlen(ts),"GY%hd",t.svel);
+		empty_t=FALSE;
+	}
+	if (t.avel!=0) {
+		if (!empty_t) strcat(ts," ");
+		if (t.avel>0)
+			sprintf(ts+strlen(ts),"TR%hd",t.avel);
+		if (t.avel<0)
+			sprintf(ts+strlen(ts),"TL%hd",-t.avel);
+		empty_t=FALSE;
+	}
+	if (t.horz!=0) {
+		if (!empty_t) strcat(ts," ");
+		if (t.horz>0) 
+			sprintf(ts+strlen(ts),"AU%hd",t.horz);
+		if (t.horz<0)
+			sprintf(ts+strlen(ts),"AD%hd",-t.horz);
+		empty_t=FALSE;
+	}
+	weapon = (t.bits >> 8) & 0x0F; 
+	t.bits &= 0xFFFFF0FFL;
+	if (weapon) {
+		if (!empty_t) strcat(ts," ");
+		sprintf(ts+strlen(ts),"NW%i", weapon);
+		empty_t=FALSE;
+	}
+	if (t.bits!=0) {
+		for (j=0;j<32;j++,t.bits>>=1) {
+			if (t.bits&1) {
+				if (!empty_t) strcat(ts," ");
+				sprintf(ts+strlen(ts),"%s", DMOActionName[j]);
+				empty_t=FALSE;
+			}
+		}
+	}
+
+#endif
       if (empty_t) {
         strcat(ts,"WT");
       }
