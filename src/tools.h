@@ -176,6 +176,10 @@ int WriteLine(FILE *f, char *s);
 #endif
 
 
+#define CFREE(x) {if((x)!=NULL){free(x);(x)=NULL;}}
+#define CFCLOSE(x) {if((x)!=NULL){fclose(x);(x)=NULL;}}
+
+
 #endif /* __TOOLS_H */
 
 

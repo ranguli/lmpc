@@ -34,6 +34,7 @@
 
 #define HEADER_DUKE_old     0x009   /* 0x0000 .. 0x0008 */
 #define HEADER_DUKE_new     0x018   /* 0x0000 .. 0x0017 */
+#define HEADER_DUKE_14PLUS  0x2a2   /* 0x0000 .. 0x02a1 */
 #define HEADER_REDNECK_BASE 0x21E   /* 0x0000 .. 0x021D */
 #define CHUNK_HEADER_SIZE 6
 #define DMO_TICTIME       1.0/30.0
@@ -44,6 +45,7 @@
 #define DUKE_old          128
 #define DUKE_new          256
 #define REDNECK           512
+#define GAME_DUKE_14PLUS		32768
 
 typedef struct {
              short go_x;
@@ -53,30 +55,44 @@ typedef struct {
            } DMO_TIC_t;
             
 typedef struct {
-		char           *filename;
-		FILE           *file;
-		unsigned char  header[HEADER_REDNECK_BASE+8];
-		unsigned long  headersize;
-		int            game;
-		char           *gs;
-		char           *vs;
-		long  tics;
-		unsigned long  incomplete;
-		unsigned long  filesize;
-		unsigned long  datasize;
-		unsigned char  skill;
-		unsigned char  episode;
-		unsigned char  map;
-		unsigned char  multirule;
-		double         time;
-		unsigned short playernum;
-		unsigned long  t1; /* /t1 */
-		unsigned long  t2; /* /t2 */
-		unsigned long  t3; /* /t3 */
-		unsigned long  a;  /* /a  */
-		unsigned long  m;  /* /m  */
-		char           *name;
-	   } DMO_t;
+	char           *filename;
+	FILE           *file;
+	unsigned char  header[HEADER_DUKE_14PLUS+16];
+	unsigned long  headersize;
+	int            game;
+	char           *gs;
+	char           *vs;
+	unsigned char	version;
+	long  tics;
+	unsigned long  incomplete;
+	unsigned long  filesize;
+	unsigned long  datasize;
+	unsigned char  skill;
+	unsigned char  episode;
+	unsigned char  map;
+	unsigned char	m_coop;
+	unsigned char	m_ffire;
+	unsigned char  multirule;
+	double         time;
+	unsigned short max_players;
+	unsigned short user_name_length;
+	unsigned short playernum;
+	unsigned long	m_monsters_off;
+	unsigned long	m_respawn_monsters;
+	unsigned long	m_respawn_items;
+	unsigned long	m_respawn_inventory;
+	unsigned long	playerai;
+	unsigned long	t1; /* /t1 */
+	unsigned long	t2; /* /t2 */
+	unsigned long	t3; /* /t3 */
+	unsigned long	a;  /* /a  */
+	unsigned long	m;  /* /m  */
+	char		*name;
+	char		**user_name;
+	unsigned long	auto_run;
+	unsigned char	boardfilename[128];
+	unsigned char	*aim_mode;
+} DMO_t;
 
 typedef struct {
 	     unsigned char  header[CHUNK_HEADER_SIZE];

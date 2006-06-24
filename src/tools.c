@@ -93,7 +93,7 @@ char *my_errlist[] = {
 			"DM3 structure: internal error"
 		       };
 
-char *progname;
+char *progname = NULL;
 
 
 void

@@ -340,7 +340,7 @@ int main(int argc, char **argv)
         if (a!=1) syserror(INVOPT, optarg);
       break;
       case '?':
-        exit(ILLOPT);
+        syserror(ILLOPT, c_str);
       break;
       default:
         syserror(EINVAL, c_str);
@@ -638,6 +638,7 @@ int main(int argc, char **argv)
     break;
   }
 
+  CFREE(progname);
   return 0;
 }
 
@@ -2036,6 +2037,9 @@ void ActionInfoDMO(char *filename, opt_t *opt)
       fprintf(stderr, " /c%i", d.multirule);
     }
   }
+	if (d.game == GAME_DUKE_14PLUS) {
+
+	}
   if (d.game==REDNECK) {
     if (d.t1) fprintf(stderr, " /t1");
     if (d.t2) fprintf(stderr, " /t2");

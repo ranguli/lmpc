@@ -71,18 +71,26 @@ char *DMOActionName[] = {
 
 #define DMO_BUFFER 65536L
 
-void DMO_init(DMO_t *d, char *filename, char *mode)
+void
+DMO_init(DMO_t *d, char *filename, char *mode)
 {
-  struct stat buf;
+	struct stat buf;
 
-  if ((d->filename = strdup(filename))==NULL) syserror(errno,"strdup");
-  if ((d->file=fopen(d->filename, mode))==NULL) syserror(errno,d->filename);
-  if (SETVBUF(d->file,NULL,_IOFBF,BUFSIZ>DMO_BUFFER?BUFSIZ:DMO_BUFFER)!=0) syserror(errno,"setvbuf");
-  if (stat(d->filename,&buf)==-1) syserror(errno,d->filename);
-  d->filesize=buf.st_size;
+	memset(d, 0, sizeof(*d));
+
+	if ((d->filename = strdup(filename))==NULL)
+		syserror(errno,"strdup");
+	if ((d->file=fopen(d->filename, mode))==NULL)
+		syserror(errno,d->filename);
+	if (SETVBUF(d->file,NULL,_IOFBF,BUFSIZ>DMO_BUFFER?BUFSIZ:DMO_BUFFER)!=0)
+		syserror(errno,"setvbuf");
+	if (stat(d->filename,&buf)==-1)
+		syserror(errno,d->filename);
+	d->filesize=buf.st_size;
 }
 
-void DMO_readheader(DMO_t *d)
+void
+DMO_readheader(DMO_t *d)
 {
   unsigned long newheadersize;
 
@@ -90,6 +98,7 @@ void DMO_readheader(DMO_t *d)
   d->headersize=HEADER_DUKE_old;
   if ((unsigned long)fread(d->header,1,d->headersize,d->file)!=d->headersize) 
     syserror(FIREAD,d->filename);
+	/* fprintf(stderr, "got DUKE_old header\n"); */
   d->tics= ((unsigned long)d->header[0]      ) |
            ((unsigned long)d->header[1] <<  8) |
            ((unsigned long)d->header[2] << 16) |
@@ -134,6 +143,114 @@ void DMO_readheader(DMO_t *d)
               ((unsigned long)d->header[0x16] << 16) |
               ((unsigned long)d->header[0x17] << 24);
     break;
+	case GAME_DUKE_14PLUS: {
+		unsigned long	ho;	/* Header offset. */
+		unsigned short	i;	/* Loop counter. */
+		size_t		read_rest;
+		size_t		read_result;
+
+		newheadersize = HEADER_DUKE_14PLUS;
+		read_rest = newheadersize - d->headersize;
+		/* fprintf(stderr,"reading DUKE_14PLUS header: ohs=0x%lx rest=%ld nhs=0x%lx\n", d->headersize, read_rest, newheadersize); */
+		read_result = fread(d->header+d->headersize,1,read_rest,d->file);
+		if (read_result == 0) {
+			syserror(errno,"'%s'", d->filename);
+		}
+		else {
+			if (read_result != read_rest) {
+				syserror(FIREAD,"reading '%s': expected %ld bytes, got %ld\n",
+					d->filename,
+					newheadersize-d->headersize,
+					read_result);
+			}
+		}
+		/* fprintf(stderr,"got DUKE_14PLUS header\n"); */
+		d->headersize = newheadersize;
+		d->game=GAME_DUKE_14PLUS;
+		d->gs="Duke Nukem 3D";
+		d->max_players=16; /* should be fixed but we can never know */
+		d->user_name_length = 32;
+		d->vs="1.5";
+		d->version = d->header[0x04];
+		switch (d->version) {
+			case 116:
+				d->vs="1.4";
+			break;
+			case 117:
+				d->vs="1.5";
+			break;
+			default:
+				d->vs="unknown";
+			break;
+		}
+		d->episode=d->header[0x05] + 1;
+		d->map=d->header[0x06] + 1;
+		d->skill=d->header[0x07];
+		d->m_coop=d->header[0x08];
+		d->m_ffire=d->header[0x09];
+		d->playernum=
+			((unsigned short)d->header[0x0A]     ) |
+			((unsigned short)d->header[0x0B] << 8);
+		if (d->playernum>d->max_players) {
+			syserror(WDMO, "playernum out of range");
+		}
+		d->m_monsters_off=
+			((unsigned short)d->header[0x0C]     ) |
+			((unsigned short)d->header[0x0D] << 8);
+		d->m_respawn_monsters=
+			((unsigned long)d->header[0x0E]      ) |
+			((unsigned long)d->header[0x0F] <<  8) |
+			((unsigned long)d->header[0x10] << 16) |
+			((unsigned long)d->header[0x11] << 24);
+		d->m_respawn_items=
+			((unsigned long)d->header[0x12]      ) |
+			((unsigned long)d->header[0x13] <<  8) |
+			((unsigned long)d->header[0x14] << 16) |
+			((unsigned long)d->header[0x15] << 24);
+		d->m_respawn_inventory=
+			((unsigned long)d->header[0x16]      ) |
+			((unsigned long)d->header[0x17] <<  8) |
+			((unsigned long)d->header[0x18] << 16) |
+			((unsigned long)d->header[0x19] << 24);
+		d->playerai=
+			((unsigned long)d->header[0x1A]      ) |
+			((unsigned long)d->header[0x1B] <<  8) |
+			((unsigned long)d->header[0x1C] << 16) |
+			((unsigned long)d->header[0x1D] << 24);
+		d->user_name=(char**) malloc((sizeof(char*))*d->max_players);
+		if (d->user_name == NULL) {
+			syserror(ENOMEM,"malloc user_name array");
+		}
+		ho=0x1E;
+		for (i=0;i<d->max_players;i++,ho+=d->user_name_length) {
+			d->user_name[i] = (char*)malloc(d->user_name_length);
+			if (d->user_name[i] == NULL) {
+				syserror(ENOMEM,"malloc user_name entry");
+			}
+			memcpy(d->user_name[i], &(d->header[ho]),
+				d->user_name_length);
+		}
+		d->auto_run=
+			((unsigned long)d->header[ho  ]      ) |
+			((unsigned long)d->header[ho+1] <<  8) |
+			((unsigned long)d->header[ho+2] << 16) |
+			((unsigned long)d->header[ho+3] << 24);
+		ho+=4;
+		memcpy(&(d->boardfilename[0]),&(d->header[ho]),sizeof(d->boardfilename));
+		ho+=sizeof(d->boardfilename);
+
+		newheadersize = d->headersize + d->playernum;
+		/* fprintf(stderr,"hs=0x%lx pn=%d\n", d->headersize, d->playernum); */
+		if (fread(d->header+d->headersize,1,newheadersize-d->headersize,d->file)!=newheadersize-d->headersize) syserror(FIREAD,d->filename);
+		d->headersize = newheadersize;
+
+		d->aim_mode = (unsigned char*)malloc(d->playernum);
+		for (i=0;i<d->playernum;i++,ho++) {
+			d->aim_mode[i] = d->header[ho];
+		}
+		/* header size is 2a2 + multimode, max header size is 2b2 */
+	}
+	break;
     case REDNECK:
       newheadersize = HEADER_REDNECK_BASE;
       if (fread(d->header+d->headersize,1,newheadersize-d->headersize,d->file)!=newheadersize-d->headersize) syserror(FIREAD,d->filename);
@@ -171,6 +288,9 @@ void DMO_readheader(DMO_t *d)
       if (fread(d->header+d->headersize,1,newheadersize-d->headersize,d->file)!=newheadersize-d->headersize) syserror(FIREAD,d->filename);
       d->headersize = newheadersize;
     break;
+	default:
+		syserror(WDMO,"game %d unknown", d->game);
+	break;
   }
 
   d->incomplete = d->tics % d->playernum;
@@ -255,51 +375,93 @@ void DMO_readmacroblock(DMO_t *d, CHU_t *m)
   m->time = m->tics * DMO_TICTIME;
 }
 
-void DMO_done(DMO_t *d)
+
+void
+DMO_done(DMO_t *d)
 {
-  if (fclose(d->file)!=0) syserror(errno,d->filename);
-  free(d->filename);
+	int	i;
+
+	CFCLOSE(d->file);
+	if (d->filename != NULL) {
+		free(d->filename);
+		d->filename = NULL;
+	}
+	CFREE(d->aim_mode);
+	for(i=0;i<d->max_players;i++) {
+		CFREE(d->user_name[i]);
+	}
+	CFREE(d->user_name);
 }
 
 
-#define creturn(x) { fclose(file); return x; }
+#define creturn(x) { CFCLOSE(file); return x; }
 
 /* outside */
 /* Checks, if a file exists and is a proper DMO file, return the game code */
-int isDMO(char *filename)
+int
+isDMO(char *filename)
 {
-  struct stat buf;
-  FILE *file;
-  off_t filesize;
-  unsigned long tics;
-  unsigned char buffer[HEADER_REDNECK_BASE+8];
-  unsigned long headersize;
-  unsigned short playernum;
+	struct stat buf;
+	FILE *file;
+	off_t filesize;
+	unsigned long tics;
+	unsigned char buffer[HEADER_DUKE_14PLUS+16];
+	unsigned long headersize;
+	unsigned short playernum;
+	unsigned char version;
 
-  /* fprintf(stderr,"checking %s\n",filename); */
-  if ((file=fopen(filename, "rb"))==NULL) { return 0; }
-  /* fprintf(stderr,"file open ok\n"); */
-  if (stat(filename,&buf)==-1) creturn(0); 
-  filesize=buf.st_size;
-  /* fprintf(stderr,"filesize=%li\n", filesize); */
+	/* fprintf(stderr,"checking %s\n",filename); */
+	if ((file=fopen(filename, "rb"))==NULL) { return 0; }
+	/* fprintf(stderr,"file open ok\n"); */
+	if (stat(filename,&buf)==-1) creturn(0); 
+	filesize=buf.st_size;
+	/* fprintf(stderr,"filesize=%li\n", filesize); */
 
-  headersize=HEADER_DUKE_old;
-  if (fread(buffer,1,headersize,file)!=headersize) creturn(0);
-  tics=((unsigned long)buffer[0]      ) |
-       ((unsigned long)buffer[1] <<  8) |
-       ((unsigned long)buffer[2] << 16) |
-       ((unsigned long)buffer[3] << 24); 
-  /* fprintf(stderr,"tics=%li\n",tics); */
+	headersize=HEADER_DUKE_old;
+	if (fread(buffer,1,headersize,file)!=headersize) creturn(0);
+	tics=
+		((unsigned long)buffer[0]      ) |
+		((unsigned long)buffer[1] <<  8) |
+		((unsigned long)buffer[2] << 16) |
+		((unsigned long)buffer[3] << 24); 
+	/* fprintf(stderr,"tics=%li\n",tics); */
 
-  /* try DUKE_old */
-  /* fprintf(stderr,"try Duke 3D old\n"); */
-  if (checkDMOtail(file, filesize, tics)) creturn(DUKE_old);
+	/* try DUKE_old */
+	/* fprintf(stderr,"try Duke 3D old\n"); */
+	if (checkDMOtail(file, filesize, tics)) creturn(DUKE_old);
 
-  /* try DUKE_new */  
-  /* fprintf(stderr,"try Duke 3D new\n"); */
-  headersize = HEADER_DUKE_new;
-  if (fseek(file, headersize, SEEK_SET)!=0) creturn(0);
-  if (checkDMOtail(file, filesize, tics)) creturn(DUKE_new);
+	/* try DUKE_new */  
+	/* fprintf(stderr,"try Duke 3D new\n"); */
+	headersize = HEADER_DUKE_new;
+	if (fseek(file, headersize, SEEK_SET)==0) {
+		if (checkDMOtail(file, filesize, tics)) creturn(DUKE_new);
+	}
+
+	/* try GAME_DUKE_14PLUS */
+	/* fprintf(stderr,"try Duke 3D 1.4 plus\n"); */
+	rewind(file);
+	headersize = HEADER_DUKE_14PLUS;
+	if (fread(buffer,1,headersize,file) == headersize) {
+		version = buffer[0x04];
+		/* fprintf(stderr,"version = %d\n", version); */
+		if (version == 116 || version == 117) {
+			playernum=
+				((unsigned short)buffer[0x0A]     ) |
+				((unsigned short)buffer[0x0B] << 8);
+			/* fprintf(stderr,"player = %d\n", playernum); */
+			if (playernum>0 && playernum<=16) {
+				headersize += playernum;
+				if (fseek(file, headersize, SEEK_SET)==0) {
+					/* fprintf(stderr,"seeked to 0x%lx\n", headersize); */
+					if (checkDMOtail(file, filesize, tics)) {
+						/* fprintf(stderr,"found 1.4PLUS\n"); */
+						creturn(GAME_DUKE_14PLUS);
+					}
+				}
+			}
+		}
+	}
+	/* fprintf(stderr,"not found 1.4PLUS\n"); */
 
   /* try Redneck Rampage */
   /* fprintf(stderr,"try Redneck Rampage\n"); */
