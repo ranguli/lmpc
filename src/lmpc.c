@@ -2214,8 +2214,11 @@ void ActionDMObin2DMOtxt(char *dmofilename, char *dsfilename, opt_t *opt)
   tic=1; p=0; 
   
   while (tics<d.tics) {
+	/* fprintf(stderr,"in loop tics=%ld, d.tics=%ld\n", tics, d.tics); */
     DMO_readmacroblock(&d,&chu);
     tics+=chu.tics;
+	/* fprintf(stderr,"new tics=%ld, tics=%ld\n", chu.tics, tics); */
+	
     for (i=0;i<chu.tics*d.playernum;i++,p++) {
       if (p==d.playernum) {
         p=0;

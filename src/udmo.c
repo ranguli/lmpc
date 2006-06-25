@@ -313,7 +313,8 @@ DMO_readheader(DMO_t *d)
 
 }
 
-void DMO_readblock(DMO_t *d, CHU_t *c)
+void
+DMO_readblock_13(DMO_t *d, CHU_t *c)
 {
   long count;
 
@@ -330,10 +331,8 @@ void DMO_readblock(DMO_t *d, CHU_t *c)
                    ((unsigned short) c->header[5] << 8);
   if (c->u_size > DMO_TIC*MAXTICS) syserror(WDMO,d->filename);
 
-  /* 
   fprintf(stderr, "c=0x%x, u=0x%x, l=0x0%x\n", c->c_size, c->u_size, 
                                                c->comp_number);
-  */
     
   if (fread(c->c_buffer,1,c->c_size,d->file)!=c->c_size) 
     syserror(FIREAD,d->filename);
@@ -362,14 +361,191 @@ void DMO_readblock(DMO_t *d, CHU_t *c)
   }
 }
 
-void DMO_readmacroblock(DMO_t *d, CHU_t *m)
+
+/******************************************************************************\
+* Copied from the published source code of Duke Nukem 3D 1.5 *******************
+\******************************************************************************/
+
+
+/* Apperently, the compression routines changed between 1.3D and 1.5. */
+
+
+static __inline unsigned short _swap16(unsigned short D)
+{
+    return((D<<8)|(D>>8));
+}
+
+
+static __inline unsigned int _swap32(unsigned int D)
+{
+    return((D<<24)|((D<<8)&0x00FF0000)|((D>>8)&0x0000FF00)|(D>>24));
+}
+
+
+#include <endian.h>
+
+
+#if __BYTE_ORDER == __LITTLE_ENDIAN
+#define PLATFORM_LITTLEENDIAN 1
+#define BUILDSWAP_INTEL16(x) (x)
+#define BUILDSWAP_INTEL32(x) (x)
+#else
+#define PLATFORM_BIGENDIAN 1
+#define BUILDSWAP_INTEL16(x) _swap16(x)
+#define BUILDSWAP_INTEL32(x) _swap32(x)
+#endif
+
+
+void
+copybuf(void *source, void *dest, int size) {
+	int i;
+	for (i = 0; i < size; i++) ((long*)dest)[i] = ((long*)source)[i];
+}
+
+
+#define FP_OFF(x) ((long) (x))
+
+
+static char	*lzwbuf1 = NULL;
+static short	*lzwbuf2 = NULL;
+static short	*lzwbuf3 = NULL;
+static int	lzwbuf_initialized = 0;
+
+
+#define LZWSIZE 16384
+
+
+void
+lzwbuf_init(void)
+{
+	if (lzwbuf_initialized == 0) {
+		lzwbuf1 = malloc( LZWSIZE+(LZWSIZE>>4)   );
+		lzwbuf2 = malloc((LZWSIZE+(LZWSIZE>>4))*2);
+		lzwbuf3 = malloc((LZWSIZE+(LZWSIZE>>4))*2);
+		lzwbuf_initialized = 1;
+	}
+}
+
+
+void
+lzwbuf_done(void)
+{
+	CFREE(lzwbuf1);
+	CFREE(lzwbuf2);
+	CFREE(lzwbuf3);
+	lzwbuf_initialized = 0;
+}
+
+
+long
+uncompress(char *lzwinbuf, long compleng, char *lzwoutbuf)
+{
+        long strtot, currstr, numbits, oneupnumbits;
+        long i, dat, leng, bitcnt, outbytecnt, *longptr;
+        short *shortptr;
+
+	lzwbuf_init();
+
+        shortptr = (short *)lzwinbuf;
+        strtot = (long) BUILDSWAP_INTEL16(shortptr[1]);
+        if (strtot == 0)
+        {
+                copybuf((void *)(FP_OFF(lzwinbuf)+4),(void *)(FP_OFF(lzwoutbuf)),((compleng-4)+3)>>2);
+                return((long) BUILDSWAP_INTEL16(shortptr[0])); /* uncompleng */
+        }
+        for(i=255;i>=0;i--) { lzwbuf2[i] = (short) i; lzwbuf3[i] = (short) i; }
+        currstr = 256; bitcnt = (4<<3); outbytecnt = 0;
+        numbits = 8; oneupnumbits = (1<<8);
+        do
+        {
+                longptr = (long *)&lzwinbuf[bitcnt>>3];
+                dat = ((BUILDSWAP_INTEL32(longptr[0])>>(bitcnt&7)) & (oneupnumbits-1));
+                bitcnt += numbits;
+                if ((dat&((oneupnumbits>>1)-1)) > ((currstr-1)&((oneupnumbits>>1)-1)))
+                        { dat &= ((oneupnumbits>>1)-1); bitcnt--; }
+
+                lzwbuf3[currstr] = (short) dat;
+
+                for(leng=0;dat>=256;leng++,dat=lzwbuf3[dat])
+                        lzwbuf1[leng] = (char) lzwbuf2[dat];
+
+                lzwoutbuf[outbytecnt++] = (char) dat;
+                for(i=leng-1;i>=0;i--) lzwoutbuf[outbytecnt++] = lzwbuf1[i];
+
+                lzwbuf2[currstr-1] = (short) dat; lzwbuf2[currstr] = (short) dat;
+                currstr++;
+                if (currstr > oneupnumbits) { numbits++; oneupnumbits <<= 1; }
+        } while (currstr < strtot);
+        return((long) BUILDSWAP_INTEL16(shortptr[0])); /* uncompleng */
+}
+
+
+/******************************************************************************\
+* End of the copy from the published source code of Duke Nukem 3D 1.5 **********
+\******************************************************************************/
+ 
+
+void
+DMO_readblock_14PLUS(DMO_t *d, CHU_t *c)
+{
+	size_t	read_result;
+
+	/* Read the compressed length. */
+	read_result = fread(c->header,1,2,d->file);
+	if (read_result == 0) {
+		int	error;
+
+		error = errno;
+		fprintf(stderr,"tell(%s)=%ld\n", d->filename, ftell(d->file));
+		syserror(error,"reading 2 bytes compression header of '%s'", d->filename);
+	}
+	else {
+		if (read_result != 2) {
+			syserror(FIREAD,
+			"reading 2 bytes compression header of '%s', got %ld bytes",
+			d->filename, read_result);
+		}
+	}
+	c->c_size =
+		((unsigned short) c->header[0]     )|
+		((unsigned short) c->header[1] << 8);
+	/* Read the compressed data in. */
+	if (fread(c->c_buffer,1,c->c_size,d->file)!=c->c_size) 
+		syserror(FIREAD,"reading %l compressed data from '%s'", c->c_size, d->filename);
+	/* Uncompress it. */
+	c->u_size = uncompress((char*)(c->c_buffer),c->c_size,(char*)(c->u_buffer));
+
+	/* Store the number of tics just read. */
+	c->tics = c->u_size/( DMO_TIC * d->playernum);
+
+	/* Derive the time from the number. */
+	c->time = c->tics * DMO_TICTIME;
+}
+	
+
+void
+DMO_readmacroblock(DMO_t *d, CHU_t *m)
 {
   CHU_t c;
   unsigned long i, j, tic_size;
 
+	/* fprintf(stderr,"%s start\n", __func__); */
+
   m->tics = 0;
   do {
-    DMO_readblock(d, &c);
+	switch (d->game) {
+		case DUKE_old:
+		case DUKE_new:
+			DMO_readblock_13(d, &c);
+		break;
+		case REDNECK:
+		case GAME_DUKE_14PLUS:
+			DMO_readblock_14PLUS(d, &c);
+		break;
+		default:
+			syserror(WDMO,"%s: wrong game %d", __func__, d->game);
+		break;
+	}
     memmove(&(m->c_buffer[m->tics*d->playernum*DMO_TIC]), c.u_buffer, 
             c.tics*d->playernum*DMO_TIC);
     m->tics+=c.tics;
@@ -386,6 +562,8 @@ void DMO_readmacroblock(DMO_t *d, CHU_t *m)
     }
   } 
   m->time = m->tics * DMO_TICTIME;
+
+	/* fprintf(stderr,"%s end\n", __func__); */
 }
 
 
@@ -404,6 +582,8 @@ DMO_done(DMO_t *d)
 		CFREE(d->user_name[i]);
 	}
 	CFREE(d->user_name);
+
+	lzwbuf_done();
 }
 
 
