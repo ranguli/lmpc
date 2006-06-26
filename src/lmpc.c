@@ -2134,6 +2134,9 @@ void ActionDMObin2DMOtxt(char *dmofilename, char *dsfilename, opt_t *opt)
       }
       WriteLine(s.file,ss);
     }
+    if (d.m_ffire) {
+      sprintf(ss, " FFire:             %d", d.m_ffire); WriteLine(s.file,ss);
+    }
   }
   if (d.game&REDNECK) {
     if (d.playernum>1) {
