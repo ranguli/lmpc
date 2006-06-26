@@ -17,8 +17,9 @@
 <abstract>
 <para>This document describes the DMO file format. This file format is the result of
 ``recording'' a game in Duke Nukem 3D or Redneck Rampage.
-This documentation covers the old Shareware versions 1.0 and 1.1 and the
-new Shareware version 1.3D of Duke Nukem 3D
+This documentation covers the old Shareware versions 1.0 and 1.1, the
+new Shareware version 1.3D, and the in-between version 1.4 and the published 
+source code of Duke Nukem 3D
 and the alpha demo version 0.7 `moonshine' of Redneck Rampage.
 only.</para>
 </abstract>
@@ -94,9 +95,6 @@ movement, open doors, fire weapons and so on, happened during this time. </para>
 <entry><literal REMAP="tt">0x0007</literal> </entry>
 <entry><literal REMAP="tt">word</literal> </entry>
 <entry>player number</entry>
-</row>
-<row>
-<entry></entry>
 </row>
 </tbody>
 </tgroup>
@@ -174,15 +172,157 @@ recordings. This should mean, that there is more than one level recorded.</para>
 <entry><literal REMAP="tt">long</literal> </entry>
 <entry><literal REMAP="tt">0x01</literal> with /t3 (respawn inventory), <literal REMAP="tt">0x00</literal> else</entry>
 </row>
+</tbody>
+</tgroup>
+</informaltable>
+</para>
+</sect2>
+
+<sect2>
+<title>Duke Nukem 3D 1.4 or 1.5 Header</title>
+<para>Duke Nukem 3D 1.4 and 1.5 use a 674 (0x2a2) byte fixed header and player
+number additional bytes:</para>
+<para>
+
+<informaltable>
+<tgroup COLS="3">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<tbody>
 <row>
-<entry></entry>
+<entry>address </entry>
+<entry>type </entry>
+<entry>contents</entry>
+</row>
+<row>
+<entry><literal REMAP="tt">0x0000</literal> </entry>
+<entry><literal REMAP="tt">long</literal> </entry>
+<entry>number of game tics times number of players</entry>
+</row>
+<row>
+<entry><literal REMAP="tt">0x0004</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
+<entry>version: 116 (0x74) is 1.4, 117 (0x75) is 1.5</entry>
+</row>
+<row>
+<entry><literal REMAP="tt">0x0005</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
+<entry>episode</entry>
+</row>
+<row>
+<entry><literal REMAP="tt">0x0006</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
+<entry>map</entry>
+</row>
+<row>
+<entry><literal REMAP="tt">0x0007</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
+<entry>skill (0...4)</entry>
+</row>
+<row>
+<entry><literal REMAP="tt">0x0008</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
+<entry>Multi Player mode (/c parameter - 1)</entry>
+</row>
+<row>
+<entry><literal REMAP="tt">0x0009</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
+<entry>m&lowbar;ffire (might be friendly fire)</entry>
+</row>
+<row>
+<entry><literal REMAP="tt">0x000A</literal> </entry>
+<entry><literal REMAP="tt">short</literal> </entry>
+<entry>player number (1..16)</entry>
+</row>
+<row>
+<entry><literal REMAP="tt">0x000A</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
+<entry>player number (1..8)</entry>
+</row>
+<row>
+<entry><literal REMAP="tt">0x000C</literal> </entry>
+<entry><literal REMAP="tt">short</literal> </entry>
+<entry><literal REMAP="tt">0x01</literal> with /m (nomonsters), <literal REMAP="tt">0x00</literal> else</entry>
+</row>
+<row>
+<entry><literal REMAP="tt">0x000E</literal> </entry>
+<entry><literal REMAP="tt">long</literal> </entry>
+<entry><literal REMAP="tt">0x01</literal> with /t1 (respawn monsters), <literal REMAP="tt">0x00</literal> else</entry>
+</row>
+<row>
+<entry><literal REMAP="tt">0x0012</literal> </entry>
+<entry><literal REMAP="tt">long</literal> </entry>
+<entry><literal REMAP="tt">0x01</literal> with /t2 (respawn items), <literal REMAP="tt">0x00</literal> else</entry>
+</row>
+<row>
+<entry><literal REMAP="tt">0x0016</literal> </entry>
+<entry><literal REMAP="tt">long</literal> </entry>
+<entry><literal REMAP="tt">0x01</literal> with /t3 (respawn inventory), <literal REMAP="tt">0x00</literal> else</entry>
+</row>
+<row>
+<entry><literal REMAP="tt">0x001A</literal> </entry>
+<entry><literal REMAP="tt">long</literal> </entry>
+<entry><literal REMAP="tt">0x01</literal> with /a (player AI for fake players), <literal REMAP="tt">0x00</literal> else</entry>
+</row>
+<row>
+<entry><literal REMAP="tt">0x001E</literal> </entry>
+<entry><literal REMAP="tt">char[0x20]</literal> </entry>
+<entry>name[0]</entry>
+</row>
+<row>
+<entry><literal REMAP="tt">0x003E</literal> </entry>
+<entry><literal REMAP="tt">char[0x20]</literal> </entry>
+<entry>name[1]</entry>
+</row>
+<row>
+<entry>...</entry>
+<entry>...</entry>
+<entry>...</entry>
+</row>
+<row>
+<entry><literal REMAP="tt">0x01CE</literal> </entry>
+<entry><literal REMAP="tt">char[0x20]</literal> </entry>
+<entry>name[14]</entry>
+</row>
+<row>
+<entry><literal REMAP="tt">0x01FE</literal> </entry>
+<entry><literal REMAP="tt">char[0x20]</literal> </entry>
+<entry>name[15]</entry>
+</row>
+<row>
+<entry><literal REMAP="tt">0x021E</literal> </entry>
+<entry><literal REMAP="tt">long</literal> </entry>
+<entry><literal REMAP="tt">0x01</literal> with auto&lowbar;run, <literal REMAP="tt">0x00</literal> else</entry>
+</row>
+<row>
+<entry><literal REMAP="tt">0x0222</literal> </entry>
+<entry><literal REMAP="tt">char[0x80]</literal> </entry>
+<entry>board file name</entry>
+</row>
+<row>
+<entry><literal REMAP="tt">0x02a2</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
+<entry>aim&lowbar;mode[0]</entry>
+</row>
+<row>
+<entry>...</entry>
+<entry>...</entry>
+<entry>...</entry>
+</row>
+<row>
+<entry><literal REMAP="tt">0x02a2 + player&lowbar;number - 1</literal> </entry>
+<entry><literal REMAP="tt">byte</literal> </entry>
+<entry>aim&lowbar;mode[player&lowbar;number - 1]</entry>
 </row>
 </tbody>
 </tgroup>
 </informaltable>
-
 </para>
 </sect2>
+
+
+
 <sect2>
 <title>Redneck Rampage Header</title>
 <para>Redneck Rampage uses a 543 byte main header:</para>
@@ -279,13 +419,9 @@ recordings. This should mean, that there is more than one level recorded.</para>
 <entry><literal REMAP="tt">char[0x201]</literal> </entry>
 <entry>-name parameter</entry>
 </row>
-<row>
-<entry></entry>
-</row>
 </tbody>
 </tgroup>
 </informaltable>
-
 </para>
 <para>The episode (better: volume) number is one of the <literal REMAP="tt">0x00</literal> bytes in the
 header.</para>
@@ -293,6 +429,7 @@ header.</para>
 characters for the name is 512.</para>
 </sect2>
 </sect1>
+
 <sect1>
 <title>Data</title>
 <para> 
@@ -321,17 +458,17 @@ and the compressed data.</para>
 <row>
 <entry><literal REMAP="tt">0x0000</literal> </entry>
 <entry><literal REMAP="tt">word</literal> </entry>
-<entry>size of the following blockin bytes</entry>
+<entry>size of the following block in bytes</entry>
 </row>
 <row>
 <entry><literal REMAP="tt">0x0002</literal> </entry>
 <entry><literal REMAP="tt">word</literal> </entry>
-<entry>size of the uncompresseddata block in bytes</entry>
+<entry>size of the uncompressed data block in bytes</entry>
 </row>
 <row>
 <entry><literal REMAP="tt">0x0004</literal> </entry>
 <entry><literal REMAP="tt">word</literal> </entry>
-<entry>biggest code for Lempel-Zivdecompression</entry>
+<entry>biggest code for Lempel-Ziv decompression</entry>
 </row>
 <row>
 <entry></entry>
@@ -359,6 +496,8 @@ long recording in short files. </para>
 look in the files <literal REMAP="tt">lzw.c</literal> and <literal REMAP="tt">unlzw.c</literal> included in
 LMPC, the Little Movie Processing Centre. You can get it from my 
 <ulink URL="@HOMEURL@">@HOMENAME@</ulink>.</para>
+<para>The published source (1.5) was needed to decompress 1.5 recordings. But LMPC still uses
+<literal REMAP="tt">unlzw.c</literal> to decompress the 1.3D files.
 <para>The compression algorithm used in Redneck Rampage seems to be similar but I
 did not get <literal REMAP="tt">lzw.c</literal> and <literal REMAP="tt">unlzw.c</literal> to work with Redneck Rampage
 recordings.</para>
@@ -394,21 +533,27 @@ before.</para>
 </row>
 <row>
 <entry><literal REMAP="tt">0x0000</literal> </entry>
-<entry><literal REMAP="tt">word</literal> </entry>
+<entry><literal REMAP="tt">signed char</literal> </entry>
+<entry>1 </entry>
+<entry>turn</entry>
+</row>
+<row>
+<entry><literal REMAP="tt">0x0001</literal> </entry>
+<entry><literal REMAP="tt">signed char</literal> </entry>
+<entry>1 </entry>
+<entry>horizon movement (aim up)</entry>
+</row>
+<row>
+<entry><literal REMAP="tt">0x0002</literal> </entry>
+<entry><literal REMAP="tt">signed short</literal> </entry>
 <entry>1 </entry>
 <entry>go in <emphasis>x</emphasis>-direction</entry>
 </row>
 <row>
-<entry><literal REMAP="tt">0x0002</literal> </entry>
-<entry><literal REMAP="tt">word</literal> </entry>
+<entry><literal REMAP="tt">0x0004</literal> </entry>
+<entry><literal REMAP="tt">signed short</literal> </entry>
 <entry>1 </entry>
 <entry>go in <emphasis>y</emphasis>-direction</entry>
-</row>
-<row>
-<entry><literal REMAP="tt">0x0004</literal> </entry>
-<entry><literal REMAP="tt">word</literal> </entry>
-<entry>1 </entry>
-<entry>turn</entry>
 </row>
 <row>
 <entry><literal REMAP="tt">0x0006</literal> </entry>
@@ -417,16 +562,16 @@ before.</para>
 <entry>use/open etc.</entry>
 </row>
 <row>
-<entry><literal REMAP="tt">0x000a</literal> </entry>
-<entry><literal REMAP="tt">word</literal> </entry>
+<entry><literal REMAP="tt">0x000A</literal> </entry>
+<entry><literal REMAP="tt">signed char</literal> </entry>
 <entry>2 </entry>
-<entry>go in <emphasis>x</emphasis>-direction</entry>
+<entry>turn</entry>
 </row>
 <row>
-<entry><literal REMAP="tt">0x000c</literal> </entry>
-<entry><literal REMAP="tt">word</literal> </entry>
+<entry><literal REMAP="tt">0x000B</literal> </entry>
+<entry><literal REMAP="tt">signed char</literal> </entry>
 <entry>2 </entry>
-<entry>go in <emphasis>y</emphasis>-direction</entry>
+<entry>horizon movement (aim up)</entry>
 </row>
 <row>
 <entry>. </entry>
@@ -468,8 +613,8 @@ this:
 </sect3>
 <sect3>
 <title>Turn</title>
-<para>The turn word contains 2 bytes (<literal REMAP="tt">signed short</literal>) which are the
-current turning speed or the angle difference per game tic.
+<para>The turn parameter contains the current turning speed or the angle
+difference per game tic.
 A positive turning speed means right and a negative
 means left.</para>
 </sect3>
@@ -492,7 +637,7 @@ as you press the corresponding key.</para>
 </row>
 <row>
 <entry>31 </entry>
-<entry>??</entry>
+<entry>Escape</entry>
 </row>
 <row>
 <entry>30 </entry>
@@ -512,7 +657,7 @@ as you press the corresponding key.</para>
 </row>
 <row>
 <entry>26 </entry>
-<entry>??</entry>
+<entry>GameQuit</entry>
 </row>
 <row>
 <entry>25 </entry>
@@ -529,7 +674,7 @@ as you press the corresponding key.</para>
 </row>
 <row>
 <entry>22 </entry>
-<entry>??</entry>
+<entry>Quick&lowbar;Kick</entry>
 </row>
 <row>
 <entry>21 </entry>
@@ -578,11 +723,11 @@ as you press the corresponding key.</para>
 </row>
 <row>
 <entry>7 </entry>
-<entry>??</entry>
+<entry>Look Right</entry>
 </row>
 <row>
 <entry>6 </entry>
-<entry>??</entry>
+<entry>Look Left</entry>
 </row>
 <row>
 <entry>5 </entry>
@@ -607,9 +752,6 @@ as you press the corresponding key.</para>
 <row>
 <entry>0 </entry>
 <entry>Jump</entry>
-</row>
-<row>
-<entry></entry>
 </row>
 </tbody>
 </tgroup>
@@ -721,11 +863,11 @@ never announced.</para>
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>0.0.6, 12 March 1998</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>PlanetQuake is the new home.</para>
@@ -734,10 +876,29 @@ never announced.</para>
 <para>SGML-Tools 1.0.5 used.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
+<varlistentry>
+<term>0.1.0, 26 June 2006</term>
+<listitem>
+<para>
+<itemizedlist>
+<listitem>
+<para>Duke Nukem 3D 1.4 and 1.5 header added.</para>
+</listitem>
+<listitem>
+<para>Full list of actions listed.</para>
+</listitem>
+<listitem>
+<para>Internal game tic structure changed.</para>
+</listitem>
+</itemizedlist>
+</para>
+</listitem>
+</varlistentry>
+
 </variablelist></para>
 </sect1>
 </article>

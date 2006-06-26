@@ -3,8 +3,8 @@
 ## wpu parse start /^([^=]+)=(.+)\s*$/
 PACKAGE=dmo
 TITLE=The unofficial DMO format description
-VERSION=0.0.6
-DATE=3/11/1998
+VERSION=0.1.0
+DATE=6/26/2006
 TYPE=document
 ## wpu parse end
 
