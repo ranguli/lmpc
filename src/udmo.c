@@ -334,8 +334,8 @@ DMO_readblock_13(DMO_t *d, CHU_t *c)
                    ((unsigned short) c->header[5] << 8);
   if (c->u_size > DMO_TIC*MAXTICS) syserror(WDMO,d->filename);
 
-  fprintf(stderr, "c=0x%x, u=0x%x, l=0x0%x\n", c->c_size, c->u_size, 
-                                               c->comp_number);
+  /* fprintf(stderr, "c=0x%x, u=0x%x, l=0x0%x\n", c->c_size, c->u_size, 
+                                               c->comp_number); */
     
   if (fread(c->c_buffer,1,c->c_size,d->file)!=c->c_size) 
     syserror(FIREAD,d->filename);
@@ -385,18 +385,18 @@ static __inline unsigned int _swap32(unsigned int D)
 }
 
 
-#include <endian.h>
+static __inline unsigned short
+BUILDSWAP_INTEL16(unsigned short D)
+{
+	return ((EndianType==LittleEndian)? D : _swap16(D));
+}
 
 
-#if __BYTE_ORDER == __LITTLE_ENDIAN
-#define PLATFORM_LITTLEENDIAN 1
-#define BUILDSWAP_INTEL16(x) (x)
-#define BUILDSWAP_INTEL32(x) (x)
-#else
-#define PLATFORM_BIGENDIAN 1
-#define BUILDSWAP_INTEL16(x) _swap16(x)
-#define BUILDSWAP_INTEL32(x) _swap32(x)
-#endif
+static __inline unsigned int
+BUILDSWAP_INTEL32(unsigned int D)
+{
+	return ((EndianType==LittleEndian)? D : _swap32(D));
+}
 
 
 void
