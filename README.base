@@ -24,7 +24,7 @@ Features:
      - HERETIC (all versions)
      - HEXEN (all versions)
      - STRIFE (Shareware)
-     - Duke Nukem 3D (Shareware versions 1.0, 1.1 and 1.3D)
+     - Duke Nukem 3D (Shareware versions 1.0, 1.1, 1.3D, 1.4, 1.5)
      - Redneck Rampage (demo version 0.7 alpha), not fully supported
      - Quake (versions 0.91 .. 1.09)
      - QuakeWorld (version 1.64 .. 2.30)
@@ -63,7 +63,7 @@ Features:
      This is free software, and you are welcome to redistribute it under 
      certain conditions; read the GNU General Public Licence for details.
  * precompiled binaries are available for
-   + Linux (gcc 4.0.2, glibc, x86) 
+   + Linux (gcc 4.1.0, glibc, x86) 
    + MS-DOS (gcc 2.95.2, cross-compiled like djgpp V2.0 (go32))
    + Win32 (cross-compiled with the Cygwin toolset (gcc 3.3.1),
        needs cygwin1.dll)
