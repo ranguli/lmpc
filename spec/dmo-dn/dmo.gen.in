@@ -18,11 +18,8 @@
 <abstract>
 <para>This document describes the DMO file format. This file format is the result of
 ``recording'' a game in Duke Nukem 3D or Redneck Rampage.
-This documentation covers the old Shareware versions 1.0 and 1.1, the
-new Shareware version 1.3D, and the in-between version 1.4 and the published 
-source code of Duke Nukem 3D
-and the alpha demo version 0.7 `moonshine' of Redneck Rampage.
-only.</para>
+This documentation covers Duke Nukem 3D in the versions 1.0, 1.1, 1.3D, 1.4, and 1.5.
+It also covers the alpha demo version 0.7 `moonshine' of Redneck Rampage.</para>
 </abstract>
 </articleinfo>
 <sect1>
