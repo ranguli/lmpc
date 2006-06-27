@@ -47,22 +47,21 @@
 #define REDNECK           512
 #define GAME_DUKE_14PLUS		32768
 
-#if 0
-typedef struct {
-             short go_x;
-             short go_y;
-             short turn;
-             unsigned long use;
-           } DMO_TIC_t;
-#else
-typedef struct DMO_TIC_s {
-	signed char	avel;	/* angle (turn left or right) */
-	signed char	horz;	/* angle (aim up or down) */
-	signed short	fvel;	/* go x */
-	signed short	svel;	/* go y */
-	unsigned long	bits;	/* actions */
+typedef union DMO_TIC_u {
+	struct d1_s {
+		signed short	go_x;	/* go x */
+		signed short	go_y;	/* go y */
+		signed short	turn;	/* angle (turn left or right) */
+		unsigned long	use;	/* actions */
+	} d1;
+	struct d2_s {
+		signed char	avel;	/* angle (turn left or right) */
+		signed char	horz;	/* angle (aim up or down) */
+		signed short	fvel;	/* go x */
+		signed short	svel;	/* go y */
+		unsigned long	bits;	/* actions */
+	} d2;
 } DMO_TIC_t;
-#endif
 
             
 typedef struct {

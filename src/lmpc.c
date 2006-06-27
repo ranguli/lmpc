@@ -2228,139 +2228,150 @@ void ActionDMObin2DMOtxt(char *dmofilename, char *dsfilename, opt_t *opt)
         tic++;
       }
       time=tic*DMO_TICTIME;
-#if 0
-      /* sign ok ??? */
-      t.go_x = ((short)chu.u_buffer[i*DMO_TIC+0]     )  |
-               ((short)chu.u_buffer[i*DMO_TIC+1] << 8);
-      t.go_y = ((short)chu.u_buffer[i*DMO_TIC+2]     )  | 
-               ((short)chu.u_buffer[i*DMO_TIC+3] << 8);
-      t.turn = ((short)chu.u_buffer[i*DMO_TIC+4]     )  |
-               ((short)chu.u_buffer[i*DMO_TIC+5] << 8);
-      t.use = ((unsigned long)chu.u_buffer[i*DMO_TIC+6]     )  |
-              ((unsigned long)chu.u_buffer[i*DMO_TIC+7] << 8)  |
-              ((unsigned long)chu.u_buffer[i*DMO_TIC+8] << 16) |
-              ((unsigned long)chu.u_buffer[i*DMO_TIC+9] << 24);  
-      strcpy(ts,"");
-      strcpy(cs,"");
-      empty_t=TRUE;
-      empty_c=TRUE;
-      if (opt->tic_step!=0) { 
-        if (p==0 && ((tic%opt->tic_step==1)||(opt->tic_step==1))) {
-          sprintf(cs, "%5ld (%s)", tic, Time2String(time,buffer));
-          empty_c=FALSE;
-        } 
-      }
-      if (t.go_x!=0) {
-        if (!empty_t) strcat(ts," ");
-        sprintf(ts+strlen(ts),"GX%hd",t.go_x);
-        empty_t=FALSE;
-      }
-      if (t.go_y!=0) {
-        if (!empty_t) strcat(ts," ");
-        sprintf(ts+strlen(ts),"GY%hd",t.go_y);
-        empty_t=FALSE;
-      }
-      if (t.turn!=0) {
-        if (!empty_t) strcat(ts," ");
-        if (t.turn>0) 
-          sprintf(ts+strlen(ts),"TR%hd",t.turn);
-        if (t.turn<0)
-          sprintf(ts+strlen(ts),"TL%hd",-t.turn);
-        /* should never occur ! */
-        /*
-        if (t.turn>200 || t.turn<-200) {
-          if (!empty_c) strcat(cs," ");
-          sprintf(cs+strlen(cs),"T0x%02X%02X", 
-            chu.u_buffer[i*DMO_TIC+5],  chu.u_buffer[i*DMO_TIC+4]);
-          empty_c=FALSE;
-        }
-        */
-        empty_t=FALSE;
-      }
-      weapon = (t.use >> 8) & 0x0F; 
-      t.use &= 0xFFFFF0FFL;
-      if (weapon) {
-        if (!empty_t) strcat(ts," ");
-        sprintf(ts+strlen(ts),"NW%i", weapon);
-        empty_t=FALSE;
-      }
-      if (t.use!=0) {
-        for (j=0;j<32;j++,t.use>>=1) {
-          if (t.use&1) {
-            if (!empty_t) strcat(ts," ");
-            sprintf(ts+strlen(ts),"%s", DMOActionName[j]);
-            empty_t=FALSE;
-          }
-        }
-      }
-#else
-	t.avel = *(signed char*)(&chu.u_buffer[i*DMO_TIC+0]);
-	t.horz = *(signed char*)(&chu.u_buffer[i*DMO_TIC+1]);
-	t.fvel =
-		((short)chu.u_buffer[i*DMO_TIC+2]) |
-		((short)chu.u_buffer[i*DMO_TIC+3] << 8);
-	t.svel =
-		((short)chu.u_buffer[i*DMO_TIC+4]) |
-		((short)chu.u_buffer[i*DMO_TIC+5] << 8);
-	t.bits =
-		((unsigned long)chu.u_buffer[i*DMO_TIC+6]     )  |
-		((unsigned long)chu.u_buffer[i*DMO_TIC+7] << 8)  |
-		((unsigned long)chu.u_buffer[i*DMO_TIC+8] << 16) |
-		((unsigned long)chu.u_buffer[i*DMO_TIC+9] << 24);  
+
 	strcpy(ts,"");
 	strcpy(cs,"");
 	empty_t=TRUE;
 	empty_c=TRUE;
+
 	if (opt->tic_step!=0) { 
 		if (p==0 && ((tic%opt->tic_step==1)||(opt->tic_step==1))) {
 			sprintf(cs, "%5ld (%s)", tic, Time2String(time,buffer));
 			empty_c=FALSE;
 		} 
 	}
-	if (t.fvel!=0) {
-		if (!empty_t) strcat(ts," ");
-		sprintf(ts+strlen(ts),"GX%hd",t.fvel);
-		empty_t=FALSE;
-	}
-	if (t.svel!=0) {
-		if (!empty_t) strcat(ts," ");
-		sprintf(ts+strlen(ts),"GY%hd",t.svel);
-		empty_t=FALSE;
-	}
-	if (t.avel!=0) {
-		if (!empty_t) strcat(ts," ");
-		if (t.avel>0)
-			sprintf(ts+strlen(ts),"TR%hd",t.avel);
-		if (t.avel<0)
-			sprintf(ts+strlen(ts),"TL%hd",-t.avel);
-		empty_t=FALSE;
-	}
-	if (t.horz!=0) {
-		if (!empty_t) strcat(ts," ");
-		if (t.horz>0) 
-			sprintf(ts+strlen(ts),"AU%hd",t.horz);
-		if (t.horz<0)
-			sprintf(ts+strlen(ts),"AD%hd",-t.horz);
-		empty_t=FALSE;
-	}
-	weapon = (t.bits >> 8) & 0x0F; 
-	t.bits &= 0xFFFFF0FFL;
-	if (weapon) {
-		if (!empty_t) strcat(ts," ");
-		sprintf(ts+strlen(ts),"NW%i", weapon);
-		empty_t=FALSE;
-	}
-	if (t.bits!=0) {
-		for (j=0;j<32;j++,t.bits>>=1) {
-			if (t.bits&1) {
+
+	switch (d.game) {
+		case DUKE_old:
+		{
+			/* Get the bytes from the file. */
+			t.d1.go_x =
+				((short)chu.u_buffer[i*DMO_TIC+0]     )  |
+				((short)chu.u_buffer[i*DMO_TIC+1] << 8);
+			t.d1.go_y =
+				((short)chu.u_buffer[i*DMO_TIC+2]     )  | 
+				((short)chu.u_buffer[i*DMO_TIC+3] << 8);
+			t.d1.turn =
+				((short)chu.u_buffer[i*DMO_TIC+4]     )  |
+				((short)chu.u_buffer[i*DMO_TIC+5] << 8);
+			t.d1.use =
+				((unsigned long)chu.u_buffer[i*DMO_TIC+6]     )  |
+				((unsigned long)chu.u_buffer[i*DMO_TIC+7] << 8)  |
+				((unsigned long)chu.u_buffer[i*DMO_TIC+8] << 16) |
+				((unsigned long)chu.u_buffer[i*DMO_TIC+9] << 24);  
+
+			/* Analyse the bytes. */
+			if (t.d1.go_x!=0) {
 				if (!empty_t) strcat(ts," ");
-				sprintf(ts+strlen(ts),"%s", DMOActionName[j]);
+					sprintf(ts+strlen(ts),"GX%hd",t.d1.go_x);
+					empty_t=FALSE;
+				}
+			if (t.d1.go_y!=0) {
+				if (!empty_t) strcat(ts," ");
+					sprintf(ts+strlen(ts),"GY%hd",t.d1.go_y);
+					empty_t=FALSE;
+				}
+			if (t.d1.turn!=0) {
+				if (!empty_t) strcat(ts," ");
+				if (t.d1.turn>0) 
+					sprintf(ts+strlen(ts),"TR%hd",t.d1.turn);
+				if (t.d1.turn<0)
+					sprintf(ts+strlen(ts),"TL%hd",-t.d1.turn);
+				/* should never occur ! */
+				/*
+				if (t.d1.turn>200 || t.d1.turn<-200) {
+					if (!empty_c) strcat(cs," ");
+					sprintf(cs+strlen(cs),"T0x%02X%02X", 
+					chu.u_buffer[i*DMO_TIC+5],  chu.u_buffer[i*DMO_TIC+4]);
+					empty_c=FALSE;
+				}
+				*/
 				empty_t=FALSE;
 			}
+			weapon = (t.d1.use >> 8) & 0x0F; 
+			t.d1.use &= 0xFFFFF0FFL;
+			if (weapon) {
+				if (!empty_t) strcat(ts," ");
+				sprintf(ts+strlen(ts),"NW%i", weapon);
+				empty_t=FALSE;
+			}
+			if (t.d1.use!=0) {
+				for (j=0;j<32;j++,t.d1.use>>=1) {
+					if (t.d1.use&1) {
+						if (!empty_t) strcat(ts," ");
+						sprintf(ts+strlen(ts),"%s", DMOActionName[j]);
+						empty_t=FALSE;
+					}
+				}
+			}
 		}
-	}
+		break;
+		case DUKE_new:
+		case GAME_DUKE_14PLUS:
+		case REDNECK:
+		{
+			/* Get the bytes from the file. */
+			t.d2.avel = *(signed char*)(&chu.u_buffer[i*DMO_TIC+0]);
+			t.d2.horz = *(signed char*)(&chu.u_buffer[i*DMO_TIC+1]);
+			t.d2.fvel =
+				((short)chu.u_buffer[i*DMO_TIC+2]) |
+				((short)chu.u_buffer[i*DMO_TIC+3] << 8);
+			t.d2.svel =
+				((short)chu.u_buffer[i*DMO_TIC+4]) |
+				((short)chu.u_buffer[i*DMO_TIC+5] << 8);
+			t.d2.bits =
+				((unsigned long)chu.u_buffer[i*DMO_TIC+6]     )  |
+				((unsigned long)chu.u_buffer[i*DMO_TIC+7] << 8)  |
+				((unsigned long)chu.u_buffer[i*DMO_TIC+8] << 16) |
+				((unsigned long)chu.u_buffer[i*DMO_TIC+9] << 24);  
 
-#endif
+			/* Analyse the bytes. */
+			if (t.d2.fvel!=0) {
+				if (!empty_t) strcat(ts," ");
+				sprintf(ts+strlen(ts),"GX%hd",t.d2.fvel);
+				empty_t=FALSE;
+			}
+			if (t.d2.svel!=0) {
+				if (!empty_t) strcat(ts," ");
+				sprintf(ts+strlen(ts),"GY%hd",t.d2.svel);
+				empty_t=FALSE;
+			}
+			if (t.d2.avel!=0) {
+				if (!empty_t) strcat(ts," ");
+				if (t.d2.avel>0)
+					sprintf(ts+strlen(ts),"TR%hd",t.d2.avel);
+				if (t.d2.avel<0)
+					sprintf(ts+strlen(ts),"TL%hd",-t.d2.avel);
+				empty_t=FALSE;
+			}
+			if (t.d2.horz!=0) {
+				if (!empty_t) strcat(ts," ");
+				if (t.d2.horz>0) 
+					sprintf(ts+strlen(ts),"AU%hd",t.d2.horz);
+				if (t.d2.horz<0)
+					sprintf(ts+strlen(ts),"AD%hd",-t.d2.horz);
+				empty_t=FALSE;
+			}
+			weapon = (t.d2.bits >> 8) & 0x0F; 
+			t.d2.bits &= 0xFFFFF0FFL;
+			if (weapon) {
+				if (!empty_t) strcat(ts," ");
+				sprintf(ts+strlen(ts),"NW%i", weapon);
+				empty_t=FALSE;
+			}
+			if (t.d2.bits!=0) {
+				for (j=0;j<32;j++,t.d2.bits>>=1) {
+					if (t.d2.bits&1) {
+						if (!empty_t) strcat(ts," ");
+						sprintf(ts+strlen(ts),"%s", DMOActionName[j]);
+						empty_t=FALSE;
+					}
+				}
+			}
+		}
+		break;
+	} /* End switch d.game. */
+
       if (empty_t) {
         strcat(ts,"WT");
       }
