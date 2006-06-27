@@ -1,3 +1,4 @@
+<!-- $Id$ -->
 <!ENTITY lowbar "_">
 	<!ENTITY lsqb "[">
 	<!ENTITY rsqb "]">
@@ -516,85 +517,101 @@ before.</para>
 </sect2>
 <sect2 ID="DATA">
 <title>Data description</title>
-<para>One game tic corresponds to 10 times player number bytes:
 
+<para>One game tic consists of the data from all players. The input for every
+player is listed below.</para>
+<sect3>
+<title>Duke Nukem 3D 1.0, Duke Nukem 3D 1.1</title>
+<para>
+One game tic has 10 bytes per player:
 <informaltable>
-<tgroup COLS="4">
+<tgroup COLS="3">
 <colspec COLSEP="0" ALIGN="LEFT">
 <colspec COLSEP="0" ALIGN="LEFT">
-<colspec COLSEP="0" ALIGN="CENTER">
 <colspec COLSEP="0" ALIGN="LEFT">
 <tbody>
 <row>
 <entry>address </entry>
 <entry>type </entry>
-<entry>player </entry>
+<entry>contents</entry>
+</row>
+<row>
+<entry><literal REMAP="tt">0x0000</literal> </entry>
+<entry><literal REMAP="tt">signed short</literal> </entry>
+<entry>go in <emphasis>x</emphasis>-direction</entry>
+</row>
+<row>
+<entry><literal REMAP="tt">0x0002</literal> </entry>
+<entry><literal REMAP="tt">signed short</literal> </entry>
+<entry>go in <emphasis>y</emphasis>-direction</entry>
+</row>
+<row>
+<entry><literal REMAP="tt">0x0004</literal> </entry>
+<entry><literal REMAP="tt">signed short</literal> </entry>
+<entry>turn</entry>
+</row>
+<row>
+<entry><literal REMAP="tt">0x0006</literal> </entry>
+<entry><literal REMAP="tt">unsigned long</literal> </entry>
+<entry>use/open etc.</entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</para>
+</sect3>
+
+<sect3>
+<title>Duke Nukem 3D 1.3D, Duke Nukem 3D 1.4, Duke Nukem 3D 1.5, Redneck Rampage</title>
+<para>
+One game tic has 10 bytes per player:
+<informaltable>
+<tgroup COLS="3">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<colspec COLSEP="0" ALIGN="LEFT">
+<tbody>
+<row>
+<entry>address </entry>
+<entry>type </entry>
 <entry>contents</entry>
 </row>
 <row>
 <entry><literal REMAP="tt">0x0000</literal> </entry>
 <entry><literal REMAP="tt">signed char</literal> </entry>
-<entry>1 </entry>
 <entry>turn</entry>
 </row>
 <row>
 <entry><literal REMAP="tt">0x0001</literal> </entry>
 <entry><literal REMAP="tt">signed char</literal> </entry>
-<entry>1 </entry>
-<entry>horizon movement (aim up)</entry>
+<entry>horizon movement (mouse aim up or down)</entry>
 </row>
 <row>
 <entry><literal REMAP="tt">0x0002</literal> </entry>
 <entry><literal REMAP="tt">signed short</literal> </entry>
-<entry>1 </entry>
 <entry>go in <emphasis>x</emphasis>-direction</entry>
 </row>
 <row>
 <entry><literal REMAP="tt">0x0004</literal> </entry>
 <entry><literal REMAP="tt">signed short</literal> </entry>
-<entry>1 </entry>
 <entry>go in <emphasis>y</emphasis>-direction</entry>
 </row>
 <row>
 <entry><literal REMAP="tt">0x0006</literal> </entry>
-<entry><literal REMAP="tt">long</literal> </entry>
-<entry>1 </entry>
+<entry><literal REMAP="tt">unsigned long</literal> </entry>
 <entry>use/open etc.</entry>
-</row>
-<row>
-<entry><literal REMAP="tt">0x000A</literal> </entry>
-<entry><literal REMAP="tt">signed char</literal> </entry>
-<entry>2 </entry>
-<entry>turn</entry>
-</row>
-<row>
-<entry><literal REMAP="tt">0x000B</literal> </entry>
-<entry><literal REMAP="tt">signed char</literal> </entry>
-<entry>2 </entry>
-<entry>horizon movement (aim up)</entry>
-</row>
-<row>
-<entry>. </entry>
-</row>
-<row>
-<entry>. </entry>
-</row>
-<row>
-<entry>. </entry>
-</row>
-<row>
-<entry></entry>
 </row>
 </tbody>
 </tgroup>
 </informaltable>
-
 </para>
+</sect3>
+
 <sect3>
 <title>Go <emphasis>x</emphasis> and <emphasis>y</emphasis></title>
-<para>The 2 words (<literal REMAP="tt">signed short</literal>) are duke's speed or the displacement
+<para>The two moving parameters are the player's speed or the displacement
 vector in length units per game tic.</para>
-<para>To calculate the absolute value of his speed just calculate 
+<para>To calculate the absolute value of the player speed just calculate 
 sqrt(x<superscript>2</superscript>+y<superscript>2</superscript>).</para>
 <para>A standard speed is 1280 (with running 2560). The coordinate system used is like
 this:
@@ -865,7 +882,7 @@ never announced.</para>
 </varlistentry>
 
 <varlistentry>
-<term>0.0.6, 12 March 1998</term>
+<term>0.0.6, 12 March, 1998</term>
 <listitem>
 <para>
 <itemizedlist>
@@ -881,7 +898,7 @@ never announced.</para>
 </varlistentry>
 
 <varlistentry>
-<term>0.1.0, 26 June 2006</term>
+<term>0.1.0, 27 June, 2006</term>
 <listitem>
 <para>
 <itemizedlist>
@@ -892,7 +909,7 @@ never announced.</para>
 <para>Full list of actions listed.</para>
 </listitem>
 <listitem>
-<para>Internal game tic structure changed.</para>
+<para>Internal game tic structure for Duke Nukem 3D 1.3D and later added.</para>
 </listitem>
 </itemizedlist>
 </para>
