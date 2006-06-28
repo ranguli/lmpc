@@ -1,5 +1,5 @@
 /*  lmpc -- the Little Movie Processing Centre
-    Copyright (C) 1994-99,2004 Uwe Girlich
+    Copyright (C) 1994-2006 Uwe Girlich
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ char *DMOActionName[] = {
 /* 14 Look_Down */          "LD",
 /* 15 NightVision */        "VI",
 /* 16 MedKit */             "MK",
-/* 17 AutoRun ?? */         "AR",
+/* 17 AutoRun */            "AR",
 /* 18 Center_View */        "LC",
 /* 19 Holster_Weapon */     "HW",
 /* 20 Inventory_Left */     "IL",
