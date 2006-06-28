@@ -1841,8 +1841,12 @@ same time).</para>
 <sect3>
 <title>Fly and Look (HERETIC and HEXEN only)</title>
 <para>A fly and look command consists of a 2 letter word and an amount 
-(1&lt;=<literal REMAP="tt">n</literal>&lt;=15)
+(1&lt;=<literal REMAP="tt">n</literal>&lt;=15).</para>
 
+<para>Duke Nukem 3D supports from 1.3D onwards also Look Up and Look Down.
+Here the allowed range is 
+(1&lt;=<literal REMAP="tt">n</literal>&lt;=127).</para>
+<para>
 <table>
 <title>Fly and Look commands</title>
 <tgroup COLS="2">
@@ -1864,10 +1868,6 @@ same time).</para>
 <row>
 <entry><literal REMAP="tt">LDn</literal> </entry>
 <entry>Look Down <literal REMAP="tt">n</literal></entry>
-</row>
-<row>
-<entry></entry>
-<entry></entry>
 </row>
 <row>
 <entry><literal REMAP="tt">FC</literal> </entry>
@@ -2210,6 +2210,14 @@ in <literal REMAP="tt">DUKE3D.CFG</literal>.
 <entry>Run</entry>
 </row>
 <row>
+<entry><literal REMAP="tt">LL</literal> </entry>
+<entry>Look&lowbar;Left</entry>
+</row>
+<row>
+<entry><literal REMAP="tt">LR</literal> </entry>
+<entry>Look&lowbar;Right</entry>
+</row>
+<row>
 <entry><literal REMAP="tt">LU</literal> </entry>
 <entry>Look&lowbar;Up</entry>
 </row>
@@ -2242,12 +2250,28 @@ in <literal REMAP="tt">DUKE3D.CFG</literal>.
 <entry>Inventory&lowbar;Left</entry>
 </row>
 <row>
+<entry><literal REMAP="tt">PA</literal> </entry>
+<entry>Pause</entry>
+</row>
+<row>
+<entry><literal REMAP="tt">QK</literal> </entry>
+<entry>Quick&lowbar;Kick</entry>
+</row>
+<row>
+<entry><literal REMAP="tt">AM</literal> </entry>
+<entry>AimMode</entry>
+</row>
+<row>
 <entry><literal REMAP="tt">HD</literal> </entry>
 <entry>Holo&lowbar;Duke</entry>
 </row>
 <row>
 <entry><literal REMAP="tt">JP</literal> </entry>
 <entry>Jetpack</entry>
+</row>
+<row>
+<entry><literal REMAP="tt">GQ</literal> </entry>
+<entry>GameQuit</entry>
 </row>
 <row>
 <entry><literal REMAP="tt">IR</literal> </entry>
@@ -2259,43 +2283,15 @@ in <literal REMAP="tt">DUKE3D.CFG</literal>.
 </row>
 <row>
 <entry><literal REMAP="tt">UT</literal> </entry>
-<entry>Open</entry>
+<entry>Open (Use Thing)</entry>
 </row>
 <row>
 <entry><literal REMAP="tt">IN</literal> </entry>
 <entry>Inventory</entry>
 </row>
 <row>
-<entry><literal REMAP="tt">AC6</literal> </entry>
-<entry>??</entry>
-</row>
-<row>
-<entry><literal REMAP="tt">AC7</literal> </entry>
-<entry>??</entry>
-</row>
-<row>
-<entry><literal REMAP="tt">AC12</literal> </entry>
-<entry>??</entry>
-</row>
-<row>
-<entry><literal REMAP="tt">PA</literal> </entry>
-<entry>Pause</entry>
-</row>
-<row>
-<entry><literal REMAP="tt">AC22</literal> </entry>
-<entry>??</entry>
-</row>
-<row>
-<entry><literal REMAP="tt">AC23</literal> </entry>
-<entry>??</entry>
-</row>
-<row>
-<entry><literal REMAP="tt">AC26</literal> </entry>
-<entry>??</entry>
-</row>
-<row>
-<entry><literal REMAP="tt">AC31</literal> </entry>
-<entry>??</entry>
+<entry><literal REMAP="tt">EC</literal> </entry>
+<entry>Esc</entry>
 </row>
 <row>
 <entry><literal REMAP="tt">NWn</literal> </entry>
@@ -2429,30 +2425,31 @@ the DEM editing hype. DBS (I really have to change this name)
 gave the Keygrip authors 
 (<ulink URL="http://www.planetquake.com/keygrip"></ulink>) the starting point for their 
 internal fake Quake server.</para>
-<para><variablelist>
+<para>
+
+<variablelist>
+
 <varlistentry>
 <term>1.0 (8/30/1994) <literal REMAP="tt">lmpc10.zip</literal> (8/31/1994 posted in 
 <ulink URL="news:alt.binaries.doom">alt.binaries.doom</ulink>, 
 <ulink URL="news:alt.games.doom">alt.games.doom</ulink>)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>General: first public version.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>1.01 (8/31/1994) <literal REMAP="tt">lmpc101.arj</literal> (9/1/1994 posted in 
 <ulink URL="news:alt.binaries.doom">alt.binaries.doom</ulink>, 
 <ulink URL="news:alt.games.doom">alt.games.doom</ulink>)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>LMP: bug fixed in <literal REMAP="tt">WT</literal> statistics.</para>
@@ -2475,29 +2472,27 @@ with the archive name <literal REMAP="tt">lmpc10.zip</literal>. Therefore I chan
 archive.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.0 (10/11/1994) <literal REMAP="tt">lmpc20.arj</literal> (internal beta test release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>LMP: the LMP compiler is ready after all!</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.01 (10/12/1994) <literal REMAP="tt">lmpc201.arj</literal> (internal beta test release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>LMP: decompiler bug fixed (<literal REMAP="tt">UT</literal>/<literal REMAP="tt">FW</literal> and <literal REMAP="tt">NW</literal>
@@ -2510,45 +2505,42 @@ in the same game tic).</para>
 <para>LMP: <literal REMAP="tt">NW8</literal> (8 gives you the chain saw directly) added.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.1 (10/24/1994) <literal REMAP="tt">lmpc21.arj</literal> (10/25/1994 posted in 
 <ulink URL="news:alt.binaries.doom">alt.binaries.doom</ulink>)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>General: after a error free beta test phase nothing changed, new public
 version.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.20 ... 2.26 (never published)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>General: rewritten from scratch (Turbo Pascal 6.0 -&gt; ANSI C).</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.27 (2/25/1995) <literal REMAP="tt">lmpc-2.27.tar.gz</literal> (internal beta test release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>LMP: LS format improved (new HERETIC movements).</para>
@@ -2569,15 +2561,14 @@ version.</para>
 <para>General: includes now an executable for MS-DOS and Linux.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.3 (4/29/1995) <literal REMAP="tt">lmpc-2.3.tar.gz</literal>/<literal REMAP="tt">lmpc23.zip</literal></term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>General: full source code included.</para>
@@ -2592,16 +2583,15 @@ version.</para>
 <para>General: includes now go32.exe and stub.exe too.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.4 (8/7/1995) <literal REMAP="tt">lmpc-2.4.tar.gz</literal>/<literal REMAP="tt">lmpc24.zip</literal>
 (public release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>General: MS-DOS binary cross compiled with go32crs.</para>
@@ -2614,16 +2604,15 @@ HTML version).</para>
 <para>LMP: Ultimate DOOM with 4th episode tested (nothing changed).</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.5 (8/23/1995) <literal REMAP="tt">lmpc-2.5.tar.gz</literal>/<literal REMAP="tt">lmpc25.zip</literal>
 (internal beta test release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>General: command line parsing now with <literal REMAP="tt">getopt&lowbar;long</literal> and long 
@@ -2649,16 +2638,15 @@ from the GNU C library (my copy of djgpp doesn't include getopt).</para>
 file.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.6 (8/26/1995) <literal REMAP="tt">lmpc-2.6.tar.gz</literal>/<literal REMAP="tt">lmpc26.zip</literal>
 (internal beta test release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>LMP: <literal REMAP="tt">--ls-to-lmp</literal> converts now several LS files to a LMP file.</para>
@@ -2668,16 +2656,15 @@ file.</para>
 LMP file. </para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.6.1 (8/28/1995) <literal REMAP="tt">lmpc-2.6.1.tar.gz</literal>/<literal REMAP="tt">lmpc261.zip</literal>
 (internal beta release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>General: 3 parts of the version number.</para>
@@ -2692,15 +2679,14 @@ LMP file. </para>
 <para>LMP: <literal REMAP="tt">--remove-pause</literal> to remove the Pause game tics.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.7.0 (9/3/1995) <literal REMAP="tt">lmpc-2.7.0.tar.gz</literal> (internal alpha release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>LMP: <literal REMAP="tt">--gametic</literal> changed to <literal REMAP="tt">--tic</literal></para>
@@ -2715,16 +2701,15 @@ LMP file. </para>
 <para>LMP: convert LMP files with the help of a temporary file (if necessary).</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.7.1 (9/5/1995) <literal REMAP="tt">lmpc-2.7.1.tar.gz</literal>/<literal REMAP="tt">lmpc271.zip</literal>
 (internal beta release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>LMP: small bug fixes in the new code.</para>
@@ -2733,47 +2718,44 @@ LMP file. </para>
 <para>LMP: MS-DOS binary converts now all filenames to lower case.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.7.2 (9/6/1995) <literal REMAP="tt">lmpc-2.7.2.tar.gz</literal>/<literal REMAP="tt">lmpc272.zip</literal>
 (internal beta release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>LMP: small bug in the MS-DOS binary corrected.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.8.0 (10/5/1995) <literal REMAP="tt">lmpc-2.8.0.tar.gz</literal>/<literal REMAP="tt">lmpc280.zip</literal>
 (public release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>General: Nothing important changed after one month of intensive beta 
 testing. The code is stable. </para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.9.1 (10/9/1995) <literal REMAP="tt">lmpc-2.9.1.tar.gz</literal>/<literal REMAP="tt">lmpc291.zip</literal>
 (internal beta release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>General: from now on I use a version number scheme similar to Linux: 
@@ -2783,31 +2765,29 @@ second number odd means test.</para>
 <para>LMP: HEXEN support (rudimentary).</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.9.2 (10/9/1995) <literal REMAP="tt">lmpc-2.9.2.tar.gz</literal>/<literal REMAP="tt">lmpc292.zip</literal>
 (internal beta release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>LMP: correct names of all HEXEN artifacts.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.9.3 (11/19/1995) <literal REMAP="tt">lmpc-2.9.3.tar.gz</literal>/<literal REMAP="tt">lmpc293.zip</literal>
 (internal beta release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>LMP: new option <literal REMAP="tt">--clear-save</literal> to clear the <literal REMAP="tt">SG</literal> tics.</para>
@@ -2821,16 +2801,15 @@ second number odd means test.</para>
 for his bug report.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.9.4 (12/6/1995) <literal REMAP="tt">lmpc-2.9.4.tar.gz</literal>/<literal REMAP="tt">lmpc294.zip</literal>
 (internal beta release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>new option <literal REMAP="tt">--mark-step</literal> to mark only every <literal REMAP="tt">STEP</literal>th
@@ -2841,31 +2820,29 @@ game tic</para>
 for LS files.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.9.5 (2/10/1996) <literal REMAP="tt">lmpc-2.9.5.tar.gz</literal>/<literal REMAP="tt">lmpc295.zip</literal>
 (internal alpha release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DMO: rudimentary support for Duke Nukem 3D DMO files (alpha code!). </para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.9.6 (2/12/1996) <literal REMAP="tt">lmpc-2.9.6.tar.gz</literal>/<literal REMAP="tt">lmpc296.zip</literal>
 (internal alpha release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DMO: reliable version of <literal REMAP="tt">lzw.c</literal>/<literal REMAP="tt">unlzw.c</literal> included.</para>
@@ -2877,16 +2854,15 @@ for LS files.</para>
 <para>General: new WWW directory structure.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.9.7 (2/13/1996) <literal REMAP="tt">lmpc-2.9.7.tar.gz</literal>/<literal REMAP="tt">lmpc297.zip</literal>
 (internal beta release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DMO: version 1.1 of <literal REMAP="tt">lzw.c</literal>/<literal REMAP="tt">unlzw.c</literal> included.</para>
@@ -2898,16 +2874,15 @@ for LS files.</para>
 <para>Docu: documentation structure changed.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.9.8 (2/19/1996) <literal REMAP="tt">lmpc-2.9.8.tar.gz</literal>/<literal REMAP="tt">lmpc298.zip</literal>
 (internal beta release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DMO: Chunk header removed from DS format.</para>
@@ -2919,31 +2894,29 @@ for LS files.</para>
 <para>DMO: Pause is AC21.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.9.9 (3/6/1996) <literal REMAP="tt">lmpc-2.9.9.tar.gz</literal>/<literal REMAP="tt">lmpc299.zip</literal>
 (internal beta release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>LMP: STRIFE support included.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.9.10 (4/7/1996) <literal REMAP="tt">lmpc-2.9.10.tar.gz</literal>/<literal REMAP="tt">lmpc2910.zip</literal>
 (internal beta release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>LMP: HEXEN 1.1 (8 player) support included.</para>
@@ -2952,16 +2925,15 @@ for LS files.</para>
 <para>LMP: considerable changes in the <literal REMAP="tt">-g</literal> code.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.9.11 (4/14/1996) <literal REMAP="tt">lmpc-2.9.11.tar.gz</literal>/<literal REMAP="tt">lmpc2911.zip</literal>
 (internal bug fix release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>LMP: version string scan routine improved (buggy since 2.9.9).</para>
@@ -2973,16 +2945,15 @@ for LS files.</para>
 <para>LMP: HEXEN version change (1.0 &lt;-&gt; 1.1) now possible.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.9.12 (4/21/1996) <literal REMAP="tt">lmpc-2.9.12.tar.gz</literal>/<literal REMAP="tt">lmpc2912.zip</literal>
 (internal beta release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DMO: macro-block error fixed.</para>
@@ -2991,46 +2962,43 @@ for LS files.</para>
 <para>LMP: STRIFE player colour names included.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.9.13 (7/1/1996), never released
 (internal incomplete alpha release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DEM: coding started for Quake DEM files, nothing completed.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.9.14 (7/2/1996), never released
 (internal incomplete alpha release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>Quake DEM files: coding continued, something completed.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.9.15 (7/3/1996), never released
 (internal incomplete alpha release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DEM: coding continued, structure mostly completed.</para>
@@ -3048,16 +3016,15 @@ for LS files.</para>
 <para>General: MS-DOS binary is djgpp V2.0 compatible (and runs in dosemu).</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.9.16 (7/4/1996), never released
 (internal incomplete alpha release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DEM: CD track identified.</para>
@@ -3066,16 +3033,15 @@ for LS files.</para>
 <para>DEM: player movement identified.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.9.17 (7/7/1996), <literal REMAP="tt">lmpc-2.9.17.tar.gz</literal>/<literal REMAP="tt">lmpc2917.zip</literal>
 (beta release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DEM: cross reference to DEM specs.</para>
@@ -3087,16 +3053,15 @@ for LS files.</para>
 <para>DEM: entities: ModNum with reference to the model names.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.9.18 (7/8/1996), <literal REMAP="tt">lmpc-2.9.18.tar.gz</literal>/<literal REMAP="tt">lmpc2918.zip</literal>
 (beta release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DEM: stupid spawnstatic error corrected.</para>
@@ -3105,16 +3070,15 @@ for LS files.</para>
 <para>DEM: code beautified.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.9.19 (7/14/1996), <literal REMAP="tt">lmpc-2.9.19.tar.gz</literal>/<literal REMAP="tt">lmpc2919.zip</literal>
 (beta release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DEM: many new values explained.</para>
@@ -3123,16 +3087,15 @@ for LS files.</para>
 <para>DEM: strings can contain unprintable characters. </para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.9.20 (7/17/1996), <literal REMAP="tt">lmpc-2.9.20.tar.gz</literal>/<literal REMAP="tt">lmpc2920.zip</literal>
 (beta release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DEM: some new values explained.</para>
@@ -3144,16 +3107,15 @@ for LS files.</para>
 <para>DEM: corresponds (more or less) to dem-0.0.5.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.9.21 (7/23/1996), <literal REMAP="tt">lmpc-2.9.21.tar.gz</literal>/<literal REMAP="tt">lmpc2921.zip</literal>
 (beta release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DEM: some new values explained.</para>
@@ -3162,16 +3124,15 @@ for LS files.</para>
 <para>DEM: massive code rearrangements.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.9.22 (8/7/1996), <literal REMAP="tt">lmpc-2.9.22.tar.gz</literal>/<literal REMAP="tt">lmpc2922.zip</literal>
 (beta release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DEM: almost all explained.</para>
@@ -3186,16 +3147,15 @@ for LS files.</para>
 <para>DEM: massive code rearrangements.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.9.23 (8/14/1996), <literal REMAP="tt">lmpc-2.9.23.tar.gz</literal>/<literal REMAP="tt">lmpc2923.zip</literal>
 (beta release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DEM: the ``to bin converter'' is ready. Not very stable.</para>
@@ -3213,16 +3173,15 @@ for LS files.</para>
 <para>Docu: some terms changed.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.9.24 (10/6/1996), <literal REMAP="tt">lmpc-2.9.24.tar.gz</literal>/<literal REMAP="tt">lmpc2924.zip</literal>
 (beta release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DEM: all float output (time inclusive) with g-format (9 digits).</para>
@@ -3231,16 +3190,15 @@ for LS files.</para>
 <para>DEM: more internal errors corrected.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.9.25 (10/13/1996), <literal REMAP="tt">lmpc-2.9.25.tar.gz</literal>/<literal REMAP="tt">lmpc2925.zip</literal>
 (beta release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DEM: memory problem solved: LMPC needs now only 400-500K RAM.</para>
@@ -3255,16 +3213,15 @@ for LS files.</para>
 <para>DEMA: first working version.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.9.26 (11/17/1996), <literal REMAP="tt">lmpc-2.9.26.tar.gz</literal>/<literal REMAP="tt">lmpc2926.zip</literal>
 (bug fix release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DEM: MS-DOS binary can read in DEM text files.</para>
@@ -3280,16 +3237,15 @@ for LS files.</para>
 <para>General: new E-mail address.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.9.27 (11/20/1996), <literal REMAP="tt">lmpc-2.9.27.tar.gz</literal>/<literal REMAP="tt">lmpc2927.zip</literal>
 (public beta release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>General: many thanks to 
@@ -3329,16 +3285,15 @@ warnings.</para>
 <para>Docu: Old LMPC history a bit reformatted.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.9.28 (11/30/1996), <literal REMAP="tt">lmpc-2.9.28.tar.gz</literal>/<literal REMAP="tt">lmpc2928.zip</literal>
 (public beta release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DEM: put an <literal REMAP="tt">items</literal> entry in binary DEM files even if it is 0.
@@ -3346,16 +3301,15 @@ This modification enables an error-free decompile/compile of CAMPER3.DEM by
 ``United Rangers Films'' after all.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.9.29 (12/15/1996), <literal REMAP="tt">lmpc-2.9.29.tar.gz</literal>/<literal REMAP="tt">lmpc2929.zip</literal>
 (public beta release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DEM: <literal REMAP="tt">--info</literal> detects DEM text files.</para>
@@ -3367,16 +3321,15 @@ This modification enables an error-free decompile/compile of CAMPER3.DEM by
 <para>DEMcut: coding started. First working version.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.9.30 (1/5/1997), <literal REMAP="tt">lmpc-2.9.30.tar.gz</literal>/<literal REMAP="tt">lmpc2930.zip</literal>
 (alpha test release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DEM: binary file read totally rewritten. I use now for binary files the 
@@ -3421,22 +3374,20 @@ be interrupted, output is time-synchronised. </para>
 <para>General: Orthographical check with <literal REMAP="tt">ispell</literal> (British English). </para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.9.31 (1/7/1997), <literal REMAP="tt">lmpc-2.9.31.tar.gz</literal>/<literal REMAP="tt">lmpc2931.zip</literal>
 (bug fix release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DEM: text write: CD track was never printed: totally stupid bug.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
@@ -3444,7 +3395,6 @@ be interrupted, output is time-synchronised. </para>
 <term>2.9.32 (2/9/1997) (alpha test release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DEMcut: more info on running ranges in interactive mode.</para>
@@ -3462,15 +3412,14 @@ be interrupted, output is time-synchronised. </para>
 <para>General: all messages go to stderr.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.9.33 (2/16/1997) (alpha test release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DMO: Redneck Rampage support started. Info works, decompression not.</para>
@@ -3483,15 +3432,14 @@ exists since April 1996 but nobody said it to me.</para>
 <para>DMO: endian-dependence should be removed. Never checked this.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>2.9.34 (3/23/1997) (beta test release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DEM: <literal REMAP="tt">--info</literal> prints the number of game tics (or frames)
@@ -3521,15 +3469,14 @@ The old syntax continues to work.</para>
 <para>Docu: Demolition and DemoStat mentioned.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>3.0.0 (3/31/1997) (public beta release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DEM: text read: hours in time stamps didn't work (bug report by
@@ -3545,15 +3492,14 @@ James Stephenson (<ulink URL="mailto:james@BETAus.com">james@BETAus.com</ulink>)
 <para>Docu: general clean-up.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>3.0.1 (5/15/1997) (public release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>General: text write: Win32 versions make MS-DOS style
@@ -3584,15 +3530,14 @@ Yonatan Donner (<ulink URL="mailto:ruthd@post.tau.ac.il">ruthd@post.tau.ac.il</u
 Binary Package' use the short 8.3 name scheme.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>3.1.1 (7/20/1997) (internal alpha test release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>QWD: bin read: coding started. Nothing completed. </para>
@@ -3604,15 +3549,14 @@ Binary Package' use the short 8.3 name scheme.</para>
 <para>Conf: all is now Autoconf configured.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>3.1.2 (7/28/1997) (alpha test release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DEMcut: interactive mode is removed in systems without named pipes.</para>
@@ -3634,15 +3578,14 @@ configured.</para>
 <para>Docu: new file: Autoconf generic INSTALL.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>3.1.3 (8/17/1997) (alpha test release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>General: package renamed: LMP/DMO/DEM/QWD Control Centre -&gt; 
@@ -3658,15 +3601,14 @@ Little Movie Processing Centre</para>
 <para>Docu: chapters restructured.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>3.1.4 (12/29/1997) (alpha test release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>Conf: <literal REMAP="tt">Makefile.in</literal> created from <literal REMAP="tt">Makefile.am</literal> by 
@@ -3684,15 +3626,14 @@ decompile correctly a single file.</para>
 decompile deltapacketentities.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>3.1.5 (1/1/1998) (alpha test release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DM2: text output: many comments included.</para>
@@ -3704,15 +3645,14 @@ decompile deltapacketentities.</para>
 <para>Conf: Automake 1.2 compliant. Some yacc/lex changes were needed.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>3.1.6 (3/12/1998) (alpha test release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DM2: binary read: nasty malloc/free bug removed.</para>
@@ -3733,15 +3673,14 @@ decompile deltapacketentities.</para>
 <para>Docu: SGML-Tools 1.0.5 used.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>3.1.7 (6/17/1998) (alpha test release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DBS: subtle sync problem solved. Thanks to Paul Baker
@@ -3758,15 +3697,14 @@ report.</para>
 <para>DM2: binary out: implementation started.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>3.1.8 (7/15/1998) (intermediate beta release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DM2: server record files implemented.</para>
@@ -3784,15 +3722,14 @@ report.</para>
 <para>QWD: binary in: up to QuakeWorld 2.29BETA.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>3.1.9 (8/16/1998) (beta release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>QWD: text in: written.</para>
@@ -3813,15 +3750,14 @@ text read routine the first really working QWD editor.</para>
 works finally without problems.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>3.2.0 (9/6/1998) (stable release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DM2: binary read and binary write: long vwep corrected. Now works
@@ -3857,15 +3793,14 @@ Now works <literal REMAP="tt">latenite.dm2</literal>.</para>
 removed.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>3.2.1 (9/8/1998) (stable release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DEM: text write: didn't write the CD track. A stupid integration
@@ -3877,15 +3812,14 @@ test demos before the upload.</para>
 solved. Just a kludge inserted, which even slows the program down a bit.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>3.2.2 (1/9/1999) (public release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>QWD: bin read: protocol version 27 (game version 2.29BETA and up) 
@@ -3919,15 +3853,14 @@ Cygwin toolset version B20.1.</para>
 <para>DM2cat: The DM2 file concatenator included.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>3.2.3 (1/12/1999) (public release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>Compile: udm2-te&lsqb;123&rsqb;.c are created directly in the source
@@ -3948,30 +3881,28 @@ deliver them to all <ulink URL="http://www.cdrom.com"></ulink> mirrors. In the l
 release this was totally wrong.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>3.2.4 (1/19/1999) (public release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>QWD: bin read: new <emphasis REMAP="bf">serverinfo</emphasis> message wrong handled.
 Thanks to Michale Hofele (<ulink URL="mailto:michael@i603.hadiko.de">michael@i603.hadiko.de</ulink>) for the bug-report.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>3.2.5 (4/6/1999) (public release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>Conf: Autoconf 2.13 and Automake 1.4 used.</para>
@@ -3990,15 +3921,14 @@ Thanks to Christer Sandin (<ulink URL="mailto:czsuch@ocag.ch">czsuch@ocag.ch</ul
 file.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>3.2.6 (4/30/1999) (public release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>QWD: bin read: initialization of the precache lists for game version
@@ -4014,15 +3944,14 @@ Remember: with a good bug report and a short demo file, I can correct a bug
 really fast.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>3.2.7 (5/24/1999) (bug fix release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>Compile: source can be compiled with C++ compilers too. No C++
@@ -4038,15 +3967,14 @@ system from SuSE Linux 4.2 (about 4 years old) to SuSE Linux 6.1 to do
 this.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>3.2.8 (6/3/1999) (bug fix release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>QWD: <emphasis REMAP="bf">modellist</emphasis> and <emphasis REMAP="bf">soundlist</emphasis> corrected.
@@ -4055,15 +3983,14 @@ Thanks to Hoffy
 for the bug report and a demo file.</para>
 </listitem>
 </itemizedlist>
-
 </para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term>3.2.9 (8/18/1999) (public release)</term>
 <listitem>
 <para>
-
 <itemizedlist>
 <listitem>
 <para>DM2: multi-level repair method improved.
@@ -4131,8 +4058,26 @@ for the bug report and a demo file.</para>
 </itemizedlist>
 </para>
 </listitem>
+</varlistentry>
 
-</variablelist></para>
+<varlistentry>
+<term>3.4.2 (6/28/2006) (private alpha release)</term>
+<listitem>
+<para>
+<itemizedlist>
+<listitem>
+<para>DMO: Duke Nukem 3D 1.4 and 1.5 support added.</para>
+</listitem>
+<listitem>
+<para>Compile: Compiled everything on SuSE Linux 10.1.</para>
+</listitem>
+</itemizedlist>
+</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
 <para>Plan for 4.0.0 in order of importance
 
 <orderedlist>
