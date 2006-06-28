@@ -1,5 +1,5 @@
 /*  lmpc -- the Little Movie Processing Centre
-    Copyright (C) 1994-99,2004 Uwe Girlich
+    Copyright (C) 1994-2006 Uwe Girlich
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@
 \****************************************************************************/
 
 /* %option noyywrap never-interactive */
+%option nounput
 
 %{
 #ifdef HAVE_CONFIG_H
