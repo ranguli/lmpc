@@ -25,6 +25,7 @@
 
 /* %option noyywrap never-interactive */
 %option prefix="demotext_"
+%option nounput
 
 %{
 #ifdef HAVE_CONFIG_H
