@@ -1,5 +1,5 @@
 /*  lmpc -- the Little Movie Processing Centre
-    Copyright (C) 1994-2000.2004 Uwe Girlich
+    Copyright (C) 1994-2006 Uwe Girlich
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -2347,9 +2347,9 @@ void ActionDMObin2DMOtxt(char *dmofilename, char *dsfilename, opt_t *opt)
 			if (t.d2.horz!=0) {
 				if (!empty_t) strcat(ts," ");
 				if (t.d2.horz>0) 
-					sprintf(ts+strlen(ts),"AU%hd",t.d2.horz);
+					sprintf(ts+strlen(ts),"LU%hd",t.d2.horz);
 				if (t.d2.horz<0)
-					sprintf(ts+strlen(ts),"AD%hd",-t.d2.horz);
+					sprintf(ts+strlen(ts),"LD%hd",-t.d2.horz);
 				empty_t=FALSE;
 			}
 			weapon = (t.d2.bits >> 8) & 0x0F; 
