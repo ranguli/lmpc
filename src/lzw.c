@@ -70,7 +70,7 @@ static int putcode(int);
 
 int compress(unsigned char *o_buf, long o_buf_size,
              unsigned char *i_buf, long i_buf_size,
-             int last_code, int tic_size, int *used_last_code)
+             int last_code, int tic_size _U_, int *used_last_code)
 {
   int *t_hash;
   unsigned *t_code;		/* short would suffice, ... */

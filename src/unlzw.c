@@ -62,7 +62,7 @@
 
 int decompress(unsigned char *i_buf, long i_buf_size,
                unsigned char *o_buf, long o_buf_size,
-               int last_code, int tic_size)
+               int last_code, int tic_size _U_)
 {
   static int init = 1;
   static unsigned *t_pred;		/* short would suffice, but who cares... */
