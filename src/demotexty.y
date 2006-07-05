@@ -55,6 +55,8 @@
 
   extern void yyerror(char* s);
   extern int yylex(void);
+
+  #define YYSIZE_T size_t
 %}
 
 		/* values */
