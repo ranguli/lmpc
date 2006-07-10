@@ -1,4 +1,5 @@
- ## Process this file with automake to produce Makefile.in
+## Process this file with automake to produce Makefile.in
+# $Id$
 
 
 AUTOMAKE_OPTIONS = foreign
@@ -165,4 +166,16 @@ uploadlocal: doc pack index.html indexpart.html
 # removing additionals
 
 CLEANFILES=index.html indexpart.html
+
+######################################################################
+# Backup
+
+BACKUP_DIR=$(top_srcdir)/../backup
+BACKUP_DIR_CVS=$(BACKUP_DIR)/cvs
+
+backup: backup_cvs
+
+backup_cvs:
+	mkdir -p $(BACKUP_DIR_CVS)
+	rsync -av rsync://lmpc.cvs.sourceforge.net/cvsroot/lmpc/* $(BACKUP_DIR_CVS)
 
