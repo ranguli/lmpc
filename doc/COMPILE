@@ -128,8 +128,8 @@ shortly.
 7. Additional compilation hints
 
 You need lex(1) and yacc(1) to compile the package. I compile it with flex
-version 2.5.4 and GNU Bison version 1.875 because they were included in my
-SuSE Linux 10.0. They should compile just fine with other versions too.
+version 2.5.31 and GNU Bison version 2.1 because they were included in my
+SuSE Linux 10.1. They should compile just fine with other versions too.
 I don't provide precompiled C-files for the scanner and parser because
 standard (non-GNU) C compilers have difficulties with the bison created C
 source.
@@ -144,7 +144,7 @@ The cross-compile rules were added very rude but anyway, it works as it is.
 The whole process of configuring and compiling Linux, MS-DOS and Win32
 (Cygwin and Mingw32) binaries of LMPC, DEMcut and DBS, the creation of the
 documentation for the distribution packages (html, pdf) and the packaging
-itself takes on my Athlon 2600+ about 75 seconds (make pack).
+itself takes on my Athlon 2600+ about 140 seconds (make pack).
 
 
 
