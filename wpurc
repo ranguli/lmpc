@@ -68,11 +68,12 @@ MYEMAIL="uwe@planetquake.com"
 PQSITE="demospecs.planetquake.gamespy.com"
 PLANETQUAKE="http://@PQSITE@"
 BASE=""
-HOMEURL="@PLANETQUAKE@/@BASE@"
+# Not needed any more.
+# HOMEURL="@PLANETQUAKE@/@BASE@"
+HOMEURL="@PLANETQUAKE@"
 HOMENAME="Demo Specs page"
 FPSITE="www.fileplanet.com"
 FILEPLANET="http://@FPSITE@"
-
 # wpu parse end
 
 
