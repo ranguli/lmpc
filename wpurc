@@ -5,7 +5,7 @@ TYPE="program"
 
 
 # Direct FilePlanet link base to a particular file.
-DOWNFP="@FILEPLANET@/dl.aspx?/planetquake/@BASE@/"
+DOWNFP="@FILEPLANET@/hosteddl.aspx?/planetquake/@BASE@/"
 
 # Download from SourceForge.
 SOURCEFORGE="http://sourceforge.net"
@@ -67,7 +67,7 @@ MYNAME="@MYFIRSTNAME@ @MYSURNAME@"
 MYEMAIL="uwe@planetquake.com"
 PQSITE="demospecs.planetquake.gamespy.com"
 PLANETQUAKE="http://@PQSITE@"
-BASE=""
+BASE="demospecs"
 # Not needed any more.
 # HOMEURL="@PLANETQUAKE@/@BASE@"
 HOMEURL="@PLANETQUAKE@"
