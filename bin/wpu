@@ -83,11 +83,11 @@ Last changed: \@DATE@,
 <A HREF=\"mailto:\@MYEMAIL@\">\@MYNAME@</A>
 <P ALIGN=\"CENTER\">
 <A HREF=\"http://www.linux.org\">
-<IMG SRC=\"/\@BASE@/icons/FreePower2.1.gif\"
+<IMG SRC=\"/\@PICSDIR@/FreePower2.1.gif\"
 ALT=\"Free LINUX Power\" >
 <A HREF=\"http://www.anybrowser.org/campaign/\">
 <IMG
-SRC=\"/\@BASE@/icons/anybrowser3.gif\" WIDTH=\"88\"
+SRC=\"/\@PICSDIR@/anybrowser3.gif\" WIDTH=\"88\"
 HEIGHT=\"31\" ALT=\"Best Viewed With Any Browser\"
 BORDER=\"0\"></A></P>",
 
