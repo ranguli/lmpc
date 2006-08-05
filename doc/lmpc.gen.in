@@ -36,7 +36,7 @@ QuakeWorld QWD files, Quake II DM2 files (client recorded, server
 recorded, and relay files), and Quake III Arena DM3 files too. For Quake II
 relay files, read the home page of the Quake II Relay project by Conor Davis
 (<ulink URL="mailto:cedavis@planetquake.com">cedavis@planetquake.com</ulink>)
-<ulink URL="http://www.planetquake.com/relay/"></ulink></para>
+<ulink URL="http://relay.planetquake.gamespy.com/"></ulink></para>
 <para>You can download the package from my 
 <ulink URL="@HOMEURL@">@HOMENAME@</ulink>.</para>
 <para>It is based upon the information in the 
@@ -4061,7 +4061,7 @@ for the bug report and a demo file.</para>
 </varlistentry>
 
 <varlistentry>
-<term>3.4.2 (6/28/2006) (private alpha release)</term>
+<term>3.4.2 (8/4/2006) (alpha release)</term>
 <listitem>
 <para>
 <itemizedlist>
@@ -4109,7 +4109,9 @@ Maybe something like <literal REMAP="tt">librecord.so</literal>.</para>
 file type detection. </para>
 </listitem>
 <listitem>
-<para>Redneck Rampage decompression.</para>
+<para>Redneck Rampage decompression - might be solved with the enhanced Duke
+Nukem 3D support but I can't run Redneck Rampage any longer to check it
+out.</para>
 </listitem>
 </orderedlist>
 
@@ -4119,16 +4121,6 @@ file type detection. </para>
 <orderedlist>
 <listitem>
 <para>Hexen II and HexenWorld support.</para>
-</listitem>
-</orderedlist>
-
-</para>
-<para>Open problems
-
-<orderedlist>
-<listitem>
-<para>Does someone know the difference between the Redneck Rampage compression
-algorithm and the one used in Duke Nukem 3D?</para>
 </listitem>
 </orderedlist>
 
