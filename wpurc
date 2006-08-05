@@ -71,6 +71,7 @@ BASE="demospecs"
 # Not needed any more.
 # HOMEURL="@PLANETQUAKE@/@BASE@"
 HOMEURL="@PLANETQUAKE@"
+PICSDIR="pics"
 HOMENAME="Demo Specs page"
 FPSITE="www.fileplanet.com"
 FILEPLANET="http://@FPSITE@"
