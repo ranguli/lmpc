@@ -2374,7 +2374,7 @@ bit. It was developed for internet multiplayer action at a time, when highspeed
 internet access was rare. There is (not yet) an ``Unofficial DM3 format
 description'' but you can easily learn it by looking through the Quake III Arena source code or the LMPC source code.</para>
 <para>You will understand my textual representation of the DM3 format
-by inspecting a sample file</para>
+by inspecting a sample file.</para>
 <para>If someone is willing to write a documentation of my DM3 text format please
 inform me and your document will be included right here. </para>
 </sect1>
