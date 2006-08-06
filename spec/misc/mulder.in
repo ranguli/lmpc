@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl -w
+#!/usr/bin/perl -w
 
 # ---------------------------
 # MUlti-Level DEmo Repair kit
@@ -9,7 +9,7 @@
 # than be replayed by Quake II as usual.
 
 # Find out more on this topic on 
-# @HOMEURL@/faq/faq.html#AEN129.
+# @HOMEURL@/faq/faq.html#REPAIRDM2.
 
 # Get MULDER (without HTML decorations) from 
 # @HOMEURL@/@PACKAGE@/mulder.
@@ -21,15 +21,15 @@ use IO::File;
 use vars qw($opt_h);
 use Getopt::Std;
 
-my $release = "1.0.4";
-my $date = "8/18/1999";
+my $release = "1.0.5";
+my $date = "8/6/2006";
 my $comment = "stable version";
 
 getopts('h');
 
 if ($opt_h || (@ARGV != 2)) {
   print "The MUlti-Level DEmo Repair kit\n";
-  print "MULDER (c) @MYNAME@, 1998-99, Release $release $date ($comment)\n";
+  print "MULDER (c) @MYNAME@, 1998-2006, Release $release $date ($comment)\n";
   print "mulder DM2_text_in DM2_text_out\n";
   print "DM2_text_out may contain a printf place-holder like %d.\n";
   print "In this case  MULDER splits the DM2 text file at the level change\n";
