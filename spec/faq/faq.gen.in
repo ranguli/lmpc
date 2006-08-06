@@ -167,7 +167,7 @@ kind of conversion) or with a single binary DEM file as "in-place editing".</par
 <para>During the level change of such a patched DEM file there might be a 
 never ending sound effect but it will stop after the next level start.</para>
 </sect4>
-<sect4>
+<sect4 ID="REPAIRDM2">
 <title>Quake II</title>
 <para>Quake II has similar, if not more severe problems with multi-level
 recordings. Because of the mission character of the game (multiple level
@@ -1027,7 +1027,7 @@ protocol. This encryption is not included in DM3 files.</para>
 </varlistentry>
 
 <varlistentry>
-<term>1.1.3, 23 January 2000</term>
+<term>1.1.3, 23 January, 2000</term>
 <listitem>
 <para>
 <itemizedlist>
@@ -1043,7 +1043,7 @@ protocol. This encryption is not included in DM3 files.</para>
 </varlistentry>
 
 <varlistentry>
-<term>1.1.4, 4 March 2006</term>
+<term>1.1.4, 4 March, 2006</term>
 <listitem>
 <para>
 <itemizedlist>
@@ -1059,7 +1059,28 @@ protocol. This encryption is not included in DM3 files.</para>
 </itemizedlist>
 </para>
 </listitem>
+</varlistentry>
+
+<varlistentry>
+<term>1.1.5, 6 August, 2006</term>
+<listitem>
+<para>
+<itemizedlist>
+<listitem>
+<para>Typos corrected.</para>
+</listitem>
+<listitem>
+<para>Permanent link to dm2 repair created.</para>
+</listitem>
+<listitem>
+<para>Download links updated.</para>
+</listitem>
+</itemizedlist>
+</para>
+</listitem>
+</varlistentry>
 
 </variablelist></para>
 </sect1>
 </article>
+
