@@ -3,12 +3,11 @@
 ## wpu parse start /^([^=]+)=(.+)\s*$/
 PACKAGE=faq
 TITLE=The recording FAQ
-VERSION=1.1.4
-DATE=3/4/2006
-LVS=341
-LVL=3.4.1
+VERSION=1.1.5
+DATE=8/6/2006
+LVS=342
+LVL=3.4.2
 LQUALITY=alpha
 TYPE=document
-DOWNSF=http://prdownloads.sourceforge.net/lmpc/
 ## wpu parse end
 
