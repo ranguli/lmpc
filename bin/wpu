@@ -76,8 +76,18 @@ my %values = (
   "SCRIPT"  => $script,
   "SUBPACKAGE" => "",
   "STUFF"   => "",
-  "BANNER1" => "<!--INSERTADTHISPAGE -->",
-  "BANNER2" => "<!--ACCIPITERADINSERT /SITE=PQ/GENRE=ACTION/AREA=HOSTED/AAMSZ=IAB_FULL_BANNER-->",
+  "BANNER1A" => "<!--INSERTADTHISPAGE -->
+",
+  "BANNER2A" => "<!--ACCIPITERADINSERT /SITE=PQ/GENRE=ACTION/AREA=HOSTED/AAMSZ=IAB_FULL_BANNER-->",
+  "BANNER1" => "",
+  "BANNER2" => q{<script language="javascript" type="text/javascript">
+document.write("<"+"script type='text/javascript' src='http://wrapper.gamespy.com/a?pagetype=pnh_content&amp;size=728x90'>");
+document.write("<"+"/script>");
+</script>
+<noscript>
+<iframe valign=top WIDTH=728 HEIGHT=90 MARGINWIDTH=0 MARGINHEIGHT=0 HSPACE=0 VSPACE=0 FRAMEBORDER=0 SCROLLING=no BORDERCOLOR="#000000" SRC="http://wrapper.gamespy.com/a?pagetype=pnh_content&amp;size=728x90&amp;sizew=728&amp;sizeh=90&amp;js=false">
+</iframe>
+</noscript>},
   "SIG"     => "<HR>
 Last changed: \@DATE@,
 <A HREF=\"mailto:\@MYEMAIL@\">\@MYNAME@</A>
@@ -338,8 +348,7 @@ sub packageindex {
     $values{"SUBPACKAGE"} = "";
   }
 
-  my $HtmlSceleton = "\@BANNER1@
-<HTML>
+  my $HtmlSceleton = "\@BANNER1@<HTML>
 <HEAD>
 <TITLE>\@TITLE@</TITLE>
 </HEAD>
@@ -529,8 +538,7 @@ my $bb="</UL>
 
 sub mainbase {
 
-  my $HtmlSceleton = "\@BANNER1@
-<HTML>
+  my $HtmlSceleton = "\@BANNER1@<HTML>
 <HEAD>
 <TITLE>\@HOMENAME@</TITLE>
 </HEAD>
