@@ -48,7 +48,7 @@ game (macros and RemoteRedicule (tm)) do not appear in the DMO.</para>
 and the data area with all the (compressed) game tics. </para>
 <para>The term ``game tic'' comes originally from DOOM and denotes the smallest unit
 of time during the game. The duration of a game tic is
-1/30s. To store a game tic in a file means to store all actions, like
+1/26s. To store a game tic in a file means to store all actions, like
 movement, open doors, fire weapons and so on, happened during this time. </para>
 </sect1>
 <sect1>
@@ -907,6 +907,21 @@ never announced.</para>
 </listitem>
 <listitem>
 <para>Internal game tic structure for Duke Nukem 3D 1.3D and later added.</para>
+</listitem>
+</itemizedlist>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>0.1.1, 20 March, 2007</term>
+<listitem>
+<para>
+<itemizedlist>
+<listitem>
+<para>A Duke Nukem 3D game tic is 1/26s and not 1/30s. Thanks to
+<ulink URL="mailto:jlennox@gmail.com">jlennox@gmail.com</ulink>
+for spotting this error.</para>
 </listitem>
 </itemizedlist>
 </para>
