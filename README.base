@@ -63,7 +63,7 @@ Features:
      This is free software, and you are welcome to redistribute it under 
      certain conditions; read the GNU General Public Licence for details.
  * precompiled binaries are available for
-   + Linux (gcc 4.1.0, glibc, x86) 
+   + Linux (gcc 4.1.2, glibc, x86) 
    + MS-DOS (gcc 2.95.2, cross-compiled like djgpp V2.0 (go32))
    + Win32 (cross-compiled with the Cygwin toolset (gcc 3.3.1),
        needs cygwin1.dll)

@@ -98,11 +98,11 @@ sf	bin/Makefile.am	Automake template for bin/Makefile.in
 sf	bin/Makefile.in Autoconf template for bin/Makefile
 sf	bin/cprep	C to C++ conversion tool
 df	bin/cwsdpmi.exe	MS-DOS DPMI server for the MS-DOS binaries
-lf	bin/dbs	DBS Linux binary (gcc 3.3.3, glibc, x86, ELF)
+lf	bin/dbs	DBS Linux binary (gcc 4.1.2, glibc, x86, ELF)
 wf	bin/dbs32.exe	DBS Win32 binary (gcc 3.3.1, Cygwin)
 ldwmf	bin/dema	DEM Text File Analyser (Perl script)
 sf	bin/dema.in	template for DEM Text File Analyser (Perl script)
-lf	bin/demcut	DEMcut Linux binary (gcc 3.3.3, glibc, x86, ELF)
+lf	bin/demcut	DEMcut Linux binary (gcc 4.1.2, glibc, x86, ELF)
 df	bin/demcut.exe	DEMcut MS-DOS binary (egcs-2.91.66, djgpp V2.0)
 wf	bin/demcut32.exe	DEMcut Win32 binary (gcc 3.3.1, Cygwin)
 mf	bin/demcutm.exe	DEMcut Win32 binary (gcc 3.3.1, Mingw32)
@@ -110,7 +110,7 @@ ldwmf	bin/dm2cat	The DM2 file concatenator (Perl script)
 sf	bin/dm2cat.in	template for The DM2 file concatenator (Perl script)
 sf	bin/extract	the specs to C extractor (Perl script)
 sf	bin/gentok	includes tokens in yacc and lex files
-lf	bin/lmpc	LMPC Linux binary (gcc 3.3.3, glibc, x86, ELF)
+lf	bin/lmpc	LMPC Linux binary (gcc 4.1.2, glibc, x86, ELF)
 df	bin/lmpc.exe	LMPC MS-DOS binary (egcs-2.91.66, djgpp V2.0)
 wf	bin/lmpc32.exe	LMPC Win32 binary (gcc 3.3.1, Cygwin)
 mf	bin/lmpcm.exe	LMPC Win32 binary (gcc 3.3.1, Mingw32)

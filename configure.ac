@@ -5,8 +5,8 @@ dnl This is the main version definition area.
 dnl wpu parse start /^define\(MY_([^,]+),\[([^\]]+)\]\)/
 define(MY_PACKAGE,[lmpc])
 define(MY_TITLE,[The Little Movie Processing Centre])
-define(MY_VERSION,[3.4.2])
-define(MY_DATE,[8/5/2006])
+define(MY_VERSION,[3.4.3])
+define(MY_DATE,[3/21/2006])
 define(MY_COMMENT,[alpha test release])
 define(MY_QUALITY,[alpha])
 define(MY_EMAIL,[uwe@planetquake.com])
