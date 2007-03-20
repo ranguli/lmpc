@@ -37,7 +37,7 @@
 #define HEADER_DUKE_14PLUS  0x2a2   /* 0x0000 .. 0x02a1 */
 #define HEADER_REDNECK_BASE 0x21E   /* 0x0000 .. 0x021D */
 #define CHUNK_HEADER_SIZE 6
-#define DMO_TICTIME       1.0/30.0
+#define DMO_TICTIME       1.0/26.0
 #define DMO_TIC           10
 #define MAXPLAYER_DMO     8
 #define MAXTICS           2520
