@@ -4076,6 +4076,21 @@ for the bug report and a demo file.</para>
 </listitem>
 </varlistentry>
 
+<varlistentry>
+<term>3.4.3 (4/21/2007) (alpha release)</term>
+<listitem>
+<para>
+<itemizedlist>
+<listitem>
+<para>DMO: Duke Nukem 3D: game tic length corrected.</para>
+</listitem>
+<listitem>
+<para>Compile: Compiled everything on SuSE Linux 10.2.</para>
+</listitem>
+</itemizedlist>
+</para>
+</listitem>
+
 </variablelist>
 
 <para>Plan for 4.0.0 in order of importance
