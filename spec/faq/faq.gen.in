@@ -325,7 +325,7 @@ command in every frame of interest.
 
 <itemizedlist>
 <listitem>
-<para><literal REMAP="tt">convert</literal> from the ImageMagick package (<ulink URL="http://www.wizards.dupont.com/cristy/ImageMagick.html"></ulink>)</para>
+<para><literal REMAP="tt">convert</literal> from the ImageMagick package (<ulink URL="http://www.imagemagick.org"></ulink>)</para>
 </listitem>
 </itemizedlist>
 
@@ -1074,6 +1074,19 @@ protocol. This encryption is not included in DM3 files.</para>
 </listitem>
 <listitem>
 <para>Download links updated.</para>
+</listitem>
+</itemizedlist>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>1.1.6, 18 February, 2009</term>
+<listitem>
+<para>
+<itemizedlist>
+<listitem>
+<para>Link to ImageMagick corrected. Thanks to Amy Hazelton.</para>
 </listitem>
 </itemizedlist>
 </para>
