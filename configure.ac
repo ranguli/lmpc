@@ -9,7 +9,7 @@ define(MY_VERSION,[3.4.3])
 define(MY_DATE,[4/21/2007])
 define(MY_COMMENT,[alpha test release])
 define(MY_QUALITY,[alpha])
-define(MY_EMAIL,[uwe@planetquake.com])
+define(MY_EMAIL,[uwe@half-empty.de])
 dnl wpu parse end
 dnl Here is the end of the main version definition area.
 dnl -----------------------------------------------------

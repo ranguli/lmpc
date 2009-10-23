@@ -1,7 +1,7 @@
 # $Id$
 
 # faq -- the recording FAQ
-# Copyright (C) 1997-2000,2004,2006 Uwe Girlich
+# Copyright (C) 1997-2000,2004,2006,2009 Uwe Girlich
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #
-# Uwe Girlich (uwe@planetquake.com)
+# Uwe Girlich (uwe@half-empty.de)
 
 #****************************************************************************#
 # Makefile.am  -  automake file                                              #

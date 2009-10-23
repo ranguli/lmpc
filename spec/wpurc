@@ -4,14 +4,14 @@
 MYFIRSTNAME="Uwe"
 MYSURNAME="Girlich"
 MYNAME="@MYFIRSTNAME@ @MYSURNAME@"
-MYEMAIL="uwe@planetquake.com"
+MYEMAIL="uwe@half-empty.de"
 CDROMCOM="ftp://ftp.cdrom.com"
 FTPCDROMBASE="@CDROMCOM@/pub/idgames2/planetquake/@BASE@"
 FTPMIRRORBASE="http://www.fileplanet.com/dl.aspx?/planetquake/@BASE@"
-PQSITE="www.planetquake.com"
+PQSITE="demospecs.half-empty.de"
 PLANETQUAKE="http://@PQSITE@"
 BASE="demospecs"
-HOMEURL="@PLANETQUAKE@/@BASE@"
+HOMEURL="@PLANETQUAKE@"
 HOMENAME="Demo Specs page"
 UP=upload
 # wpu parse end

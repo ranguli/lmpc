@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #
-# Uwe Girlich (uwe@planetquake.com)
+# Uwe Girlich (uwe@half-empty.de)
 
 #****************************************************************************#
 #  Makefile.am  -  automake file                                             #

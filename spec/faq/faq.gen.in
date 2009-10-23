@@ -94,9 +94,9 @@ answer mails to other boxes from here.</para>
 </listitem>
 </varlistentry>
 <varlistentry>
-<term><ulink URL="mailto:uwe@planetquake.com">uwe@planetquake.com</ulink></term>
+<term><ulink URL="mailto:uwe@half-empty.de">uwe@half-empty.de</ulink></term>
 <listitem>
-<para>is my mailbox at <ulink URL="http://www.planetquake.com">PlanetQuake</ulink>. I get the mail from there about once a day and will
+<para>is my mailbox at <ulink URL="http://half-empty.de">Half-Empty</ulink>. I get the mail from there about once a day and will
 certainly answer it from my mailbox at work.</para>
 </listitem>
 </varlistentry>
@@ -1087,6 +1087,20 @@ protocol. This encryption is not included in DM3 files.</para>
 <itemizedlist>
 <listitem>
 <para>Link to ImageMagick corrected. Thanks to Amy Hazelton.</para>
+</listitem>
+</itemizedlist>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>1.1.7, 23 October, 2009</term>
+<listitem>
+<para>
+<itemizedlist>
+<listitem>
+<para>Half-Empty is the new home. PlanetQuake will be removed soon or
+is already when you read this.</para>
 </listitem>
 </itemizedlist>
 </para>
