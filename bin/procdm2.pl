@@ -9,12 +9,12 @@
 # also on DM2 binary files.
 
 # Get dm2proc (without HTML decorations) from
-# http://www.planetquake.com/demospecs/misc/dm2proc.pl
+# http://demospecs.half-empty.de/misc/dm2proc.pl
 # or from the CVS repository
 # http://cvs.sourceforge.net/viewcvs.py/lmpc/lmpc/bin/procdm2.pl.
 
 # $Id$
-# Uwe Girlich (uwe@planetquake.com)
+# Uwe Girlich (uwe@half-empty.de)
 
 
 # modules init
@@ -577,13 +577,13 @@ allowed.
 
 =head1 SEE ALSO
 
-L<http://www.planetquake.com/demospecs/lmpc-stable>
-L<http://www.planetquake.com/demospecs/misc/procdm2.html>
+L<http://demospecs.half-empty.de/demospecs/lmpc-stable>
+L<http://demospecs.half-empty.de/misc/procdm2.html>
 L<http://www.sourceforge.net/projects/lmpc>
 
 =head1 AUTHOR
 
-Uwe Girlich (uwe@planetquake.com)
+Uwe Girlich (uwe@half-empty.de)
 
 =cut
 
