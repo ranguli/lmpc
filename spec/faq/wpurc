@@ -4,9 +4,9 @@
 PACKAGE=faq
 TITLE=The recording FAQ
 VERSION=1.1.7
-DATE=10/23/2009
-LVS=342
-LVL=3.4.2
+DATE=10/24/2009
+LVS=344
+LVL=3.4.4
 LQUALITY=alpha
 TYPE=document
 ## wpu parse end
