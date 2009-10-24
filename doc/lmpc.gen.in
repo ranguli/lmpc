@@ -4091,6 +4091,20 @@ for the bug report and a demo file.</para>
 </para>
 </listitem>
 
+<varlistentry>
+<term>3.4.4 (10/24/2009) (alpha release)</term>
+<listitem>
+<para>
+<itemizedlist>
+<listitem>
+<para>WWW: Move everything from PlanetQuake to Half-Empty.</para>
+</listitem>
+<listitem>
+<para>Compile: Compiled everything on openSUSE Linux 11.1.</para>
+</listitem>
+</itemizedlist>
+</para>
+
 </variablelist>
 
 <para>Plan for 4.0.0 in order of importance
