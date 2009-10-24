@@ -17,7 +17,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #
-# Uwe Girlich (uwe@planetquake.com)
+# Uwe Girlich (uwe@half-empty.de)
 
 #****************************************************************************#
 # Makefile.am - general automake file for the whole demospecs site           #
@@ -45,10 +45,11 @@ upload: sitecopyrc
 	$(WPU) --set ACTION=execsubst -- \
 		$(SITECOPY) -r sitecopyrc \
 		-p @STOREPATH@ \
-		--update planetquake fileplanet
+		--update half-empty
 
 uploadcheck: sitecopyrc
 	$(WPU) --set ACTION=execsubst -- \
 		$(SITECOPY) -r sitecopyrc \
 		-p @STOREPATH@ \
-		planetquake fileplanet
+		half-empty
+

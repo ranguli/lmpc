@@ -1,20 +1,10 @@
-site planetquake
+site half-empty
 	server @PQHOST@
 	remote @PQDIR@
 	local @PQSTAGE@
 	username @PQLOGIN@
 	password @PQPASSWORD@
 	url @HOMEURL@
-	protocol ftp
-	nodelete
-
-site fileplanet
-	server @FPHOST@
-	remote @FPDIR@
-	local @FPSTAGE@
-	username @PQLOGIN@
-	password @PQPASSWORD@
-	url @DOWNFP@
 	protocol ftp
 	nodelete
 

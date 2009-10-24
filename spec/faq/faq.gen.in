@@ -428,9 +428,7 @@ lower case.</para>
 <term><literal REMAP="tt">lmpc-@LVL@.tar.gz</literal></term>
 <listitem>
 <para>(download from 
-<ulink URL="@DOWNSF@lmpc-@LVL@.tar.gz">SourceForge</ulink>
-or 
-<ulink URL="@DOWNFP@lmpc-@LVL@.tar.gz">FilePlanet</ulink>)
+<ulink URL="@DOWNSF@lmpc-@LVL@.tar.gz">SourceForge</ulink>)
 is ``the Source Package''.
 It comes with no binaries but contains the full source code with 
 an Autoconf/Automake configure file for easy compilation on any (Unix) system.
@@ -444,9 +442,7 @@ included as well.</para>
 <term><literal REMAP="tt">lmpc-@LVL@-f.tar.gz</literal></term>
 <listitem>
 <para>(download from 
-<ulink URL="@DOWNSF@lmpc-@LVL@-f.tar.gz">SourceForge</ulink>
-or 
-<ulink URL="@DOWNFP@lmpc-@LVL@-f.tar.gz">FilePlanet</ulink>)
+<ulink URL="@DOWNSF@lmpc-@LVL@-f.tar.gz">SourceForge</ulink>)
 is ``the Full Package''.
 Everything from all other packages and a 
 <ulink URL="@HOMEURL@/lmpc-@LQUALITY@/lmpc.pdf">PDF</ulink> 
@@ -458,9 +454,7 @@ documentation is included.</para>
 <term><literal REMAP="tt">lmpc@LVS@d.zip</literal></term>
 <listitem>
 <para>(download from 
-<ulink URL="@DOWNSF@lmpc@LVS@d.zip">SourceForge</ulink>
-or 
-<ulink URL="@DOWNFP@lmpc@LVS@d.zip">FilePlanet</ulink>)
+<ulink URL="@DOWNSF@lmpc@LVS@d.zip">SourceForge</ulink>)
 is ``the MS-DOS Binary Package''.
 It comes with <literal REMAP="tt">lmpc.exe</literal>, <literal REMAP="tt">demcut.exe</literal>, <literal REMAP="tt">dema</literal> and a 
 <ulink URL="@HOMEURL@/lmpc-@LQUALITY@/lmpc.html">HTML</ulink> documentation.</para>
@@ -471,9 +465,7 @@ It comes with <literal REMAP="tt">lmpc.exe</literal>, <literal REMAP="tt">demcut
 <term><literal REMAP="tt">lmpc-@LVL@-l.tar.gz</literal></term>
 <listitem>
 <para>(download from 
-<ulink URL="@DOWNSF@lmpc-@LVL@-l.tar.gz">SourceForge</ulink>
-or 
-<ulink URL="@DOWNFP@lmpc-@LVL@-l.tar.gz">FilePlanet</ulink>)
+<ulink URL="@DOWNSF@lmpc-@LVL@-l.tar.gz">SourceForge</ulink>)
 is ``the Linux Binary Package''.
 It comes with <literal REMAP="tt">lmpc</literal>, <literal REMAP="tt">demcut</literal>, <literal REMAP="tt">dbs</literal>, <literal REMAP="tt">dema</literal>
 and a <ulink URL="@HOMEURL@/lmpc-@LQUALITY@/lmpc.html">HTML</ulink>
@@ -485,9 +477,7 @@ documentation. The Linux binaries are compiled for Intel PCs.</para>
 <term><literal REMAP="tt">lmpc@LVS@w.zip</literal></term>
 <listitem>
 <para>(download from 
-<ulink URL="@DOWNSF@lmpc@LVS@w.zip">SourceForge</ulink>
-or 
-<ulink URL="@DOWNFP@lmpc@LVS@w.zip">FilePlanet</ulink>)
+<ulink URL="@DOWNSF@lmpc@LVS@w.zip">SourceForge</ulink>)
 is the ``Win32 (Cygwin) Binary Package''.
 It comes with <literal REMAP="tt">lmpc32.exe</literal>,
 <literal REMAP="tt">demcut32.exe</literal>,
@@ -501,9 +491,7 @@ It comes with <literal REMAP="tt">lmpc32.exe</literal>,
 <term><literal REMAP="tt">lmpc@LVS@m.zip</literal></term>
 <listitem>
 <para>(download from 
-<ulink URL="@DOWNSF@lmpc@LVS@m.zip">SourceForge</ulink>
-or 
-<ulink URL="@DOWNFP@lmpc@LVS@m.zip">FilePlanet</ulink>)
+<ulink URL="@DOWNSF@lmpc@LVS@m.zip">SourceForge</ulink>)
 is the ``Win32 (MinGW) Binary Package''.
 It comes with <literal REMAP="tt">lmpcm.exe</literal>, <literal REMAP="tt">demcutm.exe</literal>, <literal REMAP="tt">dema</literal> and a 
 <ulink URL="@HOMEURL@/lmpc-@LQUALITY@/lmpc.html">HTML</ulink> documentation.</para>
