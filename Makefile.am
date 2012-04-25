@@ -36,7 +36,7 @@ index.html indexpart.html:
 linux:
 	$(MAKE) compile-bin TARGET=linux
 
-TARGET_linux=i686-suse-linux
+TARGET_linux=x86_64-suse-linux-gnu
 PREFIX_linux=/usr
 CC_linux=gcc
 CXX_linux=g++
@@ -44,6 +44,20 @@ RANLIB_linux=ranlib
 STRIP_linux=strip
 BINS_linux=dbs demcut lmpc
 CHANGE_linux="\#"
+
+
+# LINUX32 target
+linux32:
+	$(MAKE) compile-bin TARGET=linux32
+
+TARGET_linux32=i686-suse-linux
+PREFIX_linux32=/usr
+CC_linux32="gcc -m32"
+CXX_linux32="g++ -m32"
+RANLIB_linux32=ranlib
+STRIP_linux32=strip
+BINS_linux32=dbs demcut lmpc
+CHANGE_linux32="s/$$/32/"
 
 
 # GO32 target
@@ -114,7 +128,7 @@ compile-bin:
 		RANLIB=$(RANLIB_GEN) \
 		CFLAGS=$(CFLAGS_GEN) \
 		LDFLAGS=$(LDFLAGS_GEN) \
-		../../configure --host=$(TARGET_GEN)
+		../../configure --host=$(TARGET_linux) --build=$(TARGET_GEN)
 	mv config.status.orig config.status
 	cd src && $(MAKE) clean
 	cd systems/$(TARGET_GEN)/src && $(MAKE)
@@ -131,17 +145,19 @@ compile-bin:
 dist-hook README:
 	$(WPU) --set ACTION=readme --set SRCDIR=$(srcdir) --set PACK=s $(srcdir)/README.base README
 
-.PHONY: pack s l d w m f
+.PHONY: pack s l 3 d w m f
 
-pack: dist l d w m f
+pack: dist l 3 d w m f
 
-l d w m f:
+l 3 d w m f:
 	$(WPU) --set ACTION=readme --set PACK=$@ README.base README
 	$(WPU) --set ACTION=packaging --set PACK=$@
 
 s: dist
 
 l: linux html
+
+3: linux32 html
 
 d: go32 html
 

@@ -29,7 +29,7 @@ DD6="@COMMENT_m@"
 DF6="@FILENAME_m@"
 
 
-GOODPACK="sfdlwm"
+GOODPACK="sfdl3wm"
 
 
 COMMENT_s="Source Package"
@@ -44,6 +44,9 @@ FILENAME_d="@PACKAGE@@SHORTVERSION@d.zip"
 COMMENT_l="Linux Binary Package"
 METHOD_l="tgz"
 FILENAME_l="@PACKAGE@-@VERSION@-l.tar.gz"
+COMMENT_3="Linux 32 bit Binary Package"
+METHOD_3="tgz"
+FILENAME_3="@PACKAGE@-@VERSION@-l32.tar.gz"
 COMMENT_w="Win32 (Cygwin) Binary Package"
 METHOD_w="zipwin"
 FILENAME_w="@PACKAGE@@SHORTVERSION@w.zip"
@@ -81,12 +84,12 @@ HOMENAME="Demo Specs page"
 #****************************************************************************#
 
 [Files]
-sldwmf	COPYING	GNU General Public Licence
+sl3dwmf	COPYING	GNU General Public Licence
 sf	COPYING.LIB	GNU Library General Public Licence
 sf	INSTALL	generic Autoconf install hints
 sf	Makefile.am	Automake template for Makefile.in
 sf	Makefile.in	Autoconf template for Makefile
-sldwmf	README	you read it
+sl3dwmf	README	you read it
 sf	README.base	template for all READMEs
 sf	aclocal.m4	Automake macros
 sf	autogen.sh	generate initial Autoconf stuff
@@ -94,23 +97,26 @@ sf	bin/Makefile.am	Automake template for bin/Makefile.in
 sf	bin/Makefile.in Autoconf template for bin/Makefile
 sf	bin/cprep	C to C++ conversion tool
 df	bin/cwsdpmi.exe	MS-DOS DPMI server for the MS-DOS binaries
-lf	bin/dbs	DBS Linux binary (gcc 4.1.2, glibc, x86, ELF)
+lf	bin/dbs	DBS Linux binary (gcc 4.6.2, glibc, x86-64, ELF)
+3f	bin/dbs32	DBS Linux binary (gcc 4.6.2, glibc, x86, ELF)
 wf	bin/dbs32.exe	DBS Win32 binary (gcc 3.3.1, Cygwin)
-ldwmf	bin/dema	DEM Text File Analyser (Perl script)
+l3dwmf	bin/dema	DEM Text File Analyser (Perl script)
 sf	bin/dema.in	template for DEM Text File Analyser (Perl script)
-lf	bin/demcut	DEMcut Linux binary (gcc 4.1.2, glibc, x86, ELF)
+lf	bin/demcut	DEMcut Linux binary (gcc 4.6.2, glibc, x86-64, ELF)
+3f	bin/demcut32	DEMcut Linux binary (gcc 4.6.2, glibc, x86, ELF)
 df	bin/demcut.exe	DEMcut MS-DOS binary (egcs-2.91.66, djgpp V2.0)
 wf	bin/demcut32.exe	DEMcut Win32 binary (gcc 3.3.1, Cygwin)
 mf	bin/demcutm.exe	DEMcut Win32 binary (gcc 3.3.1, Mingw32)
-ldwmf	bin/dm2cat	The DM2 file concatenator (Perl script)
+l3dwmf	bin/dm2cat	The DM2 file concatenator (Perl script)
 sf	bin/dm2cat.in	template for The DM2 file concatenator (Perl script)
 sf	bin/extract	the specs to C extractor (Perl script)
 sf	bin/gentok	includes tokens in yacc and lex files
-lf	bin/lmpc	LMPC Linux binary (gcc 4.1.2, glibc, x86, ELF)
+lf	bin/lmpc	LMPC Linux binary (gcc 4.6.2, glibc, x86-64, ELF)
+3f	bin/lmpc32	LMPC Linux binary (gcc 4.6.2, glibc, x86, ELF)
 df	bin/lmpc.exe	LMPC MS-DOS binary (egcs-2.91.66, djgpp V2.0)
 wf	bin/lmpc32.exe	LMPC Win32 binary (gcc 3.3.1, Cygwin)
 mf	bin/lmpcm.exe	LMPC Win32 binary (gcc 3.3.1, Mingw32)
-sldwmf	bin/procdm2.pl	DM2 processor (Perl script)
+sl3dwmf	bin/procdm2.pl	DM2 processor (Perl script)
 sf	bin/wpu	The Web Publishing Utility
 sf	config.guess	Autoconf host system guess
 sf	config.h.in	Autoconf template for config.h
@@ -125,7 +131,7 @@ sf	doc/Makefile.in	Autoconf template for doc/Makefile
 sf 	doc/gdb-patch	patch for a cross-GDB (target Cygwin, host Linux)
 sf	doc/lmpc.base	documentation input (LinuxDoc), deprecated
 sf	doc/lmpc.gen.in	documentation input (DocBook)
-ldwmf	doc/lmpc.html	documentation (HTML)
+l3dwmf	doc/lmpc.html	documentation (HTML)
 f	doc/lmpc.pdf	documentation (PDF)
 sf	files/Makefile.am	Automake template for files/Makefile.in
 sf	files/Makefile.in	Autoconf template for files/Makefile
