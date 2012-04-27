@@ -14,7 +14,7 @@ DOWNSF="http://prdownloads.sourceforge.net/lmpc/"
 
 # This whole section looks redundant, but not always downloadable
 # files are the packages themself.
-DOWNCOUNT="6"
+DOWNCOUNT="7"
 DD1="@COMMENT_s@"
 DF1="@FILENAME_s@"
 DD2="@COMMENT_f@"
