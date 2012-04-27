@@ -31,6 +31,7 @@ TYPE=misc
 SHORTVERSION=$(subst .,,@VERSION@)
 UPLOAD_FILES_misc = \
 	../@PACKAGE@-@VERSION@.tar.gz \
+	../../@PACKAGE@-@VERSION@-l32.tar.gz \
 	../../@PACKAGE@-@VERSION@-l.tar.gz \
 	../../@PACKAGE@-@VERSION@-f.tar.gz \
 	../../@PACKAGE@$(SHORTVERSION)d.zip \
