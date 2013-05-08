@@ -3,6 +3,7 @@
 
 SUBDIRS = io
 
+javadir = $(datadir)/java
 JAVAROOT=$(top_builddir)/src/java
 
 java_JAVA=lmpc.java Action.java
