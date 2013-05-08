@@ -2,6 +2,7 @@
 aclocal.m4
 autom4te.cache/
 bin/dbs
+bin/dbs32
 bin/dbs32.exe
 bin/dema
 bin/demcut
@@ -36,6 +37,7 @@ doc/Makefile.in
 files/Makefile
 files/Makefile.in
 install-sh
+lmpc-*.tar.gz
 Makefile
 Makefile.in
 missing
