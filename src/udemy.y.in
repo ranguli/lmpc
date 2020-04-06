@@ -62,16 +62,350 @@
 %token v_string
 
 		/* token */
-@YACCTOKEN@
+%token TOKEN_AGE
+%token TOKEN_AMMO
+%token TOKEN_AMMO_CELLS
+%token TOKEN_AMMO_NAILS
+%token TOKEN_AMMO_ROCKETS
+%token TOKEN_AMMO_SHELLS
+%token TOKEN_AMMOS
+%token TOKEN_AMMOTYPE
+%token TOKEN_ANGLES
+%token TOKEN_ANGLES2_0
+%token TOKEN_ANGLES2_1
+%token TOKEN_ANGLES2_2
+%token TOKEN_ANGLES_0
+%token TOKEN_ANGLES_1
+%token TOKEN_ANGLES_2
+%token TOKEN_ANGLES_3
+%token TOKEN_APOS_TRBASE_0
+%token TOKEN_APOS_TRBASE_1
+%token TOKEN_APOS_TRBASE_2
+%token TOKEN_APOS_TRDELTA_0
+%token TOKEN_APOS_TRDELTA_1
+%token TOKEN_APOS_TRDELTA_2
+%token TOKEN_APOS_TRDURATION
+%token TOKEN_APOS_TRTIME
+%token TOKEN_APOS_TRTYPE
+%token TOKEN_AREAMASK
+%token TOKEN_AREAS
+%token TOKEN_ARMORTYPE
+%token TOKEN_ARMORVALUE
+%token TOKEN_ATTENUATION
+%token TOKEN_BAD
+%token TOKEN_BASELINE
+%token TOKEN_BETWEENBLOCK
+%token TOKEN_BIGKICK
+%token TOKEN_BITS
+%token TOKEN_BLEND
+%token TOKEN_BLOCK
+%token TOKEN_BOBCYCLE
+%token TOKEN_BYTES
+%token TOKEN_CAMERA
+%token TOKEN_CBLOCK
+%token TOKEN_CDTRACK
+%token TOKEN_CENTERPRINT
+%token TOKEN_CHALLENGE
+%token TOKEN_CHANNEL
+%token TOKEN_CHECKSUMFEED
+%token TOKEN_CHOKE
+%token TOKEN_CLIENT
+%token TOKEN_CLIENT_COMMAND
+%token TOKEN_CLIENTDATA
+%token TOKEN_CLIENTNUM
+%token TOKEN_COLOR
+%token TOKEN_COLORMAP
+%token TOKEN_COLORS
+%token TOKEN_COMMANDTIME
+%token TOKEN_CONFIGSTRING
+%token TOKEN_CONNECT
+%token TOKEN_CONNECTED
+%token TOKEN_CONNLESS
+%token TOKEN_CONSOLE
+%token TOKEN_CONSTANTLIGHT
+%token TOKEN_COUNT
+%token TOKEN_CSPEED_X
+%token TOKEN_CSPEED_Y
+%token TOKEN_CSPEED_Z
+%token TOKEN_CURRENTAMMO
+%token TOKEN_CUTSCENE
+%token TOKEN_DAMAGE
+%token TOKEN_DAMAGECOUNT
+%token TOKEN_DAMAGEEVENT
+%token TOKEN_DAMAGEPITCH
+%token TOKEN_DAMAGEYAW
+%token TOKEN_DATA
+%token TOKEN_DEFAULT_ANGLES
+%token TOKEN_DEFAULT_COLORMAP
+%token TOKEN_DEFAULT_FRAME
+%token TOKEN_DEFAULT_MODELINDEX
+%token TOKEN_DEFAULT_ORIGIN
+%token TOKEN_DEFAULT_SKIN
+%token TOKEN_DELTA_ANGLES
+%token TOKEN_DELTAANGLES_0
+%token TOKEN_DELTAANGLES_1
+%token TOKEN_DELTAANGLES_2
+%token TOKEN_DELTANUM
+%token TOKEN_DELTAPACKETENTITIES
+%token TOKEN_DELTAPACKETENTITY
+%token TOKEN_DEST_ENTITY
+%token TOKEN_DEST_ORIGIN
+%token TOKEN_DISCONNECT
+%token TOKEN_DM3
+%token TOKEN_DOWNLOAD
+%token TOKEN_DOWNLOADSIZE
+%token TOKEN_EFFECTS
+%token TOKEN_EFLAGS
+%token TOKEN_ENDBLOCK
+%token TOKEN_ENTERTIME
+%token TOKEN_ENTGRAVITY
+%token TOKEN_ENTITIES
+%token TOKEN_ENTITY
+%token TOKEN_ENTITYTYPE
+%token TOKEN_EOF
+%token TOKEN_ETYPE
+%token TOKEN_EVENT
+%token TOKEN_EVENTPARM
+%token TOKEN_EVENTPARMS_0
+%token TOKEN_EVENTPARMS_1
+%token TOKEN_EVENTS_0
+%token TOKEN_EVENTS_1
+%token TOKEN_EVENTSEQUENCE
+%token TOKEN_EXTERNALEVENT
+%token TOKEN_EXTERNALEVENTPARM
+%token TOKEN_FBLOCK
+%token TOKEN_FINALE
+%token TOKEN_FIRE
+%token TOKEN_FIRST
+%token TOKEN_FLAG
+%token TOKEN_FLASH_ENTITY
+%token TOKEN_FOUNDSECRET
+%token TOKEN_FOV
+%token TOKEN_FRAGS
+%token TOKEN_FRAME
+%token TOKEN_FROMTRACK
+%token TOKEN_GAME
+%token TOKEN_GAMESTATE
+%token TOKEN_GENERIC1
+%token TOKEN_GRAPPLEPOINT_0
+%token TOKEN_GRAPPLEPOINT_1
+%token TOKEN_GRAPPLEPOINT_2
+%token TOKEN_GRAVITY
+%token TOKEN_GROUNDENTITYNUM
+%token TOKEN_GUNANGLES
+%token TOKEN_GUNFRAME
+%token TOKEN_GUNINDEX
+%token TOKEN_GUNOFFSET
+%token TOKEN_HEALTH
+%token TOKEN_ID
+%token TOKEN_IMPULSE
+%token TOKEN_INCOMPLETE
+%token TOKEN_INDEX
+%token TOKEN_INTERMISSION
+%token TOKEN_INVENTORY
+%token TOKEN_ISDEMO
+%token TOKEN_JUMP
+%token TOKEN_JUMPPAD_ENT
+%token TOKEN_KEY
+%token TOKEN_KEYS
+%token TOKEN_KICK_ANGLES
+%token TOKEN_KILLEDMONSTER
+%token TOKEN_LAYOUT
+%token TOKEN_LEGSANIM
+%token TOKEN_LEGSTIMER
+%token TOKEN_LEVEL
+%token TOKEN_LIGHTSTYLE
+%token TOKEN_LOAD
+%token TOKEN_LOOPSOUND
+%token TOKEN_LOSS
+%token TOKEN_MAPNAME
+%token TOKEN_MAXCLIENTS
+%token TOKEN_MAXSPEED
+%token TOKEN_MEGAHEALTH
+%token TOKEN_MODELINDEX
+%token TOKEN_MODELINDEX2
+%token TOKEN_MODELINDEX3
+%token TOKEN_MODELINDEX4
+%token TOKEN_MODELLIST
+%token TOKEN_MODELS
+%token TOKEN_MOVEDIR
+%token TOKEN_MOVEMENTDIR
+%token TOKEN_MULTI
+%token TOKEN_MUZZLEFLASH
+%token TOKEN_MUZZLFLASH2
+%token TOKEN_NAIL
+%token TOKEN_NAILS
+%token TOKEN_NAME
+%token TOKEN_NETNAME
+%token TOKEN_NEW
+%token TOKEN_NEXT
+%token TOKEN_NEXTID
+%token TOKEN_NOP
+%token TOKEN_OLD_ORIGIN
+%token TOKEN_ORIGIN
+%token TOKEN_ORIGIN2_0
+%token TOKEN_ORIGIN2_1
+%token TOKEN_ORIGIN2_2
+%token TOKEN_ORIGIN_0
+%token TOKEN_ORIGIN_1
+%token TOKEN_ORIGIN_2
+%token TOKEN_ORIGIN_X
+%token TOKEN_ORIGIN_Y
+%token TOKEN_ORIGIN_Z
+%token TOKEN_OTHERENTITYNUM
+%token TOKEN_OTHERENTITYNUM2
+%token TOKEN_PACKETENTITIES
+%token TOKEN_PACKETENTITY
+%token TOKEN_PARTICLE
+%token TOKEN_PERCENT
+%token TOKEN_PERSISTANT
+%token TOKEN_PERSISTANTS
+%token TOKEN_PING
+%token TOKEN_PLAT2FLAGS
+%token TOKEN_PLAYER
+%token TOKEN_PLAYERINFO
+%token TOKEN_PM_FLAGS
+%token TOKEN_PM_TIME
+%token TOKEN_PM_TYPE
+%token TOKEN_POS1
+%token TOKEN_POS2
+%token TOKEN_POS3
+%token TOKEN_POS4
+%token TOKEN_POS_TRBASE_0
+%token TOKEN_POS_TRBASE_1
+%token TOKEN_POS_TRBASE_2
+%token TOKEN_POS_TRDELTA_0
+%token TOKEN_POS_TRDELTA_1
+%token TOKEN_POS_TRDELTA_2
+%token TOKEN_POS_TRDURATION
+%token TOKEN_POS_TRTIME
+%token TOKEN_POS_TRTYPE
+%token TOKEN_POWER_UPS
+%token TOKEN_POWERUP
+%token TOKEN_POWERUPS
+%token TOKEN_PRINT
+%token TOKEN_PUNCHANGLE_X
+%token TOKEN_RANGE
+%token TOKEN_RDFLAGS
+%token TOKEN_RECONNECT
+%token TOKEN_REL_ACK
+%token TOKEN_RELIABLE
+%token TOKEN_REMOVE
+%token TOKEN_RENDERFX
+%token TOKEN_REST
+%token TOKEN_RUNES
+%token TOKEN_SAVE
+%token TOKEN_SBLOCK
+%token TOKEN_SELLSCREEN
+%token TOKEN_SEQ
+%token TOKEN_SEQ1
+%token TOKEN_SEQ2
+%token TOKEN_SEQUENCE
+%token TOKEN_SERVERCOMMAND
+%token TOKEN_SERVERCOMMANDSEQUENCE
+%token TOKEN_SERVERDATA
+%token TOKEN_SERVERINFO
+%token TOKEN_SERVERTIME
+%token TOKEN_SERVERVERSION
+%token TOKEN_SETANGLE
+%token TOKEN_SETINFO
+%token TOKEN_SETPAUSE
+%token TOKEN_SETVIEW
+%token TOKEN_SIGNONNUM
+%token TOKEN_SIZE
+%token TOKEN_SKIN
+%token TOKEN_SMALLKICK
+%token TOKEN_SNAPFLAGS
+%token TOKEN_SNAPSHOT
+%token TOKEN_SOLID
+%token TOKEN_SOUND
+%token TOKEN_SOUNDLIST
+%token TOKEN_SOUNDNUM
+%token TOKEN_SOUNDS
+%token TOKEN_SPAWNBASELINE
+%token TOKEN_SPAWNBINARY
+%token TOKEN_SPAWNSTATIC
+%token TOKEN_SPAWNSTATICSOUND
+%token TOKEN_SPEED
+%token TOKEN_SPEED_X
+%token TOKEN_SPEED_Y
+%token TOKEN_SPEED_Z
+%token TOKEN_START
+%token TOKEN_STAT
+%token TOKEN_STATS
+%token TOKEN_STOPSOUND
+%token TOKEN_STRING
+%token TOKEN_STUFFTEXT
+%token TOKEN_STYLE
+%token TOKEN_TAKE
+%token TOKEN_TEMP_ENTITY
+%token TOKEN_TIME
+%token TOKEN_TIME2
+%token TOKEN_TIMEOFS
+%token TOKEN_TORSOANIM
+%token TOKEN_TORSOTIMER
+%token TOKEN_TOTRACK
+%token TOKEN_TRACE_ENDPOS
+%token TOKEN_TRACK
+%token TOKEN_TRANSFER
+%token TOKEN_TYPE
+%token TOKEN_UK_ANGLES
+%token TOKEN_UK_B1
+%token TOKEN_UK_BIT_B10
+%token TOKEN_UK_BIT_B11
+%token TOKEN_UK_BYTE6
+%token TOKEN_UK_FLOATS
+%token TOKEN_UK_ITEMS_B23
+%token TOKEN_UK_ITEMS_B24
+%token TOKEN_UK_ITEMS_B25
+%token TOKEN_UK_ITEMS_B26
+%token TOKEN_UK_ITEMS_B27
+%token TOKEN_UNICAST
+%token TOKEN_UNKNOWN
+%token TOKEN_UNKNOWN_MASK_BITS
+%token TOKEN_UPDATECOLORS
+%token TOKEN_UPDATEENTERTIME
+%token TOKEN_UPDATEENTITY
+%token TOKEN_UPDATEFRAGS
+%token TOKEN_UPDATENAME
+%token TOKEN_UPDATEPING
+%token TOKEN_UPDATEPL
+%token TOKEN_UPDATESTAT
+%token TOKEN_UPDATESTATLONG
+%token TOKEN_UPDATEUSERINFO
+%token TOKEN_USER
+%token TOKEN_VALUE
+%token TOKEN_VEL
+%token TOKEN_VEL_X
+%token TOKEN_VEL_Y
+%token TOKEN_VEL_Z
+%token TOKEN_VELOCITY
+%token TOKEN_VELOCITY_0
+%token TOKEN_VELOCITY_1
+%token TOKEN_VELOCITY_2
+%token TOKEN_VERSION
+%token TOKEN_VIEW_OFS_Z
+%token TOKEN_VIEWANGLES
+%token TOKEN_VIEWANGLES_0
+%token TOKEN_VIEWANGLES_1
+%token TOKEN_VIEWANGLES_2
+%token TOKEN_VIEWHEIGHT
+%token TOKEN_VIEWOFFSET
+%token TOKEN_VOL
+%token TOKEN_VWEP
+%token TOKEN_WAIT
+%token TOKEN_WEAPON
+%token TOKEN_WEAPONFRAME
+%token TOKEN_WEAPONMODEL
+%token TOKEN_WEAPONS
+%token TOKEN_WEAPONSTATE
+%token TOKEN_WEAPONTIME
+
 %%
 
-input:			dem_input | qwd_input | dm2_input ;
+input:			dem_input ;
 
 dem_input:		trackblock dem_datablocks ;
-
-qwd_input:		qwd_datablocks ;
-
-dm2_input:		dm2_datablocks | dm2_datablocks dm2_endblock ;
 
 trackblock: TOKEN_TRACK v_string ';' {
 			node_add_down($1,$2);
@@ -81,80 +415,12 @@ trackblock: TOKEN_TRACK v_string ';' {
 
 dem_datablocks:	dem_datablock | dem_datablocks dem_datablock;
 
-qwd_datablocks: qwd_datablock | qwd_datablocks qwd_datablock;
-
-dm2_datablocks:	dm2_datablock | dm2_datablocks dm2_datablock;
-
 dem_datablock: TOKEN_BLOCK '{' dem_messages '}' {
 			node_add_down($1,$3);
 			do_block($1);
 			node_delete($1);
 		};
 
-qwd_datablock: qwd_sblock | qwd_cblock | qwd_fblock ;
-
-qwd_sblock: qwd_sgameblock | qwd_sconnlessblock ;
-
-qwd_sgameblock: TOKEN_SBLOCK '{' qwd_t12r qwd_sgamemessages '}' {
-			node_add_next($3,$4);
-			node_add_down($1,$3);
-			do_block($1);
-			node_delete($1);
-		}
-		| TOKEN_SBLOCK '{' qwd_t12r '}' {
-			node_add_down($1,$3);
-			do_block($1);
-			node_delete($1);
-		};
-
-qwd_sconnlessblock: TOKEN_SBLOCK '{' qwd_sconnlessmessages '}' {
-			node_add_down($1,$3);
-			do_block($1);
-			node_delete($1);
-		};
-
-qwd_cblock: TOKEN_CBLOCK '{' qwd_cmessages '}' {
-			CO_t cblock_cs[] = {
-			  { TOKEN_TIME,      1 },
-			  { TOKEN_LOAD,      1 },
-			  { TOKEN_ANGLES,    1 },
-			  { TOKEN_SPEED,     1 },
-			  { TOKEN_FIRE,      0 },
-			  { TOKEN_JUMP,      0 },
-			  { TOKEN_FLAG,      0 },
-			  { TOKEN_IMPULSE,   0 },
-			  { TOKEN_UK_ANGLES, 1 }
-			};
-			node_add_down($1,$3);
-			reorder_commands($1, cblock_cs, arraylength(cblock_cs));
-			do_block($1);
-			node_delete($1);
-		};
-
-qwd_fblock: TOKEN_FBLOCK '{' qwd_t12r '}' {
-			node_add_down($1,$3);
-			do_block($1);
-			node_delete($1);
-		};
-
-dm2_datablock: dm2_realdatablock | dm2_betweenblock;
-
-dm2_realdatablock: TOKEN_BLOCK '{' dm2_messages '}' {
-			node_add_down($1,$3);
-			do_block($1);
-			node_delete($1);
-		};
-
-dm2_betweenblock: TOKEN_BETWEENBLOCK ';' {
-			do_block($1);
-			node_delete($1);
-		};
-
-dm2_endblock: TOKEN_ENDBLOCK ';' {
-			do_block($1);
-			node_delete($1);
-		};
-		
 dem_messages: m_camera {
 			$$=$1;
 		}
@@ -174,57 +440,6 @@ dem_o_messages: dem_message {
 		}
 		| dem_o_messages dem_message {
 			$$=node_add_next($1,$2);
-		};
-
-qwd_sgamemessages: qwd_sgamemessage { $$=$1; }
-		| qwd_sgamemessages qwd_sgamemessage
-			{ $$=node_add_next($1,$2); };
-
-qwd_sconnlessmessages: m_time qwd_connless { $$=node_add_next($1,$2); }
-		| qwd_connless m_time { $$=node_add_next($2,$1); } ;
-
-qwd_connless: TOKEN_CONNLESS '{' qwd_sconnlessmessage '}' {
-			$$=node_add_down($1,$3); } ;
-
-qwd_cmessages: qwd_cmessage { $$=$1; }
-		| qwd_cmessages qwd_cmessage
-			{ $$=node_add_next($1,$2); };
-
-qwd_t12r: qwd_mcs_t12r {
-			CO_t t12r_cs[] = {
-			  { TOKEN_TIME,       1 },
-			  { TOKEN_SEQ1,       1 },
-			  { TOKEN_SEQ2,       1 },
-			  { TOKEN_RELIABLE,   0 },
-			};
-			node* a = node_init(H_NOTHING,$1,0);
-			reorder_commands(a,t12r_cs,arraylength(t12r_cs));
-			$$=$1;
-			a->down=NULL;
-			node_delete(a);
-		};
-
-qwd_mcs_t12r: qwd_mc_t12r { $$=$1; }
-		| qwd_mcs_t12r qwd_mc_t12r { $$=node_add_next($1,$2); };
-
-qwd_mc_t12r: m_time
-		| m_seq1
-		| m_seq2
-		| m_reliable
-		;
-
-dm2_messages: dm2_anycastmessage {
-			$$=$1;
-		}
-		| dm2_messages dm2_anycastmessage {
-			$$=node_add_next($1,$2);
-		};
-
-dm2_anycastmessage: m_unicast dm2_message {
-			$$=node_add_next($1,$2);
-		}
-		| dm2_message {
-			$$=$1;
 		};
 
 dem_message: m_unknown  { $$=$1; }
@@ -264,97 +479,6 @@ dem_message: m_unknown  { $$=$1; }
 		| m_sellscreen { $$=$1; }
 		| m_cutscene { $$=$1; }
 		| m_updateentity { $$=$1; };
-
-qwd_sgamemessage: m_unknown
-		| m_bad
-		| m_disconnect
-		| qwd_m_updatestat
-		| qwd_m_sound
-		| qwd_dm2_m_print
-		| m_stufftext
-		| m_setangle
-		| qwd_m_serverdata
-		| m_lightstyle
-		| m_updatefrags
-		| qwd_m_stopsound
-		| m_damage
-		| qwd_m_spawnstatic
-		| qwd_m_spawnbaseline
-		| qwd_m_temp_entity
-		| m_setpause
-		| m_centerprint
-		| m_killedmonster
-		| m_foundsecret
-		| m_spawnstaticsound
-		| qwd_m_intermission
-		| m_finale
-		| qwd_m_cdtrack
-		| m_sellscreen
-		| m_smallkick
-		| m_bigkick
-		| m_updateping
-		| m_updateentertime
-		| m_updatestatlong
-		| qwd_m_muzzleflash
-		| m_updateuserinfo
-		| m_download
-		| qwd_m_playerinfo
-		| m_nails
-		| m_choke
-		| m_modellist
-		| m_soundlist
-		| qwd_m_packetentities
-		| qwd_m_deltapacketentities
-		| m_maxspeed
-		| m_entgravity
-		| m_setinfo
-		| qwd_m_serverinfo
-		| m_updatepl
-		;
-
-qwd_sconnlessmessage: m_unknown
-		| connless_m_disconnect
-		| m_client_command
-		| m_challenge
-		| m_connect
-		| m_ping
-		| m_console
-		;
-
-qwd_cmessage: m_time
-		| c_load { $$=$1; $$->down->hint=H_LONG; }
-		| m_angles
-		| m_speed
-		| c_fire
-		| c_jump
-		| c_flag
-		| c_impulse
-		| m_uk_angles
-		;
-
-dm2_message: m_unknown  { $$=$1; }
-		| m_bad { $$=$1; }
-		| dm2_m_muzzleflash { $$=$1; }
-		| m_muzzlflash2 { $$=$1; }
-		| dm2_m_temp_entity { $$=$1; }
-		| m_layout { $$=$1; }
-		| m_inventory { $$=$1; }
-		| m_nop { $$=$1; }
-		| m_disconnect { $$=$1; }
-		| m_reconnect { $$=$1; }
-		| dm2_m_sound { $$=$1; }
-		| qwd_dm2_m_print { $$=$1; }
-		| m_stufftext { $$=$1; }
-		| dm2_m_serverdata { $$=$1; }
-		| m_configstring { $$=$1; }
-		| dm2_m_spawnbaseline { $$=$1; }
-		| m_centerprint { $$=$1; }
-		| m_download { $$=$1; }
-		| dm2_m_playerinfo { $$=$1; }
-		| dm2_m_packetentities { $$=$1; }
-		| dm2_m_deltapacketentities { $$=$1; }
-		| m_frame { $$=$1; };
-
 
 m_camera: TOKEN_CAMERA floatvector ';' {
 			$$=node_add_down($1,$2);
@@ -398,12 +522,6 @@ dem_m_updatestat: TOKEN_UPDATESTAT '{' mcs_updatestat '}' {
 			$$->hint = H_SIMPLE;
 		};
 
-qwd_m_updatestat: TOKEN_UPDATESTAT '{' mcs_updatestat '}' {
-			$3->next->down->hint=H_BYTE;
-			$$=node_add_down($1,$3);
-			$$->hint = H_SIMPLE;
-		};
-
 mcs_updatestat: c_index c_value { $$=node_add_next($1,$2); }
 		| c_value c_index { $$=node_add_next($2,$1); };
 
@@ -433,19 +551,6 @@ dem_m_sound: TOKEN_SOUND '{' dem_qwd_mcs_sound '}' {
 			reorder_commands($$,sound_cs,arraylength(sound_cs));
         };
 
-qwd_m_sound: TOKEN_SOUND '{' dem_qwd_mcs_sound '}' {
-			CO_t sound_cs[] = {
-			  { TOKEN_CHANNEL,     1 },
-			  { TOKEN_ENTITY,      1 },
-			  { TOKEN_VOL,         0 },
-			  { TOKEN_ATTENUATION, 0 },
-			  { TOKEN_SOUNDNUM,    1 },
-			  { TOKEN_ORIGIN,      1 }
-			};
-            		$$=node_add_down($1,$3);
-			$$->hint = H_QWD_SOUND;
-			reorder_commands($$,sound_cs,arraylength(sound_cs));
-        };
 
 dem_qwd_mcs_sound: dem_qwd_mc_sound {
 			$$=$1;
@@ -500,14 +605,6 @@ dem_m_print: TOKEN_PRINT v_string ';' {
 			$$->hint = H_SIMPLE;
 		};
 
-qwd_dm2_m_print: TOKEN_PRINT '{' qwd_dm2_mcs_print '}' {
-			$$=node_add_down($1,$3);
-			$$->hint = H_SIMPLE;
-		};
-
-qwd_dm2_mcs_print: c_level c_string { $$=node_add_next($1,$2); }
-		| c_string c_level { $$=node_add_next($2,$1); };
-
 m_console: TOKEN_CONSOLE v_string ';' {
 			$2->hint = H_STRING;
 			$$=node_add_down($1,$2);
@@ -551,62 +648,6 @@ dem_mc_serverinfo: c_serverversion { $$=$1; }
 		| c_mapname { $$=$1; }
 		| c_models { $$=$1; }
 		| c_sounds { $$=$1; };
-
-qwd_m_serverdata: TOKEN_SERVERDATA '{' qwd_mcs_serverdata '}' {
-			CO_t serverdata_cs[] = {
-			  { TOKEN_SERVERVERSION, 1 },
-			  { TOKEN_AGE,           1 },
-			  { TOKEN_GAME,          1 },
-			  { TOKEN_CLIENT,        1 },
-			  { TOKEN_MAPNAME,       1 },
-			  { TOKEN_UK_FLOATS,     1 }
-			};
-			$$=node_add_down($1,$3);
-			$$->hint = H_SIMPLE;
-			reorder_commands($$, serverdata_cs, arraylength(serverdata_cs));
-		};
-
-qwd_mcs_serverdata: qwd_mc_serverdata {
-			$$=$1;
-		}
-		| qwd_mcs_serverdata qwd_mc_serverdata {
-			$$=node_add_next($1,$2);
-		};
-
-qwd_mc_serverdata: c_serverversion { $$=$1; }
-		| c_age { $$=$1; }
-		| c_game { $$=$1; }
-		| c_client { $1->down->hint=H_BYTE; $$=$1; }
-		| c_mapname { $$=$1; }
-		| c_uk_floats { $$=$1; };
-
-dm2_m_serverdata: TOKEN_SERVERDATA '{' dm2_mcs_serverdata '}' {
-			CO_t serverdata_cs[] = {
-			  { TOKEN_SERVERVERSION, 1 },
-			  { TOKEN_KEY,           1 },
-			  { TOKEN_ISDEMO,        1 },
-			  { TOKEN_GAME,          1 },
-			  { TOKEN_CLIENT,        1 },
-			  { TOKEN_MAPNAME,       1 }
-			};
-			$$=node_add_down($1,$3);
-			$$->hint = H_SIMPLE;
-			reorder_commands($$, serverdata_cs, arraylength(serverdata_cs));
-		};
-
-dm2_mcs_serverdata: dm2_mc_serverdata {
-			$$=$1;
-		}
-		| dm2_mcs_serverdata dm2_mc_serverdata {
-			$$=node_add_next($1,$2);
-		};
-
-dm2_mc_serverdata: c_serverversion { $$=$1; }
-		| c_key { $$=$1; }
-		| c_isdemo { $$=$1; }
-		| c_game { $$=$1; }
-		| c_client { $$=$1; }
-		| c_mapname { $$=$1; };
 
 m_lightstyle: TOKEN_LIGHTSTYLE '{' mcs_lightstyle '}' {
 			$$=node_add_down($1,$3);
@@ -730,125 +771,6 @@ mc_clientdata: c_view_ofs_z { $$=$1; }
 		| c_ammo_cells{ $$=$1; }
 		| c_weapon { $$=$1; };
 
-qwd_m_playerinfo: TOKEN_PLAYERINFO '{' qwd_mcs_playerinfo '}' {
-			CO_t playerinfo_cs[] = {
-			  { TOKEN_UNKNOWN_MASK_BITS, 0 },
-			  { TOKEN_PLAYER,       1 },
-			  { TOKEN_ORIGIN,       1 },
-			  { TOKEN_FRAME,        1 },
-			  { TOKEN_PING,         0 },
-			  { TOKEN_ANGLES_1,     0 },
-			  { TOKEN_ANGLES_2,     0 },
-			  { TOKEN_ANGLES_3,     0 },
-			  { TOKEN_SPEED_X,      0 },
-			  { TOKEN_SPEED_Y,      0 },
-			  { TOKEN_SPEED_Z,      0 },
-			  { TOKEN_FIRE,         0 },
-			  { TOKEN_JUMP,         0 },
-			  { TOKEN_FLAG,         0 },
-			  { TOKEN_IMPULSE,      0 },
-			  { TOKEN_LOAD,         0 },
-			  { TOKEN_CSPEED_X,     0 },
-			  { TOKEN_CSPEED_Y,     0 },
-			  { TOKEN_CSPEED_Z,     0 },
-			  { TOKEN_MODELINDEX,   0 },
-			  { TOKEN_UK_BYTE6,     0 },
-			  { TOKEN_WEAPON,       0 },
-			  { TOKEN_WEAPONFRAME,  0 }
-			};
-			$$=node_add_down($1,$3);
-			$$->hint = H_QWD_PLAYERINFO;
-			reorder_commands($$, playerinfo_cs, arraylength(playerinfo_cs));
-		};
-
-qwd_mcs_playerinfo: qwd_mc_playerinfo {
-			$$=$1;
-		}
-		| qwd_mcs_playerinfo qwd_mc_playerinfo {
-			$$=node_add_next($1,$2);
-		};
-
-qwd_mc_playerinfo: c_unknown_mask_bits
-		| c_player
-		| c_origin
-		| c_frame
-		| c_ping_playerinfo
-		| c_angles_1
-		| c_angles_2
-		| c_angles_3
-		| c_speed_x
-		| c_speed_y
-		| c_speed_z
-		| c_fire
-		| c_jump
-		| c_flag
-		| c_impulse
-		| c_load
-		| c_cspeed_x
-		| c_cspeed_y
-		| c_cspeed_z
-		| c_modelindex
-		| c_uk_byte6
-		| c_weapon
-		| c_weaponframe
-		;
-
-dm2_m_playerinfo: TOKEN_PLAYERINFO '{' dm2_mcs_playerinfo '}' {
-			CO_t playerinfo_cs[] = {
-			  { TOKEN_PM_TYPE,      0 },
-			  { TOKEN_ORIGIN,       0 },
-			  { TOKEN_VELOCITY,     0 },
-			  { TOKEN_PM_TIME,      0 },
-			  { TOKEN_PM_FLAGS,     0 },
-			  { TOKEN_GRAVITY,      0 },
-			  { TOKEN_DELTA_ANGLES, 0 },
-			  { TOKEN_VIEWOFFSET,   0 },
-			  { TOKEN_VIEWANGLES,   0 },
-			  { TOKEN_KICK_ANGLES,  0 },
-			  { TOKEN_GUNINDEX,     0 },
-			  { TOKEN_GUNFRAME,     0 },
-			  { TOKEN_GUNOFFSET,    0 },
-			  { TOKEN_GUNANGLES,    0 },
-			  { TOKEN_BLEND,        0 },
-			  { TOKEN_FOV,          0 },
-			  { TOKEN_RDFLAGS,      0 },
-			  { TOKEN_STATS,        0 }
-			};
-			$$=node_add_down($1,$3);
-			$$->hint = H_DM2_PLAYERINFO;
-			reorder_commands($$, playerinfo_cs, arraylength(playerinfo_cs));
-		}
-		| TOKEN_PLAYERINFO ';' {
-			$$=$1;
-			$$->hint = H_DM2_PLAYERINFO;
-		};
-
-dm2_mcs_playerinfo: dm2_mc_playerinfo {
-			$$=$1;
-		}
-		| dm2_mcs_playerinfo dm2_mc_playerinfo {
-			$$=node_add_next($1,$2);
-		};
-
-dm2_mc_playerinfo: c_pm_type { $$=$1; }
-		| c_origin { $$=$1; }
-		| c_velocity { $$=$1; }
-		| c_pm_time { $$=$1; }
-		| c_pm_flags { $$=$1; }
-		| c_gravity { $$=$1; }
-		| c_delta_angles { $$=$1; }
-		| c_viewoffset { $$=$1; }
-		| c_viewangles { $$=$1; }
-		| c_kick_angles { $$=$1; }
-		| c_gunindex { $$=$1; }
-		| c_gunframe { $$=$1; }
-		| c_gunoffset { $$=$1; }
-		| c_gunangles { $$=$1; }
-		| c_blend { $$=$1; }
-		| c_fov { $$=$1; }
-		| c_rdflags { $$=$1; }
-		| c_stats { $$=$1; };
-
 dem_m_stopsound: dem_m_old_stopsound | dem_m_new_stopsound ;
 
 dem_m_old_stopsound: TOKEN_STOPSOUND v_int ';' {
@@ -860,11 +782,6 @@ dem_m_old_stopsound: TOKEN_STOPSOUND v_int ';' {
 dem_m_new_stopsound: TOKEN_STOPSOUND '{' mcs_stopsound '}' {
 			$$=node_add_down($1,$3);
 			$$->hint = H_DEM_STOPSOUND;
-		};
-
-qwd_m_stopsound: TOKEN_STOPSOUND '{' mcs_stopsound '}' {
-			$$=node_add_down($1,$3);
-			$$->hint = H_QWD_STOPSOUND;
 		};
 
 mcs_stopsound: c_channel c_entity { $$=node_add_next($1,$2); }
@@ -930,20 +847,6 @@ dem_m_spawnstatic: TOKEN_SPAWNSTATIC '{' mcs_spawnstatic '}' {
 			reorder_commands($$,spawnstatic_cs, arraylength(spawnstatic_cs));
 		};
 
-qwd_m_spawnstatic: TOKEN_SPAWNSTATIC '{' mcs_spawnstatic '}' {
-			CO_t spawnstatic_cs[] = {
-			  { TOKEN_DEFAULT_MODELINDEX, 1 },
-			  { TOKEN_DEFAULT_FRAME,      1 }, 
-			  { TOKEN_DEFAULT_COLORMAP,   1 }, 
-			  { TOKEN_DEFAULT_SKIN,       1 }, 
-			  { TOKEN_DEFAULT_ORIGIN,     1 }, 
-			  { TOKEN_DEFAULT_ANGLES,     1 }
-			};
-			$$=node_add_down($1,$3);
-			$$->hint = H_QWD_SPAWNSTATIC; 
-			reorder_commands($$,spawnstatic_cs, arraylength(spawnstatic_cs));
-		};
-
 mcs_spawnstatic: mc_spawnstatic {
 			$$=$1;
 		}
@@ -979,21 +882,6 @@ dem_m_spawnbaseline: TOKEN_SPAWNBASELINE '{' dem_qwd_mcs_spawnbaseline '}' {
 			reorder_commands($$,spawnbaseline_cs,arraylength(spawnbaseline_cs));
 		};
 
-qwd_m_spawnbaseline: TOKEN_SPAWNBASELINE '{' dem_qwd_mcs_spawnbaseline '}' {
-			CO_t spawnbaseline_cs[] = {
-			  { TOKEN_ENTITY,             1 },
-			  { TOKEN_DEFAULT_MODELINDEX, 1 },
-			  { TOKEN_DEFAULT_FRAME,      1 }, 
-			  { TOKEN_DEFAULT_COLORMAP,   1 }, 
-			  { TOKEN_DEFAULT_SKIN,       1 }, 
-			  { TOKEN_DEFAULT_ORIGIN,     1 }, 
-			  { TOKEN_DEFAULT_ANGLES,     1 }
-			};
-			$$=node_add_down($1,$3);
-			$$->hint = H_QWD_SPAWNBASELINE; 
-			reorder_commands($$,spawnbaseline_cs,arraylength(spawnbaseline_cs));
-		};
-
 dem_qwd_mcs_spawnbaseline: dem_qwd_mc_spawnbaseline {
 			$$=$1;
 		}
@@ -1009,217 +897,6 @@ dem_qwd_mc_spawnbaseline: c_entity { $$=$1; }
 		| c_default_origin { $$=$1; }
 		| c_default_angles { $$=$1; };
 
-dm2_m_spawnbaseline: TOKEN_SPAWNBASELINE '{' dm2_mcs_spawnbaseline '}' {
-			CO_t spawnbaseline_cs[] = {
-			  { TOKEN_UNKNOWN_MASK_BITS,	0 },
-			  { TOKEN_ENTITY,             1 },
-			  { TOKEN_REMOVE,             0 },
-			  { TOKEN_MODELINDEX,         0 },
-			  { TOKEN_MODELINDEX2,        0 },
-			  { TOKEN_MODELINDEX3,        0 },
-			  { TOKEN_MODELINDEX4,        0 },
-			  { TOKEN_FRAME,              0 }, 
-			  { TOKEN_SKIN,               0 }, 
-			  { TOKEN_VWEP,               0 },
-			  { TOKEN_EFFECTS,            0 }, 
-			  { TOKEN_RENDERFX,           0 }, 
-			  { TOKEN_ORIGIN_X,           0 }, 
-			  { TOKEN_ORIGIN_Y,           0 }, 
-			  { TOKEN_ORIGIN_Z,           0 }, 
-			  { TOKEN_ANGLES_1,           0 }, 
-			  { TOKEN_ANGLES_2,           0 }, 
-			  { TOKEN_ANGLES_3,           0 }, 
-			  { TOKEN_OLD_ORIGIN,         0 }, 
-			  { TOKEN_SOUND,              0 }, 
-			  { TOKEN_EVENT,              0 }, 
-			  { TOKEN_SOLID,              0 }
-			};
-			$$=$1;
-			node_add_down($$,$3);
-			$$->hint = H_DM2_SPAWNBASELINE; 
-			reorder_commands($$,spawnbaseline_cs,arraylength(spawnbaseline_cs));
-		};
-
-dm2_mcs_spawnbaseline: dm2_mc_spawnbaseline {
-			$$=$1;
-		}
-		| dm2_mcs_spawnbaseline dm2_mc_spawnbaseline {
-			$$=node_add_next($1,$2);
-		};
-
-dm2_mc_spawnbaseline: c_unknown_mask_bits { $$=$1; }
-		| c_entity { $$=$1; $1->down->hint=H_SB; }
-		| c_remove { $$=$1; }
-		| c_modelindex { $$=$1; }
-		| c_modelindex2 { $$=$1; }
-		| c_modelindex3 { $$=$1; }
-		| c_modelindex4 { $$=$1; }
-		| c_frame { $$=$1; }
-		| c_skin { $$=$1; }
-		| c_vwep { $$=$1; }
-		| c_effects { $$=$1; }
-		| c_renderfx { $$=$1; }
-		| c_origin_x { $$=$1; }
-		| c_origin_y { $$=$1; }
-		| c_origin_z { $$=$1; }
-		| c_angles_1 { $$=$1; }
-		| c_angles_2 { $$=$1; }
-		| c_angles_3 { $$=$1; }
-		| c_old_origin { $$=$1; }
-		| c_sound { $$=$1; }
-		| c_event { $$=$1; }
-		| c_solid { $$=$1; };
-
-qwd_m_packetentities: TOKEN_PACKETENTITIES '{' qwd_mcs_packetentities '}' {
-			$$=node_add_down($1,$3);
-			$$->hint = H_QWD_PACKETENTITIES;
-		}
-		| TOKEN_PACKETENTITIES ';' {
-			$$=$1;
-			$$->hint = H_QWD_PACKETENTITIES;
-		};
-
-qwd_mcs_packetentities: qwd_m_packetentity {
-			$$=$1;
-		}
-		| qwd_mcs_packetentities qwd_m_packetentity {
-			$$=node_add_next($1,$2);
-		};
-
-qwd_m_packetentity: TOKEN_PACKETENTITY '{' qwd_mcs_packet '}' {
-			CO_t packet_cs[] = {
-			  { TOKEN_ENTITY,             1 },
-			  { TOKEN_REMOVE,             0 },
-			  { TOKEN_MODELINDEX,         0 },
-			  { TOKEN_FRAME,              0 }, 
-			  { TOKEN_COLORMAP,           0 }, 
-			  { TOKEN_SKIN,               0 }, 
-			  { TOKEN_EFFECTS,            0 }, 
-			  { TOKEN_ORIGIN_X,           0 }, 
-			  { TOKEN_ORIGIN_Y,           0 }, 
-			  { TOKEN_ORIGIN_Z,           0 }, 
-			  { TOKEN_ANGLES_1,           0 }, 
-			  { TOKEN_ANGLES_2,           0 }, 
-			  { TOKEN_ANGLES_3,           0 }
-			};
-			$$=$1;
-			node_add_down($$,$3);
-			reorder_commands($$,packet_cs,arraylength(packet_cs));
-		};
-
-qwd_mcs_packet: qwd_mc_packet {
-			$$=$1;
-		}
-		| qwd_mcs_packet qwd_mc_packet {
-			$$=node_add_next($1,$2);
-		};
-
-qwd_mc_packet: c_entity
-		| c_remove
-		| c_modelindex
-		| c_frame
-		| c_colormap
-		| c_skin
-		| c_effects
-		| c_origin_x
-		| c_origin_y
-		| c_origin_z
-		| c_angles_1
-		| c_angles_2
-		| c_angles_3
-		;
-
-qwd_m_deltapacketentities: TOKEN_DELTAPACKETENTITIES '{' qwd_mcs_deltapacketentities '}' {
-			$$=node_add_down($1,$3);
-			$$->hint = H_QWD_DELTAPACKETENTITIES;
-		};
-
-qwd_mcs_deltapacketentities: c_frame qwd_ms_deltapacketentity {
-			$$=node_add_next($1,$2);
-		}
-		| qwd_ms_deltapacketentity c_frame qwd_ms_deltapacketentity {
-			$$=node_add_next($2,$1);
-			node_add_next($$,$3);
-		}
-		| qwd_ms_deltapacketentity c_frame {
-			$$=node_add_next($2,$1);
-		}
-		| c_frame {
-			$$=$1;
-		};
-
-qwd_ms_deltapacketentity: qwd_m_deltapacketentity {
-			$$=$1;
-		}
-		| qwd_ms_deltapacketentity qwd_m_deltapacketentity {
-			$$=node_add_next($1,$2);
-		};
-
-qwd_m_deltapacketentity: TOKEN_DELTAPACKETENTITY '{' qwd_mcs_packet '}' {
-			CO_t packet_cs[] = {
-			  { TOKEN_ENTITY,             1 },
-			  { TOKEN_REMOVE,             0 },
-			  { TOKEN_MODELINDEX,         0 },
-			  { TOKEN_FRAME,              0 }, 
-			  { TOKEN_COLORMAP,           0 }, 
-			  { TOKEN_SKIN,               0 }, 
-			  { TOKEN_EFFECTS,            0 }, 
-			  { TOKEN_ORIGIN_X,           0 }, 
-			  { TOKEN_ORIGIN_Y,           0 }, 
-			  { TOKEN_ORIGIN_Z,           0 }, 
-			  { TOKEN_ANGLES_1,           0 }, 
-			  { TOKEN_ANGLES_2,           0 }, 
-			  { TOKEN_ANGLES_3,           0 }
-			};
-			$$=node_add_down($1,$3);
-			reorder_commands($$,packet_cs,arraylength(packet_cs));
-		};
-
-dm2_m_packetentities: TOKEN_PACKETENTITIES '{' dm2_mcs_packetentities '}' {
-			$$=node_add_down($1,$3);
-			$$->hint = H_DM2_PACKETENTITIES;
-		}
-		| TOKEN_PACKETENTITIES ';' {
-			$$=$1;
-			$$->hint = H_DM2_PACKETENTITIES;
-		};
-
-dm2_mcs_packetentities: dm2_m_packetentity {
-			$$=$1;
-		}
-		| dm2_mcs_packetentities dm2_m_packetentity {
-			$$=node_add_next($1,$2);
-		};
-
-dm2_m_packetentity: TOKEN_PACKETENTITY '{' dm2_mcs_spawnbaseline '}' {
-			CO_t spawnbaseline_cs[] = {
-			  { TOKEN_UNKNOWN_MASK_BITS,	0 },
-			  { TOKEN_ENTITY,             1 },
-			  { TOKEN_REMOVE,             0 },
-			  { TOKEN_MODELINDEX,         0 },
-			  { TOKEN_MODELINDEX2,        0 },
-			  { TOKEN_MODELINDEX3,        0 },
-			  { TOKEN_MODELINDEX4,        0 },
-			  { TOKEN_FRAME,              0 }, 
-			  { TOKEN_SKIN,               0 },
-			  { TOKEN_VWEP,	              0 },
-			  { TOKEN_EFFECTS,            0 }, 
-			  { TOKEN_RENDERFX,           0 }, 
-			  { TOKEN_ORIGIN_X,           0 }, 
-			  { TOKEN_ORIGIN_Y,           0 }, 
-			  { TOKEN_ORIGIN_Z,           0 }, 
-			  { TOKEN_ANGLES_1,           0 }, 
-			  { TOKEN_ANGLES_2,           0 }, 
-			  { TOKEN_ANGLES_3,           0 }, 
-			  { TOKEN_OLD_ORIGIN,         0 }, 
-			  { TOKEN_SOUND,              0 }, 
-			  { TOKEN_EVENT,              0 }, 
-			  { TOKEN_SOLID,              0 }
-			};
-			$$=node_add_down($1,$3);
-			$$->hint = H_DM2_SPAWNBASELINE;
-			reorder_commands($$,spawnbaseline_cs,arraylength(spawnbaseline_cs));
-		};
 
 dem_m_temp_entity: TOKEN_TEMP_ENTITY '{' dem_mcs_temp_entity '}' {
 			CO_t temp_entity_cs[] = {
@@ -1248,86 +925,6 @@ dem_mc_temp_entity: c_entitytype { $$=$1; }
 		| c_trace_endpos { $$=$1; }
 		| c_color { $$=$1; }
 		| c_range { $$=$1; };
-
-qwd_m_temp_entity: TOKEN_TEMP_ENTITY '{' qwd_mcs_temp_entity '}' {
-			CO_t temp_entity_cs[] = {
-			  { TOKEN_ENTITYTYPE,   1 },
-			  { TOKEN_ENTITY,       0 }, 
-			  { TOKEN_COUNT,	0 },
-			  { TOKEN_ORIGIN,       1 }, 
-			  { TOKEN_TRACE_ENDPOS, 0 }
-			};
-			$$=node_add_down($1,$3);
-			$$->hint = H_SIMPLE;
-			reorder_commands($$, temp_entity_cs, arraylength(temp_entity_cs));
-		};
-
-qwd_mcs_temp_entity: qwd_mc_temp_entity {
-			$$=$1;
-		}
-		| qwd_mcs_temp_entity qwd_mc_temp_entity {
-			$$=node_add_next($1,$2);
-		};
-
-qwd_mc_temp_entity: c_entitytype { $$=$1; }
-		| c_entity { $$=$1; }
-		| c_count { $$=$1; }
-		| c_origin { $$=$1; }
-		| c_trace_endpos { $$=$1; } ; 
-
-dm2_m_temp_entity: TOKEN_TEMP_ENTITY '{' dm2_mcs_temp_entity '}' {
-			CO_t temp_entity_cs[] = {
-			  { TOKEN_ENTITYTYPE,   1 },
-			  { TOKEN_DEST_ENTITY,	0 },
-			  { TOKEN_ENTITY,       0 },
-			  { TOKEN_NEXTID,	0 }, 
-			  { TOKEN_COUNT,        0 },
-			  { TOKEN_START,        0 }, 
-			  { TOKEN_DEST_ORIGIN,	0 },
-			  { TOKEN_TYPE,		0 },
-			  { TOKEN_ORIGIN,       1 },
-			  { TOKEN_FLASH_ENTITY, 0 }, 
-			  { TOKEN_TRACE_ENDPOS, 0 },
-			  { TOKEN_POS1,         0 }, 
-			  { TOKEN_POS2,         0 }, 
-			  { TOKEN_POS3,         0 }, 
-			  { TOKEN_POS4,         0 }, 
-			  { TOKEN_MOVEDIR,      0 },
-			  { TOKEN_STYLE,	0 },
-			  { TOKEN_PLAT2FLAGS,	0 },
-			  { TOKEN_WAIT,		0 }
-			};
-			$$=node_add_down($1,$3);
-			$$->hint = H_SIMPLE;
-			reorder_commands($$, temp_entity_cs, arraylength(temp_entity_cs));
-		};
-
-dm2_mcs_temp_entity: dm2_mc_temp_entity {
-			$$=$1;
-		}
-		| dm2_mcs_temp_entity dm2_mc_temp_entity {
-			$$=node_add_next($1,$2);
-		};
-
-dm2_mc_temp_entity: c_entitytype { $$=$1; }
-		| c_dest_entity { $$=$1; }
-		| c_entity { $$=$1; }
-		| c_nextid { $$=$1; }
-		| c_count { $$=$1; }
-		| c_start { $$=$1; }
-		| c_dest_origin { $$=$1; }
-		| c_type { $$=$1; }
-		| c_origin { $$=$1; }
-		| c_flash_entity { $$=$1; }
-		| c_trace_endpos { $$=$1; }
-		| c_pos1 { $$=$1; }
-		| c_pos2 { $$=$1; }
-		| c_pos3 { $$=$1; }
-		| c_pos4 { $$=$1; }
-		| c_movedir { $$=$1; }
-		| c_style { $$=$1; }
-		| c_plat2flags { $$=$1; }
-		| c_wait { $$=$1; };
 
 m_setpause: TOKEN_SETPAUSE v_int ';' {
 			$2->hint = H_BYTE;
@@ -1386,11 +983,6 @@ dem_m_intermission: TOKEN_INTERMISSION ';' {
 			$$->hint = H_SIMPLE;
 		};
 
-qwd_m_intermission: TOKEN_INTERMISSION '{' mcs_intermission '}' {
-			$$=node_add_down($1,$3);
-			$$->hint = H_SIMPLE;
-		};
-
 mcs_intermission: c_origin m_angles {
 			node_add_hint_next($2->down,H_ANGLE);
 			$$=node_add_next($1,$2);
@@ -1416,12 +1008,6 @@ dem_mcs_cdtrack: c_fromtrack c_totrack {
 		}
 		| c_totrack c_fromtrack {
 			$$=node_add_next($2,$1);
-		};
-
-qwd_m_cdtrack: TOKEN_CDTRACK v_int ';' {
-			$2->hint = H_BYTE;
-			$$=node_add_down($1,$2);	
-			$$->hint = H_SIMPLE;
 		};
 
 m_sellscreen: TOKEN_SELLSCREEN ';' {
@@ -1486,17 +1072,6 @@ dm2_m_deltapacketentities: TOKEN_DELTAPACKETENTITIES '{' c_data '}' {
 		}
 		| TOKEN_DELTAPACKETENTITIES ';' {
 			$$=$1;
-			$$->hint = H_SIMPLE;
-		};
-
-qwd_m_muzzleflash: TOKEN_MUZZLEFLASH v_int ';' {
-			$2->hint = H_SHORT;
-			$$=node_add_down($1,$2);
-			$$->hint = H_SIMPLE;
-		};
-
-dm2_m_muzzleflash: TOKEN_MUZZLEFLASH '{' mcs_muzzleflash '}' {
-			$$=node_add_down($1,$3);
 			$$->hint = H_SIMPLE;
 		};
 
@@ -1829,11 +1404,6 @@ mc_setinfo: c_player
 		| c_name
 		| c_string ;
 
-qwd_m_serverinfo: TOKEN_SERVERINFO '{' qwd_mcs_serverinfo '}' {
-			$$=node_add_down($1,$3);
-			$$->hint = H_SIMPLE;
-		};
-
 m_updatepl: TOKEN_UPDATEPL '{' mcs_updatepl '}' {
 			$$=node_add_down($1,$3);
 			$$->hint = H_SIMPLE;
@@ -1841,13 +1411,6 @@ m_updatepl: TOKEN_UPDATEPL '{' mcs_updatepl '}' {
 
 mcs_updatepl: c_player c_loss { $$=node_add_next($1,$2); }
 		| c_loss c_player { $$=node_add_next($2,$1); };
-
-qwd_mcs_serverinfo: c_name c_string {
-			$$=node_add_next($1,$2);
-		}
-		| c_string c_name {
-			$$=node_add_next($2,$1);
-		};
 
 m_client_command: TOKEN_CLIENT_COMMAND v_string ';' {
 			$2->hint = H_STRING;
