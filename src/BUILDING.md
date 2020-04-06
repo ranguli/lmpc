@@ -5,7 +5,7 @@ The .l files (lex) must be built with:
 
 ```
 flex udeml.l
-cp udeml.yy.c udeml.c
+cp lex.yy.c udeml.c
 
 ```
 
